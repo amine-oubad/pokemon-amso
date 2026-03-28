@@ -1,0 +1,25 @@
+{
+  "grass_01": [
+    {
+      "id": "025",
+      "level_min": 3,
+      "level_max": 6,
+      "weight": 45,
+      "_comment": "Pikachu — commun"
+    },
+    {
+      "id": "133",
+      "level_min": 2,
+      "level_max": 5,
+      "weight": 35,
+      "_comment": "Eevee — peu commun"
+    },
+    {
+      "id": "001",
+      "level_min": 4,
+      "level_max": 7,
+      "weight": 20,
+      "_comment": "Bulbasaur — rare"
+    }
+  ]
+}

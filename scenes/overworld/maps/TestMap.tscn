@@ -1,6 +1,8 @@
-[gd_scene load_steps=6 format=3]
+[gd_scene load_steps=10 format=3]
 
 [ext_resource type="PackedScene" path="res://scenes/overworld/entities/Player.tscn" id="1"]
+[ext_resource type="Script" path="res://scripts/overworld/TestMap.gd" id="2"]
+[ext_resource type="Script" path="res://scripts/overworld/WildEncounterZone.gd" id="3"]
 
 [sub_resource type="RectangleShape2D" id="wall_h"]
 size = Vector2(512.0, 16.0)
@@ -14,11 +16,26 @@ size = Vector2(64.0, 32.0)
 [sub_resource type="RectangleShape2D" id="obstacle_b"]
 size = Vector2(32.0, 64.0)
 
+[sub_resource type="RectangleShape2D" id="grass_shape"]
+size = Vector2(160.0, 128.0)
+
+[sub_resource type="RectangleShape2D" id="grass_shape2"]
+size = Vector2(96.0, 96.0)
+
 [node name="TestMap" type="Node2D"]
+script = ExtResource("2")
 
 [node name="Ground" type="Polygon2D" parent="."]
 polygon = PackedVector2Array(0, 0, 512, 0, 512, 384, 0, 384)
 color = Color(0.22, 0.56, 0.22, 1)
+
+[node name="GrassVisual1" type="Polygon2D" parent="."]
+polygon = PackedVector2Array(48, 176, 208, 176, 208, 304, 48, 304)
+color = Color(0.16, 0.45, 0.16, 1)
+
+[node name="GrassVisual2" type="Polygon2D" parent="."]
+polygon = PackedVector2Array(320, 48, 416, 48, 416, 144, 320, 144)
+color = Color(0.16, 0.45, 0.16, 1)
 
 [node name="WallTop" type="StaticBody2D" parent="."]
 position = Vector2(256.0, -8.0)
@@ -63,6 +80,26 @@ shape = SubResource("obstacle_b")
 [node name="Visual" type="Polygon2D" parent="Rock"]
 polygon = PackedVector2Array(-16, -32, 16, -32, 16, 32, -16, 32)
 color = Color(0.5, 0.5, 0.5, 1)
+
+[node name="GrassZone1" type="Area2D" parent="."]
+position = Vector2(128.0, 240.0)
+script = ExtResource("3")
+map_id = "test_map"
+zone_id = "grass_01"
+encounter_rate = 0.15
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="GrassZone1"]
+shape = SubResource("grass_shape")
+
+[node name="GrassZone2" type="Area2D" parent="."]
+position = Vector2(368.0, 96.0)
+script = ExtResource("3")
+map_id = "test_map"
+zone_id = "grass_01"
+encounter_rate = 0.15
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="GrassZone2"]
+shape = SubResource("grass_shape2")
 
 [node name="Player" parent="." instance=ExtResource("1")]
 position = Vector2(48.0, 48.0)

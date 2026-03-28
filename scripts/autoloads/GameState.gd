@@ -6,7 +6,7 @@ extends Node
 var player_name: String = "RED"
 var money: int = 3000
 
-# ── Équipe (max 6, tableau de PokemonInstance) ─────────────────────────────────
+# ── Équipe (max 6 PokemonInstance) ─────────────────────────────────────────────
 var team: Array = []
 
 # ── PC ─────────────────────────────────────────────────────────────────────────
@@ -19,13 +19,16 @@ var bag: Dictionary = {}
 var badges: Array = []
 
 # ── Flags d'événements ─────────────────────────────────────────────────────────
-## flags["beat_trainer_route01_01"] = true
-## flags["got_starter"] = true
 var flags: Dictionary = {}
 
 # ── Pokédex ────────────────────────────────────────────────────────────────────
 var pokedex_seen: Array = []
 var pokedex_caught: Array = []
+
+# ── Combat en attente ──────────────────────────────────────────────────────────
+## Rempli par TestMap (ou SceneManager) avant de charger BattleScene.
+## { "enemy_data": {...}, "is_trainer": false }
+var pending_battle: Dictionary = {}
 
 func _ready() -> void:
 	print("[GameState] Initialisé — joueur : " + player_name)
@@ -73,3 +76,15 @@ func register_caught(pokemon_id: String) -> void:
 	register_seen(pokemon_id)
 	if pokemon_id not in pokedex_caught:
 		pokedex_caught.append(pokemon_id)
+
+# ── Équipe ─────────────────────────────────────────────────────────────────────
+
+func get_first_alive() -> PokemonInstance:
+	for pkmn in team:
+		if not pkmn.is_fainted():
+			return pkmn
+	return null
+
+func heal_team() -> void:
+	for pkmn in team:
+		pkmn.full_heal()
