@@ -151,5 +151,38 @@
       {"id": "095", "level": 15},
       {"id": "075", "level": 17}
     ]
+  },
+  "route3_youngster": {
+    "name": "Gamin Loïc", "class": "Gamin",
+    "dialogue_before": "route3_youngster_before", "dialogue_after": "route3_youngster_after",
+    "reward_money": 320,
+    "team": [{"id": "019", "level": 14}, {"id": "039", "level": 13}]
+  },
+  "route3_lass": {
+    "name": "Fillette Chloé", "class": "Fillette",
+    "dialogue_before": "route3_lass_before", "dialogue_after": "route3_lass_after",
+    "reward_money": 380,
+    "team": [{"id": "054", "level": 15}]
+  },
+  "azuria_trainer_1": {
+    "name": "Nageuse Lise", "class": "Nageuse",
+    "dialogue_before": "azuria_t1_before", "dialogue_after": "azuria_t1_after",
+    "reward_money": 450,
+    "team": [{"id": "054", "level": 18}, {"id": "120", "level": 19}]
+  },
+  "azuria_trainer_2": {
+    "name": "Nageur Hugo", "class": "Nageur",
+    "dialogue_before": "azuria_t2_before", "dialogue_after": "azuria_t2_after",
+    "reward_money": 500,
+    "team": [{"id": "120", "level": 19}, {"id": "054", "level": 20}]
+  },
+  "gym_leader_ondine": {
+    "name": "Ondine", "class": "Championne",
+    "dialogue_before": "ondine_before", "dialogue_after": "ondine_after",
+    "reward_money": 2400,
+    "is_gym_leader": true,
+    "gym_id": "azuria_gym",
+    "badge_id": "wave_badge",
+    "team": [{"id": "120", "level": 21}, {"id": "055", "level": 22}, {"id": "121", "level": 24}]
   }
 }

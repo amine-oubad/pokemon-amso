@@ -459,5 +459,64 @@
       {"method": "item", "item": "water_stone",   "into": "134"},
       {"method": "item", "item": "thunder_stone",  "into": "135"}
     ]
+  },
+  "039": {
+    "name": "Rondoudou",
+    "types": ["Normal"],
+    "base_stats": {"hp": 115, "atk": 45, "def": 20, "sp_atk": 45, "sp_def": 25, "speed": 20},
+    "ability": "Cute Charm", "catch_rate": 170, "base_exp_yield": 95,
+    "levelup_moves": [
+      {"level": 1,  "move": "tackle"}, {"level": 5,  "move": "growl"},
+      {"level": 9,  "move": "tail_whip"}, {"level": 17, "move": "slam"}
+    ],
+    "evolutions": []
+  },
+  "054": {
+    "name": "Psykokwak",
+    "types": ["Water"],
+    "base_stats": {"hp": 50, "atk": 52, "def": 48, "sp_atk": 65, "sp_def": 50, "speed": 55},
+    "ability": "Cloud Nine", "catch_rate": 190, "base_exp_yield": 64,
+    "levelup_moves": [
+      {"level": 1,  "move": "scratch"}, {"level": 5,  "move": "tail_whip"},
+      {"level": 11, "move": "water_gun"}, {"level": 18, "move": "confusion"},
+      {"level": 27, "move": "psybeam"}
+    ],
+    "evolutions": [{"method": "level", "level": 33, "target": "055"}]
+  },
+  "055": {
+    "name": "Akwakwak",
+    "types": ["Water"],
+    "base_stats": {"hp": 80, "atk": 82, "def": 78, "sp_atk": 95, "sp_def": 80, "speed": 85},
+    "ability": "Cloud Nine", "catch_rate": 75, "base_exp_yield": 174,
+    "levelup_moves": [
+      {"level": 1,  "move": "scratch"}, {"level": 5,  "move": "tail_whip"},
+      {"level": 11, "move": "water_gun"}, {"level": 18, "move": "confusion"},
+      {"level": 27, "move": "psybeam"}, {"level": 38, "move": "hydro_pump"}
+    ],
+    "evolutions": []
+  },
+  "120": {
+    "name": "Stari",
+    "types": ["Water"],
+    "base_stats": {"hp": 30, "atk": 45, "def": 55, "sp_atk": 70, "sp_def": 55, "speed": 85},
+    "ability": "Illuminate", "catch_rate": 225, "base_exp_yield": 68,
+    "levelup_moves": [
+      {"level": 1,  "move": "tackle"}, {"level": 1,  "move": "harden"},
+      {"level": 6,  "move": "water_gun"}, {"level": 10, "move": "rapid_spin"},
+      {"level": 20, "move": "psybeam"}
+    ],
+    "evolutions": []
+  },
+  "121": {
+    "name": "Staross",
+    "types": ["Water", "Psychic"],
+    "base_stats": {"hp": 60, "atk": 75, "def": 85, "sp_atk": 100, "sp_def": 85, "speed": 115},
+    "ability": "Natural Cure", "catch_rate": 60, "base_exp_yield": 182,
+    "levelup_moves": [
+      {"level": 1,  "move": "tackle"}, {"level": 1,  "move": "harden"},
+      {"level": 6,  "move": "water_gun"}, {"level": 10, "move": "rapid_spin"},
+      {"level": 20, "move": "psybeam"}, {"level": 35, "move": "hydro_pump"}
+    ],
+    "evolutions": []
   }
 }

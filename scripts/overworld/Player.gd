@@ -39,6 +39,11 @@ func _physics_process(delta: float) -> void:
 		_poll_input()
 
 func _unhandled_input(event: InputEvent) -> void:
+	if event.is_action_pressed("ui_cancel"):
+		if not DialogueManager.is_active() and not ShopMenu.is_active() and not PCBoxScreen.is_active():
+			PauseMenu.show_menu() if not PauseMenu.is_active() else PauseMenu.hide_menu()
+			get_viewport().set_input_as_handled()
+		return
 	if _moving:
 		return
 	if event.is_action_pressed("ui_accept"):

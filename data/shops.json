@@ -10,5 +10,9 @@
   "argenta_shop": {
     "name": "Marché d'Argenta",
     "items": ["super_potion", "hyper_potion", "super_ball", "hyper_ball", "antidote", "paralyze_heal", "burn_heal", "awakening", "ice_heal", "full_heal"]
+  },
+  "azuria_shop": {
+    "name": "Marché d'Azuria",
+    "items": ["super_potion", "hyper_potion", "hyper_ball", "super_ball", "antidote", "paralyze_heal", "burn_heal", "awakening", "ice_heal", "full_heal", "full_restore"]
   }
 }

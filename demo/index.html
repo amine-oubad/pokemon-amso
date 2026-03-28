@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<title>Pokémon AMSO — Phase 4 Demo</title>
+<title>Pokémon AMSO — Phase 6 Demo</title>
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body { background: #1a1a2e; color: #e0e0f0; font-family: 'Courier New', monospace; display: flex; flex-direction: column; align-items: center; min-height: 100vh; padding: 24px 16px; }
@@ -14,17 +14,20 @@ h1 { font-size: 22px; color: #f4c430; margin-bottom: 4px; letter-spacing: 2px; }
 .badge.active { background: #5c3a00; color: #f4c430; border: 1px solid #8c6000; }
 .layout { display: flex; gap: 16px; align-items: flex-start; flex-wrap: wrap; justify-content: center; }
 canvas { border: 3px solid #444466; image-rendering: pixelated; display: block; cursor: crosshair; outline: none; }
-.sidebar { width: 260px; display: flex; flex-direction: column; gap: 12px; }
+.sidebar { width: 280px; display: flex; flex-direction: column; gap: 12px; }
 .panel { background: #12122a; border: 1px solid #333366; border-radius: 6px; padding: 12px; }
 .panel h3 { font-size: 11px; color: #f4c430; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 1px; }
 .btn { display: block; width: 100%; padding: 7px; margin-bottom: 6px; background: #1e1e3e; border: 1px solid #444466; color: #c0c0e0; font-family: inherit; font-size: 10px; cursor: pointer; border-radius: 3px; text-align: left; transition: background 0.15s; }
 .btn:hover  { background: #2a2a5a; color: #fff; }
 .btn.active { background: #2a4a2a; border-color: #4c8c4c; color: #4cff4c; }
+.btn-row { display: flex; gap: 4px; margin-bottom: 4px; }
+.btn-row .btn { margin-bottom: 0; }
 .log { background: #0a0a1a; border: 1px solid #222244; border-radius: 4px; padding: 8px; font-size: 9px; color: #8888cc; height: 130px; overflow-y: auto; line-height: 1.6; }
 .log .info  { color: #6699ff; }
 .log .ok    { color: #44cc88; }
 .log .fight { color: #ff6655; }
 .log .shop  { color: #ffdd55; }
+.log .menu  { color: #cc88ff; }
 .legend { display: flex; flex-wrap: wrap; gap: 6px; }
 .leg-item { display: flex; align-items: center; gap: 4px; font-size: 9px; color: #8888aa; }
 .leg-swatch { width: 12px; height: 12px; border-radius: 2px; border: 1px solid #444; flex-shrink: 0; }
@@ -34,13 +37,15 @@ canvas { border: 3px solid #444466; image-rendering: pixelated; display: block; 
 </head>
 <body>
 <h1>POKEMON AMSO</h1>
-<p class="subtitle">Fan-game Godot 4 &middot; Demo interactive Phase 3</p>
+<p class="subtitle">Fan-game Godot 4 &middot; Demo interactive Phase 6</p>
 
 <div class="phase-badges">
   <span class="badge done">Phase 0 &mdash; Mouvement grille</span>
   <span class="badge done">Phase 1 &mdash; Combats sauvages</span>
   <span class="badge done">Phase 2 &mdash; Systeme complet</span>
-  <span class="badge active">Phase 3 &mdash; Overworld PNJ/Maps</span>
+  <span class="badge done">Phase 3 &mdash; Overworld PNJ/Maps</span>
+  <span class="badge done">Phase 4/5 &mdash; Dresseurs/Gyms/Evolution</span>
+  <span class="badge active">Phase 6 &mdash; HUD/Menus/Route3/Azuria</span>
 </div>
 
 <div class="layout">
@@ -49,18 +54,29 @@ canvas { border: 3px solid #444466; image-rendering: pixelated; display: block; 
   <div class="sidebar">
     <div class="panel">
       <h3>Navigation</h3>
-      <button class="btn active" id="btn-pallet" onclick="goMap('pallet')">Bourg-Palette</button>
-      <button class="btn"        id="btn-route1" onclick="goMap('route1')">Route 1</button>
-      <button class="btn"        id="btn-battle" onclick="goMap('battle')">Combat (depuis Route 1)</button>
+      <div class="btn-row">
+        <button class="btn active" id="btn-pallet" onclick="goMap('pallet')">Bourg-Palette</button>
+        <button class="btn"        id="btn-route1" onclick="goMap('route1')">Route 1</button>
+      </div>
+      <div class="btn-row">
+        <button class="btn" id="btn-argenta" onclick="goMap('argenta')">Argenta City</button>
+        <button class="btn" id="btn-route3"  onclick="goMap('route3')">Route 3</button>
+      </div>
+      <div class="btn-row">
+        <button class="btn" id="btn-azuria"  onclick="goMap('azuria')">Azuria City</button>
+        <button class="btn" id="btn-azuriagym" onclick="goMap('azuriagym')">Arene Azuria</button>
+      </div>
+      <button class="btn" id="btn-battle" onclick="goMap('battle')">Combat (depuis Route 3)</button>
     </div>
 
     <div class="panel">
       <h3>Actions rapides</h3>
-      <button class="btn" onclick="sim('talk_nurse')">Parler Infirmiere Joy</button>
+      <button class="btn" onclick="sim('talk_nurse')">Infirmiere Joy (soin)</button>
       <button class="btn" onclick="sim('talk_shop')">Ouvrir Pokemart</button>
-      <button class="btn" onclick="sim('read_sign')">Lire panneau ville</button>
-      <button class="btn" onclick="sim('walk_north')">Aller Route 1</button>
-      <button class="btn" onclick="sim('walk_south')">Retour Pallet</button>
+      <button class="btn" onclick="sim('toggle_pause')">Menu Pause (X)</button>
+      <button class="btn" onclick="sim('open_pc')">Ouvrir PC Box</button>
+      <button class="btn" onclick="sim('earn_badge')">Obtenir Badge Vague</button>
+      <button class="btn" onclick="sim('trainer_fight')">Dresseur Ondine</button>
     </div>
 
     <div class="panel">
@@ -75,6 +91,7 @@ canvas { border: 3px solid #444466; image-rendering: pixelated; display: block; 
         <div class="leg-item"><div class="leg-swatch" style="background:#9b7d4c"></div>Chemin</div>
         <div class="leg-item"><div class="leg-swatch" style="background:#d93030"></div>Centre Pokemon</div>
         <div class="leg-item"><div class="leg-swatch" style="background:#3358d9"></div>Pokemart</div>
+        <div class="leg-item"><div class="leg-swatch" style="background:#1a72cc"></div>Eau / Arene</div>
         <div class="leg-item"><div class="leg-swatch" style="background:#3196ff"></div>Joueur</div>
         <div class="leg-item"><div class="leg-swatch" style="background:#e8c296"></div>PNJ</div>
         <div class="leg-item"><div class="leg-swatch" style="background:#e0cc8c"></div>Panneau</div>
@@ -87,7 +104,7 @@ canvas { border: 3px solid #444466; image-rendering: pixelated; display: block; 
       <div class="controls">
         <kbd>ZQSD</kbd> / <kbd>Fleches</kbd> Deplacer<br>
         <kbd>Z</kbd> / <kbd>Enter</kbd> Interagir / Valider<br>
-        <kbd>X</kbd> / <kbd>Echap</kbd> Annuler / Fermer
+        <kbd>X</kbd> / <kbd>Echap</kbd> Menu Pause / Fermer
       </div>
     </div>
 
@@ -109,66 +126,125 @@ const gs = {
   map: 'pallet',
   px: 160, py: 208, pfacing: 'down',
   money: 3000,
-  team: [{ name: 'Bulbizarre', hp: 45, maxHp: 45, level: 5, status: '' }],
-  bag:  { 'Potion': 3, 'Poke Ball': 5 },
+  team: [
+    { name: 'Bulbizarre', hp: 45, maxHp: 45, level: 12, status: '' },
+    { name: 'Pikachu',    hp: 38, maxHp: 38, level: 11, status: '' },
+  ],
+  bag:  { 'Potion': 3, 'Poke Ball': 5, 'Super Potion': 2 },
+  badges: [],
   dialogue: null,
   shop: null,
+  pause: false,
+  pauseTab: 0,
+  pc: false,
 };
 
 const SHOP_ITEMS = [
-  { name: 'Potion',        price: 300, desc: 'Restaure 20 PV au Pokemon cible.' },
-  { name: 'Poke Ball',     price: 200, desc: 'Ball standard pour attraper des Pokemon.' },
-  { name: 'Antidote',      price: 100, desc: 'Guerit l\'empoisonnement.' },
-  { name: 'Antiparalysie', price: 200, desc: 'Guerit la paralysie.' },
-  { name: 'Guer. Brulee',  price: 250, desc: 'Guerit la brulure.' },
+  { name: 'Super Potion', price: 700,  desc: 'Restaure 50 PV au Pokemon cible.' },
+  { name: 'Hyper Potion', price: 1200, desc: 'Restaure 200 PV au Pokemon cible.' },
+  { name: 'Hyper Ball',   price: 600,  desc: 'Ball de haute performance.' },
+  { name: 'Antidote',     price: 100,  desc: 'Guerit l\'empoisonnement.' },
+  { name: 'Full Heal',    price: 600,  desc: 'Guerit tous les statuts.' },
 ];
 
-const SIGN_TEXT = {
-  pallet_town:  ['BOURG-PALETTE', 'Une ville tranquille nichee dans la nature.'],
-  route1_entry: ['ROUTE 1 -- Jadielle City ↑'],
-  route1_grass: ['ROUTE 1', 'Pokemon sauvages dans les hautes herbes !'],
-  jadielle:     ['JADIELLE CITY', 'En construction... Revenez bientot !'],
-};
+const PAUSE_TABS = ['EQUIPE', 'SAC', 'POKEDEX', 'SAUVER'];
 
 const MAPS = {
-  pallet: {
-    name: 'Bourg-Palette', bg: '#3e8c2e',
+  pallet:    { name: 'Bourg-Palette', bg: '#3e8c2e', w: 320, waterColor: null,
     buildings: [
-      { x: 24,  y: 20,  w: 96, h: 48, color: '#d93030', label: 'CENTRE\nPOKEMON' },
-      { x: 200, y: 20,  w: 96, h: 48, color: '#3358d9', label: 'POKEMART' },
-      { x: 24,  y: 104, w: 48, h: 48, color: '#c0a465', label: 'MAISON' },
+      { x:24,  y:20,  w:96, h:48, color:'#d93030', label:'CENTRE\nPOKEMON' },
+      { x:200, y:20,  w:96, h:48, color:'#3358d9', label:'POKEMART' },
+      { x:24,  y:104, w:48, h:48, color:'#c0a465', label:'MAISON' },
     ],
     npcs: [
-      { x: 72,  y: 84,  color: '#eeaaaa', label: 'Joy',    action: 'nurse'   },
-      { x: 248, y: 84,  color: '#88cc88', label: 'Shop',   action: 'shop'    },
-      { x: 240, y: 160, color: '#8888d8', label: 'Guide',  action: 'guide'   },
+      { x:72,  y:84,  color:'#eeaaaa', label:'Joy',   action:'nurse'  },
+      { x:248, y:84,  color:'#88cc88', label:'Shop',  action:'shop'   },
+      { x:240, y:160, color:'#8888d8', label:'Guide', action:'guide'  },
+    ],
+    signs: [{ x:112, y:208, text:'BOURG-PALETTE\nUne ville tranquille nichee dans la nature.' }],
+    transitions: [{ x:144, y:0, w:32, h:16, target:'route1', spawnX:160, spawnY:32, label:'Route 1 →' }],
+    grass: [],
+  },
+  route1: { name: 'Route 1', bg: '#38751e', w: 320, waterColor: null,
+    buildings: [],
+    npcs: [{ x:80, y:176, color:'#9948c0', label:'Dresseur', action:'trainer' }],
+    signs: [{ x:128, y:32, text:'ROUTE 1 — Jadielle City ↑' }],
+    transitions: [
+      { x:144, y:TH-16, w:32, h:16, target:'pallet',  spawnX:160, spawnY:208, label:'↓ Bourg-Palette' },
+    ],
+    grass: [{ x:16, y:32, w:112, h:96 }, { x:192, y:112, w:112, h:96 }],
+  },
+  argenta: { name: 'Argenta City', bg: '#726050', w: 320, waterColor: null,
+    buildings: [
+      { x:16,  y:100, w:80, h:48, color:'#d93030', label:'CENTRE\nPOKEMON' },
+      { x:224, y:100, w:80, h:48, color:'#3358d9', label:'POKEMART' },
+      { x:112, y:4,   w:96, h:56, color:'#8c6640', label:'ARENE\nD\'ARGENTA' },
+      { x:16,  y:4,   w:80, h:40, color:'#999999', label:'MUSEE' },
+    ],
+    npcs: [
+      { x:56,  y:164, color:'#eeaaaa', label:'Joy',   action:'nurse' },
+      { x:264, y:164, color:'#88cc88', label:'Shop',  action:'shop'  },
+      { x:240, y:208, color:'#9988bb', label:'Guide', action:'guide' },
     ],
     signs: [
-      { x: 112, y: 208, key: 'pallet_town'  },
-      { x: 128, y: 32,  key: 'route1_entry' },
+      { x:112, y:208, text:'ARGENTA CITY\nLa ville de pierre.' },
+      { x:112, y:64,  text:'ARENE D\'ARGENTA\nChampionne : Flora — Type Roche' },
     ],
     transitions: [
-      { x: 144, y: 0, w: 32, h: 16, target: 'route1', spawnX: 160, spawnY: 32, label: 'Route 1' },
+      { x:144, y:TH+4, w:32, h:16, target:'route1',  spawnX:160, spawnY:TH-32, label:'↓ Foret de Jade' },
+      { x:TW+4, y:56, w:16, h:32, target:'route3',  spawnX:24,  spawnY:64,    label:'→ Route 3' },
     ],
     grass: [],
   },
-  route1: {
-    name: 'Route 1', bg: '#38751e',
+  route3: { name: 'Route 3', bg: '#38751e', w: 480, waterColor: '#1a72cc',
     buildings: [],
     npcs: [
-      { x: 80, y: 176, color: '#9948c0', label: 'Dresseur', action: 'trainer' },
+      { x:160, y:64, color:'#c0a030', label:'Gamin',   action:'trainer' },
+      { x:288, y:64, color:'#dd88aa', label:'Fillette', action:'trainer' },
     ],
     signs: [
-      { x: 128, y: 32,  key: 'route1_grass' },
-      { x: 176, y: 16,  key: 'jadielle'     },
+      { x:48,  y:64,  text:'ROUTE 3\n← Argenta City   Azuria City →' },
+      { x:392, y:128, text:'LAC AZUR\nDes Pokemon Eau reposent dans ces eaux calmes.' },
     ],
     transitions: [
-      { x: 144, y: TH - 16, w: 32, h: 16, target: 'pallet', spawnX: 160, spawnY: 208, label: 'Bourg-Palette' },
+      { x:0,   y:48, w:16, h:32, target:'argenta', spawnX:300, spawnY:64,    label:'← Argenta' },
+      { x:464, y:48, w:16, h:32, target:'azuria',  spawnX:24,  spawnY:64,    label:'→ Azuria' },
     ],
-    grass: [
-      { x: 16,  y: 32,  w: 112, h: 96  },
-      { x: 192, y: 112, w: 112, h: 96  },
+    grass: [{ x:48, y:0, w:160, h:48 }, { x:48, y:80, w:160, h:80 }, { x:256, y:0, w:160, h:48 }, { x:256, y:80, w:160, h:100 }],
+  },
+  azuria: { name: 'Azuria City', bg: '#38751e', w: 320, waterColor: '#1a72cc',
+    buildings: [
+      { x:16,  y:96,  w:80, h:48, color:'#d93030', label:'CENTRE\nPOKEMON' },
+      { x:16,  y:160, w:80, h:48, color:'#3358d9', label:'POKEMART' },
+      { x:112, y:4,   w:112, h:56, color:'#1a72cc', label:'ARENE\nD\'AZURIA' },
     ],
+    npcs: [
+      { x:56,  y:160, color:'#eeaaaa', label:'Joy',   action:'nurse' },
+      { x:56,  y:220, color:'#88cc88', label:'Shop',  action:'shop'  },
+      { x:200, y:208, color:'#6699ee', label:'Guide', action:'guide' },
+    ],
+    signs: [
+      { x:112, y:208, text:'AZURIA CITY\nLa ville aux eaux turquoise.' },
+      { x:112, y:64,  text:'ARENE D\'AZURIA\nChampionne : Ondine — Type Eau' },
+    ],
+    transitions: [
+      { x:0,   y:48, w:16, h:32, target:'route3',    spawnX:464, spawnY:64,  label:'← Route 3' },
+      { x:160, y:60, w:12, h:8,  target:'azuriagym', spawnX:160, spawnY:208, label:'Entree Arene' },
+    ],
+    grass: [],
+  },
+  azuriagym: { name: 'Arene d\'Azuria', bg: '#1a3060', w: 320, waterColor: '#1a72cc',
+    buildings: [],
+    npcs: [
+      { x:144, y:160, color:'#4488cc', label:'Nageuse', action:'trainer' },
+      { x:176, y:112, color:'#3377bb', label:'Nageur',  action:'trainer' },
+      { x:160, y:48,  color:'#00aaee', label:'Ondine',  action:'ondine'  },
+    ],
+    signs: [],
+    transitions: [
+      { x:144, y:TH+4, w:32, h:16, target:'azuria', spawnX:168, spawnY:72, label:'↓ Azuria City' },
+    ],
+    grass: [],
   },
 };
 
@@ -181,196 +257,244 @@ function log(msg, cls='info') {
   el.scrollTop = el.scrollHeight;
 }
 
-// ─── Draw ─────────────────────────────────────────────────────────────────────
+// ─── Draw helpers ─────────────────────────────────────────────────────────────
 function S(n) { return n * SCALE; }
-
 function fillR(x, y, w, h, c) {
-  ctx.fillStyle = c;
-  ctx.fillRect(S(x), S(y), S(w), S(h));
+  ctx.fillStyle = c; ctx.fillRect(S(x), S(y), S(w), S(h));
 }
-
 function txt(t, x, y, size, col, align) {
-  ctx.fillStyle = col;
-  ctx.font = `${S(size)}px "Courier New"`;
-  ctx.textAlign = align || 'left';
-  ctx.textBaseline = 'top';
-  String(t).split('\n').forEach((l, i) =>
-    ctx.fillText(l, S(x), S(y + i * (size + 2)))
-  );
+  ctx.fillStyle = col; ctx.font = `${S(size)}px "Courier New"`;
+  ctx.textAlign = align || 'left'; ctx.textBaseline = 'top';
+  String(t).split('\n').forEach((l, i) => ctx.fillText(l, S(x), S(y + i * (size + 2))));
   ctx.textAlign = 'left';
 }
-
 function shade(hex, d) {
   const v = (s) => Math.max(0, Math.min(255, parseInt(hex.slice(s, s+2), 16) + d));
   return '#' + [1,3,5].map(i => v(i).toString(16).padStart(2,'0')).join('');
 }
 
+// ─── Mini HUD ─────────────────────────────────────────────────────────────────
+function renderHUD() {
+  // Fond transparent
+  ctx.fillStyle = '#00000099';
+  ctx.fillRect(S(0), S(0), S(102), S(28));
+  // Argent
+  txt('$' + gs.money, 3, 3, 6, '#f4c430');
+  // Badges
+  txt('Badges: ' + gs.badges.length, 3, 12, 6, '#aac');
+  // Barre HP
+  if (gs.team.length > 0) {
+    const p = gs.team[0];
+    const ratio = p.hp / p.maxHp;
+    fillR(3, 22, 96, 5, '#300');
+    const col = ratio > 0.5 ? '#2d2' : ratio > 0.25 ? '#da0' : '#d22';
+    fillR(3, 22, Math.round(96 * ratio), 5, col);
+    txt(p.name + ' PV' + p.hp + '/' + p.maxHp, 3, TH - 12, 5, '#ccc');
+  }
+}
+
 // ─── Render principal ─────────────────────────────────────────────────────────
 function render() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-
   if (gs.map === 'battle') { renderBattle(); updateInfo(); return; }
 
   const map = MAPS[gs.map];
+  const mw  = map.w || TW;
 
   // Sol
-  fillR(0, 0, TW, TH, map.bg);
-
-  // Chemin central
-  fillR(144, 0, 32, TH, '#9b7d4c');
-
-  // Herbes hautes
+  fillR(0, 0, mw, TH, map.bg);
+  // Chemin
+  if (gs.map === 'route3') {
+    fillR(0, 48, mw, 32, '#9b7d4c');
+  } else {
+    fillR(144, 0, 32, TH, '#9b7d4c');
+  }
+  // Eau
+  if (map.waterColor) {
+    if (gs.map === 'route3') fillR(380, 100, 100, 140, map.waterColor);
+    if (gs.map === 'azuria') fillR(240, 0, 80, TH, map.waterColor);
+    if (gs.map === 'azuriagym') {
+      fillR(16, 80, 112, 80, map.waterColor);
+      fillR(192, 80, 112, 80, map.waterColor);
+    }
+  }
+  // Herbes
   (map.grass || []).forEach(g => {
     fillR(g.x, g.y, g.w, g.h, '#256618');
     ctx.fillStyle = '#1d5212';
-    for (let rx = g.x + 4; rx < g.x + g.w - 4; rx += 8)
-      for (let ry = g.y + 2; ry < g.y + g.h - 2; ry += 6)
+    for (let rx = g.x+4; rx < g.x+g.w-4; rx += 8)
+      for (let ry = g.y+2; ry < g.y+g.h-2; ry += 6)
         ctx.fillRect(S(rx), S(ry), S(2), S(4));
   });
-
-  // Indicateurs sortie
-  if (gs.map === 'pallet') {
-    ctx.fillStyle = '#ffffff33';
-    ctx.fillRect(S(144), 0, S(32), S(8));
-    txt('↑ Route 1', 148, 1, 5, '#ffffffbb');
-  }
-  if (gs.map === 'route1') {
-    ctx.fillStyle = '#ffffff33';
-    ctx.fillRect(S(144), S(TH - 8), S(32), S(8));
-    txt('↑ Jadielle (bientot)', 60, 2, 5, '#ffffffbb');
-    txt('↓ Bourg-Palette', 60, TH - 13, 5, '#ffffffbb');
-  }
-
   // Batiments
   map.buildings.forEach(b => {
     fillR(b.x, b.y, b.w, b.h, b.color);
     fillR(b.x, b.y, b.w, 8, shade(b.color, -40));
-    fillR(b.x + b.w/2 - 6, b.y + b.h - 14, 12, 14, shade(b.color, 50));
-    txt(b.label, b.x + b.w/2, b.y + b.h * 0.35, 5, '#fff', 'center');
+    fillR(b.x + b.w/2-6, b.y + b.h-14, 12, 14, shade(b.color, 50));
+    txt(b.label, b.x + b.w/2, b.y + b.h*0.35, 5, '#fff', 'center');
   });
-
   // Panneaux
   map.signs.forEach(s => {
-    fillR(s.x - 7, s.y - 16, 14, 10, '#e0cc8c');
-    fillR(s.x - 2, s.y - 7,   4, 14, '#7a5518');
-    txt('!', s.x, s.y - 14, 5, '#333', 'center');
+    fillR(s.x-7, s.y-16, 14, 10, '#e0cc8c');
+    fillR(s.x-2, s.y-7, 4, 14, '#7a5518');
+    txt('!', s.x, s.y-14, 5, '#333', 'center');
   });
-
   // PNJs
   map.npcs.forEach(n => {
-    fillR(n.x - 6, n.y - 14, 12, 10, n.color);
-    fillR(n.x - 5, n.y - 23, 10, 10, '#e8c296');
-    txt(n.label, n.x, n.y + 2, 5, '#fff', 'center');
+    fillR(n.x-6, n.y-14, 12, 10, n.color);
+    fillR(n.x-5, n.y-23, 10, 10, '#e8c296');
+    txt(n.label, n.x, n.y+2, 4, '#fff', 'center');
   });
-
   // Joueur
-  fillR(gs.px - 7, gs.py - 7, 14, 14, '#3196ff');
-  fillR(gs.px - 5, gs.py - 16, 10, 10, '#e8c296');
-  const dv = {up:[0,-10], down:[0,10], left:[-10,0], right:[10,0]}[gs.pfacing]||[0,10];
-  ctx.fillStyle = '#ffffff66';
-  ctx.fillRect(S(gs.px + dv[0] - 2), S(gs.py + dv[1] - 2), S(4), S(4));
+  fillR(gs.px-7, gs.py-7, 14, 14, '#3196ff');
+  fillR(gs.px-5, gs.py-16, 10, 10, '#e8c296');
+
+  // HUD
+  if (!gs.dialogue && !gs.shop && !gs.pause && !gs.pc) renderHUD();
 
   // Overlays
-  if (gs.dialogue) renderDialogue();
-  else if (gs.shop) renderShop();
+  if      (gs.pc)      renderPC();
+  else if (gs.pause)   renderPause();
+  else if (gs.dialogue) renderDialogue();
+  else if (gs.shop)    renderShop();
 
   updateInfo();
 }
 
 function renderDialogue() {
   const d = gs.dialogue;
-  fillR(4, TH - 62, TW - 8, 60, '#000000ee');
-  ctx.strokeStyle = '#ffffff'; ctx.lineWidth = SCALE;
-  ctx.strokeRect(S(4) + SCALE/2, S(TH-62) + SCALE/2, S(TW-8) - SCALE, S(60) - SCALE);
-  fillR(6, TH - 60, TW - 12, 56, '#0d0d20');
-
-  d.lines[d.idx].split('\n').forEach((l, i) =>
-    txt(l, 12, TH - 54 + i * 13, 8, '#fff')
-  );
-  if (d.idx < d.lines.length - 1) txt('▼', TW - 16, TH - 14, 8, '#fff', 'right');
-  else txt('[Z] Fermer', TW - 12, TH - 13, 6, '#aaa', 'right');
+  fillR(4, TH-62, TW-8, 60, '#000000ee');
+  ctx.strokeStyle = '#fff'; ctx.lineWidth = SCALE;
+  ctx.strokeRect(S(4)+SCALE/2, S(TH-62)+SCALE/2, S(TW-8)-SCALE, S(60)-SCALE);
+  fillR(6, TH-60, TW-12, 56, '#0d0d20');
+  d.lines[d.idx].split('\n').forEach((l, i) => txt(l, 12, TH-54+i*13, 8, '#fff'));
+  if (d.idx < d.lines.length-1) txt('▼', TW-16, TH-14, 8, '#fff', 'right');
+  else txt('[Z] Fermer', TW-12, TH-13, 6, '#aaa', 'right');
 }
 
 function renderShop() {
   const sh = gs.shop;
-  fillR(8, 8, TW - 16, TH - 16, '#000000ee');
+  fillR(8, 8, TW-16, TH-16, '#000000ee');
   ctx.strokeStyle = '#fff'; ctx.lineWidth = SCALE;
   ctx.strokeRect(S(8)+SCALE/2, S(8)+SCALE/2, S(TW-16)-SCALE, S(TH-16)-SCALE);
-  fillR(10, 10, TW - 20, TH - 20, '#0d0d20');
-
+  fillR(10, 10, TW-20, TH-20, '#0d0d20');
   txt('POKEMART', 14, 14, 8, '#f4c430');
-  txt('P$ ' + gs.money, 200, 14, 8, '#f4c430');
-
-  ctx.fillStyle = '#333366';
-  ctx.fillRect(S(14), S(28), S(TW-28), S(1));
-
+  txt('P$ '+gs.money, 200, 14, 8, '#f4c430');
+  ctx.fillStyle='#333366'; ctx.fillRect(S(14), S(28), S(TW-28), S(1));
   sh.items.forEach((it, i) => {
-    if (i === sh.sel) fillR(14, 32 + i*18, TW-28, 16, '#2a2a66');
-    const c = i === sh.sel ? '#fff' : '#aac';
-    txt(it.name, 18, 35 + i*18, 8, c);
-    txt(it.price + ' P$', 232, 35 + i*18, 8, '#f4c430', 'right');
+    if (i===sh.sel) fillR(14, 32+i*18, TW-28, 16, '#2a2a66');
+    const c = i===sh.sel ? '#fff' : '#aac';
+    txt(it.name, 18, 35+i*18, 8, c);
+    txt(it.price+' P$', 232, 35+i*18, 8, '#f4c430', 'right');
   });
+  ctx.fillStyle='#333366'; ctx.fillRect(S(14), S(TH-54), S(TW-28), S(1));
+  txt(sh.items[sh.sel].desc, 18, TH-48, 7, '#888bcc');
+  txt('[Z] Acheter  [X] Quitter', 18, TH-32, 7, '#556');
+  if (sh.msg) txt(sh.msg, 18, TH-18, 7, sh.msgOk ? '#4f8' : '#f66');
+}
 
-  ctx.fillStyle = '#333366';
-  ctx.fillRect(S(14), S(TH-54), S(TW-28), S(1));
-  txt(sh.items[sh.sel].desc, 18, TH - 48, 7, '#888bcc');
-  txt('[Z] Acheter  [X] Quitter', 18, TH - 32, 7, '#556');
+function renderPause() {
+  fillR(40, 20, 240, 200, '#0d0d26ee');
+  ctx.strokeStyle='#6666bb'; ctx.lineWidth=SCALE;
+  ctx.strokeRect(S(40)+SCALE/2, S(20)+SCALE/2, S(240)-SCALE, S(200)-SCALE);
+  txt('MENU', 44, 22, 8, '#fff');
+  // Onglets
+  PAUSE_TABS.forEach((tab, i) => {
+    const col = i===gs.pauseTab ? '#f4c430' : '#666699';
+    txt(tab, 44 + i*56, 36, 6, col);
+  });
+  ctx.fillStyle='#444466'; ctx.fillRect(S(44), S(48), S(228), S(1));
+  // Contenu
+  const y0 = 54;
+  if (gs.pauseTab === 0) {
+    gs.team.forEach((p, i) => {
+      const col = '#' + ['4cf','6af'][i % 2];
+      txt('Lv'+p.level+' '+p.name+'  PV '+p.hp+'/'+p.maxHp, 46, y0+i*14, 6, '#eee');
+    });
+    if (gs.team.length===0) txt('Equipe vide', 46, y0, 6, '#666');
+  } else if (gs.pauseTab === 1) {
+    let y = y0;
+    for (const [item, qty] of Object.entries(gs.bag)) {
+      txt('x'+qty+'  '+item, 46, y, 6, '#eee'); y += 12;
+    }
+    if (!Object.keys(gs.bag).length) txt('Sac vide', 46, y0, 6, '#666');
+  } else if (gs.pauseTab === 2) {
+    txt('Pokemon vus : 12', 46, y0, 6, '#aacf');
+    txt('Pokemon captures : 4', 46, y0+14, 6, '#6f9');
+  } else {
+    txt('Appuyez sur Z pour sauvegarder.', 46, y0, 6, '#ff9');
+    txt('Emplacement : Slot 1', 46, y0+14, 6, '#666');
+  }
+  txt('[←→] Onglets  [Z] Valider  [X] Fermer', 44, 210, 5, '#555');
+}
 
-  if (sh.msg) txt(sh.msg, 18, TH - 18, 7, sh.msgOk ? '#4f8' : '#f66');
+function renderPC() {
+  fillR(0, 0, TW, TH, '#0d0d26f5');
+  ctx.strokeStyle='#44ccff'; ctx.lineWidth=SCALE;
+  ctx.strokeRect(SCALE/2, SCALE/2, S(TW)-SCALE, S(TH)-SCALE);
+  txt('PC — STOCKAGE POKEMON', 4, 4, 7, '#0ff');
+  // Equipe
+  txt('EQUIPE', 4, 18, 6, '#fff');
+  gs.team.forEach((p, i) => {
+    fillR(4, 28+i*22, 100, 20, '#1a2a1a');
+    txt('Lv'+p.level+' '+p.name, 6, 32+i*22, 6, '#4cf');
+    txt('PV'+p.hp+'/'+p.maxHp, 6, 40+i*22, 5, '#888');
+  });
+  ctx.fillStyle='#336699'; ctx.fillRect(S(108), S(16), S(2), S(210));
+  // Boite PC
+  txt('BOITE PC', 114, 18, 6, '#fff');
+  for (let r=0; r<6; r++) for (let c=0; c<5; c++) {
+    fillR(114+c*22, 28+r*22, 20, 20, '#0d1a0d');
+    ctx.strokeStyle='#1a4433'; ctx.lineWidth=1;
+    ctx.strokeRect(S(114+c*22)+1, S(28+r*22)+1, S(20)-2, S(20)-2);
+  }
+  txt('[X] Fermer', 4, 228, 5, '#555');
 }
 
 function renderBattle() {
   fillR(0, 0, TW, TH, '#1a1a3a');
   fillR(0, 0, TW, 10, '#0a0a1a');
-  txt('COMBAT SAUVAGE — Route 1', 6, 1, 8, '#f4c430');
-
-  fillR(0, 14, TW, 96, '#2a3040');
-  fillR(160, 18, 80, 56, '#3a4050');
-  fillR(172, 22, 56, 44, '#ff7766');
-  txt('Pikachu Nv.4', 162, 18, 6, '#fff');
-  txt('PV 28/32', 162, 30, 6, '#4f8');
-
+  txt('COMBAT — Arene d\'Azuria', 6, 1, 7, '#0ff');
+  fillR(0, 14, TW, 96, '#1a2540');
+  fillR(170, 18, 80, 56, '#1a3a5a');
+  fillR(180, 22, 56, 44, '#0096c8');
+  txt('Staross Nv.24', 162, 18, 6, '#fff');
+  txt('PV 95/95', 162, 30, 6, '#4f8');
   fillR(0, 110, TW, 52, '#1e2830');
   fillR(0, 114, 100, 44, '#2a3840');
   fillR(10, 116, 56, 38, '#3196ff');
-  txt('Bulbizarre Nv.5', 4, 110, 6, '#fff');
-  txt('PV ' + gs.team[0].hp + '/' + gs.team[0].maxHp, 4, 122, 6, '#4f8');
-
-  fillR(0, 162, TW, 50, '#0d0d20');
-  ctx.strokeStyle = '#fff4'; ctx.lineWidth = SCALE;
-  ctx.strokeRect(S(0)+SCALE/2, S(162)+SCALE/2, S(TW)-SCALE, S(50)-SCALE);
-  txt('Un Pikachu sauvage apparait !', 8, 170, 8, '#fff');
-
+  txt('Bulbizarre Nv.12', 4, 110, 6, '#fff');
+  txt('PV '+gs.team[0].hp+'/'+gs.team[0].maxHp, 4, 122, 6, '#4f8');
+  fillR(0, 162, 160, 78, '#0d0d20');
+  ctx.strokeStyle='#fff4'; ctx.lineWidth=SCALE;
+  ctx.strokeRect(S(0)+SCALE/2, S(162)+SCALE/2, S(160)-SCALE, S(78)-SCALE);
+  txt('Ondine : Allez Staross !', 8, 170, 7, '#fff');
   fillR(160, 162, 160, 78, '#0d0d20');
-  ctx.strokeStyle = '#fff6'; ctx.lineWidth = SCALE;
+  ctx.strokeStyle='#fff6'; ctx.lineWidth=SCALE;
   ctx.strokeRect(S(160)+SCALE/2, S(162)+SCALE/2, S(160)-SCALE, S(78)-SCALE);
   ['ATTAQUE','SAC','POKEMON','FUITE'].forEach((opt, i) =>
-    txt((i===0?'> ':' ') + opt, 166 + (i%2)*72, 170 + Math.floor(i/2)*24, 8, i===0?'#f4c430':'#aac')
+    txt((i===0?'> ':' ')+opt, 166+(i%2)*72, 170+Math.floor(i/2)*24, 8, i===0?'#f4c430':'#aac')
   );
-
-  txt('[X] Retour overworld', 60, TH - 10, 6, '#556');
+  txt('[X] Retour overworld', 60, TH-10, 6, '#556');
 }
 
 // ─── Info joueur ──────────────────────────────────────────────────────────────
 function updateInfo() {
   const el = document.getElementById('player-info');
   if (!el) return;
-  const bagStr = Object.entries(gs.bag).map(([k,v]) => `${k}x${v}`).join(', ');
-  const mapName = gs.map === 'pallet' ? 'Bourg-Palette' : gs.map === 'route1' ? 'Route 1' : 'Combat';
+  const mapName = (MAPS[gs.map] || {}).name || gs.map;
+  const badgeStr = gs.badges.length ? gs.badges.join(', ') : '—';
   el.innerHTML = `
     <b style="color:#f4c430">RED</b> &nbsp; P$ ${gs.money}<br>
     Map: <span style="color:#6af">${mapName}</span><br>
-    Pos: (${gs.px}, ${gs.py}) dir:${gs.pfacing}<br>
-    ${gs.team.map(p => `${p.name} Nv.${p.level} PV:${p.hp}/${p.maxHp}`).join('<br>')}<br>
-    Sac: ${bagStr || '—'}
+    Pos: (${gs.px}, ${gs.py})<br>
+    ${gs.team.map(p=>`${p.name} Nv.${p.level} PV:${p.hp}/${p.maxHp}`).join('<br>')}<br>
+    Badges: ${badgeStr}
   `;
 }
 
 // ─── Dialogue / Shop ──────────────────────────────────────────────────────────
-function startDialogue(lines) {
-  gs.dialogue = { lines, idx: 0 };
-  render();
-}
+function startDialogue(lines) { gs.dialogue = { lines, idx: 0 }; render(); }
 function advanceDialogue() {
   if (!gs.dialogue) return;
   gs.dialogue.idx++;
@@ -379,8 +503,7 @@ function advanceDialogue() {
 }
 function openShop() {
   gs.shop = { items: SHOP_ITEMS, sel: 0, msg: '', msgOk: true };
-  log('Boutique ouverte — utilisez fleches + Z pour acheter', 'shop');
-  render();
+  log('Boutique ouverte', 'shop'); render();
 }
 function tryBuy() {
   if (!gs.shop) return;
@@ -399,12 +522,13 @@ function tryBuy() {
 
 // ─── Navigation ───────────────────────────────────────────────────────────────
 function goMap(id) {
-  gs.dialogue = null; gs.shop = null;
+  gs.dialogue = null; gs.shop = null; gs.pause = false; gs.pc = false;
   document.querySelectorAll('.btn').forEach(b => b.classList.remove('active'));
-  if      (id === 'pallet') { gs.px = 160; gs.py = 208; log('Arrivee a Bourg-Palette', 'ok'); }
-  else if (id === 'route1') { gs.px = 160; gs.py = 32;  log('Arrivee sur Route 1', 'ok'); }
-  else if (id === 'battle') {                            log('Combat sauvage declenche !', 'fight'); }
+  const spawnPos = { pallet:[160,208], route1:[160,32], argenta:[160,208], route3:[24,64], azuria:[24,64], azuriagym:[160,208], battle:[0,0] };
+  const sp = spawnPos[id] || [160, 120];
+  gs.px = sp[0]; gs.py = sp[1];
   gs.map = id;
+  log('Arrivee : ' + ((MAPS[id]||{}).name || id), 'ok');
   const btn = document.getElementById('btn-' + id);
   if (btn) btn.classList.add('active');
   render();
@@ -412,131 +536,108 @@ function goMap(id) {
 
 // ─── Simulations ──────────────────────────────────────────────────────────────
 function sim(action) {
-  gs.dialogue = null; gs.shop = null;
+  gs.dialogue = null; gs.shop = null; gs.pause = false; gs.pc = false;
   switch (action) {
     case 'talk_nurse':
-      goMap('pallet');
-      setTimeout(() => {
-        gs.team.forEach(p => p.hp = p.maxHp);
-        log('Soin complet de l\'equipe !', 'ok');
-        startDialogue([
-          ['Bienvenue au Centre Pokemon !'],
-          ['Je vais soigner votre equipe. Un instant...'],
-          ['Vos Pokemon sont en pleine forme ! Bonne route !'],
-        ].map(l => l[0]));
-      }, 80);
+      gs.team.forEach(p => p.hp = p.maxHp);
+      log('Soin complet !', 'ok');
+      startDialogue(['Bienvenue au Centre Pokemon !', 'Je vais soigner votre equipe. Un instant...', 'Vos Pokemon sont en pleine forme ! Bonne route !']);
       break;
     case 'talk_shop':
-      goMap('pallet');
+      if (!['argenta','azuria','pallet','route1'].includes(gs.map)) goMap('azuria');
       setTimeout(() => openShop(), 80);
       break;
-    case 'read_sign':
-      startDialogue([SIGN_TEXT.pallet_town.join('\n')]);
-      log('Panneau : Bourg-Palette', 'info');
+    case 'toggle_pause':
+      gs.pause = !gs.pause; gs.pauseTab = 0;
+      log(gs.pause ? 'Menu pause ouvert' : 'Menu pause ferme', 'menu'); render();
       break;
-    case 'walk_north':
-      goMap('route1'); break;
-    case 'walk_south':
-      goMap('pallet'); break;
+    case 'open_pc':
+      gs.pc = true;
+      log('PC ouvert — gestionnaire de stockage', 'menu'); render();
+      break;
+    case 'earn_badge':
+      if (!gs.badges.includes('Badge Vague')) { gs.badges.push('Badge Vague'); log('Badge Vague obtenu !', 'ok'); }
+      else log('Badge Vague deja obtenu.', 'info');
+      render(); break;
+    case 'trainer_fight':
+      goMap('battle'); break;
   }
 }
 
-// ─── Mouvement & interaction ──────────────────────────────────────────────────
+// ─── Mouvement ────────────────────────────────────────────────────────────────
 function movePlayer(dir) {
   const map = MAPS[gs.map];
-  if (!map) return;
+  if (!map || gs.dialogue || gs.shop || gs.pause || gs.pc) return;
   gs.pfacing = dir;
-
   let nx = gs.px, ny = gs.py;
-  if (dir === 'up')    ny -= TILE;
-  if (dir === 'down')  ny += TILE;
-  if (dir === 'left')  nx -= TILE;
-  if (dir === 'right') nx += TILE;
-
-  nx = Math.max(8, Math.min(TW - 8, nx));
-  ny = Math.max(8, Math.min(TH - 8, ny));
-
-  // Collision batiments
+  if (dir==='up')    ny -= TILE;
+  if (dir==='down')  ny += TILE;
+  if (dir==='left')  nx -= TILE;
+  if (dir==='right') nx += TILE;
+  const mw = map.w || TW;
+  nx = Math.max(8, Math.min(mw-8, nx));
+  ny = Math.max(8, Math.min(TH-8, ny));
   for (const b of map.buildings) {
-    if (nx > b.x - 8 && nx < b.x + b.w + 8 &&
-        ny > b.y - 8 && ny < b.y + b.h + 8) {
-      render(); return;
-    }
+    if (nx > b.x-8 && nx < b.x+b.w+8 && ny > b.y-8 && ny < b.y+b.h+8) { render(); return; }
   }
-
   gs.px = nx; gs.py = ny;
-
-  // Transitions
   for (const t of map.transitions) {
-    if (nx >= t.x && nx <= t.x + t.w && ny >= t.y && ny <= t.y + t.h) {
+    const inX = gs.map==='route3' ? (nx>=t.x && nx<=t.x+t.w) : (nx>=t.x && nx<=t.x+t.w);
+    const inY = ny>=t.y && ny<=t.y+t.h;
+    if (inX && inY) {
       log('Transition → ' + t.label, 'ok');
-      goMap(t.target);
-      gs.px = t.spawnX; gs.py = t.spawnY;
+      goMap(t.target); gs.px = t.spawnX; gs.py = t.spawnY;
       return;
     }
   }
-
-  // Rencontre sauvage
-  if (gs.map === 'route1') {
-    for (const g of (map.grass || [])) {
-      if (nx > g.x && nx < g.x + g.w && ny > g.y && ny < g.y + g.h) {
-        if (Math.random() < 0.15) {
-          const pkmn = ['Pikachu','Evoli','Bulbizarre'][Math.floor(Math.random()*3)];
-          const lvl  = 2 + Math.floor(Math.random() * 5);
-          log('Rencontre : ' + pkmn + ' Nv.' + lvl + ' !', 'fight');
-          goMap('battle');
-          return;
-        }
-        break;
+  for (const g of (map.grass || [])) {
+    if (nx>g.x && nx<g.x+g.w && ny>g.y && ny<g.y+g.h) {
+      if (Math.random() < 0.15) {
+        const pkmn = ['Psykokwak','Rondoudou','Pikachu','Stari'][Math.floor(Math.random()*4)];
+        const lvl  = 12 + Math.floor(Math.random() * 5);
+        log('Rencontre : ' + pkmn + ' Nv.' + lvl + ' !', 'fight');
+        goMap('battle'); return;
       }
+      break;
     }
   }
-
   render();
 }
 
 function tryInteract() {
-  if (gs.dialogue) { advanceDialogue(); return; }
-  if (gs.shop)     { tryBuy(); return; }
+  if (gs.pc)      { gs.pc = false; render(); return; }
+  if (gs.pause)   { /* valider onglet */ if (gs.pauseTab===3) { log('Partie sauvegardee (Slot 1) !','ok'); } render(); return; }
+  if (gs.dialogue){ advanceDialogue(); return; }
+  if (gs.shop)    { tryBuy(); return; }
 
   const map = MAPS[gs.map];
   if (!map) return;
-
   const dv = {up:[0,-TILE], down:[0,TILE], left:[-TILE,0], right:[TILE,0]}[gs.pfacing]||[0,TILE];
-  const cx = gs.px + dv[0], cy = gs.py + dv[1];
+  const cx = gs.px+dv[0], cy = gs.py+dv[1];
 
   for (const n of map.npcs) {
-    if (Math.abs(n.x - cx) < 14 && Math.abs(n.y - cy) < 14) {
+    if (Math.abs(n.x-cx)<14 && Math.abs(n.y-cy)<14) {
       switch (n.action) {
         case 'nurse':
-          gs.team.forEach(p => p.hp = p.maxHp);
-          log('Soin complet !', 'ok');
-          startDialogue(['Bienvenue au Centre Pokemon !',
-                         'Je vais soigner votre equipe. Un instant...',
-                         'Vos Pokemon sont en pleine forme ! Bonne route !']);
+          gs.team.forEach(p => p.hp = p.maxHp); log('Soin !','ok');
+          startDialogue(['Bienvenue au Centre Pokemon !','Vos Pokemon sont en pleine forme !']);
           break;
-        case 'shop':   openShop(); break;
+        case 'shop': openShop(); break;
         case 'guide':
-          startDialogue(['Bienvenue a Bourg-Palette !',
-                         'La Route 1 mene vers Jadielle au nord.',
-                         'Mefiez-vous des Pokemon sauvages dans les hautes herbes !']);
-          log('Dialogue Guide demarre', 'info');
-          break;
+          startDialogue(['Bienvenue a ' + (MAPS[gs.map]||{}).name + ' !', 'L\'Arene locale teste vos aptitudes !']); break;
         case 'trainer':
-          startDialogue(['He, toi ! Tu explores la Route 1 ?',
-                         'Les hautes herbes abritent des Pokemon sauvages.',
-                         'Entraine-toi bien avant d\'affronter les Arenes !']);
-          break;
+          startDialogue(['Hé ! Tu oses traverser mon chemin ?', 'Allons, battons-nous !']);
+          log('Dresseur engage !', 'fight'); break;
+        case 'ondine':
+          startDialogue(['Je suis Ondine, Championne d\'Azuria !', 'Mes Pokemon Eau vont t\'emporter !', 'En garde !']);
+          log('Champion Ondine engage !', 'fight'); break;
       }
       return;
     }
   }
-
   for (const s of map.signs) {
-    if (Math.abs(s.x - cx) < 14 && Math.abs(s.y - cy) < 14) {
-      startDialogue([SIGN_TEXT[s.key].join('\n')]);
-      log('Panneau lu (' + s.key + ')', 'info');
-      return;
+    if (Math.abs(s.x-cx)<14 && Math.abs(s.y-cy)<14) {
+      startDialogue([s.text]); log('Panneau lu', 'info'); return;
     }
   }
 }
@@ -544,50 +645,59 @@ function tryInteract() {
 // ─── Clavier ──────────────────────────────────────────────────────────────────
 const DIR_KEY = {
   ArrowUp:'up', ArrowDown:'down', ArrowLeft:'left', ArrowRight:'right',
-  z:'up', q:'left', s:'down', d:'right',
-  Z:'up', Q:'left', S:'down', D:'right',
+  w:'up', a:'left', s:'down', d:'right', W:'up', A:'left', S:'down', D:'right',
+  z:'up', q:'left', Z:'up', Q:'left',
 };
 
 document.addEventListener('keydown', e => {
-  // Battle screen
   if (gs.map === 'battle') {
-    if (e.key === 'x' || e.key === 'X' || e.key === 'Escape') {
-      goMap('route1'); log('Retour sur Route 1 apres combat', 'ok');
+    if (e.key==='x'||e.key==='X'||e.key==='Escape') {
+      goMap(gs.lastMap||'azuria'); log('Retour overworld','ok');
     }
     e.preventDefault(); return;
   }
-
-  // Shop
+  if (gs.pc) {
+    if (e.key==='x'||e.key==='X'||e.key==='Escape') { gs.pc=false; render(); }
+    e.preventDefault(); return;
+  }
+  if (gs.pause) {
+    if (e.key==='ArrowRight') { gs.pauseTab=(gs.pauseTab+1)%4; render(); }
+    if (e.key==='ArrowLeft')  { gs.pauseTab=(gs.pauseTab+3)%4; render(); }
+    if (e.key==='x'||e.key==='X'||e.key==='Escape') { gs.pause=false; render(); }
+    if (e.key==='Enter'||e.key==='z'||e.key==='Z') tryInteract();
+    e.preventDefault(); return;
+  }
   if (gs.shop) {
-    if (e.key === 'ArrowUp'   || e.key === 'z') { gs.shop.sel = Math.max(0, gs.shop.sel-1); render(); }
-    if (e.key === 'ArrowDown' || e.key === 's') { gs.shop.sel = Math.min(gs.shop.items.length-1, gs.shop.sel+1); render(); }
-    if (e.key === 'Enter' || (e.key === 'z' && gs.shop)) tryBuy();
-    if (e.key === 'x' || e.key === 'X' || e.key === 'Escape') { gs.shop = null; render(); }
-    e.preventDefault(); return;
+    if (e.key==='ArrowUp')   gs.shop.sel = Math.max(0, gs.shop.sel-1);
+    if (e.key==='ArrowDown') gs.shop.sel = Math.min(gs.shop.items.length-1, gs.shop.sel+1);
+    if (e.key==='Enter'||e.key==='z'||e.key==='Z') tryBuy();
+    if (e.key==='x'||e.key==='X'||e.key==='Escape') { gs.shop=null; render(); }
+    render(); e.preventDefault(); return;
   }
-
-  // Dialogue
   if (gs.dialogue) {
-    if (e.key === 'Enter' || e.key === 'z' || e.key === 'Z') advanceDialogue();
+    if (e.key==='Enter'||e.key==='z'||e.key==='Z') advanceDialogue();
     e.preventDefault(); return;
   }
-
-  // Movement
+  if (e.key==='x'||e.key==='X'||e.key==='Escape') {
+    gs.pause = !gs.pause; gs.pauseTab=0;
+    log(gs.pause?'Menu pause ouvert':'Menu pause ferme','menu'); render();
+    e.preventDefault(); return;
+  }
   const dir = DIR_KEY[e.key];
   if (dir) { movePlayer(dir); e.preventDefault(); return; }
-  if (e.key === 'Enter' || e.key === 'z' || e.key === 'Z') { tryInteract(); e.preventDefault(); }
+  if (e.key==='Enter'||e.key==='z'||e.key==='Z') { tryInteract(); e.preventDefault(); }
 });
 
 // ─── Init ─────────────────────────────────────────────────────────────────────
-log('Pokemon AMSO Phase 3 chargee', 'ok');
-log('Phases 0-2 : mouvement, combats, systeme complet', 'ok');
-log('Phase 3 : dialogues, PNJ, boutique, 2 maps', 'ok');
+log('Pokemon AMSO Phase 6 chargee', 'ok');
+log('Phases 0-5 : mouvement, combats, gyms, evolutions', 'ok');
+log('Phase 6 : OverworldHUD, PauseMenu, PCBox, Route 3, Azuria', 'ok');
 log('──────────────────────────────────', 'info');
-log('Cliquez sur le canvas puis utilisez', 'info');
-log('les touches ou les boutons lateraux.', 'info');
+log('Cliquez le canvas puis utilisez les touches.', 'info');
 
 render();
 canvas.focus();
+document.getElementById('btn-pallet').classList.add('active');
 </script>
 </body>
 </html>

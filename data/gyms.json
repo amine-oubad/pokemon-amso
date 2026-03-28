@@ -18,5 +18,15 @@
     "trainers": ["argenta_trainer_1", "argenta_trainer_2"],
     "required_badge": "boulder_badge",
     "hm_unlock": "flash"
+  },
+  "azuria_gym": {
+    "name": "Arène d'Azuria",
+    "city": "Azuria City",
+    "badge_id": "wave_badge",
+    "badge_name": "Badge Vague",
+    "leader_id": "gym_leader_ondine",
+    "trainers": ["azuria_trainer_1", "azuria_trainer_2"],
+    "required_badge": "cascade_badge",
+    "hm_unlock": "surf"
   }
 }

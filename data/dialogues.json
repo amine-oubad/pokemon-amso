@@ -129,5 +129,41 @@
     "Tu as brisé ma défense de roche...",
     "Voici le Badge Cascade ! Tu l'as bien mérité !",
     "Ce badge prouve ta force. Continue ton voyage !"
+  ],
+
+  "route3_youngster_before": ["Hé, Dresseur ! La Route 3 est mon terrain !", "Mes Pokémon t'arrêteront !"],
+  "route3_youngster_after": ["Déjà...", "Azuria City est à l'est. Le Lac Azur est magnifique !"],
+  "route3_lass_before": ["J'aime me promener près du lac !", "Battons-nous pour le plaisir !"],
+  "route3_lass_after": ["Tu es vraiment fort !", "Psykokwak est si mignon, non ?"],
+  "sign_route3": ["ROUTE 3\n← Argenta City   Azuria City →"],
+  "sign_lake": ["LAC AZUR\nDes Pokémon Eau reposent dans ces eaux calmes."],
+
+  "guide_azuria": [
+    "Bienvenue à Azuria City !",
+    "Le Lac Azur borde notre ville à l'est.",
+    "L'Arène d'Azuria est spécialisée dans le type Eau — préparez-vous !"
+  ],
+  "azuria_nurse": [
+    "Bienvenue au Centre Pokémon d'Azuria !",
+    "Je vais soigner vos Pokémon...",
+    "Voilà, vos Pokémon sont en pleine forme !"
+  ],
+  "sign_azuria_city": ["AZURIA CITY\nLa ville aux eaux turquoise."],
+  "sign_azuria_gym": ["ARÈNE D'AZURIA\nChampionne : Ondine — Type Eau"],
+
+  "azuria_t1_before": ["L'eau et moi, on ne fait qu'un !", "Mes Pokémon Eau vont t'emporter !"],
+  "azuria_t1_after": ["Je n'arrive pas à y croire...", "Ondine est encore bien plus redoutable !"],
+  "azuria_t2_before": ["Je nage avec mes Pokémon chaque matin !", "Tu ne peux pas battre un nageur comme moi !"],
+  "azuria_t2_after": ["C'est impossible...", "Ondine va te montrer la vraie puissance de l'eau !"],
+  "ondine_before": [
+    "Je suis Ondine, Championne de l'Arène d'Azuria !",
+    "Mes Pokémon Eau sont fluides et imprévisibles.",
+    "Laisse-toi emporter par le courant... de ma victoire !"
+  ],
+  "ondine_after": [
+    "Tu as dompté mes vagues...",
+    "Voici le Badge Vague en témoignage de ta victoire !",
+    "Ce badge te permettra d'utiliser la CS Surf hors combat.",
+    "Continue ton voyage, Dresseur. L'aventure est encore longue !"
   ]
 }

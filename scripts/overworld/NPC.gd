@@ -5,7 +5,7 @@ extends CharacterBody2D
 ## Doit être dans le groupe "interactable" (ajouté dans _ready).
 
 var dialogue_key:   String  = ""
-var special_action: String  = ""   # "heal_team" | "open_shop" | ""
+var special_action: String  = ""   # "heal_team" | "open_shop" | "open_pc" | ""
 var shop_id:        String  = ""
 var npc_color:      Color   = Color(0.40, 0.45, 0.80)
 
@@ -47,6 +47,8 @@ func interact() -> void:
 			DialogueManager.start_dialogue(lines)
 		"open_shop":
 			ShopMenu.open_shop(shop_id)
+		"open_pc":
+			PCBoxScreen.open_pc()
 		_:
 			var lines: Array = GameData.dialogues_data.get(dialogue_key, ["..."])
 			DialogueManager.start_dialogue(lines)
