@@ -1,6 +1,5 @@
 extends Node2D
-## Scène de combat Phase 4 — combat complet + dresseurs multi-Pokémon.
-## Features : fuite, sac (potions/balls), switch Pokémon, capture, statuts, trainer battles.
+## Scène de combat Phase 5 — combat complet + dresseurs + XP/level-up/évolution.
 
 # ── State machine ─────────────────────────────────────────────────────────────
 enum State {
@@ -8,8 +7,12 @@ enum State {
 	PLAYER_CHOOSE, CHOOSE_MOVE, CHOOSE_ITEM, CHOOSE_POKEMON,
 	PLAYER_MOVE, FLEE_ATTEMPT,
 	ENEMY_MOVE,
-	CHECK_END, CAPTURE_ANIM, SHOW_XP, TRAINER_NEXT, BATTLE_OVER
+	CHECK_END, CAPTURE_ANIM, SHOW_XP, LEARN_MOVE, EVOLVE, TRAINER_NEXT, BATTLE_OVER
 }
+
+# ── File d'events post-XP (level-up, moves, évolution) ───────────────────────
+var _pending_moves: Array = []  # [move_id, ...]
+var _pending_evolution: String = ""
 var _state: State = State.INTRO
 var _last_attacker: String = ""
 var _animating: bool       = false
@@ -137,8 +140,10 @@ func _set_state(s: State) -> void:
 		State.FLEE_ATTEMPT:  _do_flee()
 		State.ENEMY_MOVE:    _do_enemy_move()
 		State.CHECK_END:     _check_end()
-		State.CAPTURE_ANIM:  pass  # lancé par _on_item_used()
+		State.CAPTURE_ANIM:  pass
 		State.SHOW_XP:       _award_xp()
+		State.LEARN_MOVE:    _show_learn_move()
+		State.EVOLVE:        _show_evolution()
 		State.TRAINER_NEXT:  _trainer_send_next()
 		State.BATTLE_OVER:   _finish()
 
@@ -444,13 +449,121 @@ func _handle_player_ko() -> void:
 func _award_xp() -> void:
 	var xp := BattleCalc.calculate_exp_gain(enemy_pkmn, player_pkmn.level)
 	_msg("%s est K.O. !\n%s gagne %d EXP !" % [enemy_pkmn.get_name(), player_pkmn.get_name(), xp])
-	await get_tree().create_timer(2.5).timeout
+	await get_tree().create_timer(2.0).timeout
 
-	# Vérifier si le dresseur a d'autres Pokémon
+	# Appliquer l'XP et gérer les level-ups
+	var result := player_pkmn.gain_exp(xp)
+	if result.levels_gained > 0:
+		_refresh_ui()
+		_msg("%s monte au Lv.%d !" % [player_pkmn.get_name(), player_pkmn.level])
+		await get_tree().create_timer(2.0).timeout
+
+	# Stocker les moves à apprendre et l'évolution
+	_pending_moves = result.new_moves
+	_pending_evolution = result.evolution
+
+	_advance_post_xp()
+
+## Avance dans la file post-XP : moves → évolution → suite du combat.
+func _advance_post_xp() -> void:
+	if _pending_moves.size() > 0:
+		_set_state(State.LEARN_MOVE)
+		return
+	if _pending_evolution != "":
+		_set_state(State.EVOLVE)
+		return
+	_go_to_next_or_end()
+
+func _go_to_next_or_end() -> void:
 	if _is_trainer_battle and _trainer_team_idx + 1 < _trainer_team.size():
 		_set_state(State.TRAINER_NEXT)
 	else:
 		_set_state(State.BATTLE_OVER)
+
+# ── Apprentissage de move ─────────────────────────────────────────────────────
+
+func _show_learn_move() -> void:
+	var move_id: String = _pending_moves[0]
+	_pending_moves.remove_at(0)
+	var mdata: Dictionary = GameData.moves_data.get(move_id, {})
+	var move_name: String = mdata.get("name", move_id)
+
+	if player_pkmn.moves.size() < 4:
+		player_pkmn.learn_move(move_id)
+		_msg("%s apprend %s !" % [player_pkmn.get_name(), move_name])
+		await get_tree().create_timer(2.0).timeout
+		_advance_post_xp()
+	else:
+		# 4 moves → proposer de remplacer
+		_msg("%s veut apprendre %s...\nMais il connaît déjà 4 capacités !" % [player_pkmn.get_name(), move_name])
+		await get_tree().create_timer(2.5).timeout
+		_show_move_replace_menu(move_id)
+
+func _show_move_replace_menu(new_move_id: String) -> void:
+	var mdata: Dictionary = GameData.moves_data.get(new_move_id, {})
+	var new_name: String = mdata.get("name", new_move_id)
+
+	# Réutiliser le menu moves pour le choix de remplacement
+	_move_menu.visible = true
+	for i in range(4):
+		var btn: Button = _move_buttons[i]
+		if i < player_pkmn.moves.size():
+			var mv: MoveInstance = player_pkmn.moves[i]
+			btn.text = "%s\n%d/%d PP" % [mv.get_name(), mv.current_pp, mv.max_pp]
+			btn.disabled = false
+			btn.visible = true
+			# Déconnecter les anciens signaux et reconnecter
+			for conn in btn.pressed.get_connections():
+				btn.pressed.disconnect(conn.callable)
+			var idx := i
+			var mid := new_move_id
+			btn.pressed.connect(func() -> void: _on_replace_move(idx, mid))
+		else:
+			btn.visible = false
+	_msg("Oublier quelle capacité\npour %s ?" % new_name)
+
+func _on_replace_move(idx: int, new_move_id: String) -> void:
+	_move_menu.visible = false
+	var old_name := player_pkmn.moves[idx].get_name()
+	var mdata: Dictionary = GameData.moves_data.get(new_move_id, {})
+	var new_name: String = mdata.get("name", new_move_id)
+	player_pkmn.learn_move(new_move_id, idx)
+	_msg("1, 2, 3... %s oublie %s\net apprend %s !" % [player_pkmn.get_name(), old_name, new_name])
+
+	# Restaurer les callbacks normaux des boutons
+	_reconnect_move_buttons()
+	_animating = true
+	await get_tree().create_timer(2.5).timeout
+	_animating = false
+	_advance_post_xp()
+
+func _reconnect_move_buttons() -> void:
+	for i in range(_move_buttons.size()):
+		var btn: Button = _move_buttons[i]
+		for conn in btn.pressed.get_connections():
+			btn.pressed.disconnect(conn.callable)
+		var idx := i
+		btn.pressed.connect(func() -> void: _on_move(idx))
+
+# ── Évolution ─────────────────────────────────────────────────────────────────
+
+func _show_evolution() -> void:
+	var target_id := _pending_evolution
+	_pending_evolution = ""
+	var old_name := player_pkmn.get_name()
+	var target_data: Dictionary = GameData.pokemon_data.get(target_id, {})
+	var new_name: String = target_data.get("name", target_id)
+
+	_msg("Hein !? %s évolue !" % old_name)
+	await get_tree().create_timer(2.5).timeout
+
+	player_pkmn.evolve(target_id)
+	_refresh_ui()
+	_msg("Félicitations !\n%s a évolué en %s !" % [old_name, new_name])
+	GameState.register_seen(target_id)
+	GameState.register_caught(target_id)
+	await get_tree().create_timer(3.0).timeout
+	_go_to_next_or_end()
 
 func _trainer_send_next() -> void:
 	_trainer_team_idx += 1

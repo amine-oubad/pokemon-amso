@@ -372,5 +372,203 @@
     "priority": 0,
     "effect": null,
     "effect_chance": 0
+  },
+  "string_shot": {
+    "name": "String Shot",
+    "type": "Bug",
+    "category": "status",
+    "power": 0,
+    "accuracy": 95,
+    "pp": 40,
+    "priority": 0,
+    "effect": "lower_target_speed",
+    "effect_chance": 100
+  },
+  "harden": {
+    "name": "Harden",
+    "type": "Normal",
+    "category": "status",
+    "power": 0,
+    "accuracy": 0,
+    "pp": 30,
+    "priority": 0,
+    "effect": "raise_self_def",
+    "effect_chance": 100
+  },
+  "confusion": {
+    "name": "Confusion",
+    "type": "Psychic",
+    "category": "special",
+    "power": 50,
+    "accuracy": 100,
+    "pp": 25,
+    "priority": 0,
+    "effect": null,
+    "effect_chance": 0
+  },
+  "gust": {
+    "name": "Gust",
+    "type": "Flying",
+    "category": "special",
+    "power": 40,
+    "accuracy": 100,
+    "pp": 35,
+    "priority": 0,
+    "effect": null,
+    "effect_chance": 0
+  },
+  "psybeam": {
+    "name": "Psybeam",
+    "type": "Psychic",
+    "category": "special",
+    "power": 65,
+    "accuracy": 100,
+    "pp": 20,
+    "priority": 0,
+    "effect": null,
+    "effect_chance": 0
+  },
+  "sleep_powder": {
+    "name": "Sleep Powder",
+    "type": "Grass",
+    "category": "status",
+    "power": 0,
+    "accuracy": 75,
+    "pp": 15,
+    "priority": 0,
+    "effect": "sleep",
+    "effect_chance": 100
+  },
+  "poison_sting": {
+    "name": "Poison Sting",
+    "type": "Poison",
+    "category": "physical",
+    "power": 15,
+    "accuracy": 100,
+    "pp": 35,
+    "priority": 0,
+    "effect": "poison",
+    "effect_chance": 30
+  },
+  "fury_attack": {
+    "name": "Fury Attack",
+    "type": "Normal",
+    "category": "physical",
+    "power": 15,
+    "accuracy": 85,
+    "pp": 20,
+    "priority": 0,
+    "effect": null,
+    "effect_chance": 0
+  },
+  "pin_missile": {
+    "name": "Pin Missile",
+    "type": "Bug",
+    "category": "physical",
+    "power": 25,
+    "accuracy": 95,
+    "pp": 20,
+    "priority": 0,
+    "effect": null,
+    "effect_chance": 0
+  },
+  "focus_energy": {
+    "name": "Focus Energy",
+    "type": "Normal",
+    "category": "status",
+    "power": 0,
+    "accuracy": 0,
+    "pp": 30,
+    "priority": 0,
+    "effect": null,
+    "effect_chance": 0
+  },
+  "wing_attack": {
+    "name": "Wing Attack",
+    "type": "Flying",
+    "category": "physical",
+    "power": 60,
+    "accuracy": 100,
+    "pp": 35,
+    "priority": 0,
+    "effect": null,
+    "effect_chance": 0
+  },
+  "supersonic": {
+    "name": "Supersonic",
+    "type": "Normal",
+    "category": "status",
+    "power": 0,
+    "accuracy": 55,
+    "pp": 20,
+    "priority": 0,
+    "effect": null,
+    "effect_chance": 0
+  },
+  "confuse_ray": {
+    "name": "Confuse Ray",
+    "type": "Ghost",
+    "category": "status",
+    "power": 0,
+    "accuracy": 100,
+    "pp": 10,
+    "priority": 0,
+    "effect": null,
+    "effect_chance": 0
+  },
+  "mud_slap": {
+    "name": "Mud-Slap",
+    "type": "Ground",
+    "category": "special",
+    "power": 20,
+    "accuracy": 100,
+    "pp": 10,
+    "priority": 0,
+    "effect": "lower_target_accuracy",
+    "effect_chance": 100
+  },
+  "rock_throw": {
+    "name": "Rock Throw",
+    "type": "Rock",
+    "category": "physical",
+    "power": 50,
+    "accuracy": 90,
+    "pp": 15,
+    "priority": 0,
+    "effect": null,
+    "effect_chance": 0
+  },
+  "rock_slide": {
+    "name": "Rock Slide",
+    "type": "Rock",
+    "category": "physical",
+    "power": 75,
+    "accuracy": 90,
+    "pp": 10,
+    "priority": 0,
+    "effect": "flinch",
+    "effect_chance": 30
+  },
+  "self_destruct": {
+    "name": "Self-Destruct",
+    "type": "Normal",
+    "category": "physical",
+    "power": 200,
+    "accuracy": 100,
+    "pp": 5,
+    "priority": 0,
+    "effect": null,
+    "effect_chance": 0
+  },
+  "screech": {
+    "name": "Screech",
+    "type": "Normal",
+    "category": "status",
+    "power": 0,
+    "accuracy": 85,
+    "pp": 40,
+    "priority": 0,
+    "effect": "lower_target_def",
+    "effect_chance": 100
   }
 }

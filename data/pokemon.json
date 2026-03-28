@@ -2,9 +2,7 @@
   "001": {
     "name": "Bulbasaur",
     "types": ["Grass", "Poison"],
-    "base_stats": {
-      "hp": 45, "atk": 49, "def": 49, "sp_atk": 65, "sp_def": 65, "speed": 45
-    },
+    "base_stats": { "hp": 45, "atk": 49, "def": 49, "sp_atk": 65, "sp_def": 65, "speed": 45 },
     "ability": "overgrow",
     "catch_rate": 45,
     "base_exp_yield": 64,
@@ -20,12 +18,48 @@
     ],
     "evolutions": [{"method": "level", "level": 16, "into": "002"}]
   },
+  "002": {
+    "name": "Ivysaur",
+    "types": ["Grass", "Poison"],
+    "base_stats": { "hp": 60, "atk": 62, "def": 63, "sp_atk": 80, "sp_def": 80, "speed": 60 },
+    "ability": "overgrow",
+    "catch_rate": 45,
+    "base_exp_yield": 142,
+    "levelup_moves": [
+      {"level": 1,  "move": "tackle"},
+      {"level": 1,  "move": "growl"},
+      {"level": 7,  "move": "leech_seed"},
+      {"level": 13, "move": "vine_whip"},
+      {"level": 20, "move": "poison_powder"},
+      {"level": 29, "move": "razor_leaf"},
+      {"level": 41, "move": "growth"},
+      {"level": 53, "move": "solar_beam"}
+    ],
+    "evolutions": [{"method": "level", "level": 32, "into": "003"}]
+  },
+  "003": {
+    "name": "Venusaur",
+    "types": ["Grass", "Poison"],
+    "base_stats": { "hp": 80, "atk": 82, "def": 83, "sp_atk": 100, "sp_def": 100, "speed": 80 },
+    "ability": "overgrow",
+    "catch_rate": 45,
+    "base_exp_yield": 236,
+    "levelup_moves": [
+      {"level": 1,  "move": "tackle"},
+      {"level": 1,  "move": "growl"},
+      {"level": 7,  "move": "leech_seed"},
+      {"level": 13, "move": "vine_whip"},
+      {"level": 20, "move": "poison_powder"},
+      {"level": 29, "move": "razor_leaf"},
+      {"level": 41, "move": "growth"},
+      {"level": 53, "move": "solar_beam"}
+    ],
+    "evolutions": []
+  },
   "004": {
     "name": "Charmander",
     "types": ["Fire"],
-    "base_stats": {
-      "hp": 39, "atk": 52, "def": 43, "sp_atk": 60, "sp_def": 50, "speed": 65
-    },
+    "base_stats": { "hp": 39, "atk": 52, "def": 43, "sp_atk": 60, "sp_def": 50, "speed": 65 },
     "ability": "blaze",
     "catch_rate": 45,
     "base_exp_yield": 62,
@@ -41,12 +75,48 @@
     ],
     "evolutions": [{"method": "level", "level": 16, "into": "005"}]
   },
+  "005": {
+    "name": "Charmeleon",
+    "types": ["Fire"],
+    "base_stats": { "hp": 58, "atk": 64, "def": 58, "sp_atk": 80, "sp_def": 65, "speed": 80 },
+    "ability": "blaze",
+    "catch_rate": 45,
+    "base_exp_yield": 142,
+    "levelup_moves": [
+      {"level": 1,  "move": "scratch"},
+      {"level": 1,  "move": "growl"},
+      {"level": 9,  "move": "ember"},
+      {"level": 15, "move": "smokescreen"},
+      {"level": 22, "move": "dragon_rage"},
+      {"level": 30, "move": "slash"},
+      {"level": 38, "move": "flamethrower"},
+      {"level": 46, "move": "fire_spin"}
+    ],
+    "evolutions": [{"method": "level", "level": 36, "into": "006"}]
+  },
+  "006": {
+    "name": "Charizard",
+    "types": ["Fire", "Flying"],
+    "base_stats": { "hp": 78, "atk": 84, "def": 78, "sp_atk": 109, "sp_def": 85, "speed": 100 },
+    "ability": "blaze",
+    "catch_rate": 45,
+    "base_exp_yield": 240,
+    "levelup_moves": [
+      {"level": 1,  "move": "scratch"},
+      {"level": 1,  "move": "growl"},
+      {"level": 9,  "move": "ember"},
+      {"level": 15, "move": "smokescreen"},
+      {"level": 22, "move": "dragon_rage"},
+      {"level": 30, "move": "slash"},
+      {"level": 38, "move": "flamethrower"},
+      {"level": 46, "move": "fire_spin"}
+    ],
+    "evolutions": []
+  },
   "007": {
     "name": "Squirtle",
     "types": ["Water"],
-    "base_stats": {
-      "hp": 44, "atk": 48, "def": 65, "sp_atk": 50, "sp_def": 64, "speed": 43
-    },
+    "base_stats": { "hp": 44, "atk": 48, "def": 65, "sp_atk": 50, "sp_def": 64, "speed": 43 },
     "ability": "torrent",
     "catch_rate": 45,
     "base_exp_yield": 63,
@@ -64,12 +134,213 @@
     ],
     "evolutions": [{"method": "level", "level": 16, "into": "008"}]
   },
+  "008": {
+    "name": "Wartortle",
+    "types": ["Water"],
+    "base_stats": { "hp": 59, "atk": 63, "def": 80, "sp_atk": 65, "sp_def": 80, "speed": 58 },
+    "ability": "torrent",
+    "catch_rate": 45,
+    "base_exp_yield": 142,
+    "levelup_moves": [
+      {"level": 1,  "move": "tackle"},
+      {"level": 1,  "move": "tail_whip"},
+      {"level": 7,  "move": "bubble"},
+      {"level": 13, "move": "withdraw"},
+      {"level": 20, "move": "water_gun"},
+      {"level": 27, "move": "bite"},
+      {"level": 34, "move": "rapid_spin"},
+      {"level": 40, "move": "protect"},
+      {"level": 47, "move": "hydro_pump"}
+    ],
+    "evolutions": [{"method": "level", "level": 36, "into": "009"}]
+  },
+  "009": {
+    "name": "Blastoise",
+    "types": ["Water"],
+    "base_stats": { "hp": 79, "atk": 83, "def": 100, "sp_atk": 85, "sp_def": 105, "speed": 78 },
+    "ability": "torrent",
+    "catch_rate": 45,
+    "base_exp_yield": 239,
+    "levelup_moves": [
+      {"level": 1,  "move": "tackle"},
+      {"level": 1,  "move": "tail_whip"},
+      {"level": 7,  "move": "bubble"},
+      {"level": 13, "move": "withdraw"},
+      {"level": 20, "move": "water_gun"},
+      {"level": 27, "move": "bite"},
+      {"level": 34, "move": "rapid_spin"},
+      {"level": 40, "move": "protect"},
+      {"level": 47, "move": "hydro_pump"}
+    ],
+    "evolutions": []
+  },
+  "010": {
+    "name": "Caterpie",
+    "types": ["Bug"],
+    "base_stats": { "hp": 45, "atk": 30, "def": 35, "sp_atk": 20, "sp_def": 20, "speed": 45 },
+    "ability": "shield_dust",
+    "catch_rate": 255,
+    "base_exp_yield": 39,
+    "levelup_moves": [
+      {"level": 1,  "move": "tackle"},
+      {"level": 1,  "move": "string_shot"}
+    ],
+    "evolutions": [{"method": "level", "level": 7, "into": "011"}]
+  },
+  "011": {
+    "name": "Metapod",
+    "types": ["Bug"],
+    "base_stats": { "hp": 50, "atk": 20, "def": 55, "sp_atk": 25, "sp_def": 25, "speed": 30 },
+    "ability": "shed_skin",
+    "catch_rate": 120,
+    "base_exp_yield": 72,
+    "levelup_moves": [
+      {"level": 1,  "move": "harden"}
+    ],
+    "evolutions": [{"method": "level", "level": 10, "into": "012"}]
+  },
+  "012": {
+    "name": "Butterfree",
+    "types": ["Bug", "Flying"],
+    "base_stats": { "hp": 60, "atk": 45, "def": 50, "sp_atk": 90, "sp_def": 80, "speed": 70 },
+    "ability": "compound_eyes",
+    "catch_rate": 45,
+    "base_exp_yield": 178,
+    "levelup_moves": [
+      {"level": 1,  "move": "confusion"},
+      {"level": 12, "move": "poison_powder"},
+      {"level": 12, "move": "sleep_powder"},
+      {"level": 18, "move": "gust"},
+      {"level": 24, "move": "psybeam"}
+    ],
+    "evolutions": []
+  },
+  "013": {
+    "name": "Weedle",
+    "types": ["Bug", "Poison"],
+    "base_stats": { "hp": 40, "atk": 35, "def": 30, "sp_atk": 20, "sp_def": 20, "speed": 50 },
+    "ability": "shield_dust",
+    "catch_rate": 255,
+    "base_exp_yield": 39,
+    "levelup_moves": [
+      {"level": 1,  "move": "poison_sting"},
+      {"level": 1,  "move": "string_shot"}
+    ],
+    "evolutions": [{"method": "level", "level": 7, "into": "014"}]
+  },
+  "014": {
+    "name": "Kakuna",
+    "types": ["Bug", "Poison"],
+    "base_stats": { "hp": 45, "atk": 25, "def": 50, "sp_atk": 25, "sp_def": 25, "speed": 35 },
+    "ability": "shed_skin",
+    "catch_rate": 120,
+    "base_exp_yield": 72,
+    "levelup_moves": [
+      {"level": 1,  "move": "harden"}
+    ],
+    "evolutions": [{"method": "level", "level": 10, "into": "015"}]
+  },
+  "015": {
+    "name": "Beedrill",
+    "types": ["Bug", "Poison"],
+    "base_stats": { "hp": 65, "atk": 90, "def": 40, "sp_atk": 45, "sp_def": 80, "speed": 75 },
+    "ability": "swarm",
+    "catch_rate": 45,
+    "base_exp_yield": 178,
+    "levelup_moves": [
+      {"level": 1,  "move": "fury_attack"},
+      {"level": 15, "move": "focus_energy"},
+      {"level": 20, "move": "poison_sting"},
+      {"level": 25, "move": "pin_missile"}
+    ],
+    "evolutions": []
+  },
+  "016": {
+    "name": "Pidgey",
+    "types": ["Normal", "Flying"],
+    "base_stats": { "hp": 40, "atk": 45, "def": 40, "sp_atk": 35, "sp_def": 35, "speed": 56 },
+    "ability": "keen_eye",
+    "catch_rate": 255,
+    "base_exp_yield": 50,
+    "levelup_moves": [
+      {"level": 1,  "move": "tackle"},
+      {"level": 5,  "move": "sand_attack"},
+      {"level": 9,  "move": "gust"},
+      {"level": 15, "move": "quick_attack"},
+      {"level": 21, "move": "wing_attack"}
+    ],
+    "evolutions": [{"method": "level", "level": 18, "into": "017"}]
+  },
+  "017": {
+    "name": "Pidgeotto",
+    "types": ["Normal", "Flying"],
+    "base_stats": { "hp": 63, "atk": 60, "def": 55, "sp_atk": 50, "sp_def": 50, "speed": 71 },
+    "ability": "keen_eye",
+    "catch_rate": 120,
+    "base_exp_yield": 122,
+    "levelup_moves": [
+      {"level": 1,  "move": "tackle"},
+      {"level": 5,  "move": "sand_attack"},
+      {"level": 9,  "move": "gust"},
+      {"level": 15, "move": "quick_attack"},
+      {"level": 21, "move": "wing_attack"}
+    ],
+    "evolutions": [{"method": "level", "level": 36, "into": "018"}]
+  },
+  "018": {
+    "name": "Pidgeot",
+    "types": ["Normal", "Flying"],
+    "base_stats": { "hp": 83, "atk": 80, "def": 75, "sp_atk": 70, "sp_def": 70, "speed": 101 },
+    "ability": "keen_eye",
+    "catch_rate": 45,
+    "base_exp_yield": 216,
+    "levelup_moves": [
+      {"level": 1,  "move": "tackle"},
+      {"level": 5,  "move": "sand_attack"},
+      {"level": 9,  "move": "gust"},
+      {"level": 15, "move": "quick_attack"},
+      {"level": 21, "move": "wing_attack"}
+    ],
+    "evolutions": []
+  },
+  "019": {
+    "name": "Rattata",
+    "types": ["Normal"],
+    "base_stats": { "hp": 30, "atk": 56, "def": 35, "sp_atk": 25, "sp_def": 35, "speed": 72 },
+    "ability": "run_away",
+    "catch_rate": 255,
+    "base_exp_yield": 51,
+    "levelup_moves": [
+      {"level": 1,  "move": "tackle"},
+      {"level": 1,  "move": "tail_whip"},
+      {"level": 7,  "move": "quick_attack"},
+      {"level": 13, "move": "bite"},
+      {"level": 20, "move": "focus_energy"},
+      {"level": 27, "move": "take_down"}
+    ],
+    "evolutions": [{"method": "level", "level": 20, "into": "020"}]
+  },
+  "020": {
+    "name": "Raticate",
+    "types": ["Normal"],
+    "base_stats": { "hp": 55, "atk": 81, "def": 60, "sp_atk": 50, "sp_def": 70, "speed": 97 },
+    "ability": "run_away",
+    "catch_rate": 127,
+    "base_exp_yield": 145,
+    "levelup_moves": [
+      {"level": 1,  "move": "tackle"},
+      {"level": 1,  "move": "tail_whip"},
+      {"level": 7,  "move": "quick_attack"},
+      {"level": 13, "move": "bite"},
+      {"level": 20, "move": "focus_energy"},
+      {"level": 27, "move": "take_down"}
+    ],
+    "evolutions": []
+  },
   "025": {
     "name": "Pikachu",
     "types": ["Electric"],
-    "base_stats": {
-      "hp": 35, "atk": 55, "def": 40, "sp_atk": 50, "sp_def": 50, "speed": 90
-    },
+    "base_stats": { "hp": 35, "atk": 55, "def": 40, "sp_atk": 50, "sp_def": 50, "speed": 90 },
     "ability": "static",
     "catch_rate": 190,
     "base_exp_yield": 112,
@@ -85,12 +356,90 @@
     ],
     "evolutions": [{"method": "item", "item": "thunder_stone", "into": "026"}]
   },
+  "041": {
+    "name": "Zubat",
+    "types": ["Poison", "Flying"],
+    "base_stats": { "hp": 40, "atk": 45, "def": 35, "sp_atk": 30, "sp_def": 40, "speed": 55 },
+    "ability": "inner_focus",
+    "catch_rate": 255,
+    "base_exp_yield": 49,
+    "levelup_moves": [
+      {"level": 1,  "move": "bite"},
+      {"level": 6,  "move": "supersonic"},
+      {"level": 11, "move": "poison_sting"},
+      {"level": 16, "move": "wing_attack"},
+      {"level": 21, "move": "confuse_ray"}
+    ],
+    "evolutions": [{"method": "level", "level": 22, "into": "042"}]
+  },
+  "042": {
+    "name": "Golbat",
+    "types": ["Poison", "Flying"],
+    "base_stats": { "hp": 75, "atk": 80, "def": 70, "sp_atk": 65, "sp_def": 75, "speed": 90 },
+    "ability": "inner_focus",
+    "catch_rate": 90,
+    "base_exp_yield": 159,
+    "levelup_moves": [
+      {"level": 1,  "move": "bite"},
+      {"level": 6,  "move": "supersonic"},
+      {"level": 11, "move": "poison_sting"},
+      {"level": 16, "move": "wing_attack"},
+      {"level": 21, "move": "confuse_ray"}
+    ],
+    "evolutions": []
+  },
+  "074": {
+    "name": "Geodude",
+    "types": ["Rock", "Ground"],
+    "base_stats": { "hp": 40, "atk": 80, "def": 100, "sp_atk": 30, "sp_def": 30, "speed": 20 },
+    "ability": "rock_head",
+    "catch_rate": 255,
+    "base_exp_yield": 60,
+    "levelup_moves": [
+      {"level": 1,  "move": "tackle"},
+      {"level": 6,  "move": "mud_slap"},
+      {"level": 11, "move": "rock_throw"},
+      {"level": 16, "move": "self_destruct"},
+      {"level": 21, "move": "rock_slide"}
+    ],
+    "evolutions": [{"method": "level", "level": 25, "into": "075"}]
+  },
+  "075": {
+    "name": "Graveler",
+    "types": ["Rock", "Ground"],
+    "base_stats": { "hp": 55, "atk": 95, "def": 115, "sp_atk": 45, "sp_def": 45, "speed": 35 },
+    "ability": "rock_head",
+    "catch_rate": 120,
+    "base_exp_yield": 137,
+    "levelup_moves": [
+      {"level": 1,  "move": "tackle"},
+      {"level": 6,  "move": "mud_slap"},
+      {"level": 11, "move": "rock_throw"},
+      {"level": 16, "move": "self_destruct"},
+      {"level": 21, "move": "rock_slide"}
+    ],
+    "evolutions": []
+  },
+  "095": {
+    "name": "Onix",
+    "types": ["Rock", "Ground"],
+    "base_stats": { "hp": 35, "atk": 45, "def": 160, "sp_atk": 30, "sp_def": 45, "speed": 70 },
+    "ability": "rock_head",
+    "catch_rate": 45,
+    "base_exp_yield": 77,
+    "levelup_moves": [
+      {"level": 1,  "move": "tackle"},
+      {"level": 1,  "move": "screech"},
+      {"level": 9,  "move": "rock_throw"},
+      {"level": 13, "move": "rock_slide"},
+      {"level": 21, "move": "slam"}
+    ],
+    "evolutions": []
+  },
   "133": {
     "name": "Eevee",
     "types": ["Normal"],
-    "base_stats": {
-      "hp": 55, "atk": 55, "def": 50, "sp_atk": 45, "sp_def": 65, "speed": 55
-    },
+    "base_stats": { "hp": 55, "atk": 55, "def": 50, "sp_atk": 45, "sp_def": 65, "speed": 55 },
     "ability": "run_away",
     "catch_rate": 45,
     "base_exp_yield": 92,
@@ -106,9 +455,9 @@
       {"level": 52, "move": "last_resort"}
     ],
     "evolutions": [
-      {"method": "item", "item": "fire_stone",   "into": "136"},
-      {"method": "item", "item": "water_stone",  "into": "134"},
-      {"method": "item", "item": "thunder_stone","into": "135"}
+      {"method": "item", "item": "fire_stone",    "into": "136"},
+      {"method": "item", "item": "water_stone",   "into": "134"},
+      {"method": "item", "item": "thunder_stone",  "into": "135"}
     ]
   }
 }

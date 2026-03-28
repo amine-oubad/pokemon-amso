@@ -6,5 +6,9 @@
   "jadielle_shop": {
     "name": "Marché de Jadielle",
     "items": ["potion", "super_potion", "poke_ball", "super_ball", "antidote", "paralyze_heal", "burn_heal", "awakening", "full_heal"]
+  },
+  "argenta_shop": {
+    "name": "Marché d'Argenta",
+    "items": ["super_potion", "hyper_potion", "super_ball", "hyper_ball", "antidote", "paralyze_heal", "burn_heal", "awakening", "ice_heal", "full_heal"]
   }
 }

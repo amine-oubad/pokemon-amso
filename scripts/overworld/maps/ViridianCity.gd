@@ -27,6 +27,8 @@ func _build_path() -> void:
 	_rect(Vector2(144, 0), Vector2(32, MAP_H), Color(0.60, 0.50, 0.33))
 	# Chemin est-ouest vers l'Arène
 	_rect(Vector2(100, 56), Vector2(120, 16), Color(0.60, 0.50, 0.33))
+	# Chemin est vers Route 2
+	_rect(Vector2(176, 96), Vector2(144, 32), Color(0.60, 0.50, 0.33))
 
 func _build_buildings() -> void:
 	# Centre Pokémon (rouge, gauche)
@@ -38,8 +40,10 @@ func _build_buildings() -> void:
 
 func _build_borders() -> void:
 	_wall(Vector2(-8.0, MAP_H * 0.5), Vector2(16.0, MAP_H + 16.0))
-	_wall(Vector2(MAP_W + 8.0, MAP_H * 0.5), Vector2(16.0, MAP_H + 16.0))
-	# Haut — mur complet (Arène est un bâtiment, pas une sortie)
+	# Droite — deux segments, trou pour sortie est vers Route 2 (y=96-128)
+	_wall(Vector2(MAP_W + 8.0, 44.0), Vector2(16.0, 88.0))
+	_wall(Vector2(MAP_W + 8.0, 176.0), Vector2(16.0, 128.0))
+	# Haut — mur complet
 	_wall(Vector2(MAP_W * 0.5, -8.0), Vector2(MAP_W + 16.0, 16.0))
 	# Bas — trou pour chemin sud (Route 1)
 	_wall(Vector2(72.0, MAP_H + 8.0), Vector2(144.0, 16.0))
@@ -56,6 +60,7 @@ func _build_npcs() -> void:
 func _build_signs() -> void:
 	_sign(Vector2(112.0, 208.0), "sign_jadielle_city")
 	_sign(Vector2(112.0, 64.0), "sign_gym_entry")
+	_sign(Vector2(288.0, 128.0), "sign_route2_entry")
 
 func _build_transitions() -> void:
 	# Sortie sud → Route 1
@@ -64,6 +69,9 @@ func _build_transitions() -> void:
 	# Entrée Arène → intérieur
 	_transition(Vector2(160.0, 60.0), Vector2(12.0, 8.0),
 		"res://scenes/overworld/maps/ViridianGym.tscn", Vector2(160.0, 208.0))
+	# Sortie est → Route 2
+	_transition(Vector2(MAP_W + 8.0, 112.0), Vector2(24.0, 32.0),
+		"res://scenes/overworld/maps/Route2.tscn", Vector2(160.0, 224.0))
 
 # ── Spawn joueur ─────────────────────────────────────────────────────────────────
 

@@ -6,8 +6,8 @@
     "dialogue_after": "route1_youngster_after",
     "reward_money": 150,
     "team": [
-      {"id": "025", "level": 4},
-      {"id": "133", "level": 4}
+      {"id": "019", "level": 4},
+      {"id": "016", "level": 4}
     ]
   },
   "route1_lass": {
@@ -17,7 +17,76 @@
     "dialogue_after": "route1_lass_after",
     "reward_money": 200,
     "team": [
-      {"id": "001", "level": 5}
+      {"id": "016", "level": 5}
+    ]
+  },
+  "route2_bug_catcher": {
+    "name": "Chasseur Luc",
+    "class": "Chasseur d'Insectes",
+    "dialogue_before": "route2_bug_before",
+    "dialogue_after": "route2_bug_after",
+    "reward_money": 180,
+    "team": [
+      {"id": "010", "level": 7},
+      {"id": "013", "level": 7}
+    ]
+  },
+  "route2_lass": {
+    "name": "Fillette Julie",
+    "class": "Fillette",
+    "dialogue_before": "route2_lass_before",
+    "dialogue_after": "route2_lass_after",
+    "reward_money": 250,
+    "team": [
+      {"id": "019", "level": 8},
+      {"id": "016", "level": 8}
+    ]
+  },
+  "forest_bug1": {
+    "name": "Chasseur Max",
+    "class": "Chasseur d'Insectes",
+    "dialogue_before": "forest_bug1_before",
+    "dialogue_after": "forest_bug1_after",
+    "reward_money": 200,
+    "team": [
+      {"id": "010", "level": 8},
+      {"id": "010", "level": 8},
+      {"id": "011", "level": 9}
+    ]
+  },
+  "forest_bug2": {
+    "name": "Chasseur Paul",
+    "class": "Chasseur d'Insectes",
+    "dialogue_before": "forest_bug2_before",
+    "dialogue_after": "forest_bug2_after",
+    "reward_money": 220,
+    "team": [
+      {"id": "013", "level": 9},
+      {"id": "014", "level": 9}
+    ]
+  },
+  "forest_bug3": {
+    "name": "Chasseur Rico",
+    "class": "Chasseur d'Insectes",
+    "dialogue_before": "forest_bug3_before",
+    "dialogue_after": "forest_bug3_after",
+    "reward_money": 250,
+    "team": [
+      {"id": "011", "level": 9},
+      {"id": "014", "level": 9},
+      {"id": "010", "level": 10}
+    ]
+  },
+  "rival_argenta": {
+    "name": "Rival Bleu",
+    "class": "Rival",
+    "dialogue_before": "rival_before",
+    "dialogue_after": "rival_after",
+    "reward_money": 800,
+    "team": [
+      {"id": "016", "level": 12},
+      {"id": "019", "level": 12},
+      {"id": "133", "level": 14}
     ]
   },
   "gym_trainer_1": {
@@ -44,6 +113,43 @@
       {"id": "133", "level": 10},
       {"id": "004", "level": 12},
       {"id": "007", "level": 14}
+    ]
+  },
+  "argenta_trainer_1": {
+    "name": "Randonneur Hugo",
+    "class": "Randonneur",
+    "dialogue_before": "argenta_t1_before",
+    "dialogue_after": "argenta_t1_after",
+    "reward_money": 350,
+    "team": [
+      {"id": "074", "level": 12},
+      {"id": "074", "level": 13}
+    ]
+  },
+  "argenta_trainer_2": {
+    "name": "Randonneur Marc",
+    "class": "Randonneur",
+    "dialogue_before": "argenta_t2_before",
+    "dialogue_after": "argenta_t2_after",
+    "reward_money": 400,
+    "team": [
+      {"id": "041", "level": 13},
+      {"id": "074", "level": 14}
+    ]
+  },
+  "gym_leader_flora": {
+    "name": "Flora",
+    "class": "Championne",
+    "dialogue_before": "flora_before",
+    "dialogue_after": "flora_after",
+    "reward_money": 2100,
+    "is_gym_leader": true,
+    "gym_id": "argenta_gym",
+    "badge_id": "cascade_badge",
+    "team": [
+      {"id": "074", "level": 14},
+      {"id": "095", "level": 15},
+      {"id": "075", "level": 17}
     ]
   }
 }

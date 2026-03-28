@@ -8,5 +8,15 @@
     "trainers": ["gym_trainer_1"],
     "required_badge": null,
     "hm_unlock": "cut"
+  },
+  "argenta_gym": {
+    "name": "Arène d'Argenta",
+    "city": "Argenta City",
+    "badge_id": "cascade_badge",
+    "badge_name": "Badge Cascade",
+    "leader_id": "gym_leader_flora",
+    "trainers": ["argenta_trainer_1", "argenta_trainer_2"],
+    "required_badge": "boulder_badge",
+    "hm_unlock": "flash"
   }
 }
