@@ -9,23 +9,8 @@
     "La Route 1 mène vers Jadielle au nord.",
     "Méfiez-vous des Pokémon sauvages dans les hautes herbes !"
   ],
-  "sign_pallet_town": [
-    "BOURG-PALETTE\nUne ville tranquille nichée dans la nature."
-  ],
-  "sign_route1_entry": [
-    "ROUTE 1 — Jadielle City ↑"
-  ],
-  "route1_trainer": [
-    "Hé, toi ! Tu explores la Route 1 ?",
-    "Les hautes herbes abritent des Pokémon sauvages.",
-    "Entraîne-toi bien avant d'affronter les Arènes !"
-  ],
-  "sign_route1_grass": [
-    "ROUTE 1\nPokémon sauvages dans les hautes herbes !"
-  ],
-  "sign_jadielle": [
-    "JADIELLE CITY\nLa ville de l'Arène Pokémon !"
-  ],
+  "sign_pallet_town": ["BOURG-PALETTE\nUne ville tranquille nichée dans la nature."],
+  "sign_route1_entry": ["ROUTE 1 — Jadielle City ↑"],
 
   "prof_oak_intro": [
     "Bienvenue dans le monde des Pokémon !",
@@ -38,53 +23,39 @@
     "Rends-toi à Jadielle City au nord pour défier l'Arène !"
   ],
 
-  "route1_youngster_before": [
-    "Tu es un nouveau Dresseur, pas vrai ?",
-    "Montre-moi ce que tu vaux !"
+  "route1_trainer": [
+    "Hé, toi ! Tu explores la Route 1 ?",
+    "Les hautes herbes abritent des Pokémon sauvages.",
+    "Entraîne-toi bien avant d'affronter les Arènes !"
   ],
-  "route1_youngster_after": [
-    "Ouah, tu es fort !",
-    "Continue comme ça et tu deviendras Champion !"
-  ],
-  "route1_lass_before": [
-    "Mon Pokémon est le plus mignon !",
-    "Tu veux te battre ?"
-  ],
-  "route1_lass_after": [
-    "Oh non, mon pauvre Pokémon...",
-    "Tu devrais aller défier l'Arène de Jadielle !"
-  ],
+  "route1_youngster_before": ["Tu es un nouveau Dresseur, pas vrai ?", "Montre-moi ce que tu vaux !"],
+  "route1_youngster_after": ["Ouah, tu es fort !", "Continue comme ça et tu deviendras Champion !"],
+  "route1_lass_before": ["Mon Pokémon est le plus mignon !", "Tu veux te battre ?"],
+  "route1_lass_after": ["Oh non, mon pauvre Pokémon...", "Tu devrais aller défier l'Arène de Jadielle !"],
+  "sign_route1_grass": ["ROUTE 1\nPokémon sauvages dans les hautes herbes !"],
+  "sign_jadielle": ["JADIELLE CITY\nLa ville de l'Arène Pokémon !"],
 
   "guide_jadielle": [
     "Bienvenue à Jadielle City !",
     "L'Arène Pokémon se trouve au nord de la ville.",
-    "Le Champion Pierre est redoutable !"
+    "La Route 2 part vers l'est, menant à la Forêt de Jade."
   ],
   "jadielle_nurse": [
     "Bienvenue au Centre Pokémon de Jadielle !",
     "Je vais soigner vos Pokémon...",
     "Voilà, vos Pokémon sont en pleine forme !"
   ],
-  "sign_jadielle_city": [
-    "JADIELLE CITY\nLa ville au pied des montagnes."
-  ],
-  "sign_gym_entry": [
-    "ARÈNE POKÉMON DE JADIELLE\nChampion : Pierre"
-  ],
+  "sign_jadielle_city": ["JADIELLE CITY\nLa ville au pied des montagnes."],
+  "sign_gym_entry": ["ARÈNE POKÉMON DE JADIELLE\nChampion : Pierre"],
+  "sign_route2_entry": ["ROUTE 2 — Forêt de Jade →"],
 
   "gym_guide": [
     "Bienvenue à l'Arène de Jadielle !",
     "Le Champion Pierre utilise des Pokémon variés.",
     "Bats les Dresseurs de l'Arène avant de le défier !"
   ],
-  "gym_trainer_1_before": [
-    "Tu oses défier notre Arène ?",
-    "Je vais te tester !"
-  ],
-  "gym_trainer_1_after": [
-    "Pas mal du tout...",
-    "Mais Pierre est bien plus fort que moi !"
-  ],
+  "gym_trainer_1_before": ["Tu oses défier notre Arène ?", "Je vais te tester !"],
+  "gym_trainer_1_after": ["Pas mal du tout...", "Mais Pierre est bien plus fort que moi !"],
   "gym_leader_before": [
     "Je suis Pierre, Champion de l'Arène de Jadielle !",
     "Montre-moi la force du lien avec tes Pokémon !",
@@ -97,12 +68,66 @@
     "Continue ton voyage, Dresseur !"
   ],
 
-  "hm_block_cut": [
-    "Un petit arbre bloque le chemin...",
-    "Il faudrait la CS Coupe pour le couper."
+  "hm_block_cut": ["Un petit arbre bloque le chemin...", "Il faudrait la CS Coupe pour le couper."],
+  "hm_block_cut_ok": ["Vous utilisez Coupe !", "L'arbre a été coupé !"],
+
+  "route2_bug_before": ["J'adore les Pokémon Insecte !", "Tu vas voir comme ils sont forts !"],
+  "route2_bug_after": ["Mes insectes... Non !", "Va dans la forêt, tu y trouveras plein de Pokémon !"],
+  "route2_lass_before": ["La Forêt de Jade est pleine de surprises !", "Battons-nous d'abord !"],
+  "route2_lass_after": ["Bien joué !", "Fais attention aux dresseurs dans la forêt !"],
+  "sign_route2_south": ["ROUTE 2\n↓ Jadielle City"],
+  "sign_route2_north": ["ROUTE 2\n↑ Forêt de Jade"],
+
+  "forest_bug1_before": ["La forêt est mon terrain !", "Mes insectes vont te surprendre !"],
+  "forest_bug1_after": ["Comment... mes Chenipan...", "Tu es vraiment fort."],
+  "forest_bug2_before": ["Aspicot et Coconfort sont invincibles !", "En garde !"],
+  "forest_bug2_after": ["Je n'y crois pas...", "Passe à travers, Dresseur."],
+  "forest_bug3_before": ["Je suis le meilleur Chasseur de cette forêt !", "Prouve que tu mérites de passer !"],
+  "forest_bug3_after": ["Tu as gagné... La sortie est au nord.", "Argenta City t'attend !"],
+  "sign_forest_south": ["FORÊT DE JADE\n↓ Route 2"],
+  "sign_forest_north": ["FORÊT DE JADE\n↑ Argenta City"],
+
+  "rival_before": [
+    "Tiens, tiens... On se retrouve !",
+    "Je suis Bleu, et je serai le meilleur Dresseur !",
+    "Voyons si tu es à la hauteur !"
   ],
-  "hm_block_cut_ok": [
-    "Vous utilisez Coupe !",
-    "L'arbre a été coupé !"
+  "rival_after": [
+    "Grr... Tu as eu de la chance !",
+    "La prochaine fois, je ne perdrai pas !",
+    "On se reverra, compte là-dessus !"
+  ],
+
+  "guide_argenta": [
+    "Bienvenue à Argenta City !",
+    "L'Arène d'Argenta est spécialisée dans le type Roche.",
+    "La Championne Flora est une experte !"
+  ],
+  "argenta_nurse": [
+    "Bienvenue au Centre Pokémon d'Argenta !",
+    "Je vais soigner vos Pokémon...",
+    "Voilà, vos Pokémon sont en pleine forme !"
+  ],
+  "sign_argenta_city": ["ARGENTA CITY\nLa ville de pierre."],
+  "sign_argenta_gym": ["ARÈNE D'ARGENTA\nChampionne : Flora — Type Roche"],
+
+  "argenta_gym_guide": [
+    "Bienvenue à l'Arène d'Argenta !",
+    "Flora utilise des Pokémon de type Roche.",
+    "Les attaques Eau, Plante et Combat sont efficaces !"
+  ],
+  "argenta_t1_before": ["Les Racaillou sont mes partenaires !", "Tu ne passeras pas !"],
+  "argenta_t1_after": ["Mes Racaillou...", "Flora va te donner du fil à retordre !"],
+  "argenta_t2_before": ["J'ai exploré les grottes pour trouver ces Pokémon !", "En garde !"],
+  "argenta_t2_after": ["Impressionnant...", "Mais Flora est bien plus forte que nous !"],
+  "flora_before": [
+    "Je suis Flora, Championne de l'Arène d'Argenta !",
+    "Les Pokémon Roche sont solides comme la montagne !",
+    "Montre-moi ta détermination !"
+  ],
+  "flora_after": [
+    "Tu as brisé ma défense de roche...",
+    "Voici le Badge Cascade ! Tu l'as bien mérité !",
+    "Ce badge prouve ta force. Continue ton voyage !"
   ]
 }

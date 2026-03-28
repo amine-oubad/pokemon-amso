@@ -31,15 +31,15 @@ pokemon-amso/
 ├── scripts/
 │   ├── autoloads/          # Singletons globaux (EventBus, GameData, GameState)
 │   ├── overworld/          # Joueur, PNJ, Dresseurs, CS-blocks, rencontres
-│   │   └── maps/           # Scripts de chaque zone (PalletTown, Route1, ViridianCity, ViridianGym)
-│   ├── battle/             # Système de combat (wild + dresseurs multi-Pokémon)
+│   │   └── maps/           # 7 zones (PalletTown, Route1/2, Jadielle, Forêt, Argenta, Gyms)
+│   ├── battle/             # Combat complet (wild, dresseurs, XP, level-up, évolution)
 │   ├── data/               # PokemonInstance, MoveInstance
 │   ├── systems/            # SaveManager
 │   └── ui/                 # ShopMenu, StarterSelect
 ├── scenes/
 │   ├── overworld/
 │   │   ├── entities/       # Player.tscn
-│   │   └── maps/           # PalletTown, Route1, ViridianCity, ViridianGym
+│   │   └── maps/           # Toutes les maps du jeu
 │   └── battle/             # BattleScene.tscn
 ├── data/                   # JSON éditables (pokemon, moves, trainers, gyms, type_chart...)
 └── assets/                 # Sprites, tilesets, audio (à venir)
@@ -54,7 +54,7 @@ pokemon-amso/
 | 2 | Combat complet (capture, statuts, items) | ✅ |
 | 3 | Overworld vivant (PNJ, dialogues, zones) | ✅ |
 | 4 | Progression (badges, Arènes, CS) | ✅ |
-| 5 | Contenu complet | ⬜ |
+| 5 | Contenu complet | ✅ |
 | 6 | Polish & release | ⬜ |
 
 ## Données Pokémon

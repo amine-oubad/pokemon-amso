@@ -1,0 +1,18 @@
+{
+  "forest_01": [
+    {"id": "010", "level_min": 4, "level_max": 7, "weight": 30},
+    {"id": "013", "level_min": 4, "level_max": 7, "weight": 30},
+    {"id": "016", "level_min": 4, "level_max": 6, "weight": 15},
+    {"id": "025", "level_min": 3, "level_max": 5, "weight": 5},
+    {"id": "011", "level_min": 5, "level_max": 7, "weight": 10},
+    {"id": "014", "level_min": 5, "level_max": 7, "weight": 10}
+  ],
+  "forest_02": [
+    {"id": "010", "level_min": 5, "level_max": 8, "weight": 25},
+    {"id": "013", "level_min": 5, "level_max": 8, "weight": 25},
+    {"id": "041", "level_min": 6, "level_max": 9, "weight": 15},
+    {"id": "025", "level_min": 5, "level_max": 7, "weight": 5},
+    {"id": "011", "level_min": 7, "level_max": 9, "weight": 15},
+    {"id": "014", "level_min": 7, "level_max": 9, "weight": 15}
+  ]
+}
