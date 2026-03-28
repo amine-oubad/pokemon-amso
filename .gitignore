@@ -1,0 +1,31 @@
+# Godot — cache interne (régénéré automatiquement)
+.godot/
+*.import
+
+# Exports Godot
+export/
+*.exe
+*.apk
+*.pck
+*.zip
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Éditeurs
+.vscode/
+.idea/
+*.swp
+*~
+
+# Sauvegardes de partie (ne pas versionner)
+saves/
+
+# Données de test temporaires
+test_data/
+
+# Pipeline de données (fichiers intermédiaires)
+tools/csv_to_json/*.pyc
+tools/__pycache__/

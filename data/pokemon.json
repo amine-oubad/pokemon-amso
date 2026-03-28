@@ -1,0 +1,114 @@
+{
+  "001": {
+    "name": "Bulbasaur",
+    "types": ["Grass", "Poison"],
+    "base_stats": {
+      "hp": 45, "atk": 49, "def": 49, "sp_atk": 65, "sp_def": 65, "speed": 45
+    },
+    "ability": "overgrow",
+    "catch_rate": 45,
+    "base_exp_yield": 64,
+    "levelup_moves": [
+      {"level": 1,  "move": "tackle"},
+      {"level": 1,  "move": "growl"},
+      {"level": 7,  "move": "leech_seed"},
+      {"level": 13, "move": "vine_whip"},
+      {"level": 20, "move": "poison_powder"},
+      {"level": 29, "move": "razor_leaf"},
+      {"level": 41, "move": "growth"},
+      {"level": 53, "move": "solar_beam"}
+    ],
+    "evolutions": [{"method": "level", "level": 16, "into": "002"}]
+  },
+  "004": {
+    "name": "Charmander",
+    "types": ["Fire"],
+    "base_stats": {
+      "hp": 39, "atk": 52, "def": 43, "sp_atk": 60, "sp_def": 50, "speed": 65
+    },
+    "ability": "blaze",
+    "catch_rate": 45,
+    "base_exp_yield": 62,
+    "levelup_moves": [
+      {"level": 1,  "move": "scratch"},
+      {"level": 1,  "move": "growl"},
+      {"level": 9,  "move": "ember"},
+      {"level": 15, "move": "smokescreen"},
+      {"level": 22, "move": "dragon_rage"},
+      {"level": 30, "move": "slash"},
+      {"level": 38, "move": "flamethrower"},
+      {"level": 46, "move": "fire_spin"}
+    ],
+    "evolutions": [{"method": "level", "level": 16, "into": "005"}]
+  },
+  "007": {
+    "name": "Squirtle",
+    "types": ["Water"],
+    "base_stats": {
+      "hp": 44, "atk": 48, "def": 65, "sp_atk": 50, "sp_def": 64, "speed": 43
+    },
+    "ability": "torrent",
+    "catch_rate": 45,
+    "base_exp_yield": 63,
+    "levelup_moves": [
+      {"level": 1,  "move": "tackle"},
+      {"level": 1,  "move": "tail_whip"},
+      {"level": 7,  "move": "bubble"},
+      {"level": 13, "move": "withdraw"},
+      {"level": 20, "move": "water_gun"},
+      {"level": 27, "move": "bite"},
+      {"level": 34, "move": "rapid_spin"},
+      {"level": 40, "move": "protect"},
+      {"level": 47, "move": "rain_dance"},
+      {"level": 54, "move": "hydro_pump"}
+    ],
+    "evolutions": [{"method": "level", "level": 16, "into": "008"}]
+  },
+  "025": {
+    "name": "Pikachu",
+    "types": ["Electric"],
+    "base_stats": {
+      "hp": 35, "atk": 55, "def": 40, "sp_atk": 50, "sp_def": 50, "speed": 90
+    },
+    "ability": "static",
+    "catch_rate": 190,
+    "base_exp_yield": 112,
+    "levelup_moves": [
+      {"level": 1,  "move": "thunder_shock"},
+      {"level": 1,  "move": "growl"},
+      {"level": 9,  "move": "tail_whip"},
+      {"level": 16, "move": "thunder_wave"},
+      {"level": 26, "move": "quick_attack"},
+      {"level": 33, "move": "double_team"},
+      {"level": 41, "move": "slam"},
+      {"level": 50, "move": "thunderbolt"}
+    ],
+    "evolutions": [{"method": "item", "item": "thunder_stone", "into": "026"}]
+  },
+  "133": {
+    "name": "Eevee",
+    "types": ["Normal"],
+    "base_stats": {
+      "hp": 55, "atk": 55, "def": 50, "sp_atk": 45, "sp_def": 65, "speed": 55
+    },
+    "ability": "run_away",
+    "catch_rate": 45,
+    "base_exp_yield": 92,
+    "levelup_moves": [
+      {"level": 1,  "move": "tackle"},
+      {"level": 1,  "move": "tail_whip"},
+      {"level": 8,  "move": "sand_attack"},
+      {"level": 16, "move": "growl"},
+      {"level": 23, "move": "quick_attack"},
+      {"level": 30, "move": "bite"},
+      {"level": 36, "move": "baton_pass"},
+      {"level": 42, "move": "take_down"},
+      {"level": 52, "move": "last_resort"}
+    ],
+    "evolutions": [
+      {"method": "item", "item": "fire_stone",   "into": "136"},
+      {"method": "item", "item": "water_stone",  "into": "134"},
+      {"method": "item", "item": "thunder_stone","into": "135"}
+    ]
+  }
+}
