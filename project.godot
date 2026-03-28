@@ -21,6 +21,8 @@ StarterSelect="*res://scripts/ui/StarterSelect.gd"
 OverworldHUD="*res://scripts/ui/OverworldHUD.gd"
 PauseMenu="*res://scripts/ui/PauseMenu.gd"
 PCBoxScreen="*res://scripts/ui/PCBoxScreen.gd"
+TitleScreen="*res://scripts/ui/TitleScreen.gd"
+GameOverScreen="*res://scripts/ui/GameOverScreen.gd"
 
 [display]
 

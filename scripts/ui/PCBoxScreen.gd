@@ -71,7 +71,7 @@ func _move_cursor(dir: int) -> void:
 	if _cursor_panel == 0:
 		_cursor_team = clamp(_cursor_team + dir, 0, max(0, GameState.team.size() - 1))
 	else:
-		var max_idx := max(0, GameState.pc_storage.size() - 1 + BOX_COLS * BOX_ROWS - GameState.pc_storage.size())
+		var max_idx := max(0, GameState.pc_boxes.size() - 1 + BOX_COLS * BOX_ROWS - GameState.pc_boxes.size())
 		_cursor_box = clamp(_cursor_box + dir * BOX_COLS, 0, BOX_COLS * BOX_ROWS - 1)
 	_refresh()
 
@@ -84,20 +84,20 @@ func _try_move_pokemon() -> void:
 			return
 		var poke = GameState.team[_cursor_team]
 		GameState.team.remove_at(_cursor_team)
-		GameState.pc_storage.append(poke)
+		GameState.pc_boxes.append(poke)
 		_cursor_team = clamp(_cursor_team, 0, max(0, GameState.team.size() - 1))
 	else:
 		# Retirer de la boîte vers l'équipe
-		if _cursor_box >= GameState.pc_storage.size():
+		if _cursor_box >= GameState.pc_boxes.size():
 			_set_info("Case vide.")
 			return
 		if GameState.team.size() >= 6:
 			_set_info("Équipe pleine !")
 			return
-		var poke = GameState.pc_storage[_cursor_box]
-		GameState.pc_storage.remove_at(_cursor_box)
+		var poke = GameState.pc_boxes[_cursor_box]
+		GameState.pc_boxes.remove_at(_cursor_box)
 		GameState.team.append(poke)
-		_cursor_box = clamp(_cursor_box, 0, max(0, GameState.pc_storage.size() - 1))
+		_cursor_box = clamp(_cursor_box, 0, max(0, GameState.pc_boxes.size() - 1))
 	_refresh()
 
 func _set_info(msg: String) -> void:
@@ -211,8 +211,8 @@ func _refresh() -> void:
 	for idx in BOX_COLS * BOX_ROWS:
 		var cell  := _box_cells[idx]
 		var lbl: Label = cell.get_child(0)
-		if idx < GameState.pc_storage.size():
-			var poke  = GameState.pc_storage[idx]
+		if idx < GameState.pc_boxes.size():
+			var poke  = GameState.pc_boxes[idx]
 			var pdata: Dictionary = GameData.pokemon_data.get(poke.id, {})
 			lbl.text = pdata.get("name", poke.id).substr(0, 6)
 			if _cursor_panel == 1 and idx == _cursor_box:

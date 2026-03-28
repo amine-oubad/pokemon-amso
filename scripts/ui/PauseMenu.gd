@@ -23,6 +23,7 @@ func _ready() -> void:
 
 func _unhandled_input(event: InputEvent) -> void:
 	if _in_battle: return
+	if TitleScreen.is_active(): return
 	if DialogueManager.is_active(): return
 	if ShopMenu.is_active(): return
 

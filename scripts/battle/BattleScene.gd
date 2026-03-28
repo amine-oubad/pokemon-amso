@@ -19,6 +19,7 @@ var _animating: bool       = false
 var _forced_switch: bool   = false  # true = KO forcé, pas de tour ennemi après
 var _fled: bool            = false
 var _flee_attempts: int    = 0
+var _cancel_learn_btn: Button = null
 var _is_trainer_battle: bool = false
 
 # ── Trainer battle data ───────────────────────────────────────────────────────
@@ -345,7 +346,7 @@ func _do_enemy_move() -> void:
 		_set_state(State.CHECK_END)
 		return
 
-	var move: MoveInstance = usable[randi() % usable.size()]
+	var move: MoveInstance = _ai_pick_move(usable)
 	move.use()
 
 	if not BattleCalc.accuracy_check(move, enemy_pkmn, player_pkmn):
@@ -520,9 +521,37 @@ func _show_move_replace_menu(new_move_id: String) -> void:
 			btn.pressed.connect(func() -> void: _on_replace_move(idx, mid))
 		else:
 			btn.visible = false
+
+	# Bouton "Ne pas apprendre" (utiliser le 4e slot s'il est caché, sinon ajouter temporaire)
+	if _cancel_learn_btn == null:
+		_cancel_learn_btn = Button.new()
+		_cancel_learn_btn.position = Vector2(80, 60)
+		_cancel_learn_btn.size     = Vector2(156, 16)
+		_cancel_learn_btn.add_theme_font_size_override("font_size", 8)
+		_move_menu.add_child(_cancel_learn_btn)
+	_cancel_learn_btn.text    = "✕ Ne pas apprendre"
+	_cancel_learn_btn.visible = true
+	for conn in _cancel_learn_btn.pressed.get_connections():
+		_cancel_learn_btn.pressed.disconnect(conn.callable)
+	var mid := new_move_id
+	_cancel_learn_btn.pressed.connect(func() -> void: _on_skip_learn(mid))
+
 	_msg("Oublier quelle capacité\npour %s ?" % new_name)
 
+func _on_skip_learn(new_move_id: String) -> void:
+	_move_menu.visible = false
+	if _cancel_learn_btn: _cancel_learn_btn.visible = false
+	var mdata: Dictionary = GameData.moves_data.get(new_move_id, {})
+	var new_name: String = mdata.get("name", new_move_id)
+	_msg("%s n'apprend pas %s." % [player_pkmn.get_name(), new_name])
+	_reconnect_move_buttons()
+	_animating = true
+	await get_tree().create_timer(1.5).timeout
+	_animating = false
+	_advance_post_xp()
+
 func _on_replace_move(idx: int, new_move_id: String) -> void:
+	if _cancel_learn_btn: _cancel_learn_btn.visible = false
 	_move_menu.visible = false
 	var old_name := player_pkmn.moves[idx].get_name()
 	var mdata: Dictionary = GameData.moves_data.get(new_move_id, {})
@@ -554,8 +583,23 @@ func _show_evolution() -> void:
 	var target_data: Dictionary = GameData.pokemon_data.get(target_id, {})
 	var new_name: String = target_data.get("name", target_id)
 
-	_msg("Hein !? %s évolue !" % old_name)
-	await get_tree().create_timer(2.5).timeout
+	_msg("Hein !? %s évolue !\n(X pour annuler)" % old_name)
+
+	# Fenêtre d'annulation de 3 secondes
+	var cancelled := false
+	var timer := 0.0
+	while timer < 3.0:
+		await get_tree().process_frame
+		timer += get_process_delta_time()
+		if Input.is_action_just_pressed("ui_cancel"):
+			cancelled = true
+			break
+
+	if cancelled:
+		_msg("%s n'évolue pas !" % old_name)
+		await get_tree().create_timer(1.5).timeout
+		_go_to_next_or_end()
+		return
 
 	player_pkmn.evolve(target_id)
 	_refresh_ui()
@@ -579,6 +623,11 @@ func _trainer_send_next() -> void:
 func _finish() -> void:
 	var result := "flee" if _fled else ("win" if not player_pkmn.is_fainted() else "lose")
 	player_pkmn.reset_stat_stages()
+
+	# Défaite — afficher l'écran Game Over
+	if result == "lose":
+		GameOverScreen.show_game_over()
+		return
 
 	# Récompenses dresseur
 	if _is_trainer_battle and result == "win":
@@ -606,6 +655,38 @@ func _finish() -> void:
 	GameState.pending_battle = {}
 	EventBus.battle_ended.emit(result)
 	get_tree().change_scene_to_file(GameState.return_to_scene)
+
+# ── IA ennemie ────────────────────────────────────────────────────────────────
+
+func _ai_pick_move(usable: Array) -> MoveInstance:
+	# Score chaque move : power × type_effectiveness × STAB × category_bonus
+	# 20% de chance de choisir au hasard (pour varier)
+	if randf() < 0.2:
+		return usable[randi() % usable.size()]
+
+	var best_move: MoveInstance = usable[0]
+	var best_score: float = -1.0
+
+	for mv: MoveInstance in usable:
+		var power: int = mv.get_power()
+		if power == 0:
+			# Moves de statut : score faible sauf si l'adversaire n'a pas de statut
+			var score := 15.0 if player_pkmn.status == "" else 2.0
+			if score > best_score:
+				best_score = score
+				best_move = mv
+			continue
+
+		var move_type: String = mv.get_type()
+		var eff: float = GameData.get_total_effectiveness(move_type, player_pkmn.get_types())
+		var stab: float = 1.5 if move_type in enemy_pkmn.get_types() else 1.0
+		var score: float = power * eff * stab
+
+		if score > best_score:
+			best_score = score
+			best_move = mv
+
+	return best_move
 
 # ── Refresh UI ────────────────────────────────────────────────────────────────
 

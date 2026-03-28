@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<title>Pokémon AMSO — Phase 6 Demo</title>
+<title>Pokémon AMSO — Phase 7 Demo</title>
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body { background: #1a1a2e; color: #e0e0f0; font-family: 'Courier New', monospace; display: flex; flex-direction: column; align-items: center; min-height: 100vh; padding: 24px 16px; }
@@ -37,7 +37,7 @@ canvas { border: 3px solid #444466; image-rendering: pixelated; display: block; 
 </head>
 <body>
 <h1>POKEMON AMSO</h1>
-<p class="subtitle">Fan-game Godot 4 &middot; Demo interactive Phase 6</p>
+<p class="subtitle">Fan-game Godot 4 &middot; Demo interactive Phase 7</p>
 
 <div class="phase-badges">
   <span class="badge done">Phase 0 &mdash; Mouvement grille</span>
@@ -45,7 +45,8 @@ canvas { border: 3px solid #444466; image-rendering: pixelated; display: block; 
   <span class="badge done">Phase 2 &mdash; Systeme complet</span>
   <span class="badge done">Phase 3 &mdash; Overworld PNJ/Maps</span>
   <span class="badge done">Phase 4/5 &mdash; Dresseurs/Gyms/Evolution</span>
-  <span class="badge active">Phase 6 &mdash; HUD/Menus/Route3/Azuria</span>
+  <span class="badge done">Phase 6 &mdash; HUD/Menus/Route3/Azuria</span>
+  <span class="badge active">Phase 7 &mdash; TitleScreen/GameOver/IA/Polish</span>
 </div>
 
 <div class="layout">
@@ -689,9 +690,9 @@ document.addEventListener('keydown', e => {
 });
 
 // ─── Init ─────────────────────────────────────────────────────────────────────
-log('Pokemon AMSO Phase 6 chargee', 'ok');
-log('Phases 0-5 : mouvement, combats, gyms, evolutions', 'ok');
-log('Phase 6 : OverworldHUD, PauseMenu, PCBox, Route 3, Azuria', 'ok');
+log('Pokemon AMSO Phase 7 chargee', 'ok');
+log('Phases 0-6 : mouvement, combats, gyms, evolutions, HUD, menus', 'ok');
+log('Phase 7 : TitleScreen, GameOver, IA ennemie, effets moves', 'ok');
 log('──────────────────────────────────', 'info');
 log('Cliquez le canvas puis utilisez les touches.', 'info');
 

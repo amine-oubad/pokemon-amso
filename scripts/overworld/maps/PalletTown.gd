@@ -17,9 +17,13 @@ func _ready() -> void:
 	_spawn_player(Vector2(160.0, 208.0))
 	_connect_signals()
 	# Écran de sélection du starter si l'équipe est vide
+	# Attendre que le TitleScreen soit fermé
 	if GameState.team.is_empty():
+		while TitleScreen.is_active():
+			await get_tree().create_timer(0.1).timeout
 		await get_tree().create_timer(0.1).timeout
-		StarterSelect.show_selection()
+		if GameState.team.is_empty():
+			StarterSelect.show_selection()
 
 # ── Construction ────────────────────────────────────────────────────────────────
 

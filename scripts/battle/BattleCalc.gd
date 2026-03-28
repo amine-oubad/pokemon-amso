@@ -32,8 +32,9 @@ static func calculate_damage(
 	# damage = floor(floor(floor(2*level/5 + 2) * power * atk / def) / 50) + 2
 	var base: int = int(int(int(2.0 * attacker.level / 5.0 + 2.0) * power * atk_val / def_val) / 50.0) + 2
 
-	# Coup critique — taux de base Gen 3 : 6.25%
-	var is_crit := randf() < 0.0625
+	# Coup critique — taux de base 6.25%, high_crit moves → 25%
+	var crit_rate := 0.25 if move.get_effect() == "high_crit" else 0.0625
+	var is_crit := randf() < crit_rate
 	if is_crit:
 		base = int(base * 1.5)
 		result.critical = true

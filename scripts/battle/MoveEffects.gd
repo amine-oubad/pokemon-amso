@@ -54,9 +54,32 @@ static func apply_move_effect(
 		"raise_self_def":   return _change_stat(attacker, "def",    1)
 		"raise_self_spatk": return _change_stat(attacker, "sp_atk", 1)
 
-		# ── Effets spéciaux (Phase 3+) ────────────────────────────────────────
-		"flinch", "high_crit", "two_turn", "fixed_damage_40", "leech_seed":
-			return ""  # TODO Phase 3
+		# ── Flinch (empêche l'adversaire d'agir ce tour) ─────────────────────
+		"flinch":
+			defender.set_meta("flinch", true)
+			return ""
+
+		# ── High crit (taux critique élevé — géré dans BattleCalc) ────────
+		"high_crit":
+			return ""  # Déjà géré via move flag dans BattleCalc
+
+		# ── Dégâts fixes (ex: Dragon Rage = 40 HP) ───────────────────────
+		"fixed_damage_40":
+			defender.take_damage(40)
+			return "%s subit 40 points de dégâts fixes !" % defender.get_name()
+
+		# ── Vampigraine (drain 1/8 PV max par tour) ──────────────────────
+		"leech_seed":
+			if "Grass" in defender.get_types():
+				return "Ça n'affecte pas %s..." % defender.get_name()
+			if defender.has_meta("leech_seed"):
+				return "%s est déjà parasité !" % defender.get_name()
+			defender.set_meta("leech_seed", true)
+			return "%s est parasité !" % defender.get_name()
+
+		# ── Deux tours (placeholder — exécution en un tour pour l'instant) ─
+		"two_turn":
+			return ""
 
 	return ""
 
@@ -65,6 +88,11 @@ static func apply_move_effect(
 ## Vérifie si un Pokémon peut agir ce tour.
 ## Retourne { can_move: bool, message: String }
 static func check_can_move(pkmn: PokemonInstance) -> Dictionary:
+	# Flinch — empêche d'agir ce tour puis se reset
+	if pkmn.has_meta("flinch") and pkmn.get_meta("flinch"):
+		pkmn.set_meta("flinch", false)
+		return { "can_move": false, "message": "%s a tressailli !\nIl ne peut pas attaquer !" % pkmn.get_name() }
+
 	match pkmn.status:
 		"paralyze":
 			if randf() < 0.25:
@@ -104,6 +132,13 @@ static func apply_end_of_turn(pkmn: PokemonInstance) -> String:
 			var dmg := maxi(1, int(pkmn.max_hp * pkmn.status_turns / 16.0))
 			pkmn.take_damage(dmg)
 			return "%s souffre du poison violent !" % pkmn.get_name()
+
+	# Vampigraine (leech_seed) — drain 1/8 PV max
+	if pkmn.has_meta("leech_seed") and pkmn.get_meta("leech_seed"):
+		var seed_dmg := maxi(1, int(pkmn.max_hp / 8.0))
+		pkmn.take_damage(seed_dmg)
+		return "%s est drainé par Vampigraine !" % pkmn.get_name()
+
 	return ""
 
 # ── Helpers privés ─────────────────────────────────────────────────────────────
