@@ -156,7 +156,7 @@
     "name": "Gamin Loïc", "class": "Gamin",
     "dialogue_before": "route3_youngster_before", "dialogue_after": "route3_youngster_after",
     "reward_money": 320,
-    "team": [{"id": "019", "level": 14}, {"id": "039", "level": 13}]
+    "team": [{"id": "019", "level": 14}, {"id": "039", "level": 14}]
   },
   "route3_lass": {
     "name": "Fillette Chloé", "class": "Fillette",
@@ -260,7 +260,7 @@
     "name": "Botaniste Yuki", "class": "Botaniste",
     "dialogue_before": "celadopole_t2_before", "dialogue_after": "celadopole_t2_after",
     "reward_money": 750,
-    "team": [{"id": "044", "level": 31}, {"id": "029", "level": 30}]
+    "team": [{"id": "044", "level": 31}, {"id": "029", "level": 31}]
   },
   "gym_leader_erika": {
     "name": "Erika", "class": "Championne",
@@ -310,5 +310,130 @@
     "reward_money": 4400,
     "is_gym_leader": true, "gym_id": "safrania_gym", "badge_id": "marsh_badge",
     "team": [{"id": "064", "level": 36}, {"id": "093", "level": 37}, {"id": "065", "level": 39}]
+  },
+
+  "route7_juggler": {
+    "name": "Jongleur Kevin", "class": "Jongleur",
+    "dialogue_before": "route7_juggler_before", "dialogue_after": "route7_juggler_after",
+    "reward_money": 700,
+    "team": [{"id": "100", "level": 30}, {"id": "082", "level": 32}]
+  },
+  "route7_tamer": {
+    "name": "Dompteur Marc", "class": "Dompteur",
+    "dialogue_before": "route7_tamer_before", "dialogue_after": "route7_tamer_after",
+    "reward_money": 800,
+    "team": [{"id": "058", "level": 31}, {"id": "037", "level": 31}, {"id": "059", "level": 33}]
+  },
+  "rival_fuchsia": {
+    "name": "Bleu", "class": "Rival",
+    "dialogue_before": "rival_fuchsia_before", "dialogue_after": "rival_fuchsia_after",
+    "reward_money": 2400,
+    "team": [
+      {"id": "018", "level": 35}, {"id": "065", "level": 35},
+      {"id": "055", "level": 36}, {"id": "059", "level": 37}
+    ]
+  },
+  "fuchsia_trainer_1": {
+    "name": "Ninja Kenji", "class": "Ninja",
+    "dialogue_before": "fuchsia_t1_before", "dialogue_after": "fuchsia_t1_after",
+    "reward_money": 900,
+    "team": [{"id": "109", "level": 34}, {"id": "088", "level": 35}]
+  },
+  "fuchsia_trainer_2": {
+    "name": "Kunoichi Aya", "class": "Ninja",
+    "dialogue_before": "fuchsia_t2_before", "dialogue_after": "fuchsia_t2_after",
+    "reward_money": 900,
+    "team": [{"id": "048", "level": 33}, {"id": "072", "level": 34}, {"id": "049", "level": 35}]
+  },
+  "gym_leader_koga": {
+    "name": "Koga", "class": "Champion",
+    "dialogue_before": "koga_before", "dialogue_after": "koga_after",
+    "reward_money": 4600,
+    "is_gym_leader": true, "gym_id": "fuchsia_gym", "badge_id": "soul_badge",
+    "team": [
+      {"id": "109", "level": 37}, {"id": "088", "level": 38},
+      {"id": "049", "level": 39}, {"id": "110", "level": 41}
+    ]
+  },
+  "route8_hiker": {
+    "name": "Montagnard Denis", "class": "Montagnard",
+    "dialogue_before": "route8_hiker_before", "dialogue_after": "route8_hiker_after",
+    "reward_money": 750,
+    "team": [{"id": "075", "level": 33}, {"id": "095", "level": 35}]
+  },
+  "route8_swimmer": {
+    "name": "Nageur Thomas", "class": "Nageur",
+    "dialogue_before": "route8_swimmer_before", "dialogue_after": "route8_swimmer_after",
+    "reward_money": 700,
+    "team": [{"id": "072", "level": 32}, {"id": "086", "level": 33}, {"id": "073", "level": 35}]
+  },
+  "cramoisile_trainer_1": {
+    "name": "Scientifique Paul", "class": "Scientifique",
+    "dialogue_before": "cramoisile_t1_before", "dialogue_after": "cramoisile_t1_after",
+    "reward_money": 1000,
+    "team": [{"id": "126", "level": 37}, {"id": "058", "level": 37}]
+  },
+  "cramoisile_trainer_2": {
+    "name": "Kinésiste Sophie", "class": "Kinésiste",
+    "dialogue_before": "cramoisile_t2_before", "dialogue_after": "cramoisile_t2_after",
+    "reward_money": 1000,
+    "team": [{"id": "037", "level": 36}, {"id": "126", "level": 38}]
+  },
+  "gym_leader_blaine": {
+    "name": "Blaine", "class": "Champion",
+    "dialogue_before": "blaine_before", "dialogue_after": "blaine_after",
+    "reward_money": 5000,
+    "is_gym_leader": true, "gym_id": "cramoisile_gym", "badge_id": "volcano_badge",
+    "team": [
+      {"id": "058", "level": 40}, {"id": "078", "level": 40},
+      {"id": "126", "level": 42}, {"id": "059", "level": 44}
+    ]
+  },
+
+  "elite4_lorelei": {
+    "name": "Lorelei", "class": "Conseil 4",
+    "dialogue_before": "lorelei_before", "dialogue_after": "lorelei_after",
+    "reward_money": 5500,
+    "team": [
+      {"id": "087", "level": 52}, {"id": "080", "level": 52},
+      {"id": "073", "level": 53}, {"id": "087", "level": 54}
+    ]
+  },
+  "elite4_bruno": {
+    "name": "Bruno", "class": "Conseil 4",
+    "dialogue_before": "bruno_before", "dialogue_after": "bruno_after",
+    "reward_money": 5500,
+    "team": [
+      {"id": "095", "level": 53}, {"id": "067", "level": 53},
+      {"id": "075", "level": 54}, {"id": "067", "level": 56}
+    ]
+  },
+  "elite4_agatha": {
+    "name": "Agatha", "class": "Conseil 4",
+    "dialogue_before": "agatha_before", "dialogue_after": "agatha_after",
+    "reward_money": 5500,
+    "team": [
+      {"id": "094", "level": 54}, {"id": "042", "level": 54},
+      {"id": "089", "level": 55}, {"id": "094", "level": 56}
+    ]
+  },
+  "elite4_peter": {
+    "name": "Peter", "class": "Conseil 4",
+    "dialogue_before": "peter_before", "dialogue_after": "peter_after",
+    "reward_money": 5500,
+    "team": [
+      {"id": "078", "level": 56}, {"id": "059", "level": 56},
+      {"id": "018", "level": 57}, {"id": "006", "level": 58}
+    ]
+  },
+  "rival_champion": {
+    "name": "Bleu", "class": "Champion",
+    "dialogue_before": "rival_champion_before", "dialogue_after": "rival_champion_after",
+    "reward_money": 8000,
+    "team": [
+      {"id": "018", "level": 57}, {"id": "065", "level": 57},
+      {"id": "059", "level": 58}, {"id": "094", "level": 58},
+      {"id": "055", "level": 59}, {"id": "009", "level": 60}
+    ]
   }
 }

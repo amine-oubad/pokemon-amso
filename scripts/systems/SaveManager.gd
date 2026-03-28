@@ -12,7 +12,9 @@ func _ready() -> void:
 # ── API publique ───────────────────────────────────────────────────────────────
 
 func save(slot: int) -> bool:
-	assert(slot >= 0 and slot < NUM_SLOTS, "Slot invalide : %d" % slot)
+	if slot < 0 or slot >= NUM_SLOTS:
+		push_error("[SaveManager] Slot invalide : %d" % slot)
+		return false
 	var data := _build_save_data()
 	var path := _slot_path(slot)
 	var file := FileAccess.open(path, FileAccess.WRITE)
@@ -26,7 +28,9 @@ func save(slot: int) -> bool:
 	return true
 
 func load_slot(slot: int) -> bool:
-	assert(slot >= 0 and slot < NUM_SLOTS, "Slot invalide : %d" % slot)
+	if slot < 0 or slot >= NUM_SLOTS:
+		push_error("[SaveManager] Slot invalide : %d" % slot)
+		return false
 	var path := _slot_path(slot)
 	if not FileAccess.file_exists(path):
 		push_warning("[SaveManager] Slot %d vide." % slot)
@@ -92,6 +96,7 @@ func _build_save_data() -> Dictionary:
 		"pc_boxes":           pc_data,
 		"return_to_scene":    GameState.return_to_scene,
 		"spawn_position":     [GameState.pending_spawn_position.x, GameState.pending_spawn_position.y],
+		"repel_steps":        GameState.repel_steps,
 	}
 
 func _apply_save_data(d: Dictionary) -> void:
@@ -109,6 +114,7 @@ func _apply_save_data(d: Dictionary) -> void:
 	GameState.pc_boxes.clear()
 	for pd in d.get("pc_boxes", []):
 		GameState.pc_boxes.append(PokemonInstance.from_dict(pd))
+	GameState.repel_steps       = d.get("repel_steps", 0)
 	GameState.return_to_scene = d.get("return_to_scene", "res://scenes/overworld/maps/PalletTown.tscn")
 	var sp: Array = d.get("spawn_position", [0, 0])
 	if sp.size() >= 2:

@@ -38,13 +38,21 @@ func _physics_process(delta: float) -> void:
 	else:
 		_poll_input()
 
+func _is_any_menu_active() -> bool:
+	return (PauseMenu.is_active() or DialogueManager.is_active()
+		or ShopMenu.is_active() or PCBoxScreen.is_active()
+		or TitleScreen.is_active() or StarterSelect.is_active()
+		or PokemonSummary.is_active() or GameOverScreen.is_active())
+
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_cancel"):
-		if not TitleScreen.is_active() and not DialogueManager.is_active() and not ShopMenu.is_active() and not PCBoxScreen.is_active():
+		if not _is_any_menu_active():
 			PauseMenu.show_menu() if not PauseMenu.is_active() else PauseMenu.hide_menu()
 			get_viewport().set_input_as_handled()
 		return
 	if _moving:
+		return
+	if _is_any_menu_active():
 		return
 	if event.is_action_pressed("ui_accept"):
 		_try_interact()
@@ -52,6 +60,8 @@ func _unhandled_input(event: InputEvent) -> void:
 # ── Input ──────────────────────────────────────────────────────────────────────
 
 func _poll_input() -> void:
+	if _is_any_menu_active():
+		return
 	var dir_vec := _read_direction()
 	if dir_vec == Vector2.ZERO:
 		return
