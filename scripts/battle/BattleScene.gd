@@ -191,6 +191,11 @@ func _on_item_used(item_id: String) -> void:
 	match idata.get("category", ""):
 		"heal":
 			var healed := player_pkmn.heal(idata.get("heal_amount", 20))
+			# full_restore also cures status
+			var cures: Array = idata.get("cures", [])
+			if not cures.is_empty() and player_pkmn.status in cures:
+				player_pkmn.status = ""
+				player_pkmn.status_turns = 0
 			_refresh_ui()
 			_msg("%s utilise %s !\n%s récupère %d PV !" % [
 				GameState.player_name, idata.get("name", item_id),
@@ -199,6 +204,14 @@ func _on_item_used(item_id: String) -> void:
 			await get_tree().create_timer(1.8).timeout
 			_animating = false
 			_set_state(State.CHECK_END)
+
+		"revive":
+			# Revive can't be used on active pokemon in battle — refund
+			GameState.add_item(item_id)
+			_msg("Cet objet ne peut être\nutilisé qu'hors combat !")
+			await get_tree().create_timer(1.8).timeout
+			_animating = false
+			_set_state(State.PLAYER_CHOOSE)
 
 		"status_cure":
 			var cures: Array = idata.get("cures", [])
@@ -394,7 +407,7 @@ func _do_flee() -> void:
 	if p_spd >= e_spd:
 		success = true
 	else:
-		var chance := int(p_spd * 32.0 / e_spd + 30.0) * _flee_attempts % 256
+		var chance := (int(p_spd * 32.0 / maxi(1, e_spd) + 30.0) * _flee_attempts) % 256
 		success = randi() % 256 < chance
 	if success:
 		_fled = true
@@ -605,7 +618,6 @@ func _show_evolution() -> void:
 	_refresh_ui()
 	_msg("Félicitations !\n%s a évolué en %s !" % [old_name, new_name])
 	GameState.register_seen(target_id)
-	GameState.register_caught(target_id)
 	await get_tree().create_timer(3.0).timeout
 	_go_to_next_or_end()
 
@@ -745,7 +757,7 @@ func _populate_item_menu() -> void:
 		var idata := GameData.items_data.get(item_id, {})
 		if idata.is_empty(): continue
 		var cat: String = idata.get("category", "")
-		if cat not in ["heal", "ball", "status_cure"]: continue
+		if cat not in ["heal", "ball", "status_cure", "revive"]: continue
 		found = true
 		var btn := _make_btn(_item_menu, Vector2(2, y), Vector2(196, 18),
 			"%s   x%d" % [idata.get("name", item_id), GameState.bag[item_id]])

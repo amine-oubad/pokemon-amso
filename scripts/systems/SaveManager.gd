@@ -74,8 +74,11 @@ func _build_save_data() -> Dictionary:
 	var team_data: Array = []
 	for pkmn in GameState.team:
 		team_data.append(pkmn.to_dict())
+	var pc_data: Array = []
+	for pkmn in GameState.pc_boxes:
+		pc_data.append(pkmn.to_dict())
 	return {
-		"version":            1,
+		"version":            2,
 		"timestamp":          Time.get_unix_time_from_system(),
 		"player_name":        GameState.player_name,
 		"money":              GameState.money,
@@ -86,6 +89,9 @@ func _build_save_data() -> Dictionary:
 		"pokedex_seen":       GameState.pokedex_seen,
 		"pokedex_caught":     GameState.pokedex_caught,
 		"team":               team_data,
+		"pc_boxes":           pc_data,
+		"return_to_scene":    GameState.return_to_scene,
+		"spawn_position":     [GameState.pending_spawn_position.x, GameState.pending_spawn_position.y],
 	}
 
 func _apply_save_data(d: Dictionary) -> void:
@@ -100,6 +106,15 @@ func _apply_save_data(d: Dictionary) -> void:
 	GameState.team.clear()
 	for td in d.get("team", []):
 		GameState.team.append(PokemonInstance.from_dict(td))
+	GameState.pc_boxes.clear()
+	for pd in d.get("pc_boxes", []):
+		GameState.pc_boxes.append(PokemonInstance.from_dict(pd))
+	GameState.return_to_scene = d.get("return_to_scene", "res://scenes/overworld/maps/PalletTown.tscn")
+	var sp: Array = d.get("spawn_position", [0, 0])
+	if sp.size() >= 2:
+		GameState.pending_spawn_position = Vector2(sp[0], sp[1])
+	else:
+		GameState.pending_spawn_position = Vector2.ZERO
 
 func _slot_path(slot: int) -> String:
 	return SAVE_DIR + "slot_%d" % slot + SAVE_EXT

@@ -89,5 +89,41 @@
     "ball_bonus": 2.0,
     "price": 1200,
     "description": "Ball très efficace pour attraper des Pokémon."
+  },
+  "ultra_ball": {
+    "name": "Ultra Ball",
+    "category": "ball",
+    "ball_bonus": 2.5,
+    "price": 1800,
+    "description": "Ball de très haute performance pour attraper des Pokémon."
+  },
+  "full_restore": {
+    "name": "Guérison Totale",
+    "category": "heal",
+    "heal_amount": 9999,
+    "cures": ["burn", "paralyze", "sleep", "freeze", "poison", "bad_poison"],
+    "price": 3000,
+    "description": "Restaure tous les PV et guérit tout statut."
+  },
+  "revive": {
+    "name": "Rappel",
+    "category": "revive",
+    "heal_amount": 0,
+    "price": 1500,
+    "description": "Ranime un Pokémon K.O. et restaure la moitié de ses PV."
+  },
+  "repel": {
+    "name": "Repousse",
+    "category": "repel",
+    "steps": 100,
+    "price": 350,
+    "description": "Repousse les Pokémon sauvages faibles pendant un moment."
+  },
+  "max_repel": {
+    "name": "Max Repousse",
+    "category": "repel",
+    "steps": 250,
+    "price": 700,
+    "description": "Repousse les Pokémon sauvages faibles pendant longtemps."
   }
 }

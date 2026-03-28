@@ -37,6 +37,7 @@ var held_item: String  = ""
 var gender: String     = "M"
 
 var _base_data: Dictionary = {}
+var ivs: Dictionary = {}  # IVs individuels par stat
 
 # ── Constructeurs ─────────────────────────────────────────────────────────────
 
@@ -51,6 +52,7 @@ static func create(p_id: String, p_level: int) -> PokemonInstance:
 	inst.nickname = inst._base_data.get("name", p_id)
 	inst.ability  = inst._base_data.get("ability", "")
 	inst.exp      = inst._exp_for_level(inst.level)
+	inst._generate_ivs()
 	inst._calculate_stats()
 	inst._learn_levelup_moves()
 	return inst
@@ -125,8 +127,9 @@ func check_evolution() -> String:
 	var evolutions: Array = _base_data.get("evolutions", [])
 	for evo in evolutions:
 		if evo.get("method", "") == "level" and level >= evo.get("level", 999):
-			var target_id: String = evo.get("into", "")
-			if GameData.pokemon_data.has(target_id):
+			# Support both "into" and "target" keys for evolution target
+			var target_id: String = evo.get("into", evo.get("target", ""))
+			if target_id != "" and GameData.pokemon_data.has(target_id):
 				return target_id
 	return ""
 
@@ -141,18 +144,31 @@ func evolve(target_id: String) -> void:
 	if not had_custom_nickname:
 		nickname = _base_data.get("name", target_id)
 	_calculate_stats()
+	# Apprendre les moves de la forme évoluée au niveau courant
+	var levelup: Array = _base_data.get("levelup_moves", [])
+	for entry in levelup:
+		if entry.get("level", 99) <= level:
+			var move_id: String = entry.get("move", "")
+			if move_id != "" and not _has_move(move_id) and moves.size() < 4:
+				moves.append(MoveInstance.create(move_id))
 
 # ── Calcul des stats (formule Gen 3) ──────────────────────────────────────────
 
+func _generate_ivs() -> void:
+	if ivs.is_empty():
+		for s in ["hp", "atk", "def", "sp_atk", "sp_def", "speed"]:
+			ivs[s] = randi_range(0, 31)
+
 func _calculate_stats() -> void:
 	var base: Dictionary = _base_data.get("base_stats", {})
-	const IV := 15
 	var old_max := max_hp
-	max_hp = int((2 * base.get("hp", 45) + IV) * level / 100.0) + level + 10
+	var hp_iv: int = ivs.get("hp", 15)
+	max_hp = int((2 * base.get("hp", 45) + hp_iv) * level / 100.0) + level + 10
 	if old_max == 0:
 		current_hp = max_hp  # première initialisation
 	for s in ["atk", "def", "sp_atk", "sp_def", "speed"]:
-		stats[s] = int((2 * base.get(s, 50) + IV) * level / 100.0) + 5
+		var iv: int = ivs.get(s, 15)
+		stats[s] = int((2 * base.get(s, 50) + iv) * level / 100.0) + 5
 
 # ── Moves appris au niveau courant ────────────────────────────────────────────
 
@@ -238,11 +254,17 @@ func to_dict() -> Dictionary:
 		"current_hp": current_hp,
 		"status":     status,
 		"held_item":  held_item,
-		"moves":      move_dicts
+		"moves":      move_dicts,
+		"ivs":        ivs
 	}
 
 static func from_dict(d: Dictionary) -> PokemonInstance:
 	var inst := PokemonInstance.create(d.get("pokemon_id", "001"), d.get("level", 1))
+	# Restaurer les IVs sauvegardés (sinon garder ceux générés par create)
+	var saved_ivs: Dictionary = d.get("ivs", {})
+	if not saved_ivs.is_empty():
+		inst.ivs = saved_ivs
+		inst._calculate_stats()
 	inst.nickname   = d.get("nickname", inst.nickname)
 	inst.exp        = d.get("exp", 0)
 	inst.current_hp = d.get("current_hp", inst.max_hp)
