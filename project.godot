@@ -17,6 +17,7 @@ GameState="*res://scripts/autoloads/GameState.gd"
 SaveManager="*res://scripts/systems/SaveManager.gd"
 DialogueManager="*res://scripts/autoloads/DialogueManager.gd"
 ShopMenu="*res://scripts/ui/ShopMenu.gd"
+StarterSelect="*res://scripts/ui/StarterSelect.gd"
 
 [display]
 

@@ -75,26 +75,28 @@ func _build_save_data() -> Dictionary:
 	for pkmn in GameState.team:
 		team_data.append(pkmn.to_dict())
 	return {
-		"version":        1,
-		"timestamp":      Time.get_unix_time_from_system(),
-		"player_name":    GameState.player_name,
-		"money":          GameState.money,
-		"badges":         GameState.badges,
-		"flags":          GameState.flags,
-		"bag":            GameState.bag,
-		"pokedex_seen":   GameState.pokedex_seen,
-		"pokedex_caught": GameState.pokedex_caught,
-		"team":           team_data,
+		"version":            1,
+		"timestamp":          Time.get_unix_time_from_system(),
+		"player_name":        GameState.player_name,
+		"money":              GameState.money,
+		"badges":             GameState.badges,
+		"flags":              GameState.flags,
+		"bag":                GameState.bag,
+		"defeated_trainers":  GameState.defeated_trainers,
+		"pokedex_seen":       GameState.pokedex_seen,
+		"pokedex_caught":     GameState.pokedex_caught,
+		"team":               team_data,
 	}
 
 func _apply_save_data(d: Dictionary) -> void:
-	GameState.player_name    = d.get("player_name",    "RED")
-	GameState.money          = d.get("money",          3000)
-	GameState.badges         = d.get("badges",         [])
-	GameState.flags          = d.get("flags",          {})
-	GameState.bag            = d.get("bag",            {})
-	GameState.pokedex_seen   = d.get("pokedex_seen",   [])
-	GameState.pokedex_caught = d.get("pokedex_caught", [])
+	GameState.player_name       = d.get("player_name",       "RED")
+	GameState.money             = d.get("money",             3000)
+	GameState.badges            = d.get("badges",            [])
+	GameState.flags             = d.get("flags",             {})
+	GameState.bag               = d.get("bag",               {})
+	GameState.defeated_trainers = d.get("defeated_trainers", [])
+	GameState.pokedex_seen      = d.get("pokedex_seen",      [])
+	GameState.pokedex_caught    = d.get("pokedex_caught",    [])
 	GameState.team.clear()
 	for td in d.get("team", []):
 		GameState.team.append(PokemonInstance.from_dict(td))

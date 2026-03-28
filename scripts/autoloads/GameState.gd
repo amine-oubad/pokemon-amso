@@ -21,13 +21,16 @@ var badges: Array = []
 # ── Flags d'événements ─────────────────────────────────────────────────────────
 var flags: Dictionary = {}
 
+# ── Dresseurs vaincus ─────────────────────────────────────────────────────────
+var defeated_trainers: Array = []
+
 # ── Pokédex ────────────────────────────────────────────────────────────────────
 var pokedex_seen: Array = []
 var pokedex_caught: Array = []
 
 # ── Combat en attente ──────────────────────────────────────────────────────────
 ## Rempli par la map courante avant de charger BattleScene.
-## { "enemy_data": {...}, "is_trainer": false }
+## { "enemy_data": {...}, "is_trainer": false, "trainer_id": "", "trainer_team": [], "reward_money": 0 }
 var pending_battle: Dictionary = {}
 
 ## Scène overworld à reprendre après un combat.
@@ -39,9 +42,7 @@ var pending_spawn_position: Vector2 = Vector2.ZERO
 
 func _ready() -> void:
 	print("[GameState] Initialisé — joueur : " + player_name)
-	# Pokémon de départ pour les tests (remplacé par l'écran de choix en Phase 4)
-	if team.is_empty():
-		team.append(PokemonInstance.create("001", 5))  # Bulbasaur Lv.5
+	# L'équipe reste vide → l'écran de choix du starter s'affiche au lancement
 
 # ── Badges ─────────────────────────────────────────────────────────────────────
 
@@ -51,6 +52,29 @@ func has_badge(badge_id: String) -> bool:
 func add_badge(badge_id: String) -> void:
 	if not has_badge(badge_id):
 		badges.append(badge_id)
+		EventBus.badge_earned.emit(badge_id)
+
+# ── Dresseurs vaincus ─────────────────────────────────────────────────────────
+
+func is_trainer_defeated(trainer_id: String) -> bool:
+	return trainer_id in defeated_trainers
+
+func mark_trainer_defeated(trainer_id: String) -> void:
+	if not is_trainer_defeated(trainer_id):
+		defeated_trainers.append(trainer_id)
+
+# ── CS / HMs ──────────────────────────────────────────────────────────────────
+
+func can_use_hm(hm_id: String) -> bool:
+	var required_badges := {
+		"cut": "boulder_badge",
+		"flash": "boulder_badge",
+		"surf": "cascade_badge",
+		"strength": "rainbow_badge",
+		"fly": "thunder_badge",
+	}
+	var badge: String = required_badges.get(hm_id, "")
+	return badge == "" or has_badge(badge)
 
 # ── Inventaire ─────────────────────────────────────────────────────────────────
 

@@ -11,8 +11,10 @@ signal dialogue_finished
 
 # ── Combat ─────────────────────────────────────────────────────────────────────
 signal battle_started(enemy_data: Dictionary, is_trainer: bool)
+signal trainer_battle_started(trainer_id: String)
 signal battle_ended(result: String)  # "win" | "lose" | "flee" | "caught"
 signal pokemon_caught(pokemon_id: String)
+signal badge_earned(badge_id: String)
 
 # ── UI ─────────────────────────────────────────────────────────────────────────
 signal menu_opened(menu_id: String)

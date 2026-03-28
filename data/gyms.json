@@ -1,0 +1,12 @@
+{
+  "viridian_gym": {
+    "name": "Arène de Jadielle",
+    "city": "Jadielle City",
+    "badge_id": "boulder_badge",
+    "badge_name": "Badge Roche",
+    "leader_id": "gym_leader_pierre",
+    "trainers": ["gym_trainer_1"],
+    "required_badge": null,
+    "hm_unlock": "cut"
+  }
+}

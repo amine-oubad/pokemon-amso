@@ -11,6 +11,8 @@ var type_chart: Dictionary     = {}
 var items_data: Dictionary      = {}
 var dialogues_data: Dictionary  = {}
 var shops_data: Dictionary      = {}
+var trainers_data: Dictionary   = {}
+var gyms_data: Dictionary       = {}
 var encounters_data: Dictionary = {}  # { map_id: { zone_id: [ {...}, ... ] } }
 
 func _ready() -> void:
@@ -23,11 +25,13 @@ func _load_all() -> void:
 	items_data     = _load_json("res://data/items.json")
 	dialogues_data = _load_json("res://data/dialogues.json")
 	shops_data     = _load_json("res://data/shops.json")
+	trainers_data  = _load_json("res://data/trainers.json")
+	gyms_data      = _load_json("res://data/gyms.json")
 	_load_encounters()
 
-	print("[GameData] %d pokémon | %d moves | %d types | %d items | %d dialogues | %d maps" % [
+	print("[GameData] %d pokémon | %d moves | %d types | %d items | %d dresseurs | %d arènes | %d maps" % [
 		pokemon_data.size(), moves_data.size(), type_chart.size(),
-		items_data.size(), dialogues_data.size(), encounters_data.size()
+		items_data.size(), trainers_data.size(), gyms_data.size(), encounters_data.size()
 	])
 
 func _load_encounters() -> void:
