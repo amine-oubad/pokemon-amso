@@ -561,14 +561,131 @@
     "effect_chance": 0
   },
   "screech": {
-    "name": "Screech",
-    "type": "Normal",
-    "category": "status",
-    "power": 0,
-    "accuracy": 85,
-    "pp": 40,
-    "priority": 0,
-    "effect": "lower_target_def",
-    "effect_chance": 100
+    "name": "Screech", "type": "Normal", "category": "status",
+    "power": 0, "accuracy": 85, "pp": 40, "priority": 0, "effect": "lower_target_def", "effect_chance": 100
+  },
+  "psychic": {
+    "name": "Psychic", "type": "Psychic", "category": "special",
+    "power": 90, "accuracy": 100, "pp": 10, "priority": 0, "effect": "lower_target_def", "effect_chance": 10
+  },
+  "hypnosis": {
+    "name": "Hypnosis", "type": "Psychic", "category": "status",
+    "power": 0, "accuracy": 60, "pp": 20, "priority": 0, "effect": "sleep", "effect_chance": 100
+  },
+  "shadow_ball": {
+    "name": "Shadow Ball", "type": "Ghost", "category": "special",
+    "power": 80, "accuracy": 100, "pp": 15, "priority": 0, "effect": "lower_target_def", "effect_chance": 20
+  },
+  "lick": {
+    "name": "Lick", "type": "Ghost", "category": "physical",
+    "power": 30, "accuracy": 100, "pp": 30, "priority": 0, "effect": "paralyze", "effect_chance": 30
+  },
+  "night_shade": {
+    "name": "Night Shade", "type": "Ghost", "category": "special",
+    "power": 50, "accuracy": 100, "pp": 15, "priority": 0, "effect": null, "effect_chance": 0
+  },
+  "karate_chop": {
+    "name": "Karate Chop", "type": "Fighting", "category": "physical",
+    "power": 50, "accuracy": 100, "pp": 25, "priority": 0, "effect": "high_crit", "effect_chance": 100
+  },
+  "low_kick": {
+    "name": "Low Kick", "type": "Fighting", "category": "physical",
+    "power": 50, "accuracy": 90, "pp": 20, "priority": 0, "effect": null, "effect_chance": 0
+  },
+  "submission": {
+    "name": "Submission", "type": "Fighting", "category": "physical",
+    "power": 80, "accuracy": 80, "pp": 20, "priority": 0, "effect": null, "effect_chance": 0
+  },
+  "seismic_toss": {
+    "name": "Seismic Toss", "type": "Fighting", "category": "physical",
+    "power": 60, "accuracy": 100, "pp": 20, "priority": 0, "effect": null, "effect_chance": 0
+  },
+  "cross_chop": {
+    "name": "Cross Chop", "type": "Fighting", "category": "physical",
+    "power": 100, "accuracy": 80, "pp": 5, "priority": 0, "effect": "high_crit", "effect_chance": 100
+  },
+  "earthquake": {
+    "name": "Earthquake", "type": "Ground", "category": "physical",
+    "power": 100, "accuracy": 100, "pp": 10, "priority": 0, "effect": null, "effect_chance": 0
+  },
+  "dig": {
+    "name": "Dig", "type": "Ground", "category": "physical",
+    "power": 80, "accuracy": 100, "pp": 10, "priority": 0, "effect": null, "effect_chance": 0
+  },
+  "sludge_bomb": {
+    "name": "Sludge Bomb", "type": "Poison", "category": "special",
+    "power": 90, "accuracy": 100, "pp": 10, "priority": 0, "effect": "poison", "effect_chance": 30
+  },
+  "sludge": {
+    "name": "Sludge", "type": "Poison", "category": "special",
+    "power": 65, "accuracy": 100, "pp": 20, "priority": 0, "effect": "poison", "effect_chance": 30
+  },
+  "body_slam": {
+    "name": "Body Slam", "type": "Normal", "category": "physical",
+    "power": 85, "accuracy": 100, "pp": 15, "priority": 0, "effect": "paralyze", "effect_chance": 30
+  },
+  "hyper_beam": {
+    "name": "Hyper Beam", "type": "Normal", "category": "special",
+    "power": 150, "accuracy": 90, "pp": 5, "priority": 0, "effect": null, "effect_chance": 0
+  },
+  "strength": {
+    "name": "Strength", "type": "Normal", "category": "physical",
+    "power": 80, "accuracy": 100, "pp": 15, "priority": 0, "effect": null, "effect_chance": 0
+  },
+  "thunder": {
+    "name": "Thunder", "type": "Electric", "category": "special",
+    "power": 110, "accuracy": 70, "pp": 10, "priority": 0, "effect": "paralyze", "effect_chance": 30
+  },
+  "spark": {
+    "name": "Spark", "type": "Electric", "category": "physical",
+    "power": 65, "accuracy": 100, "pp": 20, "priority": 0, "effect": "paralyze", "effect_chance": 30
+  },
+  "sonic_boom": {
+    "name": "Sonic Boom", "type": "Normal", "category": "special",
+    "power": 40, "accuracy": 90, "pp": 20, "priority": 0, "effect": null, "effect_chance": 0
+  },
+  "petal_dance": {
+    "name": "Petal Dance", "type": "Grass", "category": "special",
+    "power": 120, "accuracy": 100, "pp": 10, "priority": 0, "effect": null, "effect_chance": 0
+  },
+  "stun_spore": {
+    "name": "Stun Spore", "type": "Grass", "category": "status",
+    "power": 0, "accuracy": 75, "pp": 30, "priority": 0, "effect": "paralyze", "effect_chance": 100
+  },
+  "absorb": {
+    "name": "Absorb", "type": "Grass", "category": "special",
+    "power": 20, "accuracy": 100, "pp": 25, "priority": 0, "effect": null, "effect_chance": 0
+  },
+  "mega_drain": {
+    "name": "Mega Drain", "type": "Grass", "category": "special",
+    "power": 40, "accuracy": 100, "pp": 15, "priority": 0, "effect": null, "effect_chance": 0
+  },
+  "fire_punch": {
+    "name": "Fire Punch", "type": "Fire", "category": "physical",
+    "power": 75, "accuracy": 100, "pp": 15, "priority": 0, "effect": "burn", "effect_chance": 10
+  },
+  "stomp": {
+    "name": "Stomp", "type": "Normal", "category": "physical",
+    "power": 65, "accuracy": 100, "pp": 20, "priority": 0, "effect": "flinch", "effect_chance": 30
+  },
+  "double_kick": {
+    "name": "Double Kick", "type": "Fighting", "category": "physical",
+    "power": 60, "accuracy": 100, "pp": 30, "priority": 0, "effect": null, "effect_chance": 0
+  },
+  "horn_attack": {
+    "name": "Horn Attack", "type": "Normal", "category": "physical",
+    "power": 65, "accuracy": 100, "pp": 25, "priority": 0, "effect": null, "effect_chance": 0
+  },
+  "teleport": {
+    "name": "Teleport", "type": "Psychic", "category": "status",
+    "power": 0, "accuracy": 0, "pp": 20, "priority": 0, "effect": null, "effect_chance": 0
+  },
+  "flame_wheel": {
+    "name": "Flame Wheel", "type": "Fire", "category": "physical",
+    "power": 60, "accuracy": 100, "pp": 25, "priority": 0, "effect": "burn", "effect_chance": 10
+  },
+  "acid": {
+    "name": "Acid", "type": "Poison", "category": "special",
+    "power": 40, "accuracy": 100, "pp": 30, "priority": 0, "effect": "lower_target_def", "effect_chance": 10
   }
 }

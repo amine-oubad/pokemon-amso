@@ -14,5 +14,17 @@
   "azuria_shop": {
     "name": "Marché d'Azuria",
     "items": ["super_potion", "hyper_potion", "hyper_ball", "super_ball", "antidote", "paralyze_heal", "burn_heal", "awakening", "ice_heal", "full_heal", "full_restore"]
+  },
+  "carmin_shop": {
+    "name": "Marché de Carmin-sur-Mer",
+    "items": ["super_potion", "hyper_potion", "super_ball", "hyper_ball", "full_heal", "revive", "repel"]
+  },
+  "celadopole_shop": {
+    "name": "Marché de Céladopole",
+    "items": ["hyper_potion", "full_restore", "hyper_ball", "ultra_ball", "full_heal", "revive", "max_repel"]
+  },
+  "safrania_shop": {
+    "name": "Marché de Safrania",
+    "items": ["hyper_potion", "full_restore", "ultra_ball", "full_heal", "revive", "max_repel", "max_potion"]
   }
 }

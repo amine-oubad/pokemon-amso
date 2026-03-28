@@ -1,6 +1,6 @@
 extends Node2D
-## AZURIA CITY — ville du troisième Gym (type Eau).
-## Layout 320×240 : Centre Pokémon, Pokémart, Arène, bord du Lac Azur.
+## CARMIN-SUR-MER — ville du 4e Gym (type Électrique). Champion : Major Bob.
+## Layout 320×240 : port, Centre Pokémon, Pokémart, Arène.
 
 const MAP_W := 320
 const MAP_H := 240
@@ -9,66 +9,57 @@ const TILE  := 16
 func _ready() -> void:
 	_build_ground()
 	_build_path()
-	_build_water()
+	_build_port()
 	_build_buildings()
 	_build_borders()
 	_build_npcs()
 	_build_signs()
 	_build_transitions()
-	_spawn_player(Vector2(24.0, 64.0))
+	_spawn_player(Vector2(160.0, 24.0))
 	_connect_signals()
 
-# ── Construction ─────────────────────────────────────────────────────────────
-
 func _build_ground() -> void:
-	_rect(Vector2.ZERO, Vector2(MAP_W, MAP_H), Color(0.22, 0.52, 0.20))
+	_rect(Vector2.ZERO, Vector2(MAP_W, MAP_H), Color(0.30, 0.50, 0.22))
 
 func _build_path() -> void:
-	# Chemin est-ouest
-	_rect(Vector2(0, 48), Vector2(MAP_W, 32), Color(0.60, 0.52, 0.35))
+	_rect(Vector2(0, 96), Vector2(MAP_W, 32), Color(0.55, 0.48, 0.32))
+	_rect(Vector2(144, 0), Vector2(32, MAP_H), Color(0.55, 0.48, 0.32))
 
-func _build_water() -> void:
-	# Bord du Lac Azur — côté est de la ville
-	_rect(Vector2(240, 0), Vector2(80, 240), Color(0.15, 0.45, 0.80))
-	_rect(Vector2(224, 0), Vector2(16, 240), Color(0.18, 0.48, 0.75, 0.6))
+func _build_port() -> void:
+	# Eau au sud — port
+	_rect(Vector2(0, 200), Vector2(MAP_W, 40), Color(0.15, 0.40, 0.75))
+	_rect(Vector2(0, 192), Vector2(MAP_W, 8), Color(0.35, 0.30, 0.22))  # quai
 
 func _build_buildings() -> void:
-	# Centre Pokémon
-	_building(Vector2(16.0, 96.0), Vector2(80.0, 48.0), Color(0.85, 0.20, 0.18), "CENTRE\nPOKÉMON")
-	# Pokémart
-	_building(Vector2(16.0, 160.0), Vector2(80.0, 48.0), Color(0.20, 0.35, 0.85), "POKÉMART")
-	# Arène (type Eau — bleu turquoise)
-	_building(Vector2(112.0, 4.0), Vector2(112.0, 56.0), Color(0.10, 0.50, 0.75), "ARÈNE\nD'AZURIA")
+	_building(Vector2(16.0, 128.0), Vector2(80.0, 48.0), Color(0.85, 0.20, 0.18), "CENTRE\nPOKÉMON")
+	_building(Vector2(224.0, 128.0), Vector2(80.0, 48.0), Color(0.20, 0.35, 0.85), "POKÉMART")
+	_building(Vector2(16.0, 16.0), Vector2(112.0, 56.0), Color(0.85, 0.75, 0.15), "ARÈNE DE\nCARMIN")
 
 func _build_borders() -> void:
 	_wall(Vector2(-8.0, MAP_H * 0.5), Vector2(16.0, MAP_H + 16.0))
-	# Mur est — coupé pour laisser passer vers Route 4
-	_wall(Vector2(MAP_W + 8.0, 48.0), Vector2(16.0, 96.0))        # haut
-	_wall(Vector2(MAP_W + 8.0, 184.0), Vector2(16.0, 112.0))      # bas
+	_wall(Vector2(MAP_W + 8.0, MAP_H * 0.5), Vector2(16.0, MAP_H + 16.0))
 	_wall(Vector2(MAP_W * 0.5, -8.0), Vector2(MAP_W + 16.0, 16.0))
 	_wall(Vector2(MAP_W * 0.5, MAP_H + 8.0), Vector2(MAP_W + 16.0, 16.0))
 
 func _build_npcs() -> void:
-	_npc(Vector2(56.0, 160.0), "azuria_nurse",  "heal_team", "",            Color(0.90, 0.70, 0.70))
-	_npc(Vector2(56.0, 220.0), "", "open_shop", "azuria_shop",              Color(0.30, 0.65, 0.30))
-	_npc(Vector2(200.0, 208.0), "guide_azuria", "",          "",            Color(0.40, 0.60, 0.90))
+	_npc(Vector2(56.0, 176.0), "carmin_nurse",  "heal_team", "",           Color(0.90, 0.70, 0.70))
+	_npc(Vector2(264.0, 176.0), "", "open_shop", "carmin_shop",            Color(0.30, 0.65, 0.30))
+	_npc(Vector2(200.0, 100.0), "guide_carmin",  "",          "",          Color(0.80, 0.70, 0.25))
 
 func _build_signs() -> void:
-	_sign(Vector2(112.0, 208.0), "sign_azuria_city")
-	_sign(Vector2(112.0, 64.0),  "sign_azuria_gym")
+	_sign(Vector2(144.0, 188.0), "sign_carmin_city")
+	_sign(Vector2(16.0, 76.0),   "sign_carmin_gym")
 
 func _build_transitions() -> void:
-	# Ouest → Route 3
-	_transition(Vector2(-8.0, 64.0), Vector2(24.0, 32.0),
-		"res://scenes/overworld/maps/Route3.tscn", Vector2(464.0, 64.0))
+	# Nord → Route 4
+	_transition(Vector2(160.0, -8.0), Vector2(32.0, 24.0),
+		"res://scenes/overworld/maps/Route4.tscn", Vector2(456.0, 224.0))
 	# Entrée Arène
-	_transition(Vector2(168.0, 60.0), Vector2(12.0, 8.0),
-		"res://scenes/overworld/maps/AzuriaGym.tscn", Vector2(160.0, 208.0))
-	# Est → Route 4
-	_transition(Vector2(MAP_W + 8.0, 120.0), Vector2(24.0, 32.0),
-		"res://scenes/overworld/maps/Route4.tscn", Vector2(16.0, 120.0))
-
-# ── Spawn ─────────────────────────────────────────────────────────────────────
+	_transition(Vector2(72.0, 72.0), Vector2(12.0, 8.0),
+		"res://scenes/overworld/maps/CarminGym.tscn", Vector2(160.0, 208.0))
+	# Est → Route 5
+	_transition(Vector2(MAP_W + 8.0, 112.0), Vector2(24.0, 32.0),
+		"res://scenes/overworld/maps/Route5.tscn", Vector2(16.0, 120.0))
 
 func _spawn_player(default_pos: Vector2) -> void:
 	var scene := preload("res://scenes/overworld/entities/Player.tscn")
@@ -83,22 +74,18 @@ func _spawn_player(default_pos: Vector2) -> void:
 	if cam:
 		cam.limit_left = 0; cam.limit_top = 0; cam.limit_right = MAP_W; cam.limit_bottom = MAP_H
 
-# ── Signaux ───────────────────────────────────────────────────────────────────
-
 func _connect_signals() -> void:
 	EventBus.battle_started.connect(_on_battle_started)
 	EventBus.trainer_battle_started.connect(_on_trainer_battle)
 
 func _on_battle_started(enemy_data: Dictionary, is_trainer: bool) -> void:
 	GameState.pending_battle  = { "enemy_data": enemy_data, "is_trainer": is_trainer }
-	GameState.return_to_scene = "res://scenes/overworld/maps/AzuriaCity.tscn"
+	GameState.return_to_scene = "res://scenes/overworld/maps/CarminCity.tscn"
 	get_tree().change_scene_to_file("res://scenes/battle/BattleScene.tscn")
 
 func _on_trainer_battle(_trainer_id: String) -> void:
-	GameState.return_to_scene = "res://scenes/overworld/maps/AzuriaCity.tscn"
+	GameState.return_to_scene = "res://scenes/overworld/maps/CarminCity.tscn"
 	get_tree().change_scene_to_file("res://scenes/battle/BattleScene.tscn")
-
-# ── Helpers ───────────────────────────────────────────────────────────────────
 
 func _rect(pos: Vector2, size: Vector2, color: Color) -> void:
 	var r := ColorRect.new(); r.position = pos; r.size = size; r.color = color; add_child(r)

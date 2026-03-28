@@ -184,5 +184,131 @@
     "gym_id": "azuria_gym",
     "badge_id": "wave_badge",
     "team": [{"id": "120", "level": 21}, {"id": "055", "level": 22}, {"id": "121", "level": 24}]
+  },
+  "route4_hiker": {
+    "name": "Randonneur Gaël", "class": "Randonneur",
+    "dialogue_before": "route4_hiker_before", "dialogue_after": "route4_hiker_after",
+    "reward_money": 480,
+    "team": [{"id": "074", "level": 22}, {"id": "066", "level": 23}]
+  },
+  "route4_lass": {
+    "name": "Fillette Inès", "class": "Fillette",
+    "dialogue_before": "route4_lass_before", "dialogue_after": "route4_lass_after",
+    "reward_money": 520,
+    "team": [{"id": "029", "level": 22}, {"id": "037", "level": 23}]
+  },
+  "rival_carmin": {
+    "name": "Rival Bleu", "class": "Rival",
+    "dialogue_before": "rival_carmin_before", "dialogue_after": "rival_carmin_after",
+    "reward_money": 1800,
+    "team": [
+      {"id": "017", "level": 24},
+      {"id": "020", "level": 24},
+      {"id": "064", "level": 25},
+      {"id": "133", "level": 26}
+    ]
+  },
+  "carmin_trainer_1": {
+    "name": "Matelot Kevin", "class": "Matelot",
+    "dialogue_before": "carmin_t1_before", "dialogue_after": "carmin_t1_after",
+    "reward_money": 550,
+    "team": [{"id": "100", "level": 25}, {"id": "081", "level": 26}]
+  },
+  "carmin_trainer_2": {
+    "name": "Matelot Sasha", "class": "Matelot",
+    "dialogue_before": "carmin_t2_before", "dialogue_after": "carmin_t2_after",
+    "reward_money": 600,
+    "team": [{"id": "025", "level": 26}, {"id": "100", "level": 27}]
+  },
+  "gym_leader_bob": {
+    "name": "Major Bob", "class": "Champion",
+    "dialogue_before": "bob_before", "dialogue_after": "bob_after",
+    "reward_money": 3200,
+    "is_gym_leader": true, "gym_id": "carmin_gym", "badge_id": "thunder_badge",
+    "team": [{"id": "100", "level": 27}, {"id": "082", "level": 28}, {"id": "026", "level": 30}]
+  },
+  "route5_youngster": {
+    "name": "Gamin Rémi", "class": "Gamin",
+    "dialogue_before": "route5_youngster_before", "dialogue_after": "route5_youngster_after",
+    "reward_money": 600,
+    "team": [{"id": "032", "level": 27}, {"id": "058", "level": 28}]
+  },
+  "route5_beauty": {
+    "name": "Belle Valérie", "class": "Belle",
+    "dialogue_before": "route5_beauty_before", "dialogue_after": "route5_beauty_after",
+    "reward_money": 680,
+    "team": [{"id": "043", "level": 28}, {"id": "037", "level": 28}]
+  },
+  "rival_route5": {
+    "name": "Rival Bleu", "class": "Rival",
+    "dialogue_before": "rival_route5_before", "dialogue_after": "rival_route5_after",
+    "reward_money": 2400,
+    "team": [
+      {"id": "017", "level": 29},
+      {"id": "065", "level": 30},
+      {"id": "058", "level": 30},
+      {"id": "133", "level": 32}
+    ]
+  },
+  "celadopole_trainer_1": {
+    "name": "Botaniste Léa", "class": "Botaniste",
+    "dialogue_before": "celadopole_t1_before", "dialogue_after": "celadopole_t1_after",
+    "reward_money": 700,
+    "team": [{"id": "043", "level": 30}, {"id": "044", "level": 31}]
+  },
+  "celadopole_trainer_2": {
+    "name": "Botaniste Yuki", "class": "Botaniste",
+    "dialogue_before": "celadopole_t2_before", "dialogue_after": "celadopole_t2_after",
+    "reward_money": 750,
+    "team": [{"id": "044", "level": 31}, {"id": "029", "level": 30}]
+  },
+  "gym_leader_erika": {
+    "name": "Erika", "class": "Championne",
+    "dialogue_before": "erika_before", "dialogue_after": "erika_after",
+    "reward_money": 3800,
+    "is_gym_leader": true, "gym_id": "celadopole_gym", "badge_id": "rainbow_badge",
+    "team": [{"id": "044", "level": 32}, {"id": "045", "level": 33}, {"id": "003", "level": 35}]
+  },
+  "route6_psychic": {
+    "name": "Kinésiste Yann", "class": "Kinésiste",
+    "dialogue_before": "route6_psychic_before", "dialogue_after": "route6_psychic_after",
+    "reward_money": 780,
+    "team": [{"id": "064", "level": 32}, {"id": "092", "level": 33}]
+  },
+  "route6_channeler": {
+    "name": "Mystimana Clara", "class": "Mystimana",
+    "dialogue_before": "route6_channeler_before", "dialogue_after": "route6_channeler_after",
+    "reward_money": 800,
+    "team": [{"id": "092", "level": 33}, {"id": "093", "level": 34}]
+  },
+  "rival_safrania": {
+    "name": "Rival Bleu", "class": "Rival",
+    "dialogue_before": "rival_safrania_before", "dialogue_after": "rival_safrania_after",
+    "reward_money": 3200,
+    "team": [
+      {"id": "065", "level": 34},
+      {"id": "058", "level": 34},
+      {"id": "034", "level": 35},
+      {"id": "133", "level": 37}
+    ]
+  },
+  "safrania_trainer_1": {
+    "name": "Kinésiste Nora", "class": "Kinésiste",
+    "dialogue_before": "safrania_t1_before", "dialogue_after": "safrania_t1_after",
+    "reward_money": 850,
+    "team": [{"id": "064", "level": 34}, {"id": "093", "level": 35}]
+  },
+  "safrania_trainer_2": {
+    "name": "Kinésiste Abel", "class": "Kinésiste",
+    "dialogue_before": "safrania_t2_before", "dialogue_after": "safrania_t2_after",
+    "reward_money": 900,
+    "team": [{"id": "063", "level": 33}, {"id": "064", "level": 35}, {"id": "093", "level": 35}]
+  },
+  "gym_leader_morgane": {
+    "name": "Morgane", "class": "Championne",
+    "dialogue_before": "morgane_before", "dialogue_after": "morgane_after",
+    "reward_money": 4400,
+    "is_gym_leader": true, "gym_id": "safrania_gym", "badge_id": "marsh_badge",
+    "team": [{"id": "064", "level": 36}, {"id": "093", "level": 37}, {"id": "065", "level": 39}]
   }
 }

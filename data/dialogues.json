@@ -165,5 +165,140 @@
     "Voici le Badge Vague en témoignage de ta victoire !",
     "Ce badge te permettra d'utiliser la CS Surf hors combat.",
     "Continue ton voyage, Dresseur. L'aventure est encore longue !"
+  ],
+
+  "route4_hiker_before": ["Ces montagnes cachent des Pokémon puissants !", "Je vais te montrer !"],
+  "route4_hiker_after": ["Pas mal... Tu es costaud !", "Carmin-sur-Mer est au sud, bon voyage !"],
+  "route4_lass_before": ["Mon Goupix est adorable ET puissant !", "Prêt à te battre ?"],
+  "route4_lass_after": ["Oh non...", "Fais attention à Major Bob, il est redoutable !"],
+  "sign_route4": ["ROUTE 4\n← Azuria City   Carmin-sur-Mer ↓"],
+
+  "rival_carmin_before": [
+    "Tiens, tiens... encore toi !",
+    "J'ai pas mal progressé depuis la dernière fois.",
+    "Mon Kadabra va te surprendre !"
+  ],
+  "rival_carmin_after": [
+    "Encore... Mais comment tu fais ?!",
+    "Hmph, la prochaine fois je serai prêt !",
+    "On se reverra à Céladopole !"
+  ],
+
+  "guide_carmin": [
+    "Bienvenue à Carmin-sur-Mer !",
+    "Le port abrite le S.S. Anne et l'Arène de Major Bob.",
+    "Ses Pokémon Électrique sont foudroyants !"
+  ],
+  "carmin_nurse": [
+    "Bienvenue au Centre Pokémon de Carmin !",
+    "Je vais soigner vos Pokémon...",
+    "Voilà, vos Pokémon sont en pleine forme !"
+  ],
+  "sign_carmin_city": ["CARMIN-SUR-MER\nLe port aux éclairs."],
+  "sign_carmin_gym": ["ARÈNE DE CARMIN\nChampion : Major Bob — Type Électrique"],
+  "carmin_t1_before": ["Les Pokémon Électrique sont les plus rapides !", "Fais gaffe au voltage !"],
+  "carmin_t1_after": ["Court-circuit...", "Major Bob est cent fois pire que nous !"],
+  "carmin_t2_before": ["J'ai navigué sur toutes les mers !", "Mes Pokémon sont chargés à bloc !"],
+  "carmin_t2_after": ["Tonnerre...", "Tu as de l'énergie à revendre, Dresseur !"],
+  "bob_before": [
+    "Je suis Major Bob, le Champion Électrique !",
+    "L'électricité est ma force !",
+    "Prépare-toi à un choc !"
+  ],
+  "bob_after": [
+    "Tu m'as mis à terre, soldat...",
+    "Voici le Badge Foudre ! Tu l'as bien mérité !",
+    "Ce badge te permet d'utiliser la CS Vol hors combat.",
+    "Continue ta route vers Céladopole !"
+  ],
+
+  "route5_youngster_before": ["La Route 5 est longue !", "Mes Pokémon vont te barrer la route !"],
+  "route5_youngster_after": ["Incroyable...", "Céladopole est au nord, bonne chance !"],
+  "route5_beauty_before": ["Mes Pokémon sont aussi beaux que forts !", "Admire leur puissance !"],
+  "route5_beauty_after": ["Quelle défaite élégante...", "Tu mérites de défier Erika !"],
+  "sign_route5": ["ROUTE 5\n↓ Carmin-sur-Mer   Céladopole ↑"],
+
+  "rival_route5_before": [
+    "On dirait que le destin nous réunit encore !",
+    "Mon Alakazam est maintenant au top !",
+    "Cette fois, c'est moi qui gagne !"
+  ],
+  "rival_route5_after": [
+    "Non, pas encore !",
+    "Grr... Je vais m'entraîner encore plus dur !",
+    "Safrania sera le théâtre de ma revanche !"
+  ],
+
+  "guide_celadopole": [
+    "Bienvenue à Céladopole !",
+    "C'est la plus grande ville de la région !",
+    "L'Arène de Céladopole est spécialisée dans le type Plante."
+  ],
+  "celadopole_nurse": [
+    "Bienvenue au Centre Pokémon de Céladopole !",
+    "Je vais soigner vos Pokémon...",
+    "Voilà, vos Pokémon sont en pleine forme !"
+  ],
+  "sign_celadopole_city": ["CÉLADOPOLE\nLa cité arc-en-ciel."],
+  "sign_celadopole_gym": ["ARÈNE DE CÉLADOPOLE\nChampionne : Erika — Type Plante"],
+  "celadopole_t1_before": ["Les plantes sont mes meilleures amies !", "Observe leur beauté mortelle !"],
+  "celadopole_t1_after": ["Mes fleurs se fanent...", "Erika saura les venger !"],
+  "celadopole_t2_before": ["Le parfum de mes Pokémon endort les adversaires !", "Tu vas succomber !"],
+  "celadopole_t2_after": ["Comment...", "Erika est la reine des plantes, attention !"],
+  "erika_before": [
+    "Je suis Erika, Championne de Céladopole.",
+    "Les Pokémon Plante sont gracieux et puissants.",
+    "Laisse-moi te montrer leur beauté en combat !"
+  ],
+  "erika_after": [
+    "Tes Pokémon ont fané mes fleurs...",
+    "Voici le Badge Prisme, il est à toi !",
+    "Ce badge te permet d'utiliser la CS Force hors combat.",
+    "La Route 6 mène à Safrania. Bonne chance, Dresseur !"
+  ],
+
+  "route6_psychic_before": ["Mon esprit voit tout !", "Tu ne peux pas m'échapper !"],
+  "route6_psychic_after": ["Impossible... mes visions étaient fausses ?!", "Safrania t'attend..."],
+  "route6_channeler_before": ["Les esprits me guident !", "Mes Pokémon Spectre vont te hanter !"],
+  "route6_channeler_after": ["Les esprits se dissipent...", "Morgane est bien plus mystérieuse que moi !"],
+  "sign_route6": ["ROUTE 6\n← Céladopole   Safrania →"],
+
+  "rival_safrania_before": [
+    "Encore toi... Cette fois je suis vraiment prêt !",
+    "Mon équipe est à son meilleur niveau !",
+    "Dernier round avant Morgane — en garde !"
+  ],
+  "rival_safrania_after": [
+    "Comment c'est possible...?!",
+    "Tu es vraiment le meilleur Dresseur que je connaisse.",
+    "Bats Morgane pour moi aussi !"
+  ],
+
+  "guide_safrania": [
+    "Bienvenue à Safrania !",
+    "C'est la ville de la psyché et du mystère.",
+    "L'Arène de Morgane est réputée pour ses Pokémon Psy !"
+  ],
+  "safrania_nurse": [
+    "Bienvenue au Centre Pokémon de Safrania !",
+    "Je vais soigner vos Pokémon...",
+    "Voilà, vos Pokémon sont en pleine forme !"
+  ],
+  "sign_safrania_city": ["SAFRANIA\nLa ville mystique."],
+  "sign_safrania_gym": ["ARÈNE DE SAFRANIA\nChampionne : Morgane — Type Psy"],
+  "safrania_t1_before": ["Mon esprit est aiguisé comme une lame !", "Tu ne peux lire mes pensées !"],
+  "safrania_t1_after": ["Mon esprit... est confus ?!", "Morgane est sur un tout autre niveau !"],
+  "safrania_t2_before": ["La télékinésie est mon arme secrète !", "Prêt pour un combat mental ?"],
+  "safrania_t2_after": ["Comment as-tu résisté...", "Morgane va te montrer le vrai pouvoir psy !"],
+  "morgane_before": [
+    "Je suis Morgane, Championne de Safrania.",
+    "J'ai vu ta venue dans mes visions...",
+    "Mais le destin reste à écrire. En garde !"
+  ],
+  "morgane_after": [
+    "Tu as brisé mes prédictions...",
+    "Voici le Badge Marais en récompense !",
+    "Tu as prouvé que la volonté surpasse la psyché.",
+    "Ton voyage est loin d'être terminé, Dresseur !"
   ]
 }

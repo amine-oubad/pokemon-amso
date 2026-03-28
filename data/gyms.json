@@ -28,5 +28,35 @@
     "trainers": ["azuria_trainer_1", "azuria_trainer_2"],
     "required_badge": "cascade_badge",
     "hm_unlock": "surf"
+  },
+  "carmin_gym": {
+    "name": "Arène de Carmin-sur-Mer",
+    "city": "Carmin-sur-Mer",
+    "badge_id": "thunder_badge",
+    "badge_name": "Badge Foudre",
+    "leader_id": "gym_leader_bob",
+    "trainers": ["carmin_trainer_1", "carmin_trainer_2"],
+    "required_badge": "wave_badge",
+    "hm_unlock": "fly"
+  },
+  "celadopole_gym": {
+    "name": "Arène de Céladopole",
+    "city": "Céladopole",
+    "badge_id": "rainbow_badge",
+    "badge_name": "Badge Prisme",
+    "leader_id": "gym_leader_erika",
+    "trainers": ["celadopole_trainer_1", "celadopole_trainer_2"],
+    "required_badge": "thunder_badge",
+    "hm_unlock": "strength"
+  },
+  "safrania_gym": {
+    "name": "Arène de Safrania",
+    "city": "Safrania",
+    "badge_id": "marsh_badge",
+    "badge_name": "Badge Marais",
+    "leader_id": "gym_leader_morgane",
+    "trainers": ["safrania_trainer_1", "safrania_trainer_2"],
+    "required_badge": "rainbow_badge",
+    "hm_unlock": null
   }
 }

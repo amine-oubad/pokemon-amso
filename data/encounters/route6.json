@@ -1,0 +1,16 @@
+{
+  "grass_01": [
+    { "id": "063", "level_min": 28, "level_max": 33, "weight": 25 },
+    { "id": "092", "level_min": 28, "level_max": 33, "weight": 25 },
+    { "id": "081", "level_min": 29, "level_max": 34, "weight": 20 },
+    { "id": "043", "level_min": 29, "level_max": 34, "weight": 15 },
+    { "id": "100", "level_min": 30, "level_max": 35, "weight": 15 }
+  ],
+  "grass_02": [
+    { "id": "064", "level_min": 31, "level_max": 35, "weight": 25 },
+    { "id": "093", "level_min": 31, "level_max": 35, "weight": 25 },
+    { "id": "082", "level_min": 32, "level_max": 36, "weight": 20 },
+    { "id": "077", "level_min": 32, "level_max": 36, "weight": 15 },
+    { "id": "101", "level_min": 32, "level_max": 36, "weight": 15 }
+  ]
+}
