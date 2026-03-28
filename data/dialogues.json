@@ -24,6 +24,85 @@
     "ROUTE 1\nPokémon sauvages dans les hautes herbes !"
   ],
   "sign_jadielle": [
-    "JADIELLE CITY\nEn construction... Revenez bientôt !"
+    "JADIELLE CITY\nLa ville de l'Arène Pokémon !"
+  ],
+
+  "prof_oak_intro": [
+    "Bienvenue dans le monde des Pokémon !",
+    "Je suis le Professeur Chen.",
+    "Choisis ton premier Pokémon pour commencer ton aventure !"
+  ],
+  "prof_oak_after": [
+    "Excellent choix !",
+    "Ton aventure commence maintenant !",
+    "Rends-toi à Jadielle City au nord pour défier l'Arène !"
+  ],
+
+  "route1_youngster_before": [
+    "Tu es un nouveau Dresseur, pas vrai ?",
+    "Montre-moi ce que tu vaux !"
+  ],
+  "route1_youngster_after": [
+    "Ouah, tu es fort !",
+    "Continue comme ça et tu deviendras Champion !"
+  ],
+  "route1_lass_before": [
+    "Mon Pokémon est le plus mignon !",
+    "Tu veux te battre ?"
+  ],
+  "route1_lass_after": [
+    "Oh non, mon pauvre Pokémon...",
+    "Tu devrais aller défier l'Arène de Jadielle !"
+  ],
+
+  "guide_jadielle": [
+    "Bienvenue à Jadielle City !",
+    "L'Arène Pokémon se trouve au nord de la ville.",
+    "Le Champion Pierre est redoutable !"
+  ],
+  "jadielle_nurse": [
+    "Bienvenue au Centre Pokémon de Jadielle !",
+    "Je vais soigner vos Pokémon...",
+    "Voilà, vos Pokémon sont en pleine forme !"
+  ],
+  "sign_jadielle_city": [
+    "JADIELLE CITY\nLa ville au pied des montagnes."
+  ],
+  "sign_gym_entry": [
+    "ARÈNE POKÉMON DE JADIELLE\nChampion : Pierre"
+  ],
+
+  "gym_guide": [
+    "Bienvenue à l'Arène de Jadielle !",
+    "Le Champion Pierre utilise des Pokémon variés.",
+    "Bats les Dresseurs de l'Arène avant de le défier !"
+  ],
+  "gym_trainer_1_before": [
+    "Tu oses défier notre Arène ?",
+    "Je vais te tester !"
+  ],
+  "gym_trainer_1_after": [
+    "Pas mal du tout...",
+    "Mais Pierre est bien plus fort que moi !"
+  ],
+  "gym_leader_before": [
+    "Je suis Pierre, Champion de l'Arène de Jadielle !",
+    "Montre-moi la force du lien avec tes Pokémon !",
+    "En garde !"
+  ],
+  "gym_leader_after": [
+    "Incroyable... Tu as gagné !",
+    "En récompense, voici le Badge Roche !",
+    "Ce badge te permet d'utiliser la CS Coupe hors combat.",
+    "Continue ton voyage, Dresseur !"
+  ],
+
+  "hm_block_cut": [
+    "Un petit arbre bloque le chemin...",
+    "Il faudrait la CS Coupe pour le couper."
+  ],
+  "hm_block_cut_ok": [
+    "Vous utilisez Coupe !",
+    "L'arbre a été coupé !"
   ]
 }

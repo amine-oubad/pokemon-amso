@@ -30,16 +30,18 @@ pokemon-amso/
 ├── project.godot
 ├── scripts/
 │   ├── autoloads/          # Singletons globaux (EventBus, GameData, GameState)
-│   ├── overworld/          # Joueur, PNJ, rencontres
-│   ├── battle/             # Système de combat (Phase 1+)
-│   └── data/               # PokemonInstance, MoveInstance (Phase 1+)
+│   ├── overworld/          # Joueur, PNJ, Dresseurs, CS-blocks, rencontres
+│   │   └── maps/           # Scripts de chaque zone (PalletTown, Route1, ViridianCity, ViridianGym)
+│   ├── battle/             # Système de combat (wild + dresseurs multi-Pokémon)
+│   ├── data/               # PokemonInstance, MoveInstance
+│   ├── systems/            # SaveManager
+│   └── ui/                 # ShopMenu, StarterSelect
 ├── scenes/
 │   ├── overworld/
-│   │   ├── entities/       # Player.tscn, NPC.tscn...
-│   │   └── maps/           # Une scène par zone
-│   ├── battle/             # BattleScene.tscn (Phase 1+)
-│   └── menus/              # UI (Phase 3+)
-├── data/                   # JSON éditables (pokemon, moves, type_chart...)
+│   │   ├── entities/       # Player.tscn
+│   │   └── maps/           # PalletTown, Route1, ViridianCity, ViridianGym
+│   └── battle/             # BattleScene.tscn
+├── data/                   # JSON éditables (pokemon, moves, trainers, gyms, type_chart...)
 └── assets/                 # Sprites, tilesets, audio (à venir)
 ```
 
@@ -47,11 +49,11 @@ pokemon-amso/
 
 | Phase | Objectif | Statut |
 |-------|----------|--------|
-| 0 | Joueur qui marche, collisions | ✅ En cours |
-| 1 | Premier combat jouable | ⬜ |
-| 2 | Combat complet (capture, statuts, items) | ⬜ |
-| 3 | Overworld vivant (PNJ, dialogues, zones) | ⬜ |
-| 4 | Progression (badges, Arènes, CS) | ⬜ |
+| 0 | Joueur qui marche, collisions | ✅ |
+| 1 | Premier combat jouable | ✅ |
+| 2 | Combat complet (capture, statuts, items) | ✅ |
+| 3 | Overworld vivant (PNJ, dialogues, zones) | ✅ |
+| 4 | Progression (badges, Arènes, CS) | ✅ |
 | 5 | Contenu complet | ⬜ |
 | 6 | Polish & release | ⬜ |
 

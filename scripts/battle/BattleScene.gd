@@ -1,6 +1,6 @@
 extends Node2D
-## Scène de combat Phase 2 — combat complet.
-## Features : fuite, sac (potions/balls), switch Pokémon, capture, statuts.
+## Scène de combat Phase 4 — combat complet + dresseurs multi-Pokémon.
+## Features : fuite, sac (potions/balls), switch Pokémon, capture, statuts, trainer battles.
 
 # ── State machine ─────────────────────────────────────────────────────────────
 enum State {
@@ -8,7 +8,7 @@ enum State {
 	PLAYER_CHOOSE, CHOOSE_MOVE, CHOOSE_ITEM, CHOOSE_POKEMON,
 	PLAYER_MOVE, FLEE_ATTEMPT,
 	ENEMY_MOVE,
-	CHECK_END, CAPTURE_ANIM, SHOW_XP, BATTLE_OVER
+	CHECK_END, CAPTURE_ANIM, SHOW_XP, TRAINER_NEXT, BATTLE_OVER
 }
 var _state: State = State.INTRO
 var _last_attacker: String = ""
@@ -17,6 +17,15 @@ var _forced_switch: bool   = false  # true = KO forcé, pas de tour ennemi aprè
 var _fled: bool            = false
 var _flee_attempts: int    = 0
 var _is_trainer_battle: bool = false
+
+# ── Trainer battle data ───────────────────────────────────────────────────────
+var _trainer_id: String      = ""
+var _trainer_name: String    = ""
+var _trainer_team: Array     = []  # Array of PokemonInstance
+var _trainer_team_idx: int   = 0
+var _reward_money: int       = 0
+var _badge_id: String        = ""
+var _is_gym_leader: bool     = false
 
 # ── Pokémon ───────────────────────────────────────────────────────────────────
 var player_pkmn: PokemonInstance   ## Raccourci vers le Pokémon actif de l'équipe
@@ -59,7 +68,27 @@ func _ready() -> void:
 func _load_battle() -> void:
 	var bd := GameState.pending_battle
 	_is_trainer_battle = bd.get("is_trainer", false)
-	enemy_pkmn = PokemonInstance.from_encounter(bd.get("enemy_data", {}))
+	_trainer_id    = bd.get("trainer_id", "")
+	_trainer_name  = bd.get("trainer_name", "Dresseur")
+	_reward_money  = bd.get("reward_money", 0)
+	_badge_id      = bd.get("badge_id", "")
+	_is_gym_leader = bd.get("is_gym_leader", false)
+
+	# Construire l'équipe du dresseur
+	if _is_trainer_battle:
+		var team_data: Array = bd.get("trainer_team", [])
+		_trainer_team.clear()
+		for td in team_data:
+			var pkmn := PokemonInstance.create(td.get("id", "025"), td.get("level", 5))
+			_trainer_team.append(pkmn)
+		_trainer_team_idx = 0
+		if _trainer_team.size() > 0:
+			enemy_pkmn = _trainer_team[0]
+		else:
+			enemy_pkmn = PokemonInstance.from_encounter(bd.get("enemy_data", {}))
+	else:
+		enemy_pkmn = PokemonInstance.from_encounter(bd.get("enemy_data", {}))
+
 	GameState.register_seen(enemy_pkmn.pokemon_id)
 
 	# Pokémon joueur actif
@@ -83,7 +112,10 @@ func _set_state(s: State) -> void:
 
 	match _state:
 		State.INTRO:
-			_msg("Un %s sauvage apparaît !" % enemy_pkmn.get_name())
+			if _is_trainer_battle:
+				_msg("%s veut se battre !\n%s envoie %s !" % [_trainer_name, _trainer_name, enemy_pkmn.get_name()])
+			else:
+				_msg("Un %s sauvage apparaît !" % enemy_pkmn.get_name())
 
 		State.PLAYER_CHOOSE:
 			_msg("Que va faire %s ?" % player_pkmn.get_name())
@@ -107,6 +139,7 @@ func _set_state(s: State) -> void:
 		State.CHECK_END:     _check_end()
 		State.CAPTURE_ANIM:  pass  # lancé par _on_item_used()
 		State.SHOW_XP:       _award_xp()
+		State.TRAINER_NEXT:  _trainer_send_next()
 		State.BATTLE_OVER:   _finish()
 
 func _input(event: InputEvent) -> void:
@@ -340,6 +373,13 @@ func _do_enemy_move() -> void:
 
 func _do_flee() -> void:
 	if _animating: return
+	if _is_trainer_battle:
+		_msg("Impossible de fuir\nun combat de Dresseur !")
+		_animating = true
+		await get_tree().create_timer(1.5).timeout
+		_animating = false
+		_set_state(State.PLAYER_CHOOSE)
+		return
 	_animating = true
 	_flee_attempts += 1
 	var p_spd := player_pkmn.get_effective_stat("speed")
@@ -405,11 +445,51 @@ func _award_xp() -> void:
 	var xp := BattleCalc.calculate_exp_gain(enemy_pkmn, player_pkmn.level)
 	_msg("%s est K.O. !\n%s gagne %d EXP !" % [enemy_pkmn.get_name(), player_pkmn.get_name(), xp])
 	await get_tree().create_timer(2.5).timeout
-	_set_state(State.BATTLE_OVER)
+
+	# Vérifier si le dresseur a d'autres Pokémon
+	if _is_trainer_battle and _trainer_team_idx + 1 < _trainer_team.size():
+		_set_state(State.TRAINER_NEXT)
+	else:
+		_set_state(State.BATTLE_OVER)
+
+func _trainer_send_next() -> void:
+	_trainer_team_idx += 1
+	enemy_pkmn = _trainer_team[_trainer_team_idx]
+	GameState.register_seen(enemy_pkmn.pokemon_id)
+	_refresh_ui()
+	_msg("%s envoie %s !" % [_trainer_name, enemy_pkmn.get_name()])
+	_animating = true
+	await get_tree().create_timer(2.0).timeout
+	_animating = false
+	_set_state(State.PLAYER_CHOOSE)
 
 func _finish() -> void:
 	var result := "flee" if _fled else ("win" if not player_pkmn.is_fainted() else "lose")
 	player_pkmn.reset_stat_stages()
+
+	# Récompenses dresseur
+	if _is_trainer_battle and result == "win":
+		GameState.mark_trainer_defeated(_trainer_id)
+		_msg("Vous avez battu %s !" % _trainer_name)
+		await get_tree().create_timer(2.0).timeout
+
+		if _reward_money > 0:
+			GameState.money += _reward_money
+			_msg("Vous remportez %d P$ !" % _reward_money)
+			await get_tree().create_timer(1.5).timeout
+
+		if _badge_id != "":
+			GameState.add_badge(_badge_id)
+			# Chercher le nom du badge dans les données d'arènes
+			var badge_name := _badge_id
+			for gym_id in GameData.gyms_data:
+				var g: Dictionary = GameData.gyms_data[gym_id]
+				if g.get("badge_id", "") == _badge_id:
+					badge_name = g.get("badge_name", _badge_id)
+					break
+			_msg("Vous obtenez le %s !" % badge_name)
+			await get_tree().create_timer(2.5).timeout
+
 	GameState.pending_battle = {}
 	EventBus.battle_ended.emit(result)
 	get_tree().change_scene_to_file(GameState.return_to_scene)

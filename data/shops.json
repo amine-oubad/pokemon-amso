@@ -2,5 +2,9 @@
   "pallet_shop": {
     "name": "Marché de Bourg-Palette",
     "items": ["potion", "poke_ball", "antidote", "paralyze_heal", "burn_heal"]
+  },
+  "jadielle_shop": {
+    "name": "Marché de Jadielle",
+    "items": ["potion", "super_potion", "poke_ball", "super_ball", "antidote", "paralyze_heal", "burn_heal", "awakening", "full_heal"]
   }
 }
