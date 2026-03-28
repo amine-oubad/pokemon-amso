@@ -1,0 +1,93 @@
+{
+  "potion": {
+    "name": "Potion",
+    "category": "heal",
+    "heal_amount": 20,
+    "price": 300,
+    "description": "Restaure 20 PV au Pokémon cible."
+  },
+  "super_potion": {
+    "name": "Super Potion",
+    "category": "heal",
+    "heal_amount": 50,
+    "price": 700,
+    "description": "Restaure 50 PV au Pokémon cible."
+  },
+  "hyper_potion": {
+    "name": "Hyper Potion",
+    "category": "heal",
+    "heal_amount": 200,
+    "price": 1200,
+    "description": "Restaure 200 PV au Pokémon cible."
+  },
+  "max_potion": {
+    "name": "Potion Max",
+    "category": "heal",
+    "heal_amount": 9999,
+    "price": 2500,
+    "description": "Restaure tous les PV au Pokémon cible."
+  },
+  "antidote": {
+    "name": "Antidote",
+    "category": "status_cure",
+    "cures": ["poison", "bad_poison"],
+    "price": 100,
+    "description": "Guérit l'empoisonnement."
+  },
+  "paralyze_heal": {
+    "name": "Antiparalysie",
+    "category": "status_cure",
+    "cures": ["paralyze"],
+    "price": 200,
+    "description": "Guérit la paralysie."
+  },
+  "burn_heal": {
+    "name": "Guérison Brûlure",
+    "category": "status_cure",
+    "cures": ["burn"],
+    "price": 250,
+    "description": "Guérit la brûlure."
+  },
+  "awakening": {
+    "name": "Réveil",
+    "category": "status_cure",
+    "cures": ["sleep"],
+    "price": 250,
+    "description": "Réveille un Pokémon endormi."
+  },
+  "ice_heal": {
+    "name": "Antigel",
+    "category": "status_cure",
+    "cures": ["freeze"],
+    "price": 250,
+    "description": "Dégèle un Pokémon gelé."
+  },
+  "full_heal": {
+    "name": "Total Soin",
+    "category": "status_cure",
+    "cures": ["burn", "paralyze", "sleep", "freeze", "poison", "bad_poison"],
+    "price": 600,
+    "description": "Guérit tout statut anormal."
+  },
+  "poke_ball": {
+    "name": "Poké Ball",
+    "category": "ball",
+    "ball_bonus": 1.0,
+    "price": 200,
+    "description": "Ball standard pour attraper des Pokémon sauvages."
+  },
+  "super_ball": {
+    "name": "Super Ball",
+    "category": "ball",
+    "ball_bonus": 1.5,
+    "price": 600,
+    "description": "Ball efficace pour attraper des Pokémon."
+  },
+  "hyper_ball": {
+    "name": "Hyper Ball",
+    "category": "ball",
+    "ball_bonus": 2.0,
+    "price": 1200,
+    "description": "Ball très efficace pour attraper des Pokémon."
+  }
+}

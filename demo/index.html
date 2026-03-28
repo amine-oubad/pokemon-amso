@@ -2,455 +2,525 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<title>Pokemon AMSO — Demo Phase 0</title>
+<title>Pokemon AMSO — Demo Phase 0+1</title>
 <style>
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-
-  body {
-    background: #1a1a2e;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-height: 100vh;
-    font-family: 'Courier New', monospace;
-    color: #e0e0e0;
-    gap: 16px;
-  }
-
-  h1 {
-    font-size: 14px;
-    letter-spacing: 4px;
-    text-transform: uppercase;
-    color: #7ecfff;
-  }
-
-  #game-wrapper {
-    position: relative;
-    border: 2px solid #333;
-    image-rendering: pixelated;
-  }
-
-  canvas {
-    display: block;
-    image-rendering: pixelated;
-    image-rendering: crisp-edges;
-  }
-
-  #hud {
-    display: flex;
-    gap: 24px;
-    font-size: 11px;
-    color: #888;
-  }
-
-  #hud span { color: #7ecfff; }
-
-  #controls {
-    font-size: 11px;
-    color: #555;
-    text-align: center;
-    line-height: 1.8;
-  }
-
-  #controls b { color: #aaa; }
-
-  #phase-badge {
-    background: #0f3460;
-    border: 1px solid #7ecfff44;
-    color: #7ecfff;
-    padding: 4px 12px;
-    font-size: 10px;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-  }
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  background:#0d1117; display:flex; flex-direction:column;
+  align-items:center; justify-content:center; min-height:100vh;
+  font-family:'Courier New',monospace; color:#e0e0e0; gap:10px;
+}
+h1 { font-size:12px; letter-spacing:4px; color:#58a6ff; text-transform:uppercase; }
+#wrap { position:relative; border:2px solid #30363d; }
+canvas { display:block; image-rendering:pixelated; image-rendering:crisp-edges; }
+#info { font-size:10px; color:#484f58; display:flex; gap:20px; }
+#info span { color:#58a6ff; }
+#hint { font-size:10px; color:#484f58; text-align:center; }
+#hint b { color:#8b949e; }
+#phase { background:#0d2137; border:1px solid #58a6ff33; color:#58a6ff;
+  padding:3px 10px; font-size:9px; letter-spacing:2px; }
 </style>
 </head>
 <body>
-
-<div id="phase-badge">Phase 0 — Overworld</div>
-<h1>Pokemon AMSO</h1>
-
-<div id="game-wrapper">
-  <canvas id="canvas"></canvas>
-</div>
-
-<div id="hud">
-  Position tile : <span id="hud-tile">3, 3</span>
-  &nbsp;|&nbsp;
-  Direction : <span id="hud-dir">BAS</span>
-  &nbsp;|&nbsp;
-  État : <span id="hud-state">Idle</span>
-</div>
-
-<div id="controls">
-  <b>ZQSD</b> ou <b>Flèches</b> — déplacement tile par tile<br>
-  Même logique que <b>Player.gd</b> dans Godot 4
-</div>
+<div id="phase">POKEMON AMSO — PHASES 0 &amp; 1</div>
+<h1>Demo interactive</h1>
+<div id="wrap"><canvas id="c"></canvas></div>
+<div id="info">Tile : <span id="i-tile">3,3</span> &nbsp;|&nbsp; Dir : <span id="i-dir">BAS</span> &nbsp;|&nbsp; État : <span id="i-st">Overworld</span></div>
+<div id="hint"><b>ZQSD / Flèches</b> — marcher &nbsp;|&nbsp; <b>Z / Entrée</b> — confirmer en combat &nbsp;|&nbsp; Zones foncées = herbes hautes</div>
 
 <script>
-// ─────────────────────────────────────────────────────────────────────────────
-// CONFIG — miroir de project.godot et Player.gd
-// ─────────────────────────────────────────────────────────────────────────────
-const TILE      = 16;       // px par tile (identique à TILE_SIZE dans Player.gd)
-const SPEED     = 128;      // px/sec (identique à WALK_SPEED)
-const SCALE     = 3;        // upscale pour l'affichage (320×240 → 960×720)
-const VIEWPORT  = { w: 320, h: 240 };
-const MAP       = { w: 512, h: 384 };   // 32×24 tiles
+// ─── CONFIG ───────────────────────────────────────────────────────────────────
+const T=16, SCALE=3, VW=320, VH=240, MW=512, MH=384, SPEED=128;
 
-// ─────────────────────────────────────────────────────────────────────────────
-// SETUP CANVAS
-// ─────────────────────────────────────────────────────────────────────────────
-const canvas = document.getElementById('canvas');
-const ctx    = canvas.getContext('2d');
-canvas.width  = VIEWPORT.w * SCALE;
-canvas.height = VIEWPORT.h * SCALE;
-ctx.imageSmoothingEnabled = false;
+const canvas=document.getElementById('c');
+const ctx=canvas.getContext('2d');
+canvas.width=VW*SCALE; canvas.height=VH*SCALE;
+ctx.imageSmoothingEnabled=false;
 
-// Buffer interne 320×240 (pixel-art)
-const buf    = document.createElement('canvas');
-buf.width    = VIEWPORT.w;
-buf.height   = VIEWPORT.h;
-const bctx   = buf.getContext('2d');
-bctx.imageSmoothingEnabled = false;
+const buf=document.createElement('canvas');
+buf.width=VW; buf.height=VH;
+const bx=buf.getContext('2d');
+bx.imageSmoothingEnabled=false;
 
-// ─────────────────────────────────────────────────────────────────────────────
-// ENTRÉE CLAVIER — miroir de _read_direction() dans Player.gd
-// ─────────────────────────────────────────────────────────────────────────────
-const keys = {};
-window.addEventListener('keydown', e => { keys[e.code] = true; e.preventDefault(); });
-window.addEventListener('keyup',   e => { keys[e.code] = false; });
+// ─── INPUT ────────────────────────────────────────────────────────────────────
+const K={};
+addEventListener('keydown',e=>{ K[e.code]=true; e.preventDefault(); });
+addEventListener('keyup',  e=>{ K[e.code]=false; });
+function dir(){ if(K.KeyZ||K.ArrowUp)    return{x:0,y:-1};
+               if(K.KeyS||K.ArrowDown)  return{x:0,y:1};
+               if(K.KeyQ||K.ArrowLeft)  return{x:-1,y:0};
+               if(K.KeyD||K.ArrowRight) return{x:1,y:0};
+               return null; }
+function confirm(){ return K.KeyZ||K.Enter||K.Space; }
 
-function readDirection() {
-  if (keys['KeyZ']    || keys['ArrowUp'])    return { x: 0, y: -1 };
-  if (keys['KeyS']    || keys['ArrowDown'])  return { x: 0, y:  1 };
-  if (keys['KeyQ']    || keys['ArrowLeft'])  return { x:-1, y:  0 };
-  if (keys['KeyD']    || keys['ArrowRight']) return { x: 1, y:  0 };
-  return null;
+// ─── DATA (extrait de pokemon.json / moves.json) ───────────────────────────────
+const PDATA={
+  pikachu:{ name:'Pikachu', types:['Electric'], color:'#f5c518',
+    hp:35,atk:55,spAtk:50,def:40,spDef:50,speed:90,
+    moves:['Tonnerre','Jackpot','Vive-Attaque','Cage-Éclair'],
+    pp:[15,30,30,20] },
+  eevee:  { name:'Eevee', types:['Normal'], color:'#c8a870',
+    hp:55,atk:55,spAtk:45,def:50,spDef:65,speed:55,
+    moves:['Morsure','Jackpot','Vive-Attaque','Griffe'],
+    pp:[25,35,30,35] },
+  bulbasaur:{ name:'Bulbasaur', types:['Grass','Poison'], color:'#78c878',
+    hp:45,atk:49,spAtk:65,def:49,spDef:65,speed:45,
+    moves:['Fouet Liane','Triplattaque','Lance-Soleil','Rachélée'],
+    pp:[25,10,10,10] }
+};
+
+// ─── TYPE CHART (simplifié) ───────────────────────────────────────────────────
+const EFF={
+  Electric:{Water:2,Electric:.5,Grass:.5,Ground:0,Flying:2,Dragon:.5},
+  Grass:{Fire:.5,Water:2,Grass:.5,Poison:.5,Ground:2,Flying:.5,Bug:.5,Rock:2,Dragon:.5,Steel:.5},
+  Normal:{Rock:.5,Ghost:0,Steel:.5},
+};
+function typeEff(atkType,defTypes){
+  let m=1;
+  for(const dt of defTypes) m*=(EFF[atkType]?.[dt]??1);
+  return m;
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// MAP — obstacles (StaticBody2D dans TestMap.tscn)
-// ─────────────────────────────────────────────────────────────────────────────
-// Obstacles définis en tiles (col, row, largeur, hauteur)
-const OBSTACLES = [
-  // Maison brune — position 256,160 → tile 16,10 → 4×2 tiles
-  { col: 14, row: 8,  w: 4, h: 2, color: '#8b4513', label: 'Maison' },
-  // Rocher gris — position 128,240 → tile 8,15 → 2×4 tiles
-  { col: 6,  row: 13, w: 2, h: 4, color: '#808080', label: 'Rocher' },
-  // Arbres (ajouts visuels pour enrichir la démo)
-  { col: 2,  row: 6,  w: 2, h: 2, color: '#228B22', label: 'Arbre' },
-  { col: 22, row: 4,  w: 2, h: 2, color: '#228B22', label: 'Arbre' },
-  { col: 24, row: 14, w: 2, h: 2, color: '#228B22', label: 'Arbre' },
-  { col: 4,  row: 18, w: 2, h: 2, color: '#228B22', label: 'Arbre' },
-  { col: 18, row: 10, w: 2, h: 2, color: '#228B22', label: 'Arbre' },
+// ─── OBSTACLES / WALLS ───────────────────────────────────────────────────────
+const OBSTACLES=[
+  {x:14,y:8,w:4,h:2,  col:'#8b4513', label:'Maison'},
+  {x:6, y:13,w:2,h:4, col:'#808080', label:'Rocher'},
+  {x:2, y:6, w:2,h:2, col:'#145214', label:'Arbre'},
+  {x:22,y:4, w:2,h:2, col:'#145214', label:'Arbre'},
+  {x:24,y:14,w:2,h:2, col:'#145214', label:'Arbre'},
+  {x:4, y:18,w:2,h:2, col:'#145214', label:'Arbre'},
+  {x:18,y:10,w:2,h:2, col:'#145214', label:'Arbre'},
+];
+// Zones d'herbe (en tiles) — Phase 1
+const GRASS_ZONES=[
+  {x:3,y:11,w:10,h:8},  // grande zone gauche
+  {x:20,y:3,w:6,h:6},   // petite zone droite
 ];
 
-// Ensemble des tiles bloquées (pour collision rapide)
-const blockedTiles = new Set();
-// Murs de bordure
-for (let c = -1; c <= MAP.w / TILE; c++) {
-  blockedTiles.add(`${c},-1`);
-  blockedTiles.add(`${c},${MAP.h / TILE}`);
-}
-for (let r = -1; r <= MAP.h / TILE; r++) {
-  blockedTiles.add(`-1,${r}`);
-  blockedTiles.add(`${MAP.w / TILE},${r}`);
-}
-// Obstacles
-for (const obs of OBSTACLES) {
-  for (let dc = 0; dc < obs.w; dc++)
-    for (let dr = 0; dr < obs.h; dr++)
-      blockedTiles.add(`${obs.col + dc},${obs.row + dr}`);
-}
+const blocked=new Set();
+for(let c=-1;c<=MW/T;c++){blocked.add(`${c},-1`);blocked.add(`${c},${MH/T}`);}
+for(let r=-1;r<=MH/T;r++){blocked.add(`-1,${r}`);blocked.add(`${MW/T},${r}`);}
+OBSTACLES.forEach(o=>{for(let dc=0;dc<o.w;dc++)for(let dr=0;dr<o.h;dr++)blocked.add(`${o.x+dc},${o.y+dr}`);});
+const isBlocked=(c,r)=>blocked.has(`${c},${r}`);
+const inGrass=(c,r)=>GRASS_ZONES.some(g=>c>=g.x&&c<g.x+g.w&&r>=g.y&&r<g.y+g.h);
 
-function isTileBlocked(col, row) {
-  return blockedTiles.has(`${col},${row}`);
-}
-
-// ─────────────────────────────────────────────────────────────────────────────
-// JOUEUR — miroir exact de Player.gd
-// ─────────────────────────────────────────────────────────────────────────────
-const DIR_NAMES = { '0,-1': 'HAUT', '0,1': 'BAS', '-1,0': 'GAUCHE', '1,0': 'DROITE' };
-const DIR_FACING = { '0,-1': '▲', '0,1': '▼', '-1,0': '◄', '1,0': '►' };
-
-const player = {
-  // Position monde en pixels (snappée sur la grille)
-  x: 3 * TILE,
-  y: 3 * TILE,
-
-  // État de déplacement (miroir de _moving, _move_from, _move_to, _move_progress)
-  moving:   false,
-  fromX:    3 * TILE,
-  fromY:    3 * TILE,
-  toX:      3 * TILE,
-  toY:      3 * TILE,
-  progress: 0,
-
-  // Direction regard
-  facing: { x: 0, y: 1 },
-
-  // Historique des positions (pour l'effet de trace)
-  trail: [],
-
-  get tileCol() { return Math.round(this.x / TILE); },
-  get tileRow() { return Math.round(this.y / TILE); },
+// ─── PLAYER ───────────────────────────────────────────────────────────────────
+const P={
+  x:3*T,y:3*T,
+  moving:false,fromX:3*T,fromY:3*T,toX:3*T,toY:3*T,prog:0,
+  facing:{x:0,y:1}, trail:[],
+  get col(){ return Math.round(this.x/T); },
+  get row(){ return Math.round(this.y/T); }
 };
 
-// ─────────────────────────────────────────────────────────────────────────────
-// LOGIQUE DE MISE À JOUR — miroir de _physics_process()
-// ─────────────────────────────────────────────────────────────────────────────
-function update(delta) {
-  if (player.moving) {
-    tickMovement(delta);
-  } else {
-    pollInput();
-  }
+// ─── SCENE MANAGER ───────────────────────────────────────────────────────────
+let scene='overworld'; // 'overworld' | 'battle_flash' | 'battle'
+
+// ─── BATTLE STATE ─────────────────────────────────────────────────────────────
+const STATES={INTRO:0,CHOOSE:1,PICK_MOVE:2,PLAYER_ATK:3,ENEMY_ATK:4,CHECK:5,XP:6,WIN:7,LOSE:8};
+let bst, bMsg, bSub, bTimer, bFlash, bFlashT;
+let playerPkmn, enemyPkmn, lastAtk;
+
+// Stats calculées Gen 3 (IV=15, EV=0)
+function calcStats(base, lv){
+  const iv=15;
+  return{
+    maxHp: Math.floor((2*base.hp+iv)*lv/100)+lv+10,
+    atk:   Math.floor((2*base.atk+iv)*lv/100)+5,
+    def:   Math.floor((2*base.def+iv)*lv/100)+5,
+    spAtk: Math.floor((2*base.spAtk+iv)*lv/100)+5,
+    spDef: Math.floor((2*base.spDef+iv)*lv/100)+5,
+    speed: Math.floor((2*base.speed+iv)*lv/100)+5,
+  };
 }
 
-// Miroir de _poll_input()
-function pollInput() {
-  const dir = readDirection();
-  if (!dir) return;
-
-  player.facing = dir;
-
-  const nextCol = player.tileCol + dir.x;
-  const nextRow = player.tileRow + dir.y;
-
-  // Miroir de move_and_collide(..., true) — test collision avant de bouger
-  if (isTileBlocked(nextCol, nextRow)) {
-    return;  // Obstacle — on ne bouge pas
-  }
-
-  // Lancer le déplacement fluide (miroir de _start_move)
-  player.fromX     = player.x;
-  player.fromY     = player.y;
-  player.toX       = nextCol * TILE;
-  player.toY       = nextRow * TILE;
-  player.progress  = 0;
-  player.moving    = true;
-
-  // Trace visuelle
-  player.trail.push({ x: player.x, y: player.y, alpha: 1.0 });
-  if (player.trail.length > 6) player.trail.shift();
+function makePkmn(key, lv){
+  const d=PDATA[key];
+  const s=calcStats(d, lv);
+  return{
+    key, name:d.name, types:d.types, color:d.color, lv,
+    ...s, hp:s.maxHp,
+    moves:d.moves.slice(), pp:d.pp.slice()
+  };
 }
 
-// Miroir de _tick_movement()
-function tickMovement(delta) {
-  player.progress += delta * SPEED / TILE;
-
-  if (player.progress >= 1.0) {
-    player.x      = player.toX;
-    player.y      = player.toY;
-    player.moving = false;
-    player.progress = 0;
-    // EventBus.player_stepped.emit(position) — ici on met juste à jour le HUD
-    updateHUD();
-  } else {
-    // Lerp (identique à _move_from.lerp(_move_to, _move_progress))
-    player.x = player.fromX + (player.toX - player.fromX) * player.progress;
-    player.y = player.fromY + (player.toY - player.fromY) * player.progress;
-  }
+function calcDamage(atk, def, movePower, moveType, atkTypes){
+  const atkStat=atk.atk, defStat=def.def;
+  const base=Math.floor(Math.floor(Math.floor(2*atk.lv/5+2)*movePower*atkStat/defStat)/50)+2;
+  const crit=Math.random()<0.0625;
+  const stab=atkTypes.includes(moveType)?1.5:1;
+  const eff=typeEff(moveType, def.types);
+  const rng=0.85+Math.random()*0.15;
+  return{ dmg:Math.max(eff>0?1:0, Math.floor(base*(crit?1.5:1)*stab*eff*rng)), crit, eff, stab:stab>1 };
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// RENDU — sur buffer 320×240, puis upscalé ×3
-// ─────────────────────────────────────────────────────────────────────────────
+function startBattle(){
+  const enemies=[
+    {key:'pikachu',  lv:rng(3,6)},
+    {key:'eevee',    lv:rng(2,5)},
+    {key:'bulbasaur',lv:rng(4,7)},
+  ];
+  const weights=[45,35,20], roll=Math.random()*100;
+  let cum=0, picked=enemies[0];
+  for(let i=0;i<enemies.length;i++){ cum+=weights[i]; if(roll<cum){picked=enemies[i];break;} }
 
-// Palette de couleurs (style GBA)
-const PALETTE = {
-  groundLight: '#38a832',
-  groundDark:  '#2d8a28',
-  gridLine:    '#2a7526',
-  playerBody:  '#3468f0',
-  playerEye:   '#ffffff',
-  playerShadow:'#1a3890',
-};
+  enemyPkmn=makePkmn(picked.key, picked.lv);
+  playerPkmn=makePkmn('pikachu', 5);  // joueur a toujours Pikachu Lv5
 
-// Caméra — centré sur le joueur
-let camX = 0, camY = 0;
-
-function updateCamera() {
-  const targetX = player.x - VIEWPORT.w / 2;
-  const targetY = player.y - VIEWPORT.h / 2;
-  // Lerp caméra douce
-  camX += (targetX - camX) * 0.15;
-  camY += (targetY - camY) * 0.15;
-  // Clamp dans les limites de la map
-  camX = Math.max(0, Math.min(MAP.w - VIEWPORT.w, camX));
-  camY = Math.max(0, Math.min(MAP.h - VIEWPORT.h, camY));
+  bFlash=true; bFlashT=0; scene='battle_flash';
 }
 
-function drawMap() {
-  // Sol en damier (2 tons de vert)
-  for (let row = 0; row < MAP.h / TILE; row++) {
-    for (let col = 0; col < MAP.w / TILE; col++) {
-      const wx = col * TILE - camX;
-      const wy = row * TILE - camY;
-      if (wx + TILE < 0 || wx > VIEWPORT.w || wy + TILE < 0 || wy > VIEWPORT.h) continue;
-      bctx.fillStyle = (col + row) % 2 === 0 ? PALETTE.groundLight : PALETTE.groundDark;
-      bctx.fillRect(wx, wy, TILE, TILE);
-    }
-  }
+function setBattleState(s, msg='', sub=''){
+  bst=s; bMsg=msg; bSub=sub; bTimer=0;
 }
+function rng(a,b){ return Math.floor(Math.random()*(b-a+1))+a; }
 
-function drawObstacles() {
-  for (const obs of OBSTACLES) {
-    const wx = obs.col * TILE - camX;
-    const wy = obs.row * TILE - camY;
-    const pw = obs.w * TILE;
-    const ph = obs.h * TILE;
-    if (wx + pw < 0 || wx > VIEWPORT.w || wy + ph < 0 || wy > VIEWPORT.h) continue;
-
-    bctx.fillStyle = obs.color;
-    bctx.fillRect(wx, wy, pw, ph);
-
-    // Ombre portée
-    bctx.fillStyle = 'rgba(0,0,0,0.25)';
-    bctx.fillRect(wx + 1, wy + ph - 3, pw - 1, 3);
-
-    // Highlight haut
-    bctx.fillStyle = 'rgba(255,255,255,0.15)';
-    bctx.fillRect(wx, wy, pw, 2);
-
-    // Label (arbre = cercle vert sur le dessus)
-    if (obs.label === 'Arbre') {
-      bctx.fillStyle = '#145214';
-      bctx.fillRect(wx, wy, pw, ph);
-      bctx.fillStyle = '#1a7a1a';
-      bctx.fillRect(wx + 2, wy + 2, pw - 4, ph - 4);
-      bctx.fillStyle = '#22aa22';
-      bctx.fillRect(wx + 4, wy + 2, pw - 8, 3);
-    }
-  }
-}
-
-function drawTrail() {
-  for (let i = 0; i < player.trail.length; i++) {
-    const t = player.trail[i];
-    const alpha = (i + 1) / player.trail.length * 0.3;
-    bctx.fillStyle = `rgba(52, 104, 240, ${alpha})`;
-    bctx.fillRect(
-      Math.floor(t.x - camX) + 2,
-      Math.floor(t.y - camY) + 2,
-      TILE - 4,
-      TILE - 4
-    );
-  }
-}
-
-function drawPlayer() {
-  const px = Math.floor(player.x - camX);
-  const py = Math.floor(player.y - camY);
-
-  // Ombre au sol
-  bctx.fillStyle = 'rgba(0,0,0,0.2)';
-  bctx.fillRect(px + 2, py + TILE - 3, TILE - 4, 3);
-
-  // Corps (carré bleu — placeholder sprite)
-  bctx.fillStyle = PALETTE.playerBody;
-  bctx.fillRect(px + 1, py + 1, TILE - 2, TILE - 2);
-
-  // Highlight haut-gauche
-  bctx.fillStyle = '#6090ff';
-  bctx.fillRect(px + 1, py + 1, TILE - 2, 2);
-  bctx.fillRect(px + 1, py + 1, 2, TILE - 2);
-
-  // Direction — "yeux" qui montrent où le joueur regarde
-  bctx.fillStyle = PALETTE.playerEye;
-  const fx = player.facing.x;
-  const fy = player.facing.y;
-  const eyeCx = px + TILE / 2 + fx * 3;
-  const eyeCy = py + TILE / 2 + fy * 3;
-  const perp = { x: fy, y: -fx };
-  bctx.fillRect(eyeCx + perp.x * 2 - 1, eyeCy + perp.y * 2 - 1, 2, 2);
-  bctx.fillRect(eyeCx - perp.x * 2 - 1, eyeCy - perp.y * 2 - 1, 2, 2);
-}
-
-function drawGrid() {
-  bctx.strokeStyle = 'rgba(0,0,0,0.08)';
-  bctx.lineWidth = 0.5;
-  const startCol = Math.floor(camX / TILE);
-  const startRow = Math.floor(camY / TILE);
-  const endCol = startCol + Math.ceil(VIEWPORT.w / TILE) + 1;
-  const endRow = startRow + Math.ceil(VIEWPORT.h / TILE) + 1;
-  for (let c = startCol; c <= endCol; c++) {
-    const x = c * TILE - camX;
-    bctx.beginPath(); bctx.moveTo(x, 0); bctx.lineTo(x, VIEWPORT.h); bctx.stroke();
-  }
-  for (let r = startRow; r <= endRow; r++) {
-    const y = r * TILE - camY;
-    bctx.beginPath(); bctx.moveTo(0, y); bctx.lineTo(VIEWPORT.w, y); bctx.stroke();
-  }
-}
-
-function drawDebugBox() {
-  const stateStr = player.moving ? `Move (${(player.progress * 100).toFixed(0)}%)` : 'Idle';
-  const dirKey = `${player.facing.x},${player.facing.y}`;
-  const dirStr = (DIR_FACING[dirKey] || '?') + ' ' + (DIR_NAMES[dirKey] || '?');
-
-  bctx.fillStyle = 'rgba(0,0,0,0.55)';
-  bctx.fillRect(2, 2, 130, 30);
-  bctx.fillStyle = '#7ecfff';
-  bctx.font = '6px monospace';
-  bctx.fillText(`tile (${player.tileCol}, ${player.tileRow})  ${dirStr}`, 6, 11);
-  bctx.fillStyle = '#aaaaaa';
-  bctx.fillText(`état : ${stateStr}`, 6, 21);
-}
-
-function render() {
-  // Fond map
-  bctx.fillStyle = '#1a1a2e';
-  bctx.fillRect(0, 0, VIEWPORT.w, VIEWPORT.h);
-
-  drawMap();
-  drawGrid();
-  drawObstacles();
-  drawTrail();
-  drawPlayer();
-  drawDebugBox();
-
-  // Upscale ×3 → canvas final
-  ctx.imageSmoothingEnabled = false;
-  ctx.drawImage(buf, 0, 0, VIEWPORT.w * SCALE, VIEWPORT.h * SCALE);
-}
-
-// ─────────────────────────────────────────────────────────────────────────────
-// BOUCLE DE JEU
-// ─────────────────────────────────────────────────────────────────────────────
-let lastTime = null;
-
-function loop(timestamp) {
-  if (!lastTime) lastTime = timestamp;
-  const delta = Math.min((timestamp - lastTime) / 1000, 0.05); // cap à 50ms
-  lastTime = timestamp;
-
-  update(delta);
-  updateCamera();
-  render();
-
+// ─── GAME LOOP ────────────────────────────────────────────────────────────────
+let last=null;
+function loop(ts){
+  if(!last) last=ts;
+  const dt=Math.min((ts-last)/1000,.05);
+  last=ts;
+  update(dt);
+  renderAll();
   requestAnimationFrame(loop);
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// HUD
-// ─────────────────────────────────────────────────────────────────────────────
-function updateHUD() {
-  document.getElementById('hud-tile').textContent  = `${player.tileCol}, ${player.tileRow}`;
-  const dk = `${player.facing.x},${player.facing.y}`;
-  document.getElementById('hud-dir').textContent   = DIR_NAMES[dk] || '?';
-  document.getElementById('hud-state').textContent = player.moving ? 'En mouvement' : 'Idle';
+function update(dt){
+  if(scene==='overworld')       updateOW(dt);
+  else if(scene==='battle_flash') updateFlash(dt);
+  else if(scene==='battle')       updateBattle(dt);
 }
 
-// Mise à jour HUD en temps réel
-setInterval(updateHUD, 100);
+// ─── OVERWORLD UPDATE ─────────────────────────────────────────────────────────
+function updateOW(dt){
+  if(P.moving){
+    P.prog+=dt*SPEED/T;
+    if(P.prog>=1){
+      P.x=P.toX; P.y=P.toY; P.moving=false; P.prog=0;
+      // Vérifier rencontre
+      if(inGrass(P.col,P.row) && Math.random()<0.15){ startBattle(); return; }
+      updateHUD();
+    } else {
+      P.x=P.fromX+(P.toX-P.fromX)*P.prog;
+      P.y=P.fromY+(P.toY-P.fromY)*P.prog;
+    }
+  } else {
+    const d=dir();
+    if(!d) return;
+    P.facing=d;
+    const nc=P.col+d.x, nr=P.row+d.y;
+    if(!isBlocked(nc,nr)){
+      P.trail.push({x:P.x,y:P.y});
+      if(P.trail.length>5) P.trail.shift();
+      P.fromX=P.x; P.fromY=P.y; P.toX=nc*T; P.toY=nr*T;
+      P.prog=0; P.moving=true;
+    }
+  }
+}
+let camX=0,camY=0;
+function updateCam(){
+  const tx=P.x-VW/2, ty=P.y-VH/2;
+  camX+=(tx-camX)*0.12;
+  camY+=(ty-camY)*0.12;
+  camX=Math.max(0,Math.min(MW-VW,camX));
+  camY=Math.max(0,Math.min(MH-VH,camY));
+}
 
-// ─────────────────────────────────────────────────────────────────────────────
-// DÉMARRAGE
-// ─────────────────────────────────────────────────────────────────────────────
-camX = player.x - VIEWPORT.w / 2;
-camY = player.y - VIEWPORT.h / 2;
+// ─── BATTLE FLASH ─────────────────────────────────────────────────────────────
+function updateFlash(dt){
+  bFlashT+=dt;
+  if(bFlashT>0.6){
+    scene='battle';
+    setBattleState(STATES.INTRO, `Un ${enemyPkmn.name} sauvage\napparaît !`);
+  }
+}
+
+// ─── BATTLE UPDATE (clavier) ──────────────────────────────────────────────────
+let _prevConfirm=false;
+function updateBattle(dt){
+  bTimer+=dt;
+  const nowConf=confirm();
+  const pressed=nowConf&&!_prevConfirm;
+  _prevConfirm=nowConf;
+
+  if(bst===STATES.INTRO && pressed){ setBattleState(STATES.CHOOSE,'Que va faire\nPikachu ?'); return; }
+  if(bst===STATES.PLAYER_ATK||bst===STATES.ENEMY_ATK||bst===STATES.CHECK||bst===STATES.XP) {
+    if(bTimer>1.8) advanceBattle();
+    return;
+  }
+  if(bst===STATES.WIN||bst===STATES.LOSE){ if(bTimer>2.0){ scene='overworld'; } return; }
+}
+
+let selectedMove=0;
+function pickMove(idx){
+  if(bst!==STATES.PICK_MOVE) return;
+  if(playerPkmn.pp[idx]<=0) return;
+  selectedMove=idx;
+  playerPkmn.pp[idx]--;
+  const power=40+idx*15;
+  const res=calcDamage(playerPkmn,enemyPkmn,power,'Electric',playerPkmn.types);
+  enemyPkmn.hp=Math.max(0,enemyPkmn.hp-res.dmg);
+  let msg=`Pikachu utilise\n${playerPkmn.moves[idx]} !`;
+  let sub='';
+  if(res.crit) sub+='Coup critique ! ';
+  if(res.eff>1) sub+='Super efficace !';
+  else if(res.eff<1&&res.eff>0) sub+='Peu efficace...';
+  else if(res.eff===0) sub='Sans effet !';
+  lastAtk='player';
+  setBattleState(STATES.PLAYER_ATK, msg, sub);
+}
+
+function advanceBattle(){
+  if(bst===STATES.PLAYER_ATK){
+    if(enemyPkmn.hp<=0){ setBattleState(STATES.XP,`${enemyPkmn.name} est K.O. !\nPikachu gagne de l'EXP !`); return; }
+    // Tour ennemi
+    const mi=Math.floor(Math.random()*enemyPkmn.moves.length);
+    const power=35+mi*12;
+    const res=calcDamage(enemyPkmn,playerPkmn,power,'Normal',enemyPkmn.types);
+    playerPkmn.hp=Math.max(0,playerPkmn.hp-res.dmg);
+    let msg=`${enemyPkmn.name} utilise\n${enemyPkmn.moves[mi]} !`;
+    let sub='';
+    if(res.crit) sub+='Coup critique ! ';
+    if(res.eff>1) sub+='Super efficace !';
+    lastAtk='enemy';
+    setBattleState(STATES.ENEMY_ATK, msg, sub);
+    return;
+  }
+  if(bst===STATES.ENEMY_ATK){
+    if(playerPkmn.hp<=0){ setBattleState(STATES.LOSE,'Pikachu est K.O. !'); return; }
+    setBattleState(STATES.CHOOSE,'Que va faire\nPikachu ?');
+    return;
+  }
+  if(bst===STATES.XP){ setBattleState(STATES.WIN,'Victoire ! Retour\nà l\'overworld...'); return; }
+}
+
+// ─── RENDER ───────────────────────────────────────────────────────────────────
+function renderAll(){
+  bx.fillStyle='#111'; bx.fillRect(0,0,VW,VH);
+  if(scene==='overworld')       renderOW();
+  else if(scene==='battle_flash') renderFlash();
+  else if(scene==='battle')       renderBattle();
+  ctx.imageSmoothingEnabled=false;
+  ctx.drawImage(buf,0,0,VW*SCALE,VH*SCALE);
+}
+
+// ─── OVERWORLD RENDER ─────────────────────────────────────────────────────────
+function renderOW(){
+  updateCam();
+  // Sol en damier
+  for(let r=0;r<MH/T;r++) for(let c=0;c<MW/T;c++){
+    const wx=c*T-camX, wy=r*T-camY;
+    if(wx+T<0||wx>VW||wy+T<0||wy>VH) continue;
+    bx.fillStyle=(c+r)%2===0?'#38a832':'#2d8a28';
+    bx.fillRect(wx,wy,T,T);
+  }
+  // Herbes hautes
+  GRASS_ZONES.forEach(g=>{
+    for(let r=g.y;r<g.y+g.h;r++) for(let c=g.x;c<g.x+g.w;c++){
+      const wx=c*T-camX, wy=r*T-camY;
+      if(wx+T<0||wx>VW||wy+T<0||wy>VH) continue;
+      bx.fillStyle=(c+r)%2===0?'#1a5c1a':'#145014';
+      bx.fillRect(wx,wy,T,T);
+      // Brins d'herbe stylisés
+      bx.fillStyle='#22771a';
+      bx.fillRect(wx+3,wy+8,2,6); bx.fillRect(wx+9,wy+5,2,9);
+      bx.fillRect(wx+13,wy+9,2,5);
+    }
+  });
+  // Grille légère
+  bx.strokeStyle='rgba(0,0,0,0.07)'; bx.lineWidth=0.5;
+  const sc=Math.floor(camX/T), sr=Math.floor(camY/T);
+  for(let c=sc;c<=sc+VW/T+1;c++){ const x=c*T-camX; bx.beginPath();bx.moveTo(x,0);bx.lineTo(x,VH);bx.stroke(); }
+  for(let r=sr;r<=sr+VH/T+1;r++){ const y=r*T-camY; bx.beginPath();bx.moveTo(0,y);bx.lineTo(VW,y);bx.stroke(); }
+  // Obstacles
+  OBSTACLES.forEach(o=>{
+    const wx=o.x*T-camX, wy=o.y*T-camY, pw=o.w*T, ph=o.h*T;
+    if(wx+pw<0||wx>VW||wy+ph<0||wy>VH) return;
+    bx.fillStyle=o.col; bx.fillRect(wx,wy,pw,ph);
+    if(o.label==='Arbre'){
+      bx.fillStyle='#1a7a1a'; bx.fillRect(wx+2,wy+2,pw-4,ph-4);
+      bx.fillStyle='#2ca02c'; bx.fillRect(wx+4,wy+2,pw-8,3);
+    }
+    bx.fillStyle='rgba(0,0,0,.2)'; bx.fillRect(wx+1,wy+ph-3,pw-1,3);
+    bx.fillStyle='rgba(255,255,255,.12)'; bx.fillRect(wx,wy,pw,2);
+  });
+  // Trace
+  P.trail.forEach((t,i)=>{
+    const a=(i+1)/P.trail.length*.25;
+    bx.fillStyle=`rgba(52,104,240,${a})`;
+    bx.fillRect(Math.floor(t.x-camX)+2,Math.floor(t.y-camY)+2,T-4,T-4);
+  });
+  // Joueur
+  const px=Math.floor(P.x-camX), py=Math.floor(P.y-camY);
+  bx.fillStyle='rgba(0,0,0,.18)'; bx.fillRect(px+2,py+T-3,T-4,3);
+  bx.fillStyle='#3468f0'; bx.fillRect(px+1,py+1,T-2,T-2);
+  bx.fillStyle='#6090ff'; bx.fillRect(px+1,py+1,T-2,2); bx.fillRect(px+1,py+1,2,T-2);
+  // Yeux selon direction
+  bx.fillStyle='#fff';
+  const ex=px+T/2+P.facing.x*3, ey=py+T/2+P.facing.y*3;
+  const px2=P.facing.y, py2=-P.facing.x;
+  bx.fillRect(ex+px2*2-1,ey+py2*2-1,2,2); bx.fillRect(ex-px2*2-1,ey-py2*2-1,2,2);
+  // HUD
+  bx.fillStyle='rgba(0,0,0,.5)'; bx.fillRect(2,2,128,22);
+  bx.fillStyle='#58a6ff'; bx.font='6px monospace';
+  const g=inGrass(P.col,P.row);
+  bx.fillText(`tile(${P.col},${P.row}) ${g?'🌿 HERBE':''}`, 5, 10);
+  bx.fillStyle='#666'; bx.fillText('Phase 0+1 — Godot 4 GDScript', 5, 20);
+}
+
+// ─── FLASH RENDER ─────────────────────────────────────────────────────────────
+function renderFlash(){
+  const t=bFlashT/0.6;
+  const n=Math.floor(t*6);
+  bx.fillStyle=n%2===0?'#fff':'#000';
+  bx.fillRect(0,0,VW,VH);
+  bx.fillStyle=n%2===0?'#000':'#fff';
+  bx.font='bold 10px monospace'; bx.textAlign='center';
+  bx.fillText('Un Pokémon sauvage apparaît !',VW/2,VH/2);
+  bx.textAlign='left';
+}
+
+// ─── BATTLE RENDER ────────────────────────────────────────────────────────────
+function hpCol(r){ if(r>.5) return'#20bf20'; if(r>.2) return'#e0b014'; return'#e02c1a'; }
+
+function renderBattle(){
+  // Fond
+  bx.fillStyle='#ede8d2'; bx.fillRect(0,0,VW,VH);
+  // Décor sol
+  bx.fillStyle='#c8bc92'; bx.fillRect(0,130,VW,44);
+  bx.fillStyle='#b8a878'; bx.fillRect(0,128,VW,4);
+  // Plateformes
+  bx.fillStyle='#d8cc9c'; bx.fillRect(170,110,90,22); // ennemi
+  bx.fillStyle='#d8cc9c'; bx.fillRect(50,146,90,22);  // joueur
+
+  // ── Sprite ennemi (bulle de couleur avec silhouette) ──────────────────────
+  const ec=enemyPkmn.color;
+  bx.fillStyle=ec+'88'; bx.beginPath(); bx.arc(68,76,30,0,Math.PI*2); bx.fill();
+  bx.fillStyle=ec;       bx.beginPath(); bx.arc(68,76,22,0,Math.PI*2); bx.fill();
+  bx.fillStyle='rgba(0,0,0,.2)'; bx.beginPath(); bx.arc(68,82,22,0,Math.PI*2); bx.fill();
+  bx.fillStyle='rgba(255,255,255,.35)'; bx.beginPath(); bx.arc(62,68,8,0,Math.PI*2); bx.fill();
+  // Lettre type
+  bx.fillStyle='rgba(0,0,0,.6)'; bx.font='bold 11px monospace'; bx.textAlign='center';
+  bx.fillText(enemyPkmn.types[0].slice(0,3).toUpperCase(), 68, 80); bx.textAlign='left';
+
+  // ── Sprite joueur (Pikachu stylisé) ───────────────────────────────────────
+  bx.fillStyle='#f5c51888'; bx.beginPath(); bx.arc(252,136,26,0,Math.PI*2); bx.fill();
+  bx.fillStyle='#f5c518';    bx.beginPath(); bx.arc(252,136,18,0,Math.PI*2); bx.fill();
+  bx.fillStyle='rgba(0,0,0,.2)'; bx.beginPath(); bx.arc(252,140,18,0,Math.PI*2); bx.fill();
+  bx.fillStyle='rgba(255,255,255,.35)'; bx.beginPath(); bx.arc(247,128,5,0,Math.PI*2); bx.fill();
+
+  // ── Panel ennemi ──────────────────────────────────────────────────────────
+  bx.fillStyle='#2a1f14'; bx.fillRect(163,6,151,60);
+  bx.fillStyle='#f5f0e0'; bx.fillRect(165,8,147,56);
+  bx.fillStyle='#2a1f14'; bx.font='bold 8px monospace';
+  bx.fillText(enemyPkmn.name.toUpperCase(), 170, 20);
+  bx.font='7px monospace';
+  bx.fillText(`Lv${enemyPkmn.lv}`, 278, 20);
+  bx.fillText('HP', 170, 34);
+  bx.fillStyle='#3c1c1c'; bx.fillRect(186,26,98,7);
+  const er=Math.max(0,enemyPkmn.hp/enemyPkmn.maxHp);
+  bx.fillStyle=hpCol(er); bx.fillRect(186,26,Math.floor(98*er),7);
+  bx.fillStyle='#2a1f14'; bx.font='7px monospace';
+  bx.fillText(`${enemyPkmn.hp}/${enemyPkmn.maxHp} PV`, 170, 50);
+
+  // ── Panel joueur ──────────────────────────────────────────────────────────
+  bx.fillStyle='#2a1f14'; bx.fillRect(7,107,160,68);
+  bx.fillStyle='#f5f0e0'; bx.fillRect(9,109,156,64);
+  bx.fillStyle='#2a1f14'; bx.font='bold 8px monospace';
+  bx.fillText('Pikachu', 14, 122);
+  bx.font='7px monospace'; bx.fillText(`Lv${playerPkmn.lv}`, 125, 122);
+  bx.fillText('HP', 14, 136);
+  bx.fillStyle='#3c1c1c'; bx.fillRect(30,128,98,7);
+  const pr=Math.max(0,playerPkmn.hp/playerPkmn.maxHp);
+  bx.fillStyle=hpCol(pr); bx.fillRect(30,128,Math.floor(98*pr),7);
+  bx.fillStyle='#2a1f14'; bx.font='7px monospace';
+  bx.fillText(`${playerPkmn.hp}/${playerPkmn.maxHp} PV`, 14, 148);
+
+  // ── Boîte message ─────────────────────────────────────────────────────────
+  bx.fillStyle='#2a1f14'; bx.fillRect(0,174,VW,4);
+  bx.fillStyle='#ede8d2'; bx.fillRect(0,178,VW,62);
+  bx.fillStyle='#2a1f14'; bx.fillRect(0,178,4,62); bx.fillRect(316,178,4,62); bx.fillRect(0,236,VW,4);
+
+  // Message principal
+  bx.fillStyle='#1a1410'; bx.font='9px monospace';
+  const lines=bMsg.split('\n');
+  lines.forEach((l,i)=> bx.fillText(l, 10, 193+i*13));
+  if(bSub){ bx.fillStyle='#774410'; bx.font='8px monospace'; bx.fillText(bSub, 10, 193+lines.length*13); }
+
+  // ── Menu CHOOSE ───────────────────────────────────────────────────────────
+  if(bst===STATES.CHOOSE){
+    bx.fillStyle='#2a1f14'; bx.fillRect(212,180,104,58);
+    bx.fillStyle='#f5f0e0'; bx.fillRect(214,182,100,54);
+    const actions=[['⚔ ATTAQUER','#1a3a8a'],['🎒 SAC','#666'],['🔵 POKÉMON','#666']];
+    actions.forEach(([txt,col],i)=>{
+      bx.fillStyle=col; bx.font=i===0?'bold 8px monospace':'8px monospace';
+      bx.fillText(txt, 220, 196+i*16);
+    });
+    bx.fillStyle='#1a3a8a'; bx.fillText('▶', 216, 196);
+    // Clic
+    canvas.onclick=e=>{
+      const cx=(e.offsetX/SCALE)|0, cy=(e.offsetY/SCALE)|0;
+      if(cx>=214&&cx<=314&&cy>=183&&cy<=199) setBattleState(STATES.PICK_MOVE,'');
+    };
+  }
+
+  // ── Menu MOVES ────────────────────────────────────────────────────────────
+  if(bst===STATES.PICK_MOVE){
+    bx.fillStyle='#1a1410'; bx.font='8px monospace';
+    bx.fillText('Choisir une attaque :', 10, 192);
+    const mpos=[[2,202],[162,202],[2,222],[162,222]];
+    playerPkmn.moves.forEach((mv,i)=>{
+      const [mx,my]=mpos[i];
+      const pp=playerPkmn.pp[i], maxPp=PDATA[playerPkmn.key].pp[i];
+      const disabled=pp<=0;
+      bx.fillStyle=disabled?'#aaa':'#2a1f14'; bx.fillRect(mx,my,154,17);
+      bx.fillStyle=disabled?'#ccc':'#f5f0e0'; bx.fillRect(mx+1,my+1,152,15);
+      bx.fillStyle=disabled?'#999':'#1a1410'; bx.font='7px monospace';
+      bx.fillText(`${mv}`, mx+4, my+10);
+      bx.fillStyle='#666'; bx.fillText(`${pp}/${maxPp}PP`, mx+104, my+10);
+    });
+    canvas.onclick=e=>{
+      const cx=(e.offsetX/SCALE)|0, cy=(e.offsetY/SCALE)|0;
+      mpos.forEach(([mx,my],i)=>{ if(cx>=mx&&cx<=mx+154&&cy>=my&&cy<=my+17) pickMove(i); });
+    };
+  }
+
+  // ── Indicateur attente ────────────────────────────────────────────────────
+  if(bst===STATES.PLAYER_ATK||bst===STATES.ENEMY_ATK||bst===STATES.XP||bst===STATES.WIN||bst===STATES.LOSE){
+    if(Math.floor(bTimer*4)%2===0){ bx.fillStyle='#2a1f14'; bx.fillText('▼', 306, 232); }
+    canvas.onclick=null;
+  }
+  if(bst===STATES.INTRO){
+    if(Math.floor(Date.now()/500)%2===0){ bx.fillStyle='#2a1f14'; bx.fillText('▼ Z / Entrée', 222, 232); }
+  }
+
+  // ── Overlay WIN / LOSE ────────────────────────────────────────────────────
+  if(bst===STATES.WIN){
+    bx.fillStyle='rgba(0,80,0,.7)'; bx.fillRect(60,85,200,30);
+    bx.fillStyle='#aaffaa'; bx.font='bold 10px monospace'; bx.textAlign='center';
+    bx.fillText('VICTOIRE !', VW/2, 105); bx.textAlign='left';
+  }
+  if(bst===STATES.LOSE){
+    bx.fillStyle='rgba(80,0,0,.7)'; bx.fillRect(60,85,200,30);
+    bx.fillStyle='#ffaaaa'; bx.font='bold 10px monospace'; bx.textAlign='center';
+    bx.fillText('DÉFAITE...', VW/2, 105); bx.textAlign='left';
+  }
+}
+
+// ─── HUD ──────────────────────────────────────────────────────────────────────
+function updateHUD(){
+  const dk=`${P.facing.x},${P.facing.y}`;
+  const dn={'0,-1':'HAUT','0,1':'BAS','-1,0':'GAUCHE','1,0':'DROITE'};
+  document.getElementById('i-tile').textContent=`${P.col},${P.row}`;
+  document.getElementById('i-dir').textContent=dn[dk]||'?';
+  document.getElementById('i-st').textContent=
+    scene==='overworld'?(inGrass(P.col,P.row)?'Herbe (15% rencontre)':'Overworld'):'Combat';
+}
+setInterval(updateHUD,120);
+
+// ─── START ────────────────────────────────────────────────────────────────────
+camX=P.x-VW/2; camY=P.y-VH/2;
 requestAnimationFrame(loop);
 </script>
 </body>

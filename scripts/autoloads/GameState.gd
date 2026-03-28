@@ -13,7 +13,7 @@ var team: Array = []
 var pc_boxes: Array = []
 
 # ── Inventaire — { item_id: count } ───────────────────────────────────────────
-var bag: Dictionary = {}
+var bag: Dictionary = {"potion": 3, "poke_ball": 5}
 
 # ── Badges ─────────────────────────────────────────────────────────────────────
 var badges: Array = []

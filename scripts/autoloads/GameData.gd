@@ -18,11 +18,12 @@ func _load_all() -> void:
 	pokemon_data = _load_json("res://data/pokemon.json")
 	moves_data   = _load_json("res://data/moves.json")
 	type_chart   = _load_json("res://data/type_chart.json")
+	items_data   = _load_json("res://data/items.json")
 	_load_encounters()
 
-	print("[GameData] %d pokémon | %d moves | %d types | %d maps encounters" % [
+	print("[GameData] %d pokémon | %d moves | %d types | %d items | %d maps encounters" % [
 		pokemon_data.size(), moves_data.size(),
-		type_chart.size(), encounters_data.size()
+		type_chart.size(), items_data.size(), encounters_data.size()
 	])
 
 func _load_encounters() -> void:
