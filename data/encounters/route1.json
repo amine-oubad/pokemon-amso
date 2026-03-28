@@ -1,0 +1,12 @@
+{
+  "grass_01": [
+    { "id": "025", "level_min": 2, "level_max": 5, "weight": 45 },
+    { "id": "133", "level_min": 2, "level_max": 4, "weight": 35 },
+    { "id": "001", "level_min": 3, "level_max": 7, "weight": 20 }
+  ],
+  "grass_02": [
+    { "id": "025", "level_min": 4, "level_max": 7, "weight": 40 },
+    { "id": "004", "level_min": 3, "level_max": 6, "weight": 35 },
+    { "id": "007", "level_min": 4, "level_max": 7, "weight": 25 }
+  ]
+}

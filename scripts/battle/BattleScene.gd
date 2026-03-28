@@ -205,7 +205,7 @@ func _on_item_used(item_id: String) -> void:
 				_animating = false
 				GameState.pending_battle = {}
 				EventBus.battle_ended.emit("caught")
-				get_tree().change_scene_to_file("res://scenes/overworld/maps/TestMap.tscn")
+				get_tree().change_scene_to_file(GameState.return_to_scene)
 			else:
 				_msg("%s s'échappe de la Ball !" % enemy_pkmn.get_name())
 				await get_tree().create_timer(1.5).timeout
@@ -412,7 +412,7 @@ func _finish() -> void:
 	player_pkmn.reset_stat_stages()
 	GameState.pending_battle = {}
 	EventBus.battle_ended.emit(result)
-	get_tree().change_scene_to_file("res://scenes/overworld/maps/TestMap.tscn")
+	get_tree().change_scene_to_file(GameState.return_to_scene)
 
 # ── Refresh UI ────────────────────────────────────────────────────────────────
 

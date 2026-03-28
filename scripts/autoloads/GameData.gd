@@ -8,7 +8,9 @@ extends Node
 var pokemon_data: Dictionary   = {}
 var moves_data: Dictionary     = {}
 var type_chart: Dictionary     = {}
-var items_data: Dictionary     = {}
+var items_data: Dictionary      = {}
+var dialogues_data: Dictionary  = {}
+var shops_data: Dictionary      = {}
 var encounters_data: Dictionary = {}  # { map_id: { zone_id: [ {...}, ... ] } }
 
 func _ready() -> void:
@@ -18,12 +20,14 @@ func _load_all() -> void:
 	pokemon_data = _load_json("res://data/pokemon.json")
 	moves_data   = _load_json("res://data/moves.json")
 	type_chart   = _load_json("res://data/type_chart.json")
-	items_data   = _load_json("res://data/items.json")
+	items_data     = _load_json("res://data/items.json")
+	dialogues_data = _load_json("res://data/dialogues.json")
+	shops_data     = _load_json("res://data/shops.json")
 	_load_encounters()
 
-	print("[GameData] %d pokémon | %d moves | %d types | %d items | %d maps encounters" % [
-		pokemon_data.size(), moves_data.size(),
-		type_chart.size(), items_data.size(), encounters_data.size()
+	print("[GameData] %d pokémon | %d moves | %d types | %d items | %d dialogues | %d maps" % [
+		pokemon_data.size(), moves_data.size(), type_chart.size(),
+		items_data.size(), dialogues_data.size(), encounters_data.size()
 	])
 
 func _load_encounters() -> void:

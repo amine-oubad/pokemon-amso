@@ -26,12 +26,22 @@ var pokedex_seen: Array = []
 var pokedex_caught: Array = []
 
 # ── Combat en attente ──────────────────────────────────────────────────────────
-## Rempli par TestMap (ou SceneManager) avant de charger BattleScene.
+## Rempli par la map courante avant de charger BattleScene.
 ## { "enemy_data": {...}, "is_trainer": false }
 var pending_battle: Dictionary = {}
 
+## Scène overworld à reprendre après un combat.
+var return_to_scene: String = "res://scenes/overworld/maps/PalletTown.tscn"
+
+## Position de spawn à appliquer au chargement de la prochaine map.
+## Vector2.ZERO = utiliser la position par défaut de la map.
+var pending_spawn_position: Vector2 = Vector2.ZERO
+
 func _ready() -> void:
 	print("[GameState] Initialisé — joueur : " + player_name)
+	# Pokémon de départ pour les tests (remplacé par l'écran de choix en Phase 4)
+	if team.is_empty():
+		team.append(PokemonInstance.create("001", 5))  # Bulbasaur Lv.5
 
 # ── Badges ─────────────────────────────────────────────────────────────────────
 

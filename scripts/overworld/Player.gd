@@ -38,6 +38,12 @@ func _physics_process(delta: float) -> void:
 	else:
 		_poll_input()
 
+func _unhandled_input(event: InputEvent) -> void:
+	if _moving:
+		return
+	if event.is_action_pressed("ui_accept"):
+		_try_interact()
+
 # ── Input ──────────────────────────────────────────────────────────────────────
 
 func _poll_input() -> void:
@@ -71,6 +77,16 @@ func _update_facing(dir_vec: Vector2) -> void:
 	elif dir_vec == Vector2.UP:    facing = Dir.UP
 	elif dir_vec == Vector2.LEFT:  facing = Dir.LEFT
 	elif dir_vec == Vector2.RIGHT: facing = Dir.RIGHT
+
+# ── Interaction ────────────────────────────────────────────────────────────────
+
+func _try_interact() -> void:
+	# La tile devant le joueur
+	var check_pos := position + DIR_VECTORS[facing] * TILE_SIZE
+	for node in get_tree().get_nodes_in_group("interactable"):
+		if node.position.distance_to(check_pos) < 8.0:
+			node.interact()
+			return
 
 # ── Mouvement ──────────────────────────────────────────────────────────────────
 

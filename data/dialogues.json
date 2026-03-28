@@ -1,0 +1,29 @@
+{
+  "pokecenter_nurse": [
+    "Bienvenue au Centre Pokémon !",
+    "Je vais soigner votre équipe. Un instant...",
+    "Vos Pokémon sont en pleine forme ! Bonne route !"
+  ],
+  "guide_pallet": [
+    "Bienvenue à Bourg-Palette !",
+    "La Route 1 mène vers Jadielle au nord.",
+    "Méfiez-vous des Pokémon sauvages dans les hautes herbes !"
+  ],
+  "sign_pallet_town": [
+    "BOURG-PALETTE\nUne ville tranquille nichée dans la nature."
+  ],
+  "sign_route1_entry": [
+    "ROUTE 1 — Jadielle City ↑"
+  ],
+  "route1_trainer": [
+    "Hé, toi ! Tu explores la Route 1 ?",
+    "Les hautes herbes abritent des Pokémon sauvages.",
+    "Entraîne-toi bien avant d'affronter les Arènes !"
+  ],
+  "sign_route1_grass": [
+    "ROUTE 1\nPokémon sauvages dans les hautes herbes !"
+  ],
+  "sign_jadielle": [
+    "JADIELLE CITY\nEn construction... Revenez bientôt !"
+  ]
+}

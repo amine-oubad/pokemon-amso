@@ -2,526 +2,592 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<title>Pokemon AMSO — Demo Phase 0+1</title>
+<title>Pokémon AMSO — Phase 3 Demo</title>
 <style>
-* { margin:0; padding:0; box-sizing:border-box; }
-body {
-  background:#0d1117; display:flex; flex-direction:column;
-  align-items:center; justify-content:center; min-height:100vh;
-  font-family:'Courier New',monospace; color:#e0e0e0; gap:10px;
-}
-h1 { font-size:12px; letter-spacing:4px; color:#58a6ff; text-transform:uppercase; }
-#wrap { position:relative; border:2px solid #30363d; }
-canvas { display:block; image-rendering:pixelated; image-rendering:crisp-edges; }
-#info { font-size:10px; color:#484f58; display:flex; gap:20px; }
-#info span { color:#58a6ff; }
-#hint { font-size:10px; color:#484f58; text-align:center; }
-#hint b { color:#8b949e; }
-#phase { background:#0d2137; border:1px solid #58a6ff33; color:#58a6ff;
-  padding:3px 10px; font-size:9px; letter-spacing:2px; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: #1a1a2e; color: #e0e0f0; font-family: 'Courier New', monospace; display: flex; flex-direction: column; align-items: center; min-height: 100vh; padding: 24px 16px; }
+h1 { font-size: 22px; color: #f4c430; margin-bottom: 4px; letter-spacing: 2px; }
+.subtitle { font-size: 11px; color: #8888aa; margin-bottom: 16px; }
+.phase-badges { display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap; justify-content: center; }
+.badge { padding: 3px 10px; border-radius: 12px; font-size: 10px; font-weight: bold; }
+.badge.done   { background: #1a5c1a; color: #4cff4c; border: 1px solid #2a8c2a; }
+.badge.active { background: #5c3a00; color: #f4c430; border: 1px solid #8c6000; }
+.layout { display: flex; gap: 16px; align-items: flex-start; flex-wrap: wrap; justify-content: center; }
+canvas { border: 3px solid #444466; image-rendering: pixelated; display: block; cursor: crosshair; outline: none; }
+.sidebar { width: 260px; display: flex; flex-direction: column; gap: 12px; }
+.panel { background: #12122a; border: 1px solid #333366; border-radius: 6px; padding: 12px; }
+.panel h3 { font-size: 11px; color: #f4c430; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 1px; }
+.btn { display: block; width: 100%; padding: 7px; margin-bottom: 6px; background: #1e1e3e; border: 1px solid #444466; color: #c0c0e0; font-family: inherit; font-size: 10px; cursor: pointer; border-radius: 3px; text-align: left; transition: background 0.15s; }
+.btn:hover  { background: #2a2a5a; color: #fff; }
+.btn.active { background: #2a4a2a; border-color: #4c8c4c; color: #4cff4c; }
+.log { background: #0a0a1a; border: 1px solid #222244; border-radius: 4px; padding: 8px; font-size: 9px; color: #8888cc; height: 130px; overflow-y: auto; line-height: 1.6; }
+.log .info  { color: #6699ff; }
+.log .ok    { color: #44cc88; }
+.log .fight { color: #ff6655; }
+.log .shop  { color: #ffdd55; }
+.legend { display: flex; flex-wrap: wrap; gap: 6px; }
+.leg-item { display: flex; align-items: center; gap: 4px; font-size: 9px; color: #8888aa; }
+.leg-swatch { width: 12px; height: 12px; border-radius: 2px; border: 1px solid #444; flex-shrink: 0; }
+.controls { font-size: 10px; color: #6666aa; line-height: 2; }
+.controls kbd { background: #222244; border: 1px solid #444466; border-radius: 3px; padding: 1px 5px; color: #aaaaee; font-family: inherit; }
 </style>
 </head>
 <body>
-<div id="phase">POKEMON AMSO — PHASES 0 &amp; 1</div>
-<h1>Demo interactive</h1>
-<div id="wrap"><canvas id="c"></canvas></div>
-<div id="info">Tile : <span id="i-tile">3,3</span> &nbsp;|&nbsp; Dir : <span id="i-dir">BAS</span> &nbsp;|&nbsp; État : <span id="i-st">Overworld</span></div>
-<div id="hint"><b>ZQSD / Flèches</b> — marcher &nbsp;|&nbsp; <b>Z / Entrée</b> — confirmer en combat &nbsp;|&nbsp; Zones foncées = herbes hautes</div>
+<h1>POKEMON AMSO</h1>
+<p class="subtitle">Fan-game Godot 4 &middot; Demo interactive Phase 3</p>
+
+<div class="phase-badges">
+  <span class="badge done">Phase 0 &mdash; Mouvement grille</span>
+  <span class="badge done">Phase 1 &mdash; Combats sauvages</span>
+  <span class="badge done">Phase 2 &mdash; Systeme complet</span>
+  <span class="badge active">Phase 3 &mdash; Overworld PNJ/Maps</span>
+</div>
+
+<div class="layout">
+  <canvas id="c" width="960" height="720" tabindex="0"></canvas>
+
+  <div class="sidebar">
+    <div class="panel">
+      <h3>Navigation</h3>
+      <button class="btn active" id="btn-pallet" onclick="goMap('pallet')">Bourg-Palette</button>
+      <button class="btn"        id="btn-route1" onclick="goMap('route1')">Route 1</button>
+      <button class="btn"        id="btn-battle" onclick="goMap('battle')">Combat (depuis Route 1)</button>
+    </div>
+
+    <div class="panel">
+      <h3>Actions rapides</h3>
+      <button class="btn" onclick="sim('talk_nurse')">Parler Infirmiere Joy</button>
+      <button class="btn" onclick="sim('talk_shop')">Ouvrir Pokemart</button>
+      <button class="btn" onclick="sim('read_sign')">Lire panneau ville</button>
+      <button class="btn" onclick="sim('walk_north')">Aller Route 1</button>
+      <button class="btn" onclick="sim('walk_south')">Retour Pallet</button>
+    </div>
+
+    <div class="panel">
+      <h3>Etat joueur</h3>
+      <div id="player-info" style="font-size:10px;line-height:1.8;color:#aaa;"></div>
+    </div>
+
+    <div class="panel">
+      <h3>Legende</h3>
+      <div class="legend">
+        <div class="leg-item"><div class="leg-swatch" style="background:#3e8c2e"></div>Herbe</div>
+        <div class="leg-item"><div class="leg-swatch" style="background:#9b7d4c"></div>Chemin</div>
+        <div class="leg-item"><div class="leg-swatch" style="background:#d93030"></div>Centre Pokemon</div>
+        <div class="leg-item"><div class="leg-swatch" style="background:#3358d9"></div>Pokemart</div>
+        <div class="leg-item"><div class="leg-swatch" style="background:#3196ff"></div>Joueur</div>
+        <div class="leg-item"><div class="leg-swatch" style="background:#e8c296"></div>PNJ</div>
+        <div class="leg-item"><div class="leg-swatch" style="background:#e0cc8c"></div>Panneau</div>
+        <div class="leg-item"><div class="leg-swatch" style="background:#256618"></div>Herbes hautes</div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h3>Controles</h3>
+      <div class="controls">
+        <kbd>ZQSD</kbd> / <kbd>Fleches</kbd> Deplacer<br>
+        <kbd>Z</kbd> / <kbd>Enter</kbd> Interagir / Valider<br>
+        <kbd>X</kbd> / <kbd>Echap</kbd> Annuler / Fermer
+      </div>
+    </div>
+
+    <div class="panel">
+      <h3>Log</h3>
+      <div class="log" id="log"></div>
+    </div>
+  </div>
+</div>
 
 <script>
-// ─── CONFIG ───────────────────────────────────────────────────────────────────
-const T=16, SCALE=3, VW=320, VH=240, MW=512, MH=384, SPEED=128;
+const SCALE = 3, TW = 320, TH = 240, TILE = 16;
+const canvas = document.getElementById('c');
+const ctx    = canvas.getContext('2d');
+ctx.imageSmoothingEnabled = false;
 
-const canvas=document.getElementById('c');
-const ctx=canvas.getContext('2d');
-canvas.width=VW*SCALE; canvas.height=VH*SCALE;
-ctx.imageSmoothingEnabled=false;
-
-const buf=document.createElement('canvas');
-buf.width=VW; buf.height=VH;
-const bx=buf.getContext('2d');
-bx.imageSmoothingEnabled=false;
-
-// ─── INPUT ────────────────────────────────────────────────────────────────────
-const K={};
-addEventListener('keydown',e=>{ K[e.code]=true; e.preventDefault(); });
-addEventListener('keyup',  e=>{ K[e.code]=false; });
-function dir(){ if(K.KeyZ||K.ArrowUp)    return{x:0,y:-1};
-               if(K.KeyS||K.ArrowDown)  return{x:0,y:1};
-               if(K.KeyQ||K.ArrowLeft)  return{x:-1,y:0};
-               if(K.KeyD||K.ArrowRight) return{x:1,y:0};
-               return null; }
-function confirm(){ return K.KeyZ||K.Enter||K.Space; }
-
-// ─── DATA (extrait de pokemon.json / moves.json) ───────────────────────────────
-const PDATA={
-  pikachu:{ name:'Pikachu', types:['Electric'], color:'#f5c518',
-    hp:35,atk:55,spAtk:50,def:40,spDef:50,speed:90,
-    moves:['Tonnerre','Jackpot','Vive-Attaque','Cage-Éclair'],
-    pp:[15,30,30,20] },
-  eevee:  { name:'Eevee', types:['Normal'], color:'#c8a870',
-    hp:55,atk:55,spAtk:45,def:50,spDef:65,speed:55,
-    moves:['Morsure','Jackpot','Vive-Attaque','Griffe'],
-    pp:[25,35,30,35] },
-  bulbasaur:{ name:'Bulbasaur', types:['Grass','Poison'], color:'#78c878',
-    hp:45,atk:49,spAtk:65,def:49,spDef:65,speed:45,
-    moves:['Fouet Liane','Triplattaque','Lance-Soleil','Rachélée'],
-    pp:[25,10,10,10] }
+// ─── Etat ─────────────────────────────────────────────────────────────────────
+const gs = {
+  map: 'pallet',
+  px: 160, py: 208, pfacing: 'down',
+  money: 3000,
+  team: [{ name: 'Bulbizarre', hp: 45, maxHp: 45, level: 5, status: '' }],
+  bag:  { 'Potion': 3, 'Poke Ball': 5 },
+  dialogue: null,
+  shop: null,
 };
 
-// ─── TYPE CHART (simplifié) ───────────────────────────────────────────────────
-const EFF={
-  Electric:{Water:2,Electric:.5,Grass:.5,Ground:0,Flying:2,Dragon:.5},
-  Grass:{Fire:.5,Water:2,Grass:.5,Poison:.5,Ground:2,Flying:.5,Bug:.5,Rock:2,Dragon:.5,Steel:.5},
-  Normal:{Rock:.5,Ghost:0,Steel:.5},
-};
-function typeEff(atkType,defTypes){
-  let m=1;
-  for(const dt of defTypes) m*=(EFF[atkType]?.[dt]??1);
-  return m;
-}
-
-// ─── OBSTACLES / WALLS ───────────────────────────────────────────────────────
-const OBSTACLES=[
-  {x:14,y:8,w:4,h:2,  col:'#8b4513', label:'Maison'},
-  {x:6, y:13,w:2,h:4, col:'#808080', label:'Rocher'},
-  {x:2, y:6, w:2,h:2, col:'#145214', label:'Arbre'},
-  {x:22,y:4, w:2,h:2, col:'#145214', label:'Arbre'},
-  {x:24,y:14,w:2,h:2, col:'#145214', label:'Arbre'},
-  {x:4, y:18,w:2,h:2, col:'#145214', label:'Arbre'},
-  {x:18,y:10,w:2,h:2, col:'#145214', label:'Arbre'},
-];
-// Zones d'herbe (en tiles) — Phase 1
-const GRASS_ZONES=[
-  {x:3,y:11,w:10,h:8},  // grande zone gauche
-  {x:20,y:3,w:6,h:6},   // petite zone droite
+const SHOP_ITEMS = [
+  { name: 'Potion',        price: 300, desc: 'Restaure 20 PV au Pokemon cible.' },
+  { name: 'Poke Ball',     price: 200, desc: 'Ball standard pour attraper des Pokemon.' },
+  { name: 'Antidote',      price: 100, desc: 'Guerit l\'empoisonnement.' },
+  { name: 'Antiparalysie', price: 200, desc: 'Guerit la paralysie.' },
+  { name: 'Guer. Brulee',  price: 250, desc: 'Guerit la brulure.' },
 ];
 
-const blocked=new Set();
-for(let c=-1;c<=MW/T;c++){blocked.add(`${c},-1`);blocked.add(`${c},${MH/T}`);}
-for(let r=-1;r<=MH/T;r++){blocked.add(`-1,${r}`);blocked.add(`${MW/T},${r}`);}
-OBSTACLES.forEach(o=>{for(let dc=0;dc<o.w;dc++)for(let dr=0;dr<o.h;dr++)blocked.add(`${o.x+dc},${o.y+dr}`);});
-const isBlocked=(c,r)=>blocked.has(`${c},${r}`);
-const inGrass=(c,r)=>GRASS_ZONES.some(g=>c>=g.x&&c<g.x+g.w&&r>=g.y&&r<g.y+g.h);
-
-// ─── PLAYER ───────────────────────────────────────────────────────────────────
-const P={
-  x:3*T,y:3*T,
-  moving:false,fromX:3*T,fromY:3*T,toX:3*T,toY:3*T,prog:0,
-  facing:{x:0,y:1}, trail:[],
-  get col(){ return Math.round(this.x/T); },
-  get row(){ return Math.round(this.y/T); }
+const SIGN_TEXT = {
+  pallet_town:  ['BOURG-PALETTE', 'Une ville tranquille nichee dans la nature.'],
+  route1_entry: ['ROUTE 1 -- Jadielle City ↑'],
+  route1_grass: ['ROUTE 1', 'Pokemon sauvages dans les hautes herbes !'],
+  jadielle:     ['JADIELLE CITY', 'En construction... Revenez bientot !'],
 };
 
-// ─── SCENE MANAGER ───────────────────────────────────────────────────────────
-let scene='overworld'; // 'overworld' | 'battle_flash' | 'battle'
+const MAPS = {
+  pallet: {
+    name: 'Bourg-Palette', bg: '#3e8c2e',
+    buildings: [
+      { x: 24,  y: 20,  w: 96, h: 48, color: '#d93030', label: 'CENTRE\nPOKEMON' },
+      { x: 200, y: 20,  w: 96, h: 48, color: '#3358d9', label: 'POKEMART' },
+      { x: 24,  y: 104, w: 48, h: 48, color: '#c0a465', label: 'MAISON' },
+    ],
+    npcs: [
+      { x: 72,  y: 84,  color: '#eeaaaa', label: 'Joy',    action: 'nurse'   },
+      { x: 248, y: 84,  color: '#88cc88', label: 'Shop',   action: 'shop'    },
+      { x: 240, y: 160, color: '#8888d8', label: 'Guide',  action: 'guide'   },
+    ],
+    signs: [
+      { x: 112, y: 208, key: 'pallet_town'  },
+      { x: 128, y: 32,  key: 'route1_entry' },
+    ],
+    transitions: [
+      { x: 144, y: 0, w: 32, h: 16, target: 'route1', spawnX: 160, spawnY: 32, label: 'Route 1' },
+    ],
+    grass: [],
+  },
+  route1: {
+    name: 'Route 1', bg: '#38751e',
+    buildings: [],
+    npcs: [
+      { x: 80, y: 176, color: '#9948c0', label: 'Dresseur', action: 'trainer' },
+    ],
+    signs: [
+      { x: 128, y: 32,  key: 'route1_grass' },
+      { x: 176, y: 16,  key: 'jadielle'     },
+    ],
+    transitions: [
+      { x: 144, y: TH - 16, w: 32, h: 16, target: 'pallet', spawnX: 160, spawnY: 208, label: 'Bourg-Palette' },
+    ],
+    grass: [
+      { x: 16,  y: 32,  w: 112, h: 96  },
+      { x: 192, y: 112, w: 112, h: 96  },
+    ],
+  },
+};
 
-// ─── BATTLE STATE ─────────────────────────────────────────────────────────────
-const STATES={INTRO:0,CHOOSE:1,PICK_MOVE:2,PLAYER_ATK:3,ENEMY_ATK:4,CHECK:5,XP:6,WIN:7,LOSE:8};
-let bst, bMsg, bSub, bTimer, bFlash, bFlashT;
-let playerPkmn, enemyPkmn, lastAtk;
-
-// Stats calculées Gen 3 (IV=15, EV=0)
-function calcStats(base, lv){
-  const iv=15;
-  return{
-    maxHp: Math.floor((2*base.hp+iv)*lv/100)+lv+10,
-    atk:   Math.floor((2*base.atk+iv)*lv/100)+5,
-    def:   Math.floor((2*base.def+iv)*lv/100)+5,
-    spAtk: Math.floor((2*base.spAtk+iv)*lv/100)+5,
-    spDef: Math.floor((2*base.spDef+iv)*lv/100)+5,
-    speed: Math.floor((2*base.speed+iv)*lv/100)+5,
-  };
+// ─── Log ──────────────────────────────────────────────────────────────────────
+function log(msg, cls='info') {
+  const el = document.getElementById('log');
+  const div = document.createElement('div');
+  div.className = cls; div.textContent = msg;
+  el.appendChild(div);
+  el.scrollTop = el.scrollHeight;
 }
 
-function makePkmn(key, lv){
-  const d=PDATA[key];
-  const s=calcStats(d, lv);
-  return{
-    key, name:d.name, types:d.types, color:d.color, lv,
-    ...s, hp:s.maxHp,
-    moves:d.moves.slice(), pp:d.pp.slice()
-  };
+// ─── Draw ─────────────────────────────────────────────────────────────────────
+function S(n) { return n * SCALE; }
+
+function fillR(x, y, w, h, c) {
+  ctx.fillStyle = c;
+  ctx.fillRect(S(x), S(y), S(w), S(h));
 }
 
-function calcDamage(atk, def, movePower, moveType, atkTypes){
-  const atkStat=atk.atk, defStat=def.def;
-  const base=Math.floor(Math.floor(Math.floor(2*atk.lv/5+2)*movePower*atkStat/defStat)/50)+2;
-  const crit=Math.random()<0.0625;
-  const stab=atkTypes.includes(moveType)?1.5:1;
-  const eff=typeEff(moveType, def.types);
-  const rng=0.85+Math.random()*0.15;
-  return{ dmg:Math.max(eff>0?1:0, Math.floor(base*(crit?1.5:1)*stab*eff*rng)), crit, eff, stab:stab>1 };
+function txt(t, x, y, size, col, align) {
+  ctx.fillStyle = col;
+  ctx.font = `${S(size)}px "Courier New"`;
+  ctx.textAlign = align || 'left';
+  ctx.textBaseline = 'top';
+  String(t).split('\n').forEach((l, i) =>
+    ctx.fillText(l, S(x), S(y + i * (size + 2)))
+  );
+  ctx.textAlign = 'left';
 }
 
-function startBattle(){
-  const enemies=[
-    {key:'pikachu',  lv:rng(3,6)},
-    {key:'eevee',    lv:rng(2,5)},
-    {key:'bulbasaur',lv:rng(4,7)},
-  ];
-  const weights=[45,35,20], roll=Math.random()*100;
-  let cum=0, picked=enemies[0];
-  for(let i=0;i<enemies.length;i++){ cum+=weights[i]; if(roll<cum){picked=enemies[i];break;} }
-
-  enemyPkmn=makePkmn(picked.key, picked.lv);
-  playerPkmn=makePkmn('pikachu', 5);  // joueur a toujours Pikachu Lv5
-
-  bFlash=true; bFlashT=0; scene='battle_flash';
+function shade(hex, d) {
+  const v = (s) => Math.max(0, Math.min(255, parseInt(hex.slice(s, s+2), 16) + d));
+  return '#' + [1,3,5].map(i => v(i).toString(16).padStart(2,'0')).join('');
 }
 
-function setBattleState(s, msg='', sub=''){
-  bst=s; bMsg=msg; bSub=sub; bTimer=0;
-}
-function rng(a,b){ return Math.floor(Math.random()*(b-a+1))+a; }
+// ─── Render principal ─────────────────────────────────────────────────────────
+function render() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-// ─── GAME LOOP ────────────────────────────────────────────────────────────────
-let last=null;
-function loop(ts){
-  if(!last) last=ts;
-  const dt=Math.min((ts-last)/1000,.05);
-  last=ts;
-  update(dt);
-  renderAll();
-  requestAnimationFrame(loop);
-}
+  if (gs.map === 'battle') { renderBattle(); updateInfo(); return; }
 
-function update(dt){
-  if(scene==='overworld')       updateOW(dt);
-  else if(scene==='battle_flash') updateFlash(dt);
-  else if(scene==='battle')       updateBattle(dt);
-}
+  const map = MAPS[gs.map];
 
-// ─── OVERWORLD UPDATE ─────────────────────────────────────────────────────────
-function updateOW(dt){
-  if(P.moving){
-    P.prog+=dt*SPEED/T;
-    if(P.prog>=1){
-      P.x=P.toX; P.y=P.toY; P.moving=false; P.prog=0;
-      // Vérifier rencontre
-      if(inGrass(P.col,P.row) && Math.random()<0.15){ startBattle(); return; }
-      updateHUD();
-    } else {
-      P.x=P.fromX+(P.toX-P.fromX)*P.prog;
-      P.y=P.fromY+(P.toY-P.fromY)*P.prog;
-    }
-  } else {
-    const d=dir();
-    if(!d) return;
-    P.facing=d;
-    const nc=P.col+d.x, nr=P.row+d.y;
-    if(!isBlocked(nc,nr)){
-      P.trail.push({x:P.x,y:P.y});
-      if(P.trail.length>5) P.trail.shift();
-      P.fromX=P.x; P.fromY=P.y; P.toX=nc*T; P.toY=nr*T;
-      P.prog=0; P.moving=true;
-    }
-  }
-}
-let camX=0,camY=0;
-function updateCam(){
-  const tx=P.x-VW/2, ty=P.y-VH/2;
-  camX+=(tx-camX)*0.12;
-  camY+=(ty-camY)*0.12;
-  camX=Math.max(0,Math.min(MW-VW,camX));
-  camY=Math.max(0,Math.min(MH-VH,camY));
-}
+  // Sol
+  fillR(0, 0, TW, TH, map.bg);
 
-// ─── BATTLE FLASH ─────────────────────────────────────────────────────────────
-function updateFlash(dt){
-  bFlashT+=dt;
-  if(bFlashT>0.6){
-    scene='battle';
-    setBattleState(STATES.INTRO, `Un ${enemyPkmn.name} sauvage\napparaît !`);
-  }
-}
+  // Chemin central
+  fillR(144, 0, 32, TH, '#9b7d4c');
 
-// ─── BATTLE UPDATE (clavier) ──────────────────────────────────────────────────
-let _prevConfirm=false;
-function updateBattle(dt){
-  bTimer+=dt;
-  const nowConf=confirm();
-  const pressed=nowConf&&!_prevConfirm;
-  _prevConfirm=nowConf;
-
-  if(bst===STATES.INTRO && pressed){ setBattleState(STATES.CHOOSE,'Que va faire\nPikachu ?'); return; }
-  if(bst===STATES.PLAYER_ATK||bst===STATES.ENEMY_ATK||bst===STATES.CHECK||bst===STATES.XP) {
-    if(bTimer>1.8) advanceBattle();
-    return;
-  }
-  if(bst===STATES.WIN||bst===STATES.LOSE){ if(bTimer>2.0){ scene='overworld'; } return; }
-}
-
-let selectedMove=0;
-function pickMove(idx){
-  if(bst!==STATES.PICK_MOVE) return;
-  if(playerPkmn.pp[idx]<=0) return;
-  selectedMove=idx;
-  playerPkmn.pp[idx]--;
-  const power=40+idx*15;
-  const res=calcDamage(playerPkmn,enemyPkmn,power,'Electric',playerPkmn.types);
-  enemyPkmn.hp=Math.max(0,enemyPkmn.hp-res.dmg);
-  let msg=`Pikachu utilise\n${playerPkmn.moves[idx]} !`;
-  let sub='';
-  if(res.crit) sub+='Coup critique ! ';
-  if(res.eff>1) sub+='Super efficace !';
-  else if(res.eff<1&&res.eff>0) sub+='Peu efficace...';
-  else if(res.eff===0) sub='Sans effet !';
-  lastAtk='player';
-  setBattleState(STATES.PLAYER_ATK, msg, sub);
-}
-
-function advanceBattle(){
-  if(bst===STATES.PLAYER_ATK){
-    if(enemyPkmn.hp<=0){ setBattleState(STATES.XP,`${enemyPkmn.name} est K.O. !\nPikachu gagne de l'EXP !`); return; }
-    // Tour ennemi
-    const mi=Math.floor(Math.random()*enemyPkmn.moves.length);
-    const power=35+mi*12;
-    const res=calcDamage(enemyPkmn,playerPkmn,power,'Normal',enemyPkmn.types);
-    playerPkmn.hp=Math.max(0,playerPkmn.hp-res.dmg);
-    let msg=`${enemyPkmn.name} utilise\n${enemyPkmn.moves[mi]} !`;
-    let sub='';
-    if(res.crit) sub+='Coup critique ! ';
-    if(res.eff>1) sub+='Super efficace !';
-    lastAtk='enemy';
-    setBattleState(STATES.ENEMY_ATK, msg, sub);
-    return;
-  }
-  if(bst===STATES.ENEMY_ATK){
-    if(playerPkmn.hp<=0){ setBattleState(STATES.LOSE,'Pikachu est K.O. !'); return; }
-    setBattleState(STATES.CHOOSE,'Que va faire\nPikachu ?');
-    return;
-  }
-  if(bst===STATES.XP){ setBattleState(STATES.WIN,'Victoire ! Retour\nà l\'overworld...'); return; }
-}
-
-// ─── RENDER ───────────────────────────────────────────────────────────────────
-function renderAll(){
-  bx.fillStyle='#111'; bx.fillRect(0,0,VW,VH);
-  if(scene==='overworld')       renderOW();
-  else if(scene==='battle_flash') renderFlash();
-  else if(scene==='battle')       renderBattle();
-  ctx.imageSmoothingEnabled=false;
-  ctx.drawImage(buf,0,0,VW*SCALE,VH*SCALE);
-}
-
-// ─── OVERWORLD RENDER ─────────────────────────────────────────────────────────
-function renderOW(){
-  updateCam();
-  // Sol en damier
-  for(let r=0;r<MH/T;r++) for(let c=0;c<MW/T;c++){
-    const wx=c*T-camX, wy=r*T-camY;
-    if(wx+T<0||wx>VW||wy+T<0||wy>VH) continue;
-    bx.fillStyle=(c+r)%2===0?'#38a832':'#2d8a28';
-    bx.fillRect(wx,wy,T,T);
-  }
   // Herbes hautes
-  GRASS_ZONES.forEach(g=>{
-    for(let r=g.y;r<g.y+g.h;r++) for(let c=g.x;c<g.x+g.w;c++){
-      const wx=c*T-camX, wy=r*T-camY;
-      if(wx+T<0||wx>VW||wy+T<0||wy>VH) continue;
-      bx.fillStyle=(c+r)%2===0?'#1a5c1a':'#145014';
-      bx.fillRect(wx,wy,T,T);
-      // Brins d'herbe stylisés
-      bx.fillStyle='#22771a';
-      bx.fillRect(wx+3,wy+8,2,6); bx.fillRect(wx+9,wy+5,2,9);
-      bx.fillRect(wx+13,wy+9,2,5);
-    }
+  (map.grass || []).forEach(g => {
+    fillR(g.x, g.y, g.w, g.h, '#256618');
+    ctx.fillStyle = '#1d5212';
+    for (let rx = g.x + 4; rx < g.x + g.w - 4; rx += 8)
+      for (let ry = g.y + 2; ry < g.y + g.h - 2; ry += 6)
+        ctx.fillRect(S(rx), S(ry), S(2), S(4));
   });
-  // Grille légère
-  bx.strokeStyle='rgba(0,0,0,0.07)'; bx.lineWidth=0.5;
-  const sc=Math.floor(camX/T), sr=Math.floor(camY/T);
-  for(let c=sc;c<=sc+VW/T+1;c++){ const x=c*T-camX; bx.beginPath();bx.moveTo(x,0);bx.lineTo(x,VH);bx.stroke(); }
-  for(let r=sr;r<=sr+VH/T+1;r++){ const y=r*T-camY; bx.beginPath();bx.moveTo(0,y);bx.lineTo(VW,y);bx.stroke(); }
-  // Obstacles
-  OBSTACLES.forEach(o=>{
-    const wx=o.x*T-camX, wy=o.y*T-camY, pw=o.w*T, ph=o.h*T;
-    if(wx+pw<0||wx>VW||wy+ph<0||wy>VH) return;
-    bx.fillStyle=o.col; bx.fillRect(wx,wy,pw,ph);
-    if(o.label==='Arbre'){
-      bx.fillStyle='#1a7a1a'; bx.fillRect(wx+2,wy+2,pw-4,ph-4);
-      bx.fillStyle='#2ca02c'; bx.fillRect(wx+4,wy+2,pw-8,3);
-    }
-    bx.fillStyle='rgba(0,0,0,.2)'; bx.fillRect(wx+1,wy+ph-3,pw-1,3);
-    bx.fillStyle='rgba(255,255,255,.12)'; bx.fillRect(wx,wy,pw,2);
+
+  // Indicateurs sortie
+  if (gs.map === 'pallet') {
+    ctx.fillStyle = '#ffffff33';
+    ctx.fillRect(S(144), 0, S(32), S(8));
+    txt('↑ Route 1', 148, 1, 5, '#ffffffbb');
+  }
+  if (gs.map === 'route1') {
+    ctx.fillStyle = '#ffffff33';
+    ctx.fillRect(S(144), S(TH - 8), S(32), S(8));
+    txt('↑ Jadielle (bientot)', 60, 2, 5, '#ffffffbb');
+    txt('↓ Bourg-Palette', 60, TH - 13, 5, '#ffffffbb');
+  }
+
+  // Batiments
+  map.buildings.forEach(b => {
+    fillR(b.x, b.y, b.w, b.h, b.color);
+    fillR(b.x, b.y, b.w, 8, shade(b.color, -40));
+    fillR(b.x + b.w/2 - 6, b.y + b.h - 14, 12, 14, shade(b.color, 50));
+    txt(b.label, b.x + b.w/2, b.y + b.h * 0.35, 5, '#fff', 'center');
   });
-  // Trace
-  P.trail.forEach((t,i)=>{
-    const a=(i+1)/P.trail.length*.25;
-    bx.fillStyle=`rgba(52,104,240,${a})`;
-    bx.fillRect(Math.floor(t.x-camX)+2,Math.floor(t.y-camY)+2,T-4,T-4);
+
+  // Panneaux
+  map.signs.forEach(s => {
+    fillR(s.x - 7, s.y - 16, 14, 10, '#e0cc8c');
+    fillR(s.x - 2, s.y - 7,   4, 14, '#7a5518');
+    txt('!', s.x, s.y - 14, 5, '#333', 'center');
   });
+
+  // PNJs
+  map.npcs.forEach(n => {
+    fillR(n.x - 6, n.y - 14, 12, 10, n.color);
+    fillR(n.x - 5, n.y - 23, 10, 10, '#e8c296');
+    txt(n.label, n.x, n.y + 2, 5, '#fff', 'center');
+  });
+
   // Joueur
-  const px=Math.floor(P.x-camX), py=Math.floor(P.y-camY);
-  bx.fillStyle='rgba(0,0,0,.18)'; bx.fillRect(px+2,py+T-3,T-4,3);
-  bx.fillStyle='#3468f0'; bx.fillRect(px+1,py+1,T-2,T-2);
-  bx.fillStyle='#6090ff'; bx.fillRect(px+1,py+1,T-2,2); bx.fillRect(px+1,py+1,2,T-2);
-  // Yeux selon direction
-  bx.fillStyle='#fff';
-  const ex=px+T/2+P.facing.x*3, ey=py+T/2+P.facing.y*3;
-  const px2=P.facing.y, py2=-P.facing.x;
-  bx.fillRect(ex+px2*2-1,ey+py2*2-1,2,2); bx.fillRect(ex-px2*2-1,ey-py2*2-1,2,2);
-  // HUD
-  bx.fillStyle='rgba(0,0,0,.5)'; bx.fillRect(2,2,128,22);
-  bx.fillStyle='#58a6ff'; bx.font='6px monospace';
-  const g=inGrass(P.col,P.row);
-  bx.fillText(`tile(${P.col},${P.row}) ${g?'🌿 HERBE':''}`, 5, 10);
-  bx.fillStyle='#666'; bx.fillText('Phase 0+1 — Godot 4 GDScript', 5, 20);
+  fillR(gs.px - 7, gs.py - 7, 14, 14, '#3196ff');
+  fillR(gs.px - 5, gs.py - 16, 10, 10, '#e8c296');
+  const dv = {up:[0,-10], down:[0,10], left:[-10,0], right:[10,0]}[gs.pfacing]||[0,10];
+  ctx.fillStyle = '#ffffff66';
+  ctx.fillRect(S(gs.px + dv[0] - 2), S(gs.py + dv[1] - 2), S(4), S(4));
+
+  // Overlays
+  if (gs.dialogue) renderDialogue();
+  else if (gs.shop) renderShop();
+
+  updateInfo();
 }
 
-// ─── FLASH RENDER ─────────────────────────────────────────────────────────────
-function renderFlash(){
-  const t=bFlashT/0.6;
-  const n=Math.floor(t*6);
-  bx.fillStyle=n%2===0?'#fff':'#000';
-  bx.fillRect(0,0,VW,VH);
-  bx.fillStyle=n%2===0?'#000':'#fff';
-  bx.font='bold 10px monospace'; bx.textAlign='center';
-  bx.fillText('Un Pokémon sauvage apparaît !',VW/2,VH/2);
-  bx.textAlign='left';
+function renderDialogue() {
+  const d = gs.dialogue;
+  fillR(4, TH - 62, TW - 8, 60, '#000000ee');
+  ctx.strokeStyle = '#ffffff'; ctx.lineWidth = SCALE;
+  ctx.strokeRect(S(4) + SCALE/2, S(TH-62) + SCALE/2, S(TW-8) - SCALE, S(60) - SCALE);
+  fillR(6, TH - 60, TW - 12, 56, '#0d0d20');
+
+  d.lines[d.idx].split('\n').forEach((l, i) =>
+    txt(l, 12, TH - 54 + i * 13, 8, '#fff')
+  );
+  if (d.idx < d.lines.length - 1) txt('▼', TW - 16, TH - 14, 8, '#fff', 'right');
+  else txt('[Z] Fermer', TW - 12, TH - 13, 6, '#aaa', 'right');
 }
 
-// ─── BATTLE RENDER ────────────────────────────────────────────────────────────
-function hpCol(r){ if(r>.5) return'#20bf20'; if(r>.2) return'#e0b014'; return'#e02c1a'; }
+function renderShop() {
+  const sh = gs.shop;
+  fillR(8, 8, TW - 16, TH - 16, '#000000ee');
+  ctx.strokeStyle = '#fff'; ctx.lineWidth = SCALE;
+  ctx.strokeRect(S(8)+SCALE/2, S(8)+SCALE/2, S(TW-16)-SCALE, S(TH-16)-SCALE);
+  fillR(10, 10, TW - 20, TH - 20, '#0d0d20');
 
-function renderBattle(){
-  // Fond
-  bx.fillStyle='#ede8d2'; bx.fillRect(0,0,VW,VH);
-  // Décor sol
-  bx.fillStyle='#c8bc92'; bx.fillRect(0,130,VW,44);
-  bx.fillStyle='#b8a878'; bx.fillRect(0,128,VW,4);
-  // Plateformes
-  bx.fillStyle='#d8cc9c'; bx.fillRect(170,110,90,22); // ennemi
-  bx.fillStyle='#d8cc9c'; bx.fillRect(50,146,90,22);  // joueur
+  txt('POKEMART', 14, 14, 8, '#f4c430');
+  txt('P$ ' + gs.money, 200, 14, 8, '#f4c430');
 
-  // ── Sprite ennemi (bulle de couleur avec silhouette) ──────────────────────
-  const ec=enemyPkmn.color;
-  bx.fillStyle=ec+'88'; bx.beginPath(); bx.arc(68,76,30,0,Math.PI*2); bx.fill();
-  bx.fillStyle=ec;       bx.beginPath(); bx.arc(68,76,22,0,Math.PI*2); bx.fill();
-  bx.fillStyle='rgba(0,0,0,.2)'; bx.beginPath(); bx.arc(68,82,22,0,Math.PI*2); bx.fill();
-  bx.fillStyle='rgba(255,255,255,.35)'; bx.beginPath(); bx.arc(62,68,8,0,Math.PI*2); bx.fill();
-  // Lettre type
-  bx.fillStyle='rgba(0,0,0,.6)'; bx.font='bold 11px monospace'; bx.textAlign='center';
-  bx.fillText(enemyPkmn.types[0].slice(0,3).toUpperCase(), 68, 80); bx.textAlign='left';
+  ctx.fillStyle = '#333366';
+  ctx.fillRect(S(14), S(28), S(TW-28), S(1));
 
-  // ── Sprite joueur (Pikachu stylisé) ───────────────────────────────────────
-  bx.fillStyle='#f5c51888'; bx.beginPath(); bx.arc(252,136,26,0,Math.PI*2); bx.fill();
-  bx.fillStyle='#f5c518';    bx.beginPath(); bx.arc(252,136,18,0,Math.PI*2); bx.fill();
-  bx.fillStyle='rgba(0,0,0,.2)'; bx.beginPath(); bx.arc(252,140,18,0,Math.PI*2); bx.fill();
-  bx.fillStyle='rgba(255,255,255,.35)'; bx.beginPath(); bx.arc(247,128,5,0,Math.PI*2); bx.fill();
+  sh.items.forEach((it, i) => {
+    if (i === sh.sel) fillR(14, 32 + i*18, TW-28, 16, '#2a2a66');
+    const c = i === sh.sel ? '#fff' : '#aac';
+    txt(it.name, 18, 35 + i*18, 8, c);
+    txt(it.price + ' P$', 232, 35 + i*18, 8, '#f4c430', 'right');
+  });
 
-  // ── Panel ennemi ──────────────────────────────────────────────────────────
-  bx.fillStyle='#2a1f14'; bx.fillRect(163,6,151,60);
-  bx.fillStyle='#f5f0e0'; bx.fillRect(165,8,147,56);
-  bx.fillStyle='#2a1f14'; bx.font='bold 8px monospace';
-  bx.fillText(enemyPkmn.name.toUpperCase(), 170, 20);
-  bx.font='7px monospace';
-  bx.fillText(`Lv${enemyPkmn.lv}`, 278, 20);
-  bx.fillText('HP', 170, 34);
-  bx.fillStyle='#3c1c1c'; bx.fillRect(186,26,98,7);
-  const er=Math.max(0,enemyPkmn.hp/enemyPkmn.maxHp);
-  bx.fillStyle=hpCol(er); bx.fillRect(186,26,Math.floor(98*er),7);
-  bx.fillStyle='#2a1f14'; bx.font='7px monospace';
-  bx.fillText(`${enemyPkmn.hp}/${enemyPkmn.maxHp} PV`, 170, 50);
+  ctx.fillStyle = '#333366';
+  ctx.fillRect(S(14), S(TH-54), S(TW-28), S(1));
+  txt(sh.items[sh.sel].desc, 18, TH - 48, 7, '#888bcc');
+  txt('[Z] Acheter  [X] Quitter', 18, TH - 32, 7, '#556');
 
-  // ── Panel joueur ──────────────────────────────────────────────────────────
-  bx.fillStyle='#2a1f14'; bx.fillRect(7,107,160,68);
-  bx.fillStyle='#f5f0e0'; bx.fillRect(9,109,156,64);
-  bx.fillStyle='#2a1f14'; bx.font='bold 8px monospace';
-  bx.fillText('Pikachu', 14, 122);
-  bx.font='7px monospace'; bx.fillText(`Lv${playerPkmn.lv}`, 125, 122);
-  bx.fillText('HP', 14, 136);
-  bx.fillStyle='#3c1c1c'; bx.fillRect(30,128,98,7);
-  const pr=Math.max(0,playerPkmn.hp/playerPkmn.maxHp);
-  bx.fillStyle=hpCol(pr); bx.fillRect(30,128,Math.floor(98*pr),7);
-  bx.fillStyle='#2a1f14'; bx.font='7px monospace';
-  bx.fillText(`${playerPkmn.hp}/${playerPkmn.maxHp} PV`, 14, 148);
+  if (sh.msg) txt(sh.msg, 18, TH - 18, 7, sh.msgOk ? '#4f8' : '#f66');
+}
 
-  // ── Boîte message ─────────────────────────────────────────────────────────
-  bx.fillStyle='#2a1f14'; bx.fillRect(0,174,VW,4);
-  bx.fillStyle='#ede8d2'; bx.fillRect(0,178,VW,62);
-  bx.fillStyle='#2a1f14'; bx.fillRect(0,178,4,62); bx.fillRect(316,178,4,62); bx.fillRect(0,236,VW,4);
+function renderBattle() {
+  fillR(0, 0, TW, TH, '#1a1a3a');
+  fillR(0, 0, TW, 10, '#0a0a1a');
+  txt('COMBAT SAUVAGE — Route 1', 6, 1, 8, '#f4c430');
 
-  // Message principal
-  bx.fillStyle='#1a1410'; bx.font='9px monospace';
-  const lines=bMsg.split('\n');
-  lines.forEach((l,i)=> bx.fillText(l, 10, 193+i*13));
-  if(bSub){ bx.fillStyle='#774410'; bx.font='8px monospace'; bx.fillText(bSub, 10, 193+lines.length*13); }
+  fillR(0, 14, TW, 96, '#2a3040');
+  fillR(160, 18, 80, 56, '#3a4050');
+  fillR(172, 22, 56, 44, '#ff7766');
+  txt('Pikachu Nv.4', 162, 18, 6, '#fff');
+  txt('PV 28/32', 162, 30, 6, '#4f8');
 
-  // ── Menu CHOOSE ───────────────────────────────────────────────────────────
-  if(bst===STATES.CHOOSE){
-    bx.fillStyle='#2a1f14'; bx.fillRect(212,180,104,58);
-    bx.fillStyle='#f5f0e0'; bx.fillRect(214,182,100,54);
-    const actions=[['⚔ ATTAQUER','#1a3a8a'],['🎒 SAC','#666'],['🔵 POKÉMON','#666']];
-    actions.forEach(([txt,col],i)=>{
-      bx.fillStyle=col; bx.font=i===0?'bold 8px monospace':'8px monospace';
-      bx.fillText(txt, 220, 196+i*16);
-    });
-    bx.fillStyle='#1a3a8a'; bx.fillText('▶', 216, 196);
-    // Clic
-    canvas.onclick=e=>{
-      const cx=(e.offsetX/SCALE)|0, cy=(e.offsetY/SCALE)|0;
-      if(cx>=214&&cx<=314&&cy>=183&&cy<=199) setBattleState(STATES.PICK_MOVE,'');
-    };
+  fillR(0, 110, TW, 52, '#1e2830');
+  fillR(0, 114, 100, 44, '#2a3840');
+  fillR(10, 116, 56, 38, '#3196ff');
+  txt('Bulbizarre Nv.5', 4, 110, 6, '#fff');
+  txt('PV ' + gs.team[0].hp + '/' + gs.team[0].maxHp, 4, 122, 6, '#4f8');
+
+  fillR(0, 162, TW, 50, '#0d0d20');
+  ctx.strokeStyle = '#fff4'; ctx.lineWidth = SCALE;
+  ctx.strokeRect(S(0)+SCALE/2, S(162)+SCALE/2, S(TW)-SCALE, S(50)-SCALE);
+  txt('Un Pikachu sauvage apparait !', 8, 170, 8, '#fff');
+
+  fillR(160, 162, 160, 78, '#0d0d20');
+  ctx.strokeStyle = '#fff6'; ctx.lineWidth = SCALE;
+  ctx.strokeRect(S(160)+SCALE/2, S(162)+SCALE/2, S(160)-SCALE, S(78)-SCALE);
+  ['ATTAQUE','SAC','POKEMON','FUITE'].forEach((opt, i) =>
+    txt((i===0?'> ':' ') + opt, 166 + (i%2)*72, 170 + Math.floor(i/2)*24, 8, i===0?'#f4c430':'#aac')
+  );
+
+  txt('[X] Retour overworld', 60, TH - 10, 6, '#556');
+}
+
+// ─── Info joueur ──────────────────────────────────────────────────────────────
+function updateInfo() {
+  const el = document.getElementById('player-info');
+  if (!el) return;
+  const bagStr = Object.entries(gs.bag).map(([k,v]) => `${k}x${v}`).join(', ');
+  const mapName = gs.map === 'pallet' ? 'Bourg-Palette' : gs.map === 'route1' ? 'Route 1' : 'Combat';
+  el.innerHTML = `
+    <b style="color:#f4c430">RED</b> &nbsp; P$ ${gs.money}<br>
+    Map: <span style="color:#6af">${mapName}</span><br>
+    Pos: (${gs.px}, ${gs.py}) dir:${gs.pfacing}<br>
+    ${gs.team.map(p => `${p.name} Nv.${p.level} PV:${p.hp}/${p.maxHp}`).join('<br>')}<br>
+    Sac: ${bagStr || '—'}
+  `;
+}
+
+// ─── Dialogue / Shop ──────────────────────────────────────────────────────────
+function startDialogue(lines) {
+  gs.dialogue = { lines, idx: 0 };
+  render();
+}
+function advanceDialogue() {
+  if (!gs.dialogue) return;
+  gs.dialogue.idx++;
+  if (gs.dialogue.idx >= gs.dialogue.lines.length) gs.dialogue = null;
+  render();
+}
+function openShop() {
+  gs.shop = { items: SHOP_ITEMS, sel: 0, msg: '', msgOk: true };
+  log('Boutique ouverte — utilisez fleches + Z pour acheter', 'shop');
+  render();
+}
+function tryBuy() {
+  if (!gs.shop) return;
+  const it = gs.shop.items[gs.shop.sel];
+  if (gs.money < it.price) {
+    gs.shop.msg = "Pas assez d'argent !"; gs.shop.msgOk = false;
+  } else {
+    gs.money -= it.price;
+    gs.bag[it.name] = (gs.bag[it.name] || 0) + 1;
+    gs.shop.msg = it.name + ' achete !'; gs.shop.msgOk = true;
+    log(`${it.name} achete (-${it.price} P$)`, 'shop');
   }
+  render();
+  setTimeout(() => { if (gs.shop) gs.shop.msg = ''; render(); }, 1500);
+}
 
-  // ── Menu MOVES ────────────────────────────────────────────────────────────
-  if(bst===STATES.PICK_MOVE){
-    bx.fillStyle='#1a1410'; bx.font='8px monospace';
-    bx.fillText('Choisir une attaque :', 10, 192);
-    const mpos=[[2,202],[162,202],[2,222],[162,222]];
-    playerPkmn.moves.forEach((mv,i)=>{
-      const [mx,my]=mpos[i];
-      const pp=playerPkmn.pp[i], maxPp=PDATA[playerPkmn.key].pp[i];
-      const disabled=pp<=0;
-      bx.fillStyle=disabled?'#aaa':'#2a1f14'; bx.fillRect(mx,my,154,17);
-      bx.fillStyle=disabled?'#ccc':'#f5f0e0'; bx.fillRect(mx+1,my+1,152,15);
-      bx.fillStyle=disabled?'#999':'#1a1410'; bx.font='7px monospace';
-      bx.fillText(`${mv}`, mx+4, my+10);
-      bx.fillStyle='#666'; bx.fillText(`${pp}/${maxPp}PP`, mx+104, my+10);
-    });
-    canvas.onclick=e=>{
-      const cx=(e.offsetX/SCALE)|0, cy=(e.offsetY/SCALE)|0;
-      mpos.forEach(([mx,my],i)=>{ if(cx>=mx&&cx<=mx+154&&cy>=my&&cy<=my+17) pickMove(i); });
-    };
-  }
+// ─── Navigation ───────────────────────────────────────────────────────────────
+function goMap(id) {
+  gs.dialogue = null; gs.shop = null;
+  document.querySelectorAll('.btn').forEach(b => b.classList.remove('active'));
+  if      (id === 'pallet') { gs.px = 160; gs.py = 208; log('Arrivee a Bourg-Palette', 'ok'); }
+  else if (id === 'route1') { gs.px = 160; gs.py = 32;  log('Arrivee sur Route 1', 'ok'); }
+  else if (id === 'battle') {                            log('Combat sauvage declenche !', 'fight'); }
+  gs.map = id;
+  const btn = document.getElementById('btn-' + id);
+  if (btn) btn.classList.add('active');
+  render();
+}
 
-  // ── Indicateur attente ────────────────────────────────────────────────────
-  if(bst===STATES.PLAYER_ATK||bst===STATES.ENEMY_ATK||bst===STATES.XP||bst===STATES.WIN||bst===STATES.LOSE){
-    if(Math.floor(bTimer*4)%2===0){ bx.fillStyle='#2a1f14'; bx.fillText('▼', 306, 232); }
-    canvas.onclick=null;
-  }
-  if(bst===STATES.INTRO){
-    if(Math.floor(Date.now()/500)%2===0){ bx.fillStyle='#2a1f14'; bx.fillText('▼ Z / Entrée', 222, 232); }
-  }
-
-  // ── Overlay WIN / LOSE ────────────────────────────────────────────────────
-  if(bst===STATES.WIN){
-    bx.fillStyle='rgba(0,80,0,.7)'; bx.fillRect(60,85,200,30);
-    bx.fillStyle='#aaffaa'; bx.font='bold 10px monospace'; bx.textAlign='center';
-    bx.fillText('VICTOIRE !', VW/2, 105); bx.textAlign='left';
-  }
-  if(bst===STATES.LOSE){
-    bx.fillStyle='rgba(80,0,0,.7)'; bx.fillRect(60,85,200,30);
-    bx.fillStyle='#ffaaaa'; bx.font='bold 10px monospace'; bx.textAlign='center';
-    bx.fillText('DÉFAITE...', VW/2, 105); bx.textAlign='left';
+// ─── Simulations ──────────────────────────────────────────────────────────────
+function sim(action) {
+  gs.dialogue = null; gs.shop = null;
+  switch (action) {
+    case 'talk_nurse':
+      goMap('pallet');
+      setTimeout(() => {
+        gs.team.forEach(p => p.hp = p.maxHp);
+        log('Soin complet de l\'equipe !', 'ok');
+        startDialogue([
+          ['Bienvenue au Centre Pokemon !'],
+          ['Je vais soigner votre equipe. Un instant...'],
+          ['Vos Pokemon sont en pleine forme ! Bonne route !'],
+        ].map(l => l[0]));
+      }, 80);
+      break;
+    case 'talk_shop':
+      goMap('pallet');
+      setTimeout(() => openShop(), 80);
+      break;
+    case 'read_sign':
+      startDialogue([SIGN_TEXT.pallet_town.join('\n')]);
+      log('Panneau : Bourg-Palette', 'info');
+      break;
+    case 'walk_north':
+      goMap('route1'); break;
+    case 'walk_south':
+      goMap('pallet'); break;
   }
 }
 
-// ─── HUD ──────────────────────────────────────────────────────────────────────
-function updateHUD(){
-  const dk=`${P.facing.x},${P.facing.y}`;
-  const dn={'0,-1':'HAUT','0,1':'BAS','-1,0':'GAUCHE','1,0':'DROITE'};
-  document.getElementById('i-tile').textContent=`${P.col},${P.row}`;
-  document.getElementById('i-dir').textContent=dn[dk]||'?';
-  document.getElementById('i-st').textContent=
-    scene==='overworld'?(inGrass(P.col,P.row)?'Herbe (15% rencontre)':'Overworld'):'Combat';
-}
-setInterval(updateHUD,120);
+// ─── Mouvement & interaction ──────────────────────────────────────────────────
+function movePlayer(dir) {
+  const map = MAPS[gs.map];
+  if (!map) return;
+  gs.pfacing = dir;
 
-// ─── START ────────────────────────────────────────────────────────────────────
-camX=P.x-VW/2; camY=P.y-VH/2;
-requestAnimationFrame(loop);
+  let nx = gs.px, ny = gs.py;
+  if (dir === 'up')    ny -= TILE;
+  if (dir === 'down')  ny += TILE;
+  if (dir === 'left')  nx -= TILE;
+  if (dir === 'right') nx += TILE;
+
+  nx = Math.max(8, Math.min(TW - 8, nx));
+  ny = Math.max(8, Math.min(TH - 8, ny));
+
+  // Collision batiments
+  for (const b of map.buildings) {
+    if (nx > b.x - 8 && nx < b.x + b.w + 8 &&
+        ny > b.y - 8 && ny < b.y + b.h + 8) {
+      render(); return;
+    }
+  }
+
+  gs.px = nx; gs.py = ny;
+
+  // Transitions
+  for (const t of map.transitions) {
+    if (nx >= t.x && nx <= t.x + t.w && ny >= t.y && ny <= t.y + t.h) {
+      log('Transition → ' + t.label, 'ok');
+      goMap(t.target);
+      gs.px = t.spawnX; gs.py = t.spawnY;
+      return;
+    }
+  }
+
+  // Rencontre sauvage
+  if (gs.map === 'route1') {
+    for (const g of (map.grass || [])) {
+      if (nx > g.x && nx < g.x + g.w && ny > g.y && ny < g.y + g.h) {
+        if (Math.random() < 0.15) {
+          const pkmn = ['Pikachu','Evoli','Bulbizarre'][Math.floor(Math.random()*3)];
+          const lvl  = 2 + Math.floor(Math.random() * 5);
+          log('Rencontre : ' + pkmn + ' Nv.' + lvl + ' !', 'fight');
+          goMap('battle');
+          return;
+        }
+        break;
+      }
+    }
+  }
+
+  render();
+}
+
+function tryInteract() {
+  if (gs.dialogue) { advanceDialogue(); return; }
+  if (gs.shop)     { tryBuy(); return; }
+
+  const map = MAPS[gs.map];
+  if (!map) return;
+
+  const dv = {up:[0,-TILE], down:[0,TILE], left:[-TILE,0], right:[TILE,0]}[gs.pfacing]||[0,TILE];
+  const cx = gs.px + dv[0], cy = gs.py + dv[1];
+
+  for (const n of map.npcs) {
+    if (Math.abs(n.x - cx) < 14 && Math.abs(n.y - cy) < 14) {
+      switch (n.action) {
+        case 'nurse':
+          gs.team.forEach(p => p.hp = p.maxHp);
+          log('Soin complet !', 'ok');
+          startDialogue(['Bienvenue au Centre Pokemon !',
+                         'Je vais soigner votre equipe. Un instant...',
+                         'Vos Pokemon sont en pleine forme ! Bonne route !']);
+          break;
+        case 'shop':   openShop(); break;
+        case 'guide':
+          startDialogue(['Bienvenue a Bourg-Palette !',
+                         'La Route 1 mene vers Jadielle au nord.',
+                         'Mefiez-vous des Pokemon sauvages dans les hautes herbes !']);
+          log('Dialogue Guide demarre', 'info');
+          break;
+        case 'trainer':
+          startDialogue(['He, toi ! Tu explores la Route 1 ?',
+                         'Les hautes herbes abritent des Pokemon sauvages.',
+                         'Entraine-toi bien avant d\'affronter les Arenes !']);
+          break;
+      }
+      return;
+    }
+  }
+
+  for (const s of map.signs) {
+    if (Math.abs(s.x - cx) < 14 && Math.abs(s.y - cy) < 14) {
+      startDialogue([SIGN_TEXT[s.key].join('\n')]);
+      log('Panneau lu (' + s.key + ')', 'info');
+      return;
+    }
+  }
+}
+
+// ─── Clavier ──────────────────────────────────────────────────────────────────
+const DIR_KEY = {
+  ArrowUp:'up', ArrowDown:'down', ArrowLeft:'left', ArrowRight:'right',
+  z:'up', q:'left', s:'down', d:'right',
+  Z:'up', Q:'left', S:'down', D:'right',
+};
+
+document.addEventListener('keydown', e => {
+  // Battle screen
+  if (gs.map === 'battle') {
+    if (e.key === 'x' || e.key === 'X' || e.key === 'Escape') {
+      goMap('route1'); log('Retour sur Route 1 apres combat', 'ok');
+    }
+    e.preventDefault(); return;
+  }
+
+  // Shop
+  if (gs.shop) {
+    if (e.key === 'ArrowUp'   || e.key === 'z') { gs.shop.sel = Math.max(0, gs.shop.sel-1); render(); }
+    if (e.key === 'ArrowDown' || e.key === 's') { gs.shop.sel = Math.min(gs.shop.items.length-1, gs.shop.sel+1); render(); }
+    if (e.key === 'Enter' || (e.key === 'z' && gs.shop)) tryBuy();
+    if (e.key === 'x' || e.key === 'X' || e.key === 'Escape') { gs.shop = null; render(); }
+    e.preventDefault(); return;
+  }
+
+  // Dialogue
+  if (gs.dialogue) {
+    if (e.key === 'Enter' || e.key === 'z' || e.key === 'Z') advanceDialogue();
+    e.preventDefault(); return;
+  }
+
+  // Movement
+  const dir = DIR_KEY[e.key];
+  if (dir) { movePlayer(dir); e.preventDefault(); return; }
+  if (e.key === 'Enter' || e.key === 'z' || e.key === 'Z') { tryInteract(); e.preventDefault(); }
+});
+
+// ─── Init ─────────────────────────────────────────────────────────────────────
+log('Pokemon AMSO Phase 3 chargee', 'ok');
+log('Phases 0-2 : mouvement, combats, systeme complet', 'ok');
+log('Phase 3 : dialogues, PNJ, boutique, 2 maps', 'ok');
+log('──────────────────────────────────', 'info');
+log('Cliquez sur le canvas puis utilisez', 'info');
+log('les touches ou les boutons lateraux.', 'info');
+
+render();
+canvas.focus();
 </script>
 </body>
 </html>

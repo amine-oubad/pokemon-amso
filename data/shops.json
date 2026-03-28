@@ -1,0 +1,6 @@
+{
+  "pallet_shop": {
+    "name": "Marché de Bourg-Palette",
+    "items": ["potion", "poke_ball", "antidote", "paralyze_heal", "burn_heal"]
+  }
+}

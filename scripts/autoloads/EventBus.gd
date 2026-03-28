@@ -7,6 +7,7 @@ extends Node
 signal player_stepped(world_position: Vector2)
 signal zone_transition_requested(zone_id: String, spawn_id: String)
 signal dialogue_requested(lines: Array, speaker: String)
+signal dialogue_finished
 
 # ── Combat ─────────────────────────────────────────────────────────────────────
 signal battle_started(enemy_data: Dictionary, is_trainer: bool)
