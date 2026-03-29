@@ -40,6 +40,9 @@ var return_to_scene: String = "res://scenes/overworld/maps/PalletTown.tscn"
 ## Vector2.ZERO = utiliser la position par défaut de la map.
 var pending_spawn_position: Vector2 = Vector2.ZERO
 
+## Repousse — nombre de pas restants avant expiration.
+var repel_steps: int = 0
+
 func _ready() -> void:
 	print("[GameState] Initialisé — joueur : " + player_name)
 	# L'équipe reste vide → l'écran de choix du starter s'affiche au lancement
@@ -122,3 +125,12 @@ func get_first_alive() -> PokemonInstance:
 func heal_team() -> void:
 	for pkmn in team:
 		pkmn.full_heal()
+
+# ── Repousse ─────────────────────────────────────────────────────────────────
+
+func is_repel_active() -> bool:
+	return repel_steps > 0
+
+func tick_repel() -> void:
+	if repel_steps > 0:
+		repel_steps = maxi(0, repel_steps - 1)

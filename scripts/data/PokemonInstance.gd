@@ -39,6 +39,23 @@ var gender: String     = "M"
 var _base_data: Dictionary = {}
 var ivs: Dictionary = {}  # IVs individuels par stat
 
+# ── Battle meta (flinch, leech_seed, protect, charging) ─────────────────────
+# RefCounted n'a pas has_meta/set_meta/get_meta/remove_meta (ce sont des méthodes Node).
+# On les réimplémente via un Dictionary interne.
+var _meta: Dictionary = {}
+
+func has_meta(key: String) -> bool:
+	return _meta.has(key)
+
+func set_meta(key: String, value: Variant) -> void:
+	_meta[key] = value
+
+func get_meta(key: String, default: Variant = null) -> Variant:
+	return _meta.get(key, default)
+
+func remove_meta(key: String) -> void:
+	_meta.erase(key)
+
 # ── Constructeurs ─────────────────────────────────────────────────────────────
 
 static func create(p_id: String, p_level: int) -> PokemonInstance:
@@ -48,6 +65,10 @@ static func create(p_id: String, p_level: int) -> PokemonInstance:
 	inst._base_data = GameData.pokemon_data.get(p_id, {})
 	if inst._base_data.is_empty():
 		push_error("[PokemonInstance] ID introuvable : " + p_id)
+		# Fallback minimal pour éviter un crash silencieux
+		inst.nickname = p_id
+		inst.max_hp = 1
+		inst.current_hp = 1
 		return inst
 	inst.nickname = inst._base_data.get("name", p_id)
 	inst.ability  = inst._base_data.get("ability", "")
@@ -127,8 +148,7 @@ func check_evolution() -> String:
 	var evolutions: Array = _base_data.get("evolutions", [])
 	for evo in evolutions:
 		if evo.get("method", "") == "level" and level >= evo.get("level", 999):
-			# Support both "into" and "target" keys for evolution target
-			var target_id: String = evo.get("into", evo.get("target", ""))
+				var target_id: String = evo.get("into", "")
 			if target_id != "" and GameData.pokemon_data.has(target_id):
 				return target_id
 	return ""
@@ -207,7 +227,11 @@ func get_effective_stat(stat_name: String) -> int:
 		mult = (2.0 + stage) / 2.0
 	elif stage < 0:
 		mult = 2.0 / (2.0 - stage)
-	return max(1, int(base_val * mult))
+	var result := max(1, int(base_val * mult))
+	# Paralysis halves Speed (Gen 3)
+	if stat_name == "speed" and status == "paralyze":
+		result = maxi(1, int(result * 0.5))
+	return result
 
 # ── État en combat ────────────────────────────────────────────────────────────
 
@@ -239,6 +263,10 @@ func modify_stat_stage(stat_name: String, delta: int) -> int:
 func reset_stat_stages() -> void:
 	for k in stat_stages:
 		stat_stages[k] = 0
+
+## Clears all battle-specific meta flags (leech_seed, flinch, protect, charging).
+func clear_battle_meta() -> void:
+	_meta.clear()
 
 # ── Sérialisation (sauvegarde) ────────────────────────────────────────────────
 
