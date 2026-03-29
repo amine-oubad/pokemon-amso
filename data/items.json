@@ -30,42 +30,60 @@
   "antidote": {
     "name": "Antidote",
     "category": "status_cure",
-    "cures": ["poison", "bad_poison"],
+    "cures": [
+      "poison",
+      "bad_poison"
+    ],
     "price": 100,
     "description": "Guérit l'empoisonnement."
   },
   "paralyze_heal": {
     "name": "Antiparalysie",
     "category": "status_cure",
-    "cures": ["paralyze"],
+    "cures": [
+      "paralyze"
+    ],
     "price": 200,
     "description": "Guérit la paralysie."
   },
   "burn_heal": {
     "name": "Guérison Brûlure",
     "category": "status_cure",
-    "cures": ["burn"],
+    "cures": [
+      "burn"
+    ],
     "price": 250,
     "description": "Guérit la brûlure."
   },
   "awakening": {
     "name": "Réveil",
     "category": "status_cure",
-    "cures": ["sleep"],
+    "cures": [
+      "sleep"
+    ],
     "price": 250,
     "description": "Réveille un Pokémon endormi."
   },
   "ice_heal": {
     "name": "Antigel",
     "category": "status_cure",
-    "cures": ["freeze"],
+    "cures": [
+      "freeze"
+    ],
     "price": 250,
     "description": "Dégèle un Pokémon gelé."
   },
   "full_heal": {
     "name": "Total Soin",
     "category": "status_cure",
-    "cures": ["burn", "paralyze", "sleep", "freeze", "poison", "bad_poison"],
+    "cures": [
+      "burn",
+      "paralyze",
+      "sleep",
+      "freeze",
+      "poison",
+      "bad_poison"
+    ],
     "price": 600,
     "description": "Guérit tout statut anormal."
   },
@@ -101,14 +119,21 @@
     "name": "Guérison Totale",
     "category": "heal",
     "heal_amount": 9999,
-    "cures": ["burn", "paralyze", "sleep", "freeze", "poison", "bad_poison"],
+    "cures": [
+      "burn",
+      "paralyze",
+      "sleep",
+      "freeze",
+      "poison",
+      "bad_poison"
+    ],
     "price": 3000,
     "description": "Restaure tous les PV et guérit tout statut."
   },
   "revive": {
     "name": "Rappel",
     "category": "revive",
-    "heal_amount": 0,
+    "heal_amount": -1,
     "price": 1500,
     "description": "Ranime un Pokémon K.O. et restaure la moitié de ses PV."
   },
@@ -125,5 +150,35 @@
     "steps": 250,
     "price": 700,
     "description": "Repousse les Pokémon sauvages faibles pendant longtemps."
+  },
+  "fire_stone": {
+    "name": "Pierre Feu",
+    "category": "evolution",
+    "price": 2100,
+    "description": "Pierre d'évolution qui fait évoluer certains Pokémon de type Feu."
+  },
+  "water_stone": {
+    "name": "Pierre Eau",
+    "category": "evolution",
+    "price": 2100,
+    "description": "Pierre d'évolution qui fait évoluer certains Pokémon de type Eau."
+  },
+  "thunder_stone": {
+    "name": "Pierre Foudre",
+    "category": "evolution",
+    "price": 2100,
+    "description": "Pierre d'évolution qui fait évoluer certains Pokémon de type Électrik."
+  },
+  "moon_stone": {
+    "name": "Pierre Lune",
+    "category": "evolution",
+    "price": 2100,
+    "description": "Pierre d'évolution mystérieuse liée à la lune."
+  },
+  "leaf_stone": {
+    "name": "Pierre Plante",
+    "category": "evolution",
+    "price": 2100,
+    "description": "Pierre d'évolution qui fait évoluer certains Pokémon de type Plante."
   }
 }

@@ -1,820 +1,7634 @@
 {
   "001": {
     "name": "Bulbasaur",
-    "types": ["Grass", "Poison"],
-    "base_stats": { "hp": 45, "atk": 49, "def": 49, "sp_atk": 65, "sp_def": 65, "speed": 45 },
+    "types": [
+      "Grass",
+      "Poison"
+    ],
+    "base_stats": {
+      "hp": 45,
+      "atk": 49,
+      "def": 49,
+      "sp_atk": 65,
+      "sp_def": 65,
+      "speed": 45
+    },
     "ability": "overgrow",
     "catch_rate": 45,
     "base_exp_yield": 64,
     "levelup_moves": [
-      {"level": 1,  "move": "tackle"},
-      {"level": 1,  "move": "growl"},
-      {"level": 7,  "move": "leech_seed"},
-      {"level": 13, "move": "vine_whip"},
-      {"level": 20, "move": "poison_powder"},
-      {"level": 29, "move": "razor_leaf"},
-      {"level": 41, "move": "growth"},
-      {"level": 53, "move": "solar_beam"}
+      {
+        "level": 1,
+        "move": "tackle"
+      },
+      {
+        "level": 1,
+        "move": "growl"
+      },
+      {
+        "level": 7,
+        "move": "leech_seed"
+      },
+      {
+        "level": 13,
+        "move": "vine_whip"
+      },
+      {
+        "level": 20,
+        "move": "poison_powder"
+      },
+      {
+        "level": 29,
+        "move": "razor_leaf"
+      },
+      {
+        "level": 38,
+        "move": "sludge_bomb"
+      },
+      {
+        "level": 41,
+        "move": "growth"
+      },
+      {
+        "level": 53,
+        "move": "solar_beam"
+      }
     ],
-    "evolutions": [{"method": "level", "level": 16, "into": "002"}]
+    "evolutions": [
+      {
+        "method": "level",
+        "level": 16,
+        "into": "002"
+      }
+    ]
   },
   "002": {
     "name": "Ivysaur",
-    "types": ["Grass", "Poison"],
-    "base_stats": { "hp": 60, "atk": 62, "def": 63, "sp_atk": 80, "sp_def": 80, "speed": 60 },
+    "types": [
+      "Grass",
+      "Poison"
+    ],
+    "base_stats": {
+      "hp": 60,
+      "atk": 62,
+      "def": 63,
+      "sp_atk": 80,
+      "sp_def": 80,
+      "speed": 60
+    },
     "ability": "overgrow",
     "catch_rate": 45,
     "base_exp_yield": 142,
     "levelup_moves": [
-      {"level": 1,  "move": "tackle"},
-      {"level": 1,  "move": "growl"},
-      {"level": 7,  "move": "leech_seed"},
-      {"level": 13, "move": "vine_whip"},
-      {"level": 20, "move": "poison_powder"},
-      {"level": 29, "move": "razor_leaf"},
-      {"level": 41, "move": "growth"},
-      {"level": 53, "move": "solar_beam"}
+      {
+        "level": 1,
+        "move": "tackle"
+      },
+      {
+        "level": 1,
+        "move": "growl"
+      },
+      {
+        "level": 7,
+        "move": "leech_seed"
+      },
+      {
+        "level": 13,
+        "move": "vine_whip"
+      },
+      {
+        "level": 20,
+        "move": "poison_powder"
+      },
+      {
+        "level": 29,
+        "move": "razor_leaf"
+      },
+      {
+        "level": 38,
+        "move": "sludge_bomb"
+      },
+      {
+        "level": 41,
+        "move": "growth"
+      },
+      {
+        "level": 53,
+        "move": "solar_beam"
+      }
     ],
-    "evolutions": [{"method": "level", "level": 32, "into": "003"}]
+    "evolutions": [
+      {
+        "method": "level",
+        "level": 32,
+        "into": "003"
+      }
+    ]
   },
   "003": {
     "name": "Venusaur",
-    "types": ["Grass", "Poison"],
-    "base_stats": { "hp": 80, "atk": 82, "def": 83, "sp_atk": 100, "sp_def": 100, "speed": 80 },
+    "types": [
+      "Grass",
+      "Poison"
+    ],
+    "base_stats": {
+      "hp": 80,
+      "atk": 82,
+      "def": 83,
+      "sp_atk": 100,
+      "sp_def": 100,
+      "speed": 80
+    },
     "ability": "overgrow",
     "catch_rate": 45,
     "base_exp_yield": 236,
     "levelup_moves": [
-      {"level": 1,  "move": "tackle"},
-      {"level": 1,  "move": "growl"},
-      {"level": 7,  "move": "leech_seed"},
-      {"level": 13, "move": "vine_whip"},
-      {"level": 20, "move": "poison_powder"},
-      {"level": 29, "move": "razor_leaf"},
-      {"level": 41, "move": "growth"},
-      {"level": 53, "move": "solar_beam"}
+      {
+        "level": 1,
+        "move": "tackle"
+      },
+      {
+        "level": 1,
+        "move": "growl"
+      },
+      {
+        "level": 7,
+        "move": "leech_seed"
+      },
+      {
+        "level": 13,
+        "move": "vine_whip"
+      },
+      {
+        "level": 20,
+        "move": "poison_powder"
+      },
+      {
+        "level": 29,
+        "move": "razor_leaf"
+      },
+      {
+        "level": 38,
+        "move": "sludge_bomb"
+      },
+      {
+        "level": 41,
+        "move": "growth"
+      },
+      {
+        "level": 53,
+        "move": "solar_beam"
+      }
     ],
     "evolutions": []
   },
   "004": {
     "name": "Charmander",
-    "types": ["Fire"],
-    "base_stats": { "hp": 39, "atk": 52, "def": 43, "sp_atk": 60, "sp_def": 50, "speed": 65 },
+    "types": [
+      "Fire"
+    ],
+    "base_stats": {
+      "hp": 39,
+      "atk": 52,
+      "def": 43,
+      "sp_atk": 60,
+      "sp_def": 50,
+      "speed": 65
+    },
     "ability": "blaze",
     "catch_rate": 45,
     "base_exp_yield": 62,
     "levelup_moves": [
-      {"level": 1,  "move": "scratch"},
-      {"level": 1,  "move": "growl"},
-      {"level": 9,  "move": "ember"},
-      {"level": 15, "move": "smokescreen"},
-      {"level": 22, "move": "dragon_rage"},
-      {"level": 30, "move": "slash"},
-      {"level": 38, "move": "flamethrower"},
-      {"level": 46, "move": "fire_spin"}
+      {
+        "level": 1,
+        "move": "scratch"
+      },
+      {
+        "level": 1,
+        "move": "growl"
+      },
+      {
+        "level": 9,
+        "move": "ember"
+      },
+      {
+        "level": 15,
+        "move": "smokescreen"
+      },
+      {
+        "level": 22,
+        "move": "dragon_rage"
+      },
+      {
+        "level": 30,
+        "move": "slash"
+      },
+      {
+        "level": 38,
+        "move": "flamethrower"
+      },
+      {
+        "level": 46,
+        "move": "fire_spin"
+      }
     ],
-    "evolutions": [{"method": "level", "level": 16, "into": "005"}]
+    "evolutions": [
+      {
+        "method": "level",
+        "level": 16,
+        "into": "005"
+      }
+    ]
   },
   "005": {
     "name": "Charmeleon",
-    "types": ["Fire"],
-    "base_stats": { "hp": 58, "atk": 64, "def": 58, "sp_atk": 80, "sp_def": 65, "speed": 80 },
+    "types": [
+      "Fire"
+    ],
+    "base_stats": {
+      "hp": 58,
+      "atk": 64,
+      "def": 58,
+      "sp_atk": 80,
+      "sp_def": 65,
+      "speed": 80
+    },
     "ability": "blaze",
     "catch_rate": 45,
     "base_exp_yield": 142,
     "levelup_moves": [
-      {"level": 1,  "move": "scratch"},
-      {"level": 1,  "move": "growl"},
-      {"level": 9,  "move": "ember"},
-      {"level": 15, "move": "smokescreen"},
-      {"level": 22, "move": "dragon_rage"},
-      {"level": 30, "move": "slash"},
-      {"level": 38, "move": "flamethrower"},
-      {"level": 46, "move": "fire_spin"}
+      {
+        "level": 1,
+        "move": "scratch"
+      },
+      {
+        "level": 1,
+        "move": "growl"
+      },
+      {
+        "level": 9,
+        "move": "ember"
+      },
+      {
+        "level": 15,
+        "move": "smokescreen"
+      },
+      {
+        "level": 22,
+        "move": "dragon_rage"
+      },
+      {
+        "level": 30,
+        "move": "slash"
+      },
+      {
+        "level": 38,
+        "move": "flamethrower"
+      },
+      {
+        "level": 46,
+        "move": "fire_spin"
+      }
     ],
-    "evolutions": [{"method": "level", "level": 36, "into": "006"}]
+    "evolutions": [
+      {
+        "method": "level",
+        "level": 36,
+        "into": "006"
+      }
+    ]
   },
   "006": {
     "name": "Charizard",
-    "types": ["Fire", "Flying"],
-    "base_stats": { "hp": 78, "atk": 84, "def": 78, "sp_atk": 109, "sp_def": 85, "speed": 100 },
+    "types": [
+      "Fire",
+      "Flying"
+    ],
+    "base_stats": {
+      "hp": 78,
+      "atk": 84,
+      "def": 78,
+      "sp_atk": 109,
+      "sp_def": 85,
+      "speed": 100
+    },
     "ability": "blaze",
     "catch_rate": 45,
     "base_exp_yield": 240,
     "levelup_moves": [
-      {"level": 1,  "move": "scratch"},
-      {"level": 1,  "move": "growl"},
-      {"level": 9,  "move": "ember"},
-      {"level": 15, "move": "smokescreen"},
-      {"level": 22, "move": "dragon_rage"},
-      {"level": 30, "move": "slash"},
-      {"level": 38, "move": "flamethrower"},
-      {"level": 46, "move": "fire_spin"}
+      {
+        "level": 1,
+        "move": "scratch"
+      },
+      {
+        "level": 1,
+        "move": "growl"
+      },
+      {
+        "level": 9,
+        "move": "ember"
+      },
+      {
+        "level": 15,
+        "move": "smokescreen"
+      },
+      {
+        "level": 22,
+        "move": "dragon_rage"
+      },
+      {
+        "level": 30,
+        "move": "slash"
+      },
+      {
+        "level": 36,
+        "move": "aerial_ace"
+      },
+      {
+        "level": 38,
+        "move": "flamethrower"
+      },
+      {
+        "level": 46,
+        "move": "fire_spin"
+      }
     ],
     "evolutions": []
   },
   "007": {
     "name": "Squirtle",
-    "types": ["Water"],
-    "base_stats": { "hp": 44, "atk": 48, "def": 65, "sp_atk": 50, "sp_def": 64, "speed": 43 },
+    "types": [
+      "Water"
+    ],
+    "base_stats": {
+      "hp": 44,
+      "atk": 48,
+      "def": 65,
+      "sp_atk": 50,
+      "sp_def": 64,
+      "speed": 43
+    },
     "ability": "torrent",
     "catch_rate": 45,
     "base_exp_yield": 63,
     "levelup_moves": [
-      {"level": 1,  "move": "tackle"},
-      {"level": 1,  "move": "tail_whip"},
-      {"level": 7,  "move": "bubble"},
-      {"level": 13, "move": "withdraw"},
-      {"level": 20, "move": "water_gun"},
-      {"level": 27, "move": "bite"},
-      {"level": 34, "move": "rapid_spin"},
-      {"level": 40, "move": "protect"},
-      {"level": 47, "move": "rain_dance"},
-      {"level": 54, "move": "hydro_pump"}
+      {
+        "level": 1,
+        "move": "tackle"
+      },
+      {
+        "level": 1,
+        "move": "tail_whip"
+      },
+      {
+        "level": 7,
+        "move": "bubble"
+      },
+      {
+        "level": 13,
+        "move": "withdraw"
+      },
+      {
+        "level": 20,
+        "move": "water_gun"
+      },
+      {
+        "level": 27,
+        "move": "bite"
+      },
+      {
+        "level": 34,
+        "move": "rapid_spin"
+      },
+      {
+        "level": 40,
+        "move": "protect"
+      },
+      {
+        "level": 47,
+        "move": "rain_dance"
+      },
+      {
+        "level": 54,
+        "move": "hydro_pump"
+      }
     ],
-    "evolutions": [{"method": "level", "level": 16, "into": "008"}]
+    "evolutions": [
+      {
+        "method": "level",
+        "level": 16,
+        "into": "008"
+      }
+    ]
   },
   "008": {
     "name": "Wartortle",
-    "types": ["Water"],
-    "base_stats": { "hp": 59, "atk": 63, "def": 80, "sp_atk": 65, "sp_def": 80, "speed": 58 },
+    "types": [
+      "Water"
+    ],
+    "base_stats": {
+      "hp": 59,
+      "atk": 63,
+      "def": 80,
+      "sp_atk": 65,
+      "sp_def": 80,
+      "speed": 58
+    },
     "ability": "torrent",
     "catch_rate": 45,
     "base_exp_yield": 142,
     "levelup_moves": [
-      {"level": 1,  "move": "tackle"},
-      {"level": 1,  "move": "tail_whip"},
-      {"level": 7,  "move": "bubble"},
-      {"level": 13, "move": "withdraw"},
-      {"level": 20, "move": "water_gun"},
-      {"level": 27, "move": "bite"},
-      {"level": 34, "move": "rapid_spin"},
-      {"level": 40, "move": "protect"},
-      {"level": 47, "move": "hydro_pump"}
+      {
+        "level": 1,
+        "move": "tackle"
+      },
+      {
+        "level": 1,
+        "move": "tail_whip"
+      },
+      {
+        "level": 7,
+        "move": "bubble"
+      },
+      {
+        "level": 13,
+        "move": "withdraw"
+      },
+      {
+        "level": 20,
+        "move": "water_gun"
+      },
+      {
+        "level": 27,
+        "move": "bite"
+      },
+      {
+        "level": 34,
+        "move": "rapid_spin"
+      },
+      {
+        "level": 40,
+        "move": "protect"
+      },
+      {
+        "level": 47,
+        "move": "hydro_pump"
+      }
     ],
-    "evolutions": [{"method": "level", "level": 36, "into": "009"}]
+    "evolutions": [
+      {
+        "method": "level",
+        "level": 36,
+        "into": "009"
+      }
+    ]
   },
   "009": {
     "name": "Blastoise",
-    "types": ["Water"],
-    "base_stats": { "hp": 79, "atk": 83, "def": 100, "sp_atk": 85, "sp_def": 105, "speed": 78 },
+    "types": [
+      "Water"
+    ],
+    "base_stats": {
+      "hp": 79,
+      "atk": 83,
+      "def": 100,
+      "sp_atk": 85,
+      "sp_def": 105,
+      "speed": 78
+    },
     "ability": "torrent",
     "catch_rate": 45,
     "base_exp_yield": 239,
     "levelup_moves": [
-      {"level": 1,  "move": "tackle"},
-      {"level": 1,  "move": "tail_whip"},
-      {"level": 7,  "move": "bubble"},
-      {"level": 13, "move": "withdraw"},
-      {"level": 20, "move": "water_gun"},
-      {"level": 27, "move": "bite"},
-      {"level": 34, "move": "rapid_spin"},
-      {"level": 40, "move": "protect"},
-      {"level": 47, "move": "hydro_pump"}
+      {
+        "level": 1,
+        "move": "tackle"
+      },
+      {
+        "level": 1,
+        "move": "tail_whip"
+      },
+      {
+        "level": 7,
+        "move": "bubble"
+      },
+      {
+        "level": 13,
+        "move": "withdraw"
+      },
+      {
+        "level": 20,
+        "move": "water_gun"
+      },
+      {
+        "level": 27,
+        "move": "bite"
+      },
+      {
+        "level": 34,
+        "move": "rapid_spin"
+      },
+      {
+        "level": 40,
+        "move": "protect"
+      },
+      {
+        "level": 47,
+        "move": "hydro_pump"
+      }
     ],
     "evolutions": []
   },
   "010": {
     "name": "Caterpie",
-    "types": ["Bug"],
-    "base_stats": { "hp": 45, "atk": 30, "def": 35, "sp_atk": 20, "sp_def": 20, "speed": 45 },
+    "types": [
+      "Bug"
+    ],
+    "base_stats": {
+      "hp": 45,
+      "atk": 30,
+      "def": 35,
+      "sp_atk": 20,
+      "sp_def": 20,
+      "speed": 45
+    },
     "ability": "shield_dust",
     "catch_rate": 255,
     "base_exp_yield": 39,
     "levelup_moves": [
-      {"level": 1,  "move": "tackle"},
-      {"level": 1,  "move": "string_shot"}
+      {
+        "level": 1,
+        "move": "tackle"
+      },
+      {
+        "level": 1,
+        "move": "string_shot"
+      }
     ],
-    "evolutions": [{"method": "level", "level": 7, "into": "011"}]
+    "evolutions": [
+      {
+        "method": "level",
+        "level": 7,
+        "into": "011"
+      }
+    ]
   },
   "011": {
     "name": "Metapod",
-    "types": ["Bug"],
-    "base_stats": { "hp": 50, "atk": 20, "def": 55, "sp_atk": 25, "sp_def": 25, "speed": 30 },
+    "types": [
+      "Bug"
+    ],
+    "base_stats": {
+      "hp": 50,
+      "atk": 20,
+      "def": 55,
+      "sp_atk": 25,
+      "sp_def": 25,
+      "speed": 30
+    },
     "ability": "shed_skin",
     "catch_rate": 120,
     "base_exp_yield": 72,
     "levelup_moves": [
-      {"level": 1,  "move": "harden"}
+      {
+        "level": 1,
+        "move": "harden"
+      }
     ],
-    "evolutions": [{"method": "level", "level": 10, "into": "012"}]
+    "evolutions": [
+      {
+        "method": "level",
+        "level": 10,
+        "into": "012"
+      }
+    ]
   },
   "012": {
     "name": "Butterfree",
-    "types": ["Bug", "Flying"],
-    "base_stats": { "hp": 60, "atk": 45, "def": 50, "sp_atk": 90, "sp_def": 80, "speed": 70 },
+    "types": [
+      "Bug",
+      "Flying"
+    ],
+    "base_stats": {
+      "hp": 60,
+      "atk": 45,
+      "def": 50,
+      "sp_atk": 90,
+      "sp_def": 80,
+      "speed": 70
+    },
     "ability": "compound_eyes",
     "catch_rate": 45,
     "base_exp_yield": 178,
     "levelup_moves": [
-      {"level": 1,  "move": "confusion"},
-      {"level": 12, "move": "poison_powder"},
-      {"level": 12, "move": "sleep_powder"},
-      {"level": 18, "move": "gust"},
-      {"level": 24, "move": "psybeam"}
+      {
+        "level": 1,
+        "move": "confusion"
+      },
+      {
+        "level": 12,
+        "move": "poison_powder"
+      },
+      {
+        "level": 12,
+        "move": "sleep_powder"
+      },
+      {
+        "level": 18,
+        "move": "gust"
+      },
+      {
+        "level": 24,
+        "move": "psybeam"
+      }
     ],
     "evolutions": []
   },
   "013": {
     "name": "Weedle",
-    "types": ["Bug", "Poison"],
-    "base_stats": { "hp": 40, "atk": 35, "def": 30, "sp_atk": 20, "sp_def": 20, "speed": 50 },
+    "types": [
+      "Bug",
+      "Poison"
+    ],
+    "base_stats": {
+      "hp": 40,
+      "atk": 35,
+      "def": 30,
+      "sp_atk": 20,
+      "sp_def": 20,
+      "speed": 50
+    },
     "ability": "shield_dust",
     "catch_rate": 255,
     "base_exp_yield": 39,
     "levelup_moves": [
-      {"level": 1,  "move": "poison_sting"},
-      {"level": 1,  "move": "string_shot"}
+      {
+        "level": 1,
+        "move": "poison_sting"
+      },
+      {
+        "level": 1,
+        "move": "string_shot"
+      }
     ],
-    "evolutions": [{"method": "level", "level": 7, "into": "014"}]
+    "evolutions": [
+      {
+        "method": "level",
+        "level": 7,
+        "into": "014"
+      }
+    ]
   },
   "014": {
     "name": "Kakuna",
-    "types": ["Bug", "Poison"],
-    "base_stats": { "hp": 45, "atk": 25, "def": 50, "sp_atk": 25, "sp_def": 25, "speed": 35 },
+    "types": [
+      "Bug",
+      "Poison"
+    ],
+    "base_stats": {
+      "hp": 45,
+      "atk": 25,
+      "def": 50,
+      "sp_atk": 25,
+      "sp_def": 25,
+      "speed": 35
+    },
     "ability": "shed_skin",
     "catch_rate": 120,
     "base_exp_yield": 72,
     "levelup_moves": [
-      {"level": 1,  "move": "harden"}
+      {
+        "level": 1,
+        "move": "harden"
+      }
     ],
-    "evolutions": [{"method": "level", "level": 10, "into": "015"}]
+    "evolutions": [
+      {
+        "method": "level",
+        "level": 10,
+        "into": "015"
+      }
+    ]
   },
   "015": {
     "name": "Beedrill",
-    "types": ["Bug", "Poison"],
-    "base_stats": { "hp": 65, "atk": 90, "def": 40, "sp_atk": 45, "sp_def": 80, "speed": 75 },
+    "types": [
+      "Bug",
+      "Poison"
+    ],
+    "base_stats": {
+      "hp": 65,
+      "atk": 90,
+      "def": 40,
+      "sp_atk": 45,
+      "sp_def": 80,
+      "speed": 75
+    },
     "ability": "swarm",
     "catch_rate": 45,
     "base_exp_yield": 178,
     "levelup_moves": [
-      {"level": 1,  "move": "fury_attack"},
-      {"level": 15, "move": "focus_energy"},
-      {"level": 20, "move": "poison_sting"},
-      {"level": 25, "move": "pin_missile"}
+      {
+        "level": 1,
+        "move": "fury_attack"
+      },
+      {
+        "level": 15,
+        "move": "focus_energy"
+      },
+      {
+        "level": 20,
+        "move": "poison_sting"
+      },
+      {
+        "level": 25,
+        "move": "pin_missile"
+      }
     ],
     "evolutions": []
   },
   "016": {
     "name": "Pidgey",
-    "types": ["Normal", "Flying"],
-    "base_stats": { "hp": 40, "atk": 45, "def": 40, "sp_atk": 35, "sp_def": 35, "speed": 56 },
+    "types": [
+      "Normal",
+      "Flying"
+    ],
+    "base_stats": {
+      "hp": 40,
+      "atk": 45,
+      "def": 40,
+      "sp_atk": 35,
+      "sp_def": 35,
+      "speed": 56
+    },
     "ability": "keen_eye",
     "catch_rate": 255,
     "base_exp_yield": 50,
     "levelup_moves": [
-      {"level": 1,  "move": "tackle"},
-      {"level": 5,  "move": "sand_attack"},
-      {"level": 9,  "move": "gust"},
-      {"level": 15, "move": "quick_attack"},
-      {"level": 21, "move": "wing_attack"}
+      {
+        "level": 1,
+        "move": "tackle"
+      },
+      {
+        "level": 5,
+        "move": "sand_attack"
+      },
+      {
+        "level": 9,
+        "move": "gust"
+      },
+      {
+        "level": 15,
+        "move": "quick_attack"
+      },
+      {
+        "level": 21,
+        "move": "wing_attack"
+      }
     ],
-    "evolutions": [{"method": "level", "level": 18, "into": "017"}]
+    "evolutions": [
+      {
+        "method": "level",
+        "level": 18,
+        "into": "017"
+      }
+    ]
   },
   "017": {
     "name": "Pidgeotto",
-    "types": ["Normal", "Flying"],
-    "base_stats": { "hp": 63, "atk": 60, "def": 55, "sp_atk": 50, "sp_def": 50, "speed": 71 },
+    "types": [
+      "Normal",
+      "Flying"
+    ],
+    "base_stats": {
+      "hp": 63,
+      "atk": 60,
+      "def": 55,
+      "sp_atk": 50,
+      "sp_def": 50,
+      "speed": 71
+    },
     "ability": "keen_eye",
     "catch_rate": 120,
     "base_exp_yield": 122,
     "levelup_moves": [
-      {"level": 1,  "move": "tackle"},
-      {"level": 5,  "move": "sand_attack"},
-      {"level": 9,  "move": "gust"},
-      {"level": 15, "move": "quick_attack"},
-      {"level": 21, "move": "wing_attack"}
+      {
+        "level": 1,
+        "move": "tackle"
+      },
+      {
+        "level": 5,
+        "move": "sand_attack"
+      },
+      {
+        "level": 9,
+        "move": "gust"
+      },
+      {
+        "level": 15,
+        "move": "quick_attack"
+      },
+      {
+        "level": 21,
+        "move": "wing_attack"
+      }
     ],
-    "evolutions": [{"method": "level", "level": 36, "into": "018"}]
+    "evolutions": [
+      {
+        "method": "level",
+        "level": 36,
+        "into": "018"
+      }
+    ]
   },
   "018": {
     "name": "Pidgeot",
-    "types": ["Normal", "Flying"],
-    "base_stats": { "hp": 83, "atk": 80, "def": 75, "sp_atk": 70, "sp_def": 70, "speed": 101 },
+    "types": [
+      "Normal",
+      "Flying"
+    ],
+    "base_stats": {
+      "hp": 83,
+      "atk": 80,
+      "def": 75,
+      "sp_atk": 70,
+      "sp_def": 70,
+      "speed": 101
+    },
     "ability": "keen_eye",
     "catch_rate": 45,
     "base_exp_yield": 216,
     "levelup_moves": [
-      {"level": 1,  "move": "tackle"},
-      {"level": 5,  "move": "sand_attack"},
-      {"level": 9,  "move": "gust"},
-      {"level": 15, "move": "quick_attack"},
-      {"level": 21, "move": "wing_attack"}
+      {
+        "level": 1,
+        "move": "tackle"
+      },
+      {
+        "level": 5,
+        "move": "sand_attack"
+      },
+      {
+        "level": 9,
+        "move": "gust"
+      },
+      {
+        "level": 15,
+        "move": "quick_attack"
+      },
+      {
+        "level": 21,
+        "move": "wing_attack"
+      }
     ],
     "evolutions": []
   },
   "019": {
     "name": "Rattata",
-    "types": ["Normal"],
-    "base_stats": { "hp": 30, "atk": 56, "def": 35, "sp_atk": 25, "sp_def": 35, "speed": 72 },
+    "types": [
+      "Normal"
+    ],
+    "base_stats": {
+      "hp": 30,
+      "atk": 56,
+      "def": 35,
+      "sp_atk": 25,
+      "sp_def": 35,
+      "speed": 72
+    },
     "ability": "run_away",
     "catch_rate": 255,
     "base_exp_yield": 51,
     "levelup_moves": [
-      {"level": 1,  "move": "tackle"},
-      {"level": 1,  "move": "tail_whip"},
-      {"level": 7,  "move": "quick_attack"},
-      {"level": 13, "move": "bite"},
-      {"level": 20, "move": "focus_energy"},
-      {"level": 27, "move": "take_down"}
+      {
+        "level": 1,
+        "move": "tackle"
+      },
+      {
+        "level": 1,
+        "move": "tail_whip"
+      },
+      {
+        "level": 7,
+        "move": "quick_attack"
+      },
+      {
+        "level": 13,
+        "move": "bite"
+      },
+      {
+        "level": 20,
+        "move": "focus_energy"
+      },
+      {
+        "level": 27,
+        "move": "take_down"
+      }
     ],
-    "evolutions": [{"method": "level", "level": 20, "into": "020"}]
+    "evolutions": [
+      {
+        "method": "level",
+        "level": 20,
+        "into": "020"
+      }
+    ]
   },
   "020": {
     "name": "Raticate",
-    "types": ["Normal"],
-    "base_stats": { "hp": 55, "atk": 81, "def": 60, "sp_atk": 50, "sp_def": 70, "speed": 97 },
+    "types": [
+      "Normal"
+    ],
+    "base_stats": {
+      "hp": 55,
+      "atk": 81,
+      "def": 60,
+      "sp_atk": 50,
+      "sp_def": 70,
+      "speed": 97
+    },
     "ability": "run_away",
     "catch_rate": 127,
     "base_exp_yield": 145,
     "levelup_moves": [
-      {"level": 1,  "move": "tackle"},
-      {"level": 1,  "move": "tail_whip"},
-      {"level": 7,  "move": "quick_attack"},
-      {"level": 13, "move": "bite"},
-      {"level": 20, "move": "focus_energy"},
-      {"level": 27, "move": "take_down"}
+      {
+        "level": 1,
+        "move": "tackle"
+      },
+      {
+        "level": 1,
+        "move": "tail_whip"
+      },
+      {
+        "level": 7,
+        "move": "quick_attack"
+      },
+      {
+        "level": 13,
+        "move": "bite"
+      },
+      {
+        "level": 20,
+        "move": "focus_energy"
+      },
+      {
+        "level": 27,
+        "move": "take_down"
+      }
     ],
     "evolutions": []
   },
   "025": {
     "name": "Pikachu",
-    "types": ["Electric"],
-    "base_stats": { "hp": 35, "atk": 55, "def": 40, "sp_atk": 50, "sp_def": 50, "speed": 90 },
+    "types": [
+      "Electric"
+    ],
+    "base_stats": {
+      "hp": 35,
+      "atk": 55,
+      "def": 40,
+      "sp_atk": 50,
+      "sp_def": 50,
+      "speed": 90
+    },
     "ability": "static",
     "catch_rate": 190,
     "base_exp_yield": 112,
     "levelup_moves": [
-      {"level": 1,  "move": "thunder_shock"},
-      {"level": 1,  "move": "growl"},
-      {"level": 9,  "move": "tail_whip"},
-      {"level": 16, "move": "thunder_wave"},
-      {"level": 26, "move": "quick_attack"},
-      {"level": 33, "move": "double_team"},
-      {"level": 41, "move": "slam"},
-      {"level": 50, "move": "thunderbolt"}
+      {
+        "level": 1,
+        "move": "thunder_shock"
+      },
+      {
+        "level": 1,
+        "move": "growl"
+      },
+      {
+        "level": 9,
+        "move": "tail_whip"
+      },
+      {
+        "level": 16,
+        "move": "thunder_wave"
+      },
+      {
+        "level": 26,
+        "move": "quick_attack"
+      },
+      {
+        "level": 33,
+        "move": "double_team"
+      },
+      {
+        "level": 41,
+        "move": "slam"
+      },
+      {
+        "level": 50,
+        "move": "thunderbolt"
+      }
     ],
-    "evolutions": [{"method": "item", "item": "thunder_stone", "into": "026"}]
+    "evolutions": [
+      {
+        "method": "item",
+        "item": "thunder_stone",
+        "into": "026"
+      }
+    ]
   },
   "041": {
     "name": "Zubat",
-    "types": ["Poison", "Flying"],
-    "base_stats": { "hp": 40, "atk": 45, "def": 35, "sp_atk": 30, "sp_def": 40, "speed": 55 },
+    "types": [
+      "Poison",
+      "Flying"
+    ],
+    "base_stats": {
+      "hp": 40,
+      "atk": 45,
+      "def": 35,
+      "sp_atk": 30,
+      "sp_def": 40,
+      "speed": 55
+    },
     "ability": "inner_focus",
     "catch_rate": 255,
     "base_exp_yield": 49,
     "levelup_moves": [
-      {"level": 1,  "move": "bite"},
-      {"level": 6,  "move": "supersonic"},
-      {"level": 11, "move": "poison_sting"},
-      {"level": 16, "move": "wing_attack"},
-      {"level": 21, "move": "confuse_ray"}
+      {
+        "level": 1,
+        "move": "bite"
+      },
+      {
+        "level": 6,
+        "move": "supersonic"
+      },
+      {
+        "level": 11,
+        "move": "poison_sting"
+      },
+      {
+        "level": 16,
+        "move": "wing_attack"
+      },
+      {
+        "level": 21,
+        "move": "confuse_ray"
+      }
     ],
-    "evolutions": [{"method": "level", "level": 22, "into": "042"}]
+    "evolutions": [
+      {
+        "method": "level",
+        "level": 22,
+        "into": "042"
+      }
+    ]
   },
   "042": {
     "name": "Golbat",
-    "types": ["Poison", "Flying"],
-    "base_stats": { "hp": 75, "atk": 80, "def": 70, "sp_atk": 65, "sp_def": 75, "speed": 90 },
+    "types": [
+      "Poison",
+      "Flying"
+    ],
+    "base_stats": {
+      "hp": 75,
+      "atk": 80,
+      "def": 70,
+      "sp_atk": 65,
+      "sp_def": 75,
+      "speed": 90
+    },
     "ability": "inner_focus",
     "catch_rate": 90,
     "base_exp_yield": 159,
     "levelup_moves": [
-      {"level": 1,  "move": "bite"},
-      {"level": 6,  "move": "supersonic"},
-      {"level": 11, "move": "poison_sting"},
-      {"level": 16, "move": "wing_attack"},
-      {"level": 21, "move": "confuse_ray"}
+      {
+        "level": 1,
+        "move": "bite"
+      },
+      {
+        "level": 6,
+        "move": "supersonic"
+      },
+      {
+        "level": 11,
+        "move": "poison_sting"
+      },
+      {
+        "level": 16,
+        "move": "wing_attack"
+      },
+      {
+        "level": 21,
+        "move": "confuse_ray"
+      }
     ],
     "evolutions": []
   },
   "074": {
     "name": "Geodude",
-    "types": ["Rock", "Ground"],
-    "base_stats": { "hp": 40, "atk": 80, "def": 100, "sp_atk": 30, "sp_def": 30, "speed": 20 },
+    "types": [
+      "Rock",
+      "Ground"
+    ],
+    "base_stats": {
+      "hp": 40,
+      "atk": 80,
+      "def": 100,
+      "sp_atk": 30,
+      "sp_def": 30,
+      "speed": 20
+    },
     "ability": "rock_head",
     "catch_rate": 255,
     "base_exp_yield": 60,
     "levelup_moves": [
-      {"level": 1,  "move": "tackle"},
-      {"level": 6,  "move": "mud_slap"},
-      {"level": 11, "move": "rock_throw"},
-      {"level": 16, "move": "self_destruct"},
-      {"level": 21, "move": "rock_slide"}
+      {
+        "level": 1,
+        "move": "tackle"
+      },
+      {
+        "level": 6,
+        "move": "mud_slap"
+      },
+      {
+        "level": 11,
+        "move": "rock_throw"
+      },
+      {
+        "level": 16,
+        "move": "self_destruct"
+      },
+      {
+        "level": 21,
+        "move": "rock_slide"
+      }
     ],
-    "evolutions": [{"method": "level", "level": 25, "into": "075"}]
+    "evolutions": [
+      {
+        "method": "level",
+        "level": 25,
+        "into": "075"
+      }
+    ]
   },
   "075": {
     "name": "Graveler",
-    "types": ["Rock", "Ground"],
-    "base_stats": { "hp": 55, "atk": 95, "def": 115, "sp_atk": 45, "sp_def": 45, "speed": 35 },
+    "types": [
+      "Rock",
+      "Ground"
+    ],
+    "base_stats": {
+      "hp": 55,
+      "atk": 95,
+      "def": 115,
+      "sp_atk": 45,
+      "sp_def": 45,
+      "speed": 35
+    },
     "ability": "rock_head",
     "catch_rate": 120,
     "base_exp_yield": 137,
     "levelup_moves": [
-      {"level": 1,  "move": "tackle"},
-      {"level": 6,  "move": "mud_slap"},
-      {"level": 11, "move": "rock_throw"},
-      {"level": 16, "move": "self_destruct"},
-      {"level": 21, "move": "rock_slide"}
+      {
+        "level": 1,
+        "move": "tackle"
+      },
+      {
+        "level": 6,
+        "move": "mud_slap"
+      },
+      {
+        "level": 11,
+        "move": "rock_throw"
+      },
+      {
+        "level": 16,
+        "move": "self_destruct"
+      },
+      {
+        "level": 21,
+        "move": "rock_slide"
+      },
+      {
+        "level": 29,
+        "move": "earthquake"
+      }
     ],
-    "evolutions": []
+    "evolutions": [
+      {
+        "method": "level",
+        "level": 36,
+        "into": "076"
+      }
+    ]
   },
   "095": {
     "name": "Onix",
-    "types": ["Rock", "Ground"],
-    "base_stats": { "hp": 35, "atk": 45, "def": 160, "sp_atk": 30, "sp_def": 45, "speed": 70 },
+    "types": [
+      "Rock",
+      "Ground"
+    ],
+    "base_stats": {
+      "hp": 35,
+      "atk": 45,
+      "def": 160,
+      "sp_atk": 30,
+      "sp_def": 45,
+      "speed": 70
+    },
     "ability": "rock_head",
     "catch_rate": 45,
     "base_exp_yield": 77,
     "levelup_moves": [
-      {"level": 1,  "move": "tackle"},
-      {"level": 1,  "move": "screech"},
-      {"level": 9,  "move": "rock_throw"},
-      {"level": 13, "move": "rock_slide"},
-      {"level": 21, "move": "slam"}
+      {
+        "level": 1,
+        "move": "tackle"
+      },
+      {
+        "level": 1,
+        "move": "screech"
+      },
+      {
+        "level": 9,
+        "move": "rock_throw"
+      },
+      {
+        "level": 13,
+        "move": "rock_slide"
+      },
+      {
+        "level": 21,
+        "move": "slam"
+      },
+      {
+        "level": 36,
+        "move": "earthquake"
+      }
     ],
     "evolutions": []
   },
   "133": {
     "name": "Eevee",
-    "types": ["Normal"],
-    "base_stats": { "hp": 55, "atk": 55, "def": 50, "sp_atk": 45, "sp_def": 65, "speed": 55 },
+    "types": [
+      "Normal"
+    ],
+    "base_stats": {
+      "hp": 55,
+      "atk": 55,
+      "def": 50,
+      "sp_atk": 45,
+      "sp_def": 65,
+      "speed": 55
+    },
     "ability": "run_away",
     "catch_rate": 45,
     "base_exp_yield": 92,
     "levelup_moves": [
-      {"level": 1,  "move": "tackle"},
-      {"level": 1,  "move": "tail_whip"},
-      {"level": 8,  "move": "sand_attack"},
-      {"level": 16, "move": "growl"},
-      {"level": 23, "move": "quick_attack"},
-      {"level": 30, "move": "bite"},
-      {"level": 36, "move": "baton_pass"},
-      {"level": 42, "move": "take_down"},
-      {"level": 52, "move": "last_resort"}
+      {
+        "level": 1,
+        "move": "tackle"
+      },
+      {
+        "level": 1,
+        "move": "tail_whip"
+      },
+      {
+        "level": 8,
+        "move": "sand_attack"
+      },
+      {
+        "level": 16,
+        "move": "growl"
+      },
+      {
+        "level": 23,
+        "move": "quick_attack"
+      },
+      {
+        "level": 30,
+        "move": "bite"
+      },
+      {
+        "level": 36,
+        "move": "baton_pass"
+      },
+      {
+        "level": 42,
+        "move": "take_down"
+      },
+      {
+        "level": 52,
+        "move": "last_resort"
+      }
     ],
     "evolutions": [
-      {"method": "item", "item": "fire_stone",    "into": "136"},
-      {"method": "item", "item": "water_stone",   "into": "134"},
-      {"method": "item", "item": "thunder_stone",  "into": "135"}
+      {
+        "method": "item",
+        "item": "fire_stone",
+        "into": "136"
+      },
+      {
+        "method": "item",
+        "item": "water_stone",
+        "into": "134"
+      },
+      {
+        "method": "item",
+        "item": "thunder_stone",
+        "into": "135"
+      }
     ]
   },
   "039": {
-    "name": "Rondoudou",
-    "types": ["Normal"],
-    "base_stats": {"hp": 115, "atk": 45, "def": 20, "sp_atk": 45, "sp_def": 25, "speed": 20},
-    "ability": "Cute Charm", "catch_rate": 170, "base_exp_yield": 95,
-    "levelup_moves": [
-      {"level": 1,  "move": "tackle"}, {"level": 5,  "move": "growl"},
-      {"level": 9,  "move": "tail_whip"}, {"level": 17, "move": "slam"}
+    "name": "Jigglypuff",
+    "types": [
+      "Normal",
+      "Fairy"
     ],
-    "evolutions": []
+    "base_stats": {
+      "hp": 115,
+      "atk": 45,
+      "def": 20,
+      "sp_atk": 45,
+      "sp_def": 25,
+      "speed": 20
+    },
+    "ability": "cute_charm",
+    "catch_rate": 170,
+    "base_exp_yield": 95,
+    "levelup_moves": [
+      {
+        "level": 1,
+        "move": "tackle"
+      },
+      {
+        "level": 1,
+        "move": "fairy_wind"
+      },
+      {
+        "level": 5,
+        "move": "growl"
+      },
+      {
+        "level": 9,
+        "move": "disable"
+      },
+      {
+        "level": 14,
+        "move": "double_team"
+      },
+      {
+        "level": 17,
+        "move": "body_slam"
+      },
+      {
+        "level": 24,
+        "move": "rest"
+      },
+      {
+        "level": 32,
+        "move": "dazzling_gleam"
+      }
+    ],
+    "evolutions": [
+      {
+        "method": "item",
+        "item": "moon_stone",
+        "into": "040"
+      }
+    ]
   },
   "054": {
-    "name": "Psykokwak",
-    "types": ["Water"],
-    "base_stats": {"hp": 50, "atk": 52, "def": 48, "sp_atk": 65, "sp_def": 50, "speed": 55},
-    "ability": "Cloud Nine", "catch_rate": 190, "base_exp_yield": 64,
-    "levelup_moves": [
-      {"level": 1,  "move": "scratch"}, {"level": 5,  "move": "tail_whip"},
-      {"level": 11, "move": "water_gun"}, {"level": 18, "move": "confusion"},
-      {"level": 27, "move": "psybeam"}
+    "name": "Psyduck",
+    "types": [
+      "Water"
     ],
-    "evolutions": [{"method": "level", "level": 33, "target": "055"}]
+    "base_stats": {
+      "hp": 50,
+      "atk": 52,
+      "def": 48,
+      "sp_atk": 65,
+      "sp_def": 50,
+      "speed": 55
+    },
+    "ability": "cloud_nine",
+    "catch_rate": 190,
+    "base_exp_yield": 64,
+    "levelup_moves": [
+      {
+        "level": 1,
+        "move": "scratch"
+      },
+      {
+        "level": 5,
+        "move": "tail_whip"
+      },
+      {
+        "level": 11,
+        "move": "water_gun"
+      },
+      {
+        "level": 18,
+        "move": "confusion"
+      },
+      {
+        "level": 27,
+        "move": "psybeam"
+      }
+    ],
+    "evolutions": [
+      {
+        "method": "level",
+        "level": 33,
+        "into": "055"
+      }
+    ]
   },
   "055": {
-    "name": "Akwakwak",
-    "types": ["Water"],
-    "base_stats": {"hp": 80, "atk": 82, "def": 78, "sp_atk": 95, "sp_def": 80, "speed": 85},
-    "ability": "Cloud Nine", "catch_rate": 75, "base_exp_yield": 174,
+    "name": "Golduck",
+    "types": [
+      "Water"
+    ],
+    "base_stats": {
+      "hp": 80,
+      "atk": 82,
+      "def": 78,
+      "sp_atk": 95,
+      "sp_def": 80,
+      "speed": 85
+    },
+    "ability": "cloud_nine",
+    "catch_rate": 75,
+    "base_exp_yield": 174,
     "levelup_moves": [
-      {"level": 1,  "move": "scratch"}, {"level": 5,  "move": "tail_whip"},
-      {"level": 11, "move": "water_gun"}, {"level": 18, "move": "confusion"},
-      {"level": 27, "move": "psybeam"}, {"level": 38, "move": "hydro_pump"}
+      {
+        "level": 1,
+        "move": "scratch"
+      },
+      {
+        "level": 5,
+        "move": "tail_whip"
+      },
+      {
+        "level": 11,
+        "move": "water_gun"
+      },
+      {
+        "level": 18,
+        "move": "confusion"
+      },
+      {
+        "level": 27,
+        "move": "psybeam"
+      },
+      {
+        "level": 38,
+        "move": "hydro_pump"
+      }
     ],
     "evolutions": []
   },
   "120": {
-    "name": "Stari",
-    "types": ["Water"],
-    "base_stats": {"hp": 30, "atk": 45, "def": 55, "sp_atk": 70, "sp_def": 55, "speed": 85},
-    "ability": "Illuminate", "catch_rate": 225, "base_exp_yield": 68,
-    "levelup_moves": [
-      {"level": 1,  "move": "tackle"}, {"level": 1,  "move": "harden"},
-      {"level": 6,  "move": "water_gun"}, {"level": 10, "move": "rapid_spin"},
-      {"level": 20, "move": "psybeam"}
+    "name": "Staryu",
+    "types": [
+      "Water"
     ],
-    "evolutions": []
+    "base_stats": {
+      "hp": 30,
+      "atk": 45,
+      "def": 55,
+      "sp_atk": 70,
+      "sp_def": 55,
+      "speed": 85
+    },
+    "ability": "illuminate",
+    "catch_rate": 225,
+    "base_exp_yield": 68,
+    "levelup_moves": [
+      {
+        "level": 1,
+        "move": "tackle"
+      },
+      {
+        "level": 1,
+        "move": "harden"
+      },
+      {
+        "level": 6,
+        "move": "water_gun"
+      },
+      {
+        "level": 10,
+        "move": "rapid_spin"
+      },
+      {
+        "level": 20,
+        "move": "psybeam"
+      }
+    ],
+    "evolutions": [
+      {
+        "method": "item",
+        "item": "water_stone",
+        "into": "121"
+      }
+    ]
   },
   "121": {
-    "name": "Staross",
-    "types": ["Water", "Psychic"],
-    "base_stats": {"hp": 60, "atk": 75, "def": 85, "sp_atk": 100, "sp_def": 85, "speed": 115},
-    "ability": "Natural Cure", "catch_rate": 60, "base_exp_yield": 182,
+    "name": "Starmie",
+    "types": [
+      "Water",
+      "Psychic"
+    ],
+    "base_stats": {
+      "hp": 60,
+      "atk": 75,
+      "def": 85,
+      "sp_atk": 100,
+      "sp_def": 85,
+      "speed": 115
+    },
+    "ability": "natural_cure",
+    "catch_rate": 60,
+    "base_exp_yield": 182,
     "levelup_moves": [
-      {"level": 1,  "move": "tackle"}, {"level": 1,  "move": "harden"},
-      {"level": 6,  "move": "water_gun"}, {"level": 10, "move": "rapid_spin"},
-      {"level": 20, "move": "psybeam"}, {"level": 35, "move": "hydro_pump"}
+      {
+        "level": 1,
+        "move": "tackle"
+      },
+      {
+        "level": 1,
+        "move": "harden"
+      },
+      {
+        "level": 6,
+        "move": "water_gun"
+      },
+      {
+        "level": 10,
+        "move": "rapid_spin"
+      },
+      {
+        "level": 20,
+        "move": "psybeam"
+      },
+      {
+        "level": 35,
+        "move": "hydro_pump"
+      }
     ],
     "evolutions": []
   },
   "026": {
     "name": "Raichu",
-    "types": ["Electric"],
-    "base_stats": {"hp": 60, "atk": 90, "def": 55, "sp_atk": 90, "sp_def": 80, "speed": 110},
-    "ability": "Static", "catch_rate": 75, "base_exp_yield": 218,
+    "types": [
+      "Electric"
+    ],
+    "base_stats": {
+      "hp": 60,
+      "atk": 90,
+      "def": 55,
+      "sp_atk": 90,
+      "sp_def": 80,
+      "speed": 110
+    },
+    "ability": "static",
+    "catch_rate": 75,
+    "base_exp_yield": 218,
     "levelup_moves": [
-      {"level": 1, "move": "thundershock"}, {"level": 1, "move": "tail_whip"},
-      {"level": 1, "move": "quick_attack"}, {"level": 1, "move": "spark"},
-      {"level": 1, "move": "thunder"}
+      {
+        "level": 1,
+        "move": "thunder_shock"
+      },
+      {
+        "level": 1,
+        "move": "tail_whip"
+      },
+      {
+        "level": 1,
+        "move": "quick_attack"
+      },
+      {
+        "level": 1,
+        "move": "spark"
+      },
+      {
+        "level": 1,
+        "move": "thunder"
+      }
     ],
     "evolutions": []
   },
   "029": {
     "name": "Nidoran♀",
-    "types": ["Poison"],
-    "base_stats": {"hp": 55, "atk": 47, "def": 52, "sp_atk": 40, "sp_def": 40, "speed": 41},
-    "ability": "Poison Point", "catch_rate": 235, "base_exp_yield": 55,
-    "levelup_moves": [
-      {"level": 1, "move": "growl"}, {"level": 1, "move": "scratch"},
-      {"level": 8, "move": "poison_sting"}, {"level": 14, "move": "tail_whip"},
-      {"level": 21, "move": "bite"}, {"level": 29, "move": "sludge"}
+    "types": [
+      "Poison"
     ],
-    "evolutions": [{"method": "level", "level": 16, "target": "030"}]
+    "base_stats": {
+      "hp": 55,
+      "atk": 47,
+      "def": 52,
+      "sp_atk": 40,
+      "sp_def": 40,
+      "speed": 41
+    },
+    "ability": "poison_point",
+    "catch_rate": 235,
+    "base_exp_yield": 55,
+    "levelup_moves": [
+      {
+        "level": 1,
+        "move": "growl"
+      },
+      {
+        "level": 1,
+        "move": "scratch"
+      },
+      {
+        "level": 8,
+        "move": "poison_sting"
+      },
+      {
+        "level": 14,
+        "move": "tail_whip"
+      },
+      {
+        "level": 21,
+        "move": "bite"
+      },
+      {
+        "level": 29,
+        "move": "sludge"
+      }
+    ],
+    "evolutions": [
+      {
+        "method": "level",
+        "level": 16,
+        "into": "030"
+      }
+    ]
   },
   "030": {
     "name": "Nidorina",
-    "types": ["Poison"],
-    "base_stats": {"hp": 70, "atk": 62, "def": 67, "sp_atk": 55, "sp_def": 55, "speed": 56},
-    "ability": "Poison Point", "catch_rate": 120, "base_exp_yield": 128,
-    "levelup_moves": [
-      {"level": 1, "move": "growl"}, {"level": 1, "move": "scratch"},
-      {"level": 8, "move": "poison_sting"}, {"level": 14, "move": "tail_whip"},
-      {"level": 23, "move": "bite"}, {"level": 32, "move": "sludge_bomb"}
+    "types": [
+      "Poison"
     ],
-    "evolutions": [{"method": "item", "item": "moon_stone", "into": "031"}]
+    "base_stats": {
+      "hp": 70,
+      "atk": 62,
+      "def": 67,
+      "sp_atk": 55,
+      "sp_def": 55,
+      "speed": 56
+    },
+    "ability": "poison_point",
+    "catch_rate": 120,
+    "base_exp_yield": 128,
+    "levelup_moves": [
+      {
+        "level": 1,
+        "move": "growl"
+      },
+      {
+        "level": 1,
+        "move": "scratch"
+      },
+      {
+        "level": 8,
+        "move": "poison_sting"
+      },
+      {
+        "level": 14,
+        "move": "tail_whip"
+      },
+      {
+        "level": 23,
+        "move": "bite"
+      },
+      {
+        "level": 32,
+        "move": "sludge_bomb"
+      }
+    ],
+    "evolutions": [
+      {
+        "method": "item",
+        "item": "moon_stone",
+        "into": "031"
+      }
+    ]
   },
   "031": {
     "name": "Nidoqueen",
-    "types": ["Poison", "Ground"],
-    "base_stats": {"hp": 90, "atk": 92, "def": 87, "sp_atk": 75, "sp_def": 85, "speed": 76},
-    "ability": "Poison Point", "catch_rate": 45, "base_exp_yield": 227,
+    "types": [
+      "Poison",
+      "Ground"
+    ],
+    "base_stats": {
+      "hp": 90,
+      "atk": 92,
+      "def": 87,
+      "sp_atk": 75,
+      "sp_def": 85,
+      "speed": 76
+    },
+    "ability": "poison_point",
+    "catch_rate": 45,
+    "base_exp_yield": 227,
     "levelup_moves": [
-      {"level": 1, "move": "scratch"}, {"level": 1, "move": "poison_sting"},
-      {"level": 1, "move": "body_slam"}, {"level": 23, "move": "earthquake"},
-      {"level": 35, "move": "sludge_bomb"}
+      {
+        "level": 1,
+        "move": "scratch"
+      },
+      {
+        "level": 1,
+        "move": "poison_sting"
+      },
+      {
+        "level": 1,
+        "move": "body_slam"
+      },
+      {
+        "level": 23,
+        "move": "earthquake"
+      },
+      {
+        "level": 35,
+        "move": "sludge_bomb"
+      }
     ],
     "evolutions": []
   },
   "032": {
     "name": "Nidoran♂",
-    "types": ["Poison"],
-    "base_stats": {"hp": 46, "atk": 57, "def": 40, "sp_atk": 40, "sp_def": 40, "speed": 50},
-    "ability": "Poison Point", "catch_rate": 235, "base_exp_yield": 55,
-    "levelup_moves": [
-      {"level": 1, "move": "tackle"}, {"level": 1, "move": "poison_sting"},
-      {"level": 8, "move": "horn_attack"}, {"level": 14, "move": "double_kick"},
-      {"level": 21, "move": "bite"}, {"level": 29, "move": "sludge"}
+    "types": [
+      "Poison"
     ],
-    "evolutions": [{"method": "level", "level": 16, "target": "033"}]
+    "base_stats": {
+      "hp": 46,
+      "atk": 57,
+      "def": 40,
+      "sp_atk": 40,
+      "sp_def": 40,
+      "speed": 50
+    },
+    "ability": "poison_point",
+    "catch_rate": 235,
+    "base_exp_yield": 55,
+    "levelup_moves": [
+      {
+        "level": 1,
+        "move": "tackle"
+      },
+      {
+        "level": 1,
+        "move": "poison_sting"
+      },
+      {
+        "level": 8,
+        "move": "horn_attack"
+      },
+      {
+        "level": 14,
+        "move": "double_kick"
+      },
+      {
+        "level": 21,
+        "move": "bite"
+      },
+      {
+        "level": 29,
+        "move": "sludge"
+      }
+    ],
+    "evolutions": [
+      {
+        "method": "level",
+        "level": 16,
+        "into": "033"
+      }
+    ]
   },
   "033": {
     "name": "Nidorino",
-    "types": ["Poison"],
-    "base_stats": {"hp": 61, "atk": 72, "def": 57, "sp_atk": 55, "sp_def": 55, "speed": 65},
-    "ability": "Poison Point", "catch_rate": 120, "base_exp_yield": 128,
-    "levelup_moves": [
-      {"level": 1, "move": "tackle"}, {"level": 1, "move": "poison_sting"},
-      {"level": 8, "move": "horn_attack"}, {"level": 14, "move": "double_kick"},
-      {"level": 23, "move": "bite"}, {"level": 32, "move": "sludge_bomb"}
+    "types": [
+      "Poison"
     ],
-    "evolutions": [{"method": "item", "item": "moon_stone", "into": "034"}]
+    "base_stats": {
+      "hp": 61,
+      "atk": 72,
+      "def": 57,
+      "sp_atk": 55,
+      "sp_def": 55,
+      "speed": 65
+    },
+    "ability": "poison_point",
+    "catch_rate": 120,
+    "base_exp_yield": 128,
+    "levelup_moves": [
+      {
+        "level": 1,
+        "move": "tackle"
+      },
+      {
+        "level": 1,
+        "move": "poison_sting"
+      },
+      {
+        "level": 8,
+        "move": "horn_attack"
+      },
+      {
+        "level": 14,
+        "move": "double_kick"
+      },
+      {
+        "level": 23,
+        "move": "bite"
+      },
+      {
+        "level": 32,
+        "move": "sludge_bomb"
+      }
+    ],
+    "evolutions": [
+      {
+        "method": "item",
+        "item": "moon_stone",
+        "into": "034"
+      }
+    ]
   },
   "034": {
     "name": "Nidoking",
-    "types": ["Poison", "Ground"],
-    "base_stats": {"hp": 81, "atk": 102, "def": 77, "sp_atk": 85, "sp_def": 75, "speed": 85},
-    "ability": "Poison Point", "catch_rate": 45, "base_exp_yield": 227,
+    "types": [
+      "Poison",
+      "Ground"
+    ],
+    "base_stats": {
+      "hp": 81,
+      "atk": 102,
+      "def": 77,
+      "sp_atk": 85,
+      "sp_def": 75,
+      "speed": 85
+    },
+    "ability": "poison_point",
+    "catch_rate": 45,
+    "base_exp_yield": 227,
     "levelup_moves": [
-      {"level": 1, "move": "horn_attack"}, {"level": 1, "move": "poison_sting"},
-      {"level": 1, "move": "double_kick"}, {"level": 23, "move": "earthquake"},
-      {"level": 35, "move": "sludge_bomb"}, {"level": 43, "move": "hyper_beam"}
+      {
+        "level": 1,
+        "move": "horn_attack"
+      },
+      {
+        "level": 1,
+        "move": "poison_sting"
+      },
+      {
+        "level": 1,
+        "move": "double_kick"
+      },
+      {
+        "level": 23,
+        "move": "earthquake"
+      },
+      {
+        "level": 35,
+        "move": "sludge_bomb"
+      },
+      {
+        "level": 43,
+        "move": "hyper_beam"
+      }
     ],
     "evolutions": []
   },
   "037": {
-    "name": "Goupix",
-    "types": ["Fire"],
-    "base_stats": {"hp": 38, "atk": 41, "def": 40, "sp_atk": 50, "sp_def": 65, "speed": 65},
-    "ability": "Flash Fire", "catch_rate": 190, "base_exp_yield": 60,
-    "levelup_moves": [
-      {"level": 1, "move": "ember"}, {"level": 1, "move": "tail_whip"},
-      {"level": 9, "move": "quick_attack"}, {"level": 17, "move": "flame_wheel"},
-      {"level": 25, "move": "confuse_ray"}, {"level": 33, "move": "flamethrower"}
+    "name": "Vulpix",
+    "types": [
+      "Fire"
     ],
-    "evolutions": [{"method": "item", "item": "fire_stone", "into": "038"}]
+    "base_stats": {
+      "hp": 38,
+      "atk": 41,
+      "def": 40,
+      "sp_atk": 50,
+      "sp_def": 65,
+      "speed": 65
+    },
+    "ability": "flash_fire",
+    "catch_rate": 190,
+    "base_exp_yield": 60,
+    "levelup_moves": [
+      {
+        "level": 1,
+        "move": "ember"
+      },
+      {
+        "level": 1,
+        "move": "tail_whip"
+      },
+      {
+        "level": 9,
+        "move": "quick_attack"
+      },
+      {
+        "level": 17,
+        "move": "flame_wheel"
+      },
+      {
+        "level": 25,
+        "move": "confuse_ray"
+      },
+      {
+        "level": 33,
+        "move": "flamethrower"
+      }
+    ],
+    "evolutions": [
+      {
+        "method": "item",
+        "item": "fire_stone",
+        "into": "038"
+      }
+    ]
   },
   "043": {
-    "name": "Mystherbe",
-    "types": ["Grass", "Poison"],
-    "base_stats": {"hp": 45, "atk": 50, "def": 55, "sp_atk": 75, "sp_def": 65, "speed": 30},
-    "ability": "Chlorophyll", "catch_rate": 255, "base_exp_yield": 64,
-    "levelup_moves": [
-      {"level": 1, "move": "absorb"}, {"level": 7, "move": "stun_spore"},
-      {"level": 14, "move": "poison_powder"}, {"level": 18, "move": "mega_drain"},
-      {"level": 23, "move": "acid"}
+    "name": "Oddish",
+    "types": [
+      "Grass",
+      "Poison"
     ],
-    "evolutions": [{"method": "level", "level": 21, "target": "044"}]
+    "base_stats": {
+      "hp": 45,
+      "atk": 50,
+      "def": 55,
+      "sp_atk": 75,
+      "sp_def": 65,
+      "speed": 30
+    },
+    "ability": "chlorophyll",
+    "catch_rate": 255,
+    "base_exp_yield": 64,
+    "levelup_moves": [
+      {
+        "level": 1,
+        "move": "absorb"
+      },
+      {
+        "level": 7,
+        "move": "stun_spore"
+      },
+      {
+        "level": 14,
+        "move": "poison_powder"
+      },
+      {
+        "level": 18,
+        "move": "mega_drain"
+      },
+      {
+        "level": 23,
+        "move": "acid"
+      }
+    ],
+    "evolutions": [
+      {
+        "method": "level",
+        "level": 21,
+        "into": "044"
+      }
+    ]
   },
   "044": {
-    "name": "Ortide",
-    "types": ["Grass", "Poison"],
-    "base_stats": {"hp": 60, "atk": 65, "def": 70, "sp_atk": 85, "sp_def": 75, "speed": 40},
-    "ability": "Chlorophyll", "catch_rate": 120, "base_exp_yield": 138,
-    "levelup_moves": [
-      {"level": 1, "move": "absorb"}, {"level": 7, "move": "stun_spore"},
-      {"level": 14, "move": "poison_powder"}, {"level": 18, "move": "mega_drain"},
-      {"level": 24, "move": "acid"}, {"level": 32, "move": "petal_dance"}
+    "name": "Gloom",
+    "types": [
+      "Grass",
+      "Poison"
     ],
-    "evolutions": [{"method": "item", "item": "leaf_stone", "into": "045"}]
+    "base_stats": {
+      "hp": 60,
+      "atk": 65,
+      "def": 70,
+      "sp_atk": 85,
+      "sp_def": 75,
+      "speed": 40
+    },
+    "ability": "chlorophyll",
+    "catch_rate": 120,
+    "base_exp_yield": 138,
+    "levelup_moves": [
+      {
+        "level": 1,
+        "move": "absorb"
+      },
+      {
+        "level": 7,
+        "move": "stun_spore"
+      },
+      {
+        "level": 14,
+        "move": "poison_powder"
+      },
+      {
+        "level": 18,
+        "move": "mega_drain"
+      },
+      {
+        "level": 24,
+        "move": "acid"
+      },
+      {
+        "level": 32,
+        "move": "petal_dance"
+      }
+    ],
+    "evolutions": [
+      {
+        "method": "item",
+        "item": "leaf_stone",
+        "into": "045"
+      }
+    ]
   },
   "045": {
-    "name": "Rafflesia",
-    "types": ["Grass", "Poison"],
-    "base_stats": {"hp": 75, "atk": 80, "def": 85, "sp_atk": 110, "sp_def": 90, "speed": 50},
-    "ability": "Chlorophyll", "catch_rate": 45, "base_exp_yield": 221,
+    "name": "Vileplume",
+    "types": [
+      "Grass",
+      "Poison"
+    ],
+    "base_stats": {
+      "hp": 75,
+      "atk": 80,
+      "def": 85,
+      "sp_atk": 110,
+      "sp_def": 90,
+      "speed": 50
+    },
+    "ability": "chlorophyll",
+    "catch_rate": 45,
+    "base_exp_yield": 221,
     "levelup_moves": [
-      {"level": 1, "move": "absorb"}, {"level": 1, "move": "mega_drain"},
-      {"level": 1, "move": "petal_dance"}, {"level": 1, "move": "stun_spore"},
-      {"level": 44, "move": "solar_beam"}
+      {
+        "level": 1,
+        "move": "absorb"
+      },
+      {
+        "level": 1,
+        "move": "mega_drain"
+      },
+      {
+        "level": 1,
+        "move": "petal_dance"
+      },
+      {
+        "level": 1,
+        "move": "stun_spore"
+      },
+      {
+        "level": 44,
+        "move": "solar_beam"
+      }
     ],
     "evolutions": []
   },
   "058": {
-    "name": "Caninos",
-    "types": ["Fire"],
-    "base_stats": {"hp": 55, "atk": 70, "def": 45, "sp_atk": 70, "sp_def": 50, "speed": 60},
-    "ability": "Intimidate", "catch_rate": 190, "base_exp_yield": 70,
-    "levelup_moves": [
-      {"level": 1, "move": "bite"}, {"level": 1, "move": "ember"},
-      {"level": 9, "move": "leer"}, {"level": 17, "move": "flame_wheel"},
-      {"level": 25, "move": "take_down"}, {"level": 34, "move": "flamethrower"}
+    "name": "Growlithe",
+    "types": [
+      "Fire"
     ],
-    "evolutions": [{"method": "item", "item": "fire_stone", "into": "059"}]
+    "base_stats": {
+      "hp": 55,
+      "atk": 70,
+      "def": 45,
+      "sp_atk": 70,
+      "sp_def": 50,
+      "speed": 60
+    },
+    "ability": "intimidate",
+    "catch_rate": 190,
+    "base_exp_yield": 70,
+    "levelup_moves": [
+      {
+        "level": 1,
+        "move": "bite"
+      },
+      {
+        "level": 1,
+        "move": "ember"
+      },
+      {
+        "level": 9,
+        "move": "leer"
+      },
+      {
+        "level": 17,
+        "move": "flame_wheel"
+      },
+      {
+        "level": 25,
+        "move": "take_down"
+      },
+      {
+        "level": 34,
+        "move": "flamethrower"
+      }
+    ],
+    "evolutions": [
+      {
+        "method": "item",
+        "item": "fire_stone",
+        "into": "059"
+      }
+    ]
   },
   "063": {
     "name": "Abra",
-    "types": ["Psychic"],
-    "base_stats": {"hp": 25, "atk": 20, "def": 15, "sp_atk": 105, "sp_def": 55, "speed": 90},
-    "ability": "Synchronize", "catch_rate": 200, "base_exp_yield": 62,
-    "levelup_moves": [
-      {"level": 1, "move": "teleport"}
+    "types": [
+      "Psychic"
     ],
-    "evolutions": [{"method": "level", "level": 16, "target": "064"}]
+    "base_stats": {
+      "hp": 25,
+      "atk": 20,
+      "def": 15,
+      "sp_atk": 105,
+      "sp_def": 55,
+      "speed": 90
+    },
+    "ability": "synchronize",
+    "catch_rate": 200,
+    "base_exp_yield": 62,
+    "levelup_moves": [
+      {
+        "level": 1,
+        "move": "teleport"
+      }
+    ],
+    "evolutions": [
+      {
+        "method": "level",
+        "level": 16,
+        "into": "064"
+      }
+    ]
   },
   "064": {
     "name": "Kadabra",
-    "types": ["Psychic"],
-    "base_stats": {"hp": 40, "atk": 35, "def": 30, "sp_atk": 120, "sp_def": 70, "speed": 105},
-    "ability": "Synchronize", "catch_rate": 100, "base_exp_yield": 140,
-    "levelup_moves": [
-      {"level": 1, "move": "teleport"}, {"level": 1, "move": "confusion"},
-      {"level": 18, "move": "psybeam"}, {"level": 24, "move": "psychic"},
-      {"level": 36, "move": "shadow_ball"}
+    "types": [
+      "Psychic"
     ],
-    "evolutions": [{"method": "level", "level": 36, "target": "065"}]
+    "base_stats": {
+      "hp": 40,
+      "atk": 35,
+      "def": 30,
+      "sp_atk": 120,
+      "sp_def": 70,
+      "speed": 105
+    },
+    "ability": "synchronize",
+    "catch_rate": 100,
+    "base_exp_yield": 140,
+    "levelup_moves": [
+      {
+        "level": 1,
+        "move": "teleport"
+      },
+      {
+        "level": 1,
+        "move": "confusion"
+      },
+      {
+        "level": 18,
+        "move": "psybeam"
+      },
+      {
+        "level": 24,
+        "move": "psychic"
+      },
+      {
+        "level": 36,
+        "move": "shadow_ball"
+      }
+    ],
+    "evolutions": [
+      {
+        "method": "level",
+        "level": 36,
+        "into": "065"
+      }
+    ]
   },
   "065": {
     "name": "Alakazam",
-    "types": ["Psychic"],
-    "base_stats": {"hp": 55, "atk": 50, "def": 45, "sp_atk": 135, "sp_def": 95, "speed": 120},
-    "ability": "Synchronize", "catch_rate": 50, "base_exp_yield": 225,
+    "types": [
+      "Psychic"
+    ],
+    "base_stats": {
+      "hp": 55,
+      "atk": 50,
+      "def": 45,
+      "sp_atk": 135,
+      "sp_def": 95,
+      "speed": 120
+    },
+    "ability": "synchronize",
+    "catch_rate": 50,
+    "base_exp_yield": 225,
     "levelup_moves": [
-      {"level": 1, "move": "teleport"}, {"level": 1, "move": "confusion"},
-      {"level": 18, "move": "psybeam"}, {"level": 24, "move": "psychic"},
-      {"level": 36, "move": "shadow_ball"}, {"level": 42, "move": "hyper_beam"}
+      {
+        "level": 1,
+        "move": "teleport"
+      },
+      {
+        "level": 1,
+        "move": "confusion"
+      },
+      {
+        "level": 18,
+        "move": "psybeam"
+      },
+      {
+        "level": 24,
+        "move": "psychic"
+      },
+      {
+        "level": 36,
+        "move": "shadow_ball"
+      },
+      {
+        "level": 42,
+        "move": "hyper_beam"
+      }
     ],
     "evolutions": []
   },
   "066": {
-    "name": "Machoc",
-    "types": ["Fighting"],
-    "base_stats": {"hp": 70, "atk": 80, "def": 50, "sp_atk": 35, "sp_def": 35, "speed": 35},
-    "ability": "Guts", "catch_rate": 180, "base_exp_yield": 61,
-    "levelup_moves": [
-      {"level": 1, "move": "low_kick"}, {"level": 1, "move": "leer"},
-      {"level": 10, "move": "karate_chop"}, {"level": 19, "move": "seismic_toss"},
-      {"level": 25, "move": "cross_chop"}
+    "name": "Machop",
+    "types": [
+      "Fighting"
     ],
-    "evolutions": [{"method": "level", "level": 28, "target": "067"}]
+    "base_stats": {
+      "hp": 70,
+      "atk": 80,
+      "def": 50,
+      "sp_atk": 35,
+      "sp_def": 35,
+      "speed": 35
+    },
+    "ability": "guts",
+    "catch_rate": 180,
+    "base_exp_yield": 61,
+    "levelup_moves": [
+      {
+        "level": 1,
+        "move": "low_kick"
+      },
+      {
+        "level": 1,
+        "move": "leer"
+      },
+      {
+        "level": 10,
+        "move": "karate_chop"
+      },
+      {
+        "level": 19,
+        "move": "seismic_toss"
+      },
+      {
+        "level": 25,
+        "move": "cross_chop"
+      }
+    ],
+    "evolutions": [
+      {
+        "method": "level",
+        "level": 28,
+        "into": "067"
+      }
+    ]
   },
   "067": {
-    "name": "Machopeur",
-    "types": ["Fighting"],
-    "base_stats": {"hp": 80, "atk": 100, "def": 70, "sp_atk": 50, "sp_def": 60, "speed": 45},
-    "ability": "Guts", "catch_rate": 90, "base_exp_yield": 142,
-    "levelup_moves": [
-      {"level": 1, "move": "low_kick"}, {"level": 1, "move": "karate_chop"},
-      {"level": 19, "move": "seismic_toss"}, {"level": 25, "move": "cross_chop"},
-      {"level": 33, "move": "submission"}, {"level": 41, "move": "body_slam"}
+    "name": "Machoke",
+    "types": [
+      "Fighting"
     ],
-    "evolutions": []
+    "base_stats": {
+      "hp": 80,
+      "atk": 100,
+      "def": 70,
+      "sp_atk": 50,
+      "sp_def": 60,
+      "speed": 45
+    },
+    "ability": "guts",
+    "catch_rate": 90,
+    "base_exp_yield": 142,
+    "levelup_moves": [
+      {
+        "level": 1,
+        "move": "low_kick"
+      },
+      {
+        "level": 1,
+        "move": "karate_chop"
+      },
+      {
+        "level": 19,
+        "move": "seismic_toss"
+      },
+      {
+        "level": 25,
+        "move": "cross_chop"
+      },
+      {
+        "level": 33,
+        "move": "submission"
+      },
+      {
+        "level": 41,
+        "move": "body_slam"
+      }
+    ],
+    "evolutions": [
+      {
+        "method": "level",
+        "level": 38,
+        "into": "068"
+      }
+    ]
   },
   "077": {
     "name": "Ponyta",
-    "types": ["Fire"],
-    "base_stats": {"hp": 50, "atk": 85, "def": 55, "sp_atk": 65, "sp_def": 65, "speed": 90},
-    "ability": "Run Away", "catch_rate": 190, "base_exp_yield": 82,
-    "levelup_moves": [
-      {"level": 1, "move": "tackle"}, {"level": 1, "move": "growl"},
-      {"level": 9, "move": "ember"}, {"level": 17, "move": "flame_wheel"},
-      {"level": 25, "move": "stomp"}, {"level": 33, "move": "fire_punch"}
+    "types": [
+      "Fire"
     ],
-    "evolutions": [{"method": "level", "level": 40, "target": "078"}]
+    "base_stats": {
+      "hp": 50,
+      "atk": 85,
+      "def": 55,
+      "sp_atk": 65,
+      "sp_def": 65,
+      "speed": 90
+    },
+    "ability": "run_away",
+    "catch_rate": 190,
+    "base_exp_yield": 82,
+    "levelup_moves": [
+      {
+        "level": 1,
+        "move": "tackle"
+      },
+      {
+        "level": 1,
+        "move": "growl"
+      },
+      {
+        "level": 9,
+        "move": "ember"
+      },
+      {
+        "level": 17,
+        "move": "flame_wheel"
+      },
+      {
+        "level": 25,
+        "move": "stomp"
+      },
+      {
+        "level": 33,
+        "move": "fire_punch"
+      }
+    ],
+    "evolutions": [
+      {
+        "method": "level",
+        "level": 40,
+        "into": "078"
+      }
+    ]
   },
   "078": {
-    "name": "Galopa",
-    "types": ["Fire"],
-    "base_stats": {"hp": 65, "atk": 100, "def": 70, "sp_atk": 80, "sp_def": 80, "speed": 105},
-    "ability": "Run Away", "catch_rate": 60, "base_exp_yield": 175,
+    "name": "Rapidash",
+    "types": [
+      "Fire"
+    ],
+    "base_stats": {
+      "hp": 65,
+      "atk": 100,
+      "def": 70,
+      "sp_atk": 80,
+      "sp_def": 80,
+      "speed": 105
+    },
+    "ability": "run_away",
+    "catch_rate": 60,
+    "base_exp_yield": 175,
     "levelup_moves": [
-      {"level": 1, "move": "tackle"}, {"level": 1, "move": "ember"},
-      {"level": 17, "move": "flame_wheel"}, {"level": 25, "move": "stomp"},
-      {"level": 33, "move": "fire_punch"}, {"level": 40, "move": "flamethrower"}
+      {
+        "level": 1,
+        "move": "tackle"
+      },
+      {
+        "level": 1,
+        "move": "ember"
+      },
+      {
+        "level": 17,
+        "move": "flame_wheel"
+      },
+      {
+        "level": 25,
+        "move": "stomp"
+      },
+      {
+        "level": 33,
+        "move": "fire_punch"
+      },
+      {
+        "level": 40,
+        "move": "flamethrower"
+      }
     ],
     "evolutions": []
   },
   "081": {
-    "name": "Magnéti",
-    "types": ["Electric", "Steel"],
-    "base_stats": {"hp": 25, "atk": 35, "def": 70, "sp_atk": 95, "sp_def": 55, "speed": 45},
-    "ability": "Magnet Pull", "catch_rate": 190, "base_exp_yield": 89,
-    "levelup_moves": [
-      {"level": 1, "move": "tackle"}, {"level": 1, "move": "thundershock"},
-      {"level": 11, "move": "spark"}, {"level": 21, "move": "sonic_boom"},
-      {"level": 27, "move": "thunderbolt"}
+    "name": "Magnemite",
+    "types": [
+      "Electric",
+      "Steel"
     ],
-    "evolutions": [{"method": "level", "level": 30, "target": "082"}]
+    "base_stats": {
+      "hp": 25,
+      "atk": 35,
+      "def": 70,
+      "sp_atk": 95,
+      "sp_def": 55,
+      "speed": 45
+    },
+    "ability": "magnet_pull",
+    "catch_rate": 190,
+    "base_exp_yield": 89,
+    "levelup_moves": [
+      {
+        "level": 1,
+        "move": "tackle"
+      },
+      {
+        "level": 1,
+        "move": "thunder_shock"
+      },
+      {
+        "level": 1,
+        "move": "metal_claw"
+      },
+      {
+        "level": 11,
+        "move": "spark"
+      },
+      {
+        "level": 21,
+        "move": "sonic_boom"
+      },
+      {
+        "level": 27,
+        "move": "thunderbolt"
+      },
+      {
+        "level": 37,
+        "move": "flash_cannon"
+      }
+    ],
+    "evolutions": [
+      {
+        "method": "level",
+        "level": 30,
+        "into": "082"
+      }
+    ]
   },
   "082": {
-    "name": "Magnéton",
-    "types": ["Electric", "Steel"],
-    "base_stats": {"hp": 50, "atk": 60, "def": 95, "sp_atk": 120, "sp_def": 70, "speed": 70},
-    "ability": "Magnet Pull", "catch_rate": 60, "base_exp_yield": 161,
+    "name": "Magneton",
+    "types": [
+      "Electric",
+      "Steel"
+    ],
+    "base_stats": {
+      "hp": 50,
+      "atk": 60,
+      "def": 95,
+      "sp_atk": 120,
+      "sp_def": 70,
+      "speed": 70
+    },
+    "ability": "magnet_pull",
+    "catch_rate": 60,
+    "base_exp_yield": 161,
     "levelup_moves": [
-      {"level": 1, "move": "tackle"}, {"level": 1, "move": "thundershock"},
-      {"level": 11, "move": "spark"}, {"level": 21, "move": "sonic_boom"},
-      {"level": 27, "move": "thunderbolt"}, {"level": 35, "move": "thunder"}
+      {
+        "level": 1,
+        "move": "tackle"
+      },
+      {
+        "level": 1,
+        "move": "thunder_shock"
+      },
+      {
+        "level": 1,
+        "move": "metal_claw"
+      },
+      {
+        "level": 11,
+        "move": "spark"
+      },
+      {
+        "level": 21,
+        "move": "sonic_boom"
+      },
+      {
+        "level": 27,
+        "move": "thunderbolt"
+      },
+      {
+        "level": 35,
+        "move": "thunder"
+      },
+      {
+        "level": 37,
+        "move": "flash_cannon"
+      }
     ],
     "evolutions": []
   },
   "092": {
-    "name": "Fantominus",
-    "types": ["Ghost", "Poison"],
-    "base_stats": {"hp": 30, "atk": 35, "def": 30, "sp_atk": 100, "sp_def": 35, "speed": 80},
-    "ability": "Levitate", "catch_rate": 190, "base_exp_yield": 62,
-    "levelup_moves": [
-      {"level": 1, "move": "lick"}, {"level": 1, "move": "hypnosis"},
-      {"level": 12, "move": "confuse_ray"}, {"level": 16, "move": "night_shade"},
-      {"level": 21, "move": "shadow_ball"}
+    "name": "Gastly",
+    "types": [
+      "Ghost",
+      "Poison"
     ],
-    "evolutions": [{"method": "level", "level": 25, "target": "093"}]
+    "base_stats": {
+      "hp": 30,
+      "atk": 35,
+      "def": 30,
+      "sp_atk": 100,
+      "sp_def": 35,
+      "speed": 80
+    },
+    "ability": "levitate",
+    "catch_rate": 190,
+    "base_exp_yield": 62,
+    "levelup_moves": [
+      {
+        "level": 1,
+        "move": "lick"
+      },
+      {
+        "level": 1,
+        "move": "hypnosis"
+      },
+      {
+        "level": 12,
+        "move": "confuse_ray"
+      },
+      {
+        "level": 16,
+        "move": "night_shade"
+      },
+      {
+        "level": 21,
+        "move": "shadow_ball"
+      }
+    ],
+    "evolutions": [
+      {
+        "method": "level",
+        "level": 25,
+        "into": "093"
+      }
+    ]
   },
   "093": {
-    "name": "Spectrum",
-    "types": ["Ghost", "Poison"],
-    "base_stats": {"hp": 45, "atk": 50, "def": 45, "sp_atk": 115, "sp_def": 55, "speed": 95},
-    "ability": "Levitate", "catch_rate": 90, "base_exp_yield": 142,
+    "name": "Haunter",
+    "types": [
+      "Ghost",
+      "Poison"
+    ],
+    "base_stats": {
+      "hp": 45,
+      "atk": 50,
+      "def": 45,
+      "sp_atk": 115,
+      "sp_def": 55,
+      "speed": 95
+    },
+    "ability": "levitate",
+    "catch_rate": 90,
+    "base_exp_yield": 142,
     "levelup_moves": [
-      {"level": 1, "move": "lick"}, {"level": 1, "move": "hypnosis"},
-      {"level": 12, "move": "confuse_ray"}, {"level": 16, "move": "night_shade"},
-      {"level": 25, "move": "shadow_ball"}, {"level": 33, "move": "sludge_bomb"}
+      {
+        "level": 1,
+        "move": "lick"
+      },
+      {
+        "level": 1,
+        "move": "hypnosis"
+      },
+      {
+        "level": 12,
+        "move": "confuse_ray"
+      },
+      {
+        "level": 16,
+        "move": "night_shade"
+      },
+      {
+        "level": 25,
+        "move": "shadow_ball"
+      },
+      {
+        "level": 33,
+        "move": "sludge_bomb"
+      }
+    ],
+    "evolutions": [
+      {
+        "method": "level",
+        "level": 38,
+        "into": "094"
+      }
+    ]
+  },
+  "100": {
+    "name": "Voltorb",
+    "types": [
+      "Electric"
+    ],
+    "base_stats": {
+      "hp": 40,
+      "atk": 30,
+      "def": 50,
+      "sp_atk": 55,
+      "sp_def": 55,
+      "speed": 100
+    },
+    "ability": "soundproof",
+    "catch_rate": 190,
+    "base_exp_yield": 66,
+    "levelup_moves": [
+      {
+        "level": 1,
+        "move": "tackle"
+      },
+      {
+        "level": 1,
+        "move": "screech"
+      },
+      {
+        "level": 8,
+        "move": "thunder_shock"
+      },
+      {
+        "level": 15,
+        "move": "spark"
+      },
+      {
+        "level": 21,
+        "move": "sonic_boom"
+      },
+      {
+        "level": 27,
+        "move": "thunderbolt"
+      }
+    ],
+    "evolutions": [
+      {
+        "method": "level",
+        "level": 30,
+        "into": "101"
+      }
+    ]
+  },
+  "101": {
+    "name": "Electrode",
+    "types": [
+      "Electric"
+    ],
+    "base_stats": {
+      "hp": 60,
+      "atk": 50,
+      "def": 70,
+      "sp_atk": 80,
+      "sp_def": 80,
+      "speed": 150
+    },
+    "ability": "soundproof",
+    "catch_rate": 60,
+    "base_exp_yield": 172,
+    "levelup_moves": [
+      {
+        "level": 1,
+        "move": "tackle"
+      },
+      {
+        "level": 1,
+        "move": "thunder_shock"
+      },
+      {
+        "level": 15,
+        "move": "spark"
+      },
+      {
+        "level": 21,
+        "move": "sonic_boom"
+      },
+      {
+        "level": 27,
+        "move": "thunderbolt"
+      },
+      {
+        "level": 34,
+        "move": "thunder"
+      },
+      {
+        "level": 40,
+        "move": "hyper_beam"
+      }
     ],
     "evolutions": []
   },
-  "100": {
-    "name": "Voltorbe",
-    "types": ["Electric"],
-    "base_stats": {"hp": 40, "atk": 30, "def": 50, "sp_atk": 55, "sp_def": 55, "speed": 100},
-    "ability": "Soundproof", "catch_rate": 190, "base_exp_yield": 66,
-    "levelup_moves": [
-      {"level": 1, "move": "tackle"}, {"level": 1, "move": "screech"},
-      {"level": 8, "move": "thundershock"}, {"level": 15, "move": "spark"},
-      {"level": 21, "move": "sonic_boom"}, {"level": 27, "move": "thunderbolt"}
+  "038": {
+    "name": "Ninetales",
+    "types": [
+      "Fire"
     ],
-    "evolutions": [{"method": "level", "level": 30, "target": "101"}]
-  },
-  "101": {
-    "name": "Électrode",
-    "types": ["Electric"],
-    "base_stats": {"hp": 60, "atk": 50, "def": 70, "sp_atk": 80, "sp_def": 80, "speed": 150},
-    "ability": "Soundproof", "catch_rate": 60, "base_exp_yield": 172,
+    "base_stats": {
+      "hp": 73,
+      "atk": 76,
+      "def": 75,
+      "sp_atk": 81,
+      "sp_def": 100,
+      "speed": 100
+    },
+    "ability": "flash_fire",
+    "catch_rate": 75,
+    "base_exp_yield": 177,
     "levelup_moves": [
-      {"level": 1, "move": "tackle"}, {"level": 1, "move": "thundershock"},
-      {"level": 15, "move": "spark"}, {"level": 21, "move": "sonic_boom"},
-      {"level": 27, "move": "thunderbolt"}, {"level": 34, "move": "thunder"},
-      {"level": 40, "move": "hyper_beam"}
+      {
+        "level": 1,
+        "move": "ember"
+      },
+      {
+        "level": 1,
+        "move": "quick_attack"
+      },
+      {
+        "level": 1,
+        "move": "confuse_ray"
+      },
+      {
+        "level": 1,
+        "move": "flamethrower"
+      }
+    ],
+    "evolutions": []
+  },
+  "048": {
+    "name": "Venonat",
+    "types": [
+      "Bug",
+      "Poison"
+    ],
+    "base_stats": {
+      "hp": 60,
+      "atk": 55,
+      "def": 50,
+      "sp_atk": 40,
+      "sp_def": 55,
+      "speed": 45
+    },
+    "ability": "compound_eyes",
+    "catch_rate": 190,
+    "base_exp_yield": 61,
+    "levelup_moves": [
+      {
+        "level": 1,
+        "move": "tackle"
+      },
+      {
+        "level": 1,
+        "move": "poison_sting"
+      },
+      {
+        "level": 11,
+        "move": "supersonic"
+      },
+      {
+        "level": 19,
+        "move": "confusion"
+      },
+      {
+        "level": 25,
+        "move": "poison_powder"
+      },
+      {
+        "level": 31,
+        "move": "sleep_powder"
+      },
+      {
+        "level": 37,
+        "move": "psybeam"
+      }
+    ],
+    "evolutions": [
+      {
+        "method": "level",
+        "level": 31,
+        "into": "049"
+      }
+    ]
+  },
+  "049": {
+    "name": "Venomoth",
+    "types": [
+      "Bug",
+      "Poison"
+    ],
+    "base_stats": {
+      "hp": 70,
+      "atk": 65,
+      "def": 60,
+      "sp_atk": 90,
+      "sp_def": 75,
+      "speed": 90
+    },
+    "ability": "shield_dust",
+    "catch_rate": 75,
+    "base_exp_yield": 158,
+    "levelup_moves": [
+      {
+        "level": 1,
+        "move": "tackle"
+      },
+      {
+        "level": 1,
+        "move": "poison_sting"
+      },
+      {
+        "level": 1,
+        "move": "supersonic"
+      },
+      {
+        "level": 1,
+        "move": "confusion"
+      },
+      {
+        "level": 31,
+        "move": "gust"
+      },
+      {
+        "level": 38,
+        "move": "psybeam"
+      },
+      {
+        "level": 45,
+        "move": "psychic"
+      }
+    ],
+    "evolutions": []
+  },
+  "059": {
+    "name": "Arcanine",
+    "types": [
+      "Fire"
+    ],
+    "base_stats": {
+      "hp": 90,
+      "atk": 110,
+      "def": 80,
+      "sp_atk": 100,
+      "sp_def": 80,
+      "speed": 95
+    },
+    "ability": "intimidate",
+    "catch_rate": 75,
+    "base_exp_yield": 194,
+    "levelup_moves": [
+      {
+        "level": 1,
+        "move": "bite"
+      },
+      {
+        "level": 1,
+        "move": "ember"
+      },
+      {
+        "level": 1,
+        "move": "flame_wheel"
+      },
+      {
+        "level": 1,
+        "move": "take_down"
+      },
+      {
+        "level": 34,
+        "move": "flamethrower"
+      },
+      {
+        "level": 49,
+        "move": "hyper_beam"
+      }
+    ],
+    "evolutions": []
+  },
+  "072": {
+    "name": "Tentacool",
+    "types": [
+      "Water",
+      "Poison"
+    ],
+    "base_stats": {
+      "hp": 40,
+      "atk": 40,
+      "def": 35,
+      "sp_atk": 50,
+      "sp_def": 100,
+      "speed": 70
+    },
+    "ability": "clear_body",
+    "catch_rate": 190,
+    "base_exp_yield": 67,
+    "levelup_moves": [
+      {
+        "level": 1,
+        "move": "poison_sting"
+      },
+      {
+        "level": 1,
+        "move": "supersonic"
+      },
+      {
+        "level": 12,
+        "move": "acid"
+      },
+      {
+        "level": 19,
+        "move": "water_gun"
+      },
+      {
+        "level": 25,
+        "move": "poison_powder"
+      },
+      {
+        "level": 30,
+        "move": "sludge"
+      }
+    ],
+    "evolutions": [
+      {
+        "method": "level",
+        "level": 30,
+        "into": "073"
+      }
+    ]
+  },
+  "073": {
+    "name": "Tentacruel",
+    "types": [
+      "Water",
+      "Poison"
+    ],
+    "base_stats": {
+      "hp": 80,
+      "atk": 70,
+      "def": 65,
+      "sp_atk": 80,
+      "sp_def": 120,
+      "speed": 100
+    },
+    "ability": "clear_body",
+    "catch_rate": 60,
+    "base_exp_yield": 180,
+    "levelup_moves": [
+      {
+        "level": 1,
+        "move": "poison_sting"
+      },
+      {
+        "level": 1,
+        "move": "supersonic"
+      },
+      {
+        "level": 1,
+        "move": "acid"
+      },
+      {
+        "level": 1,
+        "move": "water_gun"
+      },
+      {
+        "level": 30,
+        "move": "sludge"
+      },
+      {
+        "level": 38,
+        "move": "hydro_pump"
+      },
+      {
+        "level": 45,
+        "move": "sludge_bomb"
+      }
+    ],
+    "evolutions": []
+  },
+  "079": {
+    "name": "Slowpoke",
+    "types": [
+      "Water",
+      "Psychic"
+    ],
+    "base_stats": {
+      "hp": 90,
+      "atk": 65,
+      "def": 65,
+      "sp_atk": 40,
+      "sp_def": 40,
+      "speed": 15
+    },
+    "ability": "oblivious",
+    "catch_rate": 190,
+    "base_exp_yield": 63,
+    "levelup_moves": [
+      {
+        "level": 1,
+        "move": "tackle"
+      },
+      {
+        "level": 1,
+        "move": "growl"
+      },
+      {
+        "level": 15,
+        "move": "water_gun"
+      },
+      {
+        "level": 20,
+        "move": "confusion"
+      },
+      {
+        "level": 29,
+        "move": "psybeam"
+      },
+      {
+        "level": 36,
+        "move": "psychic"
+      }
+    ],
+    "evolutions": [
+      {
+        "method": "level",
+        "level": 37,
+        "into": "080"
+      }
+    ]
+  },
+  "080": {
+    "name": "Slowbro",
+    "types": [
+      "Water",
+      "Psychic"
+    ],
+    "base_stats": {
+      "hp": 95,
+      "atk": 75,
+      "def": 110,
+      "sp_atk": 100,
+      "sp_def": 80,
+      "speed": 30
+    },
+    "ability": "oblivious",
+    "catch_rate": 75,
+    "base_exp_yield": 172,
+    "levelup_moves": [
+      {
+        "level": 1,
+        "move": "tackle"
+      },
+      {
+        "level": 1,
+        "move": "growl"
+      },
+      {
+        "level": 1,
+        "move": "water_gun"
+      },
+      {
+        "level": 1,
+        "move": "confusion"
+      },
+      {
+        "level": 37,
+        "move": "withdraw"
+      },
+      {
+        "level": 44,
+        "move": "psychic"
+      },
+      {
+        "level": 52,
+        "move": "hydro_pump"
+      }
+    ],
+    "evolutions": []
+  },
+  "086": {
+    "name": "Seel",
+    "types": [
+      "Water"
+    ],
+    "base_stats": {
+      "hp": 65,
+      "atk": 45,
+      "def": 55,
+      "sp_atk": 45,
+      "sp_def": 70,
+      "speed": 45
+    },
+    "ability": "thick_fat",
+    "catch_rate": 190,
+    "base_exp_yield": 65,
+    "levelup_moves": [
+      {
+        "level": 1,
+        "move": "tackle"
+      },
+      {
+        "level": 1,
+        "move": "growl"
+      },
+      {
+        "level": 16,
+        "move": "water_gun"
+      },
+      {
+        "level": 21,
+        "move": "body_slam"
+      },
+      {
+        "level": 27,
+        "move": "aurora_beam"
+      },
+      {
+        "level": 31,
+        "move": "take_down"
+      },
+      {
+        "level": 37,
+        "move": "ice_beam"
+      }
+    ],
+    "evolutions": [
+      {
+        "method": "level",
+        "level": 34,
+        "into": "087"
+      }
+    ]
+  },
+  "087": {
+    "name": "Dewgong",
+    "types": [
+      "Water",
+      "Ice"
+    ],
+    "base_stats": {
+      "hp": 90,
+      "atk": 70,
+      "def": 80,
+      "sp_atk": 70,
+      "sp_def": 95,
+      "speed": 70
+    },
+    "ability": "thick_fat",
+    "catch_rate": 75,
+    "base_exp_yield": 166,
+    "levelup_moves": [
+      {
+        "level": 1,
+        "move": "tackle"
+      },
+      {
+        "level": 1,
+        "move": "growl"
+      },
+      {
+        "level": 1,
+        "move": "water_gun"
+      },
+      {
+        "level": 1,
+        "move": "body_slam"
+      },
+      {
+        "level": 29,
+        "move": "aurora_beam"
+      },
+      {
+        "level": 34,
+        "move": "take_down"
+      },
+      {
+        "level": 38,
+        "move": "ice_beam"
+      },
+      {
+        "level": 42,
+        "move": "hydro_pump"
+      },
+      {
+        "level": 50,
+        "move": "blizzard"
+      }
+    ],
+    "evolutions": []
+  },
+  "088": {
+    "name": "Grimer",
+    "types": [
+      "Poison"
+    ],
+    "base_stats": {
+      "hp": 80,
+      "atk": 80,
+      "def": 50,
+      "sp_atk": 40,
+      "sp_def": 50,
+      "speed": 25
+    },
+    "ability": "stench",
+    "catch_rate": 190,
+    "base_exp_yield": 65,
+    "levelup_moves": [
+      {
+        "level": 1,
+        "move": "poison_sting"
+      },
+      {
+        "level": 1,
+        "move": "growl"
+      },
+      {
+        "level": 13,
+        "move": "sludge"
+      },
+      {
+        "level": 19,
+        "move": "mud_slap"
+      },
+      {
+        "level": 26,
+        "move": "screech"
+      },
+      {
+        "level": 33,
+        "move": "sludge_bomb"
+      }
+    ],
+    "evolutions": [
+      {
+        "method": "level",
+        "level": 38,
+        "into": "089"
+      }
+    ]
+  },
+  "089": {
+    "name": "Muk",
+    "types": [
+      "Poison"
+    ],
+    "base_stats": {
+      "hp": 105,
+      "atk": 105,
+      "def": 75,
+      "sp_atk": 65,
+      "sp_def": 100,
+      "speed": 50
+    },
+    "ability": "stench",
+    "catch_rate": 75,
+    "base_exp_yield": 175,
+    "levelup_moves": [
+      {
+        "level": 1,
+        "move": "poison_sting"
+      },
+      {
+        "level": 1,
+        "move": "growl"
+      },
+      {
+        "level": 1,
+        "move": "sludge"
+      },
+      {
+        "level": 1,
+        "move": "mud_slap"
+      },
+      {
+        "level": 38,
+        "move": "screech"
+      },
+      {
+        "level": 45,
+        "move": "sludge_bomb"
+      },
+      {
+        "level": 52,
+        "move": "body_slam"
+      }
+    ],
+    "evolutions": []
+  },
+  "094": {
+    "name": "Gengar",
+    "types": [
+      "Ghost",
+      "Poison"
+    ],
+    "base_stats": {
+      "hp": 60,
+      "atk": 65,
+      "def": 60,
+      "sp_atk": 130,
+      "sp_def": 75,
+      "speed": 110
+    },
+    "ability": "levitate",
+    "catch_rate": 45,
+    "base_exp_yield": 225,
+    "levelup_moves": [
+      {
+        "level": 1,
+        "move": "lick"
+      },
+      {
+        "level": 1,
+        "move": "confuse_ray"
+      },
+      {
+        "level": 1,
+        "move": "night_shade"
+      },
+      {
+        "level": 1,
+        "move": "shadow_ball"
+      },
+      {
+        "level": 33,
+        "move": "hypnosis"
+      },
+      {
+        "level": 44,
+        "move": "psychic"
+      }
+    ],
+    "evolutions": []
+  },
+  "097": {
+    "name": "Hypno",
+    "types": [
+      "Psychic"
+    ],
+    "base_stats": {
+      "hp": 85,
+      "atk": 73,
+      "def": 67,
+      "sp_atk": 73,
+      "sp_def": 115,
+      "speed": 67
+    },
+    "ability": "insomnia",
+    "catch_rate": 75,
+    "base_exp_yield": 169,
+    "levelup_moves": [
+      {
+        "level": 1,
+        "move": "hypnosis"
+      },
+      {
+        "level": 1,
+        "move": "confusion"
+      },
+      {
+        "level": 1,
+        "move": "psybeam"
+      },
+      {
+        "level": 26,
+        "move": "psychic"
+      },
+      {
+        "level": 33,
+        "move": "body_slam"
+      },
+      {
+        "level": 40,
+        "move": "shadow_ball"
+      }
+    ],
+    "evolutions": []
+  },
+  "109": {
+    "name": "Koffing",
+    "types": [
+      "Poison"
+    ],
+    "base_stats": {
+      "hp": 40,
+      "atk": 65,
+      "def": 95,
+      "sp_atk": 60,
+      "sp_def": 45,
+      "speed": 35
+    },
+    "ability": "levitate",
+    "catch_rate": 190,
+    "base_exp_yield": 68,
+    "levelup_moves": [
+      {
+        "level": 1,
+        "move": "tackle"
+      },
+      {
+        "level": 1,
+        "move": "poison_sting"
+      },
+      {
+        "level": 9,
+        "move": "smokescreen"
+      },
+      {
+        "level": 17,
+        "move": "sludge"
+      },
+      {
+        "level": 25,
+        "move": "self_destruct"
+      },
+      {
+        "level": 33,
+        "move": "sludge_bomb"
+      }
+    ],
+    "evolutions": [
+      {
+        "method": "level",
+        "level": 35,
+        "into": "110"
+      }
+    ]
+  },
+  "110": {
+    "name": "Weezing",
+    "types": [
+      "Poison"
+    ],
+    "base_stats": {
+      "hp": 65,
+      "atk": 90,
+      "def": 120,
+      "sp_atk": 85,
+      "sp_def": 70,
+      "speed": 60
+    },
+    "ability": "levitate",
+    "catch_rate": 60,
+    "base_exp_yield": 172,
+    "levelup_moves": [
+      {
+        "level": 1,
+        "move": "tackle"
+      },
+      {
+        "level": 1,
+        "move": "poison_sting"
+      },
+      {
+        "level": 1,
+        "move": "smokescreen"
+      },
+      {
+        "level": 1,
+        "move": "sludge"
+      },
+      {
+        "level": 35,
+        "move": "sludge_bomb"
+      },
+      {
+        "level": 44,
+        "move": "self_destruct"
+      },
+      {
+        "level": 51,
+        "move": "hyper_beam"
+      }
+    ],
+    "evolutions": []
+  },
+  "126": {
+    "name": "Magmar",
+    "types": [
+      "Fire"
+    ],
+    "base_stats": {
+      "hp": 65,
+      "atk": 95,
+      "def": 57,
+      "sp_atk": 100,
+      "sp_def": 85,
+      "speed": 93
+    },
+    "ability": "flame_body",
+    "catch_rate": 45,
+    "base_exp_yield": 173,
+    "levelup_moves": [
+      {
+        "level": 1,
+        "move": "ember"
+      },
+      {
+        "level": 1,
+        "move": "leer"
+      },
+      {
+        "level": 15,
+        "move": "fire_punch"
+      },
+      {
+        "level": 25,
+        "move": "smokescreen"
+      },
+      {
+        "level": 33,
+        "move": "flamethrower"
+      },
+      {
+        "level": 41,
+        "move": "fire_spin"
+      },
+      {
+        "level": 49,
+        "move": "hyper_beam"
+      }
+    ],
+    "evolutions": []
+  },
+  "021": {
+    "name": "Spearow",
+    "types": [
+      "Normal",
+      "Flying"
+    ],
+    "base_stats": {
+      "hp": 40,
+      "atk": 60,
+      "def": 30,
+      "sp_atk": 31,
+      "sp_def": 31,
+      "speed": 70
+    },
+    "ability": "keen_eye",
+    "catch_rate": 255,
+    "base_exp_yield": 58,
+    "levelup_moves": [
+      {
+        "level": 1,
+        "move": "peck"
+      },
+      {
+        "level": 1,
+        "move": "growl"
+      },
+      {
+        "level": 9,
+        "move": "leer"
+      },
+      {
+        "level": 13,
+        "move": "fury_attack"
+      },
+      {
+        "level": 19,
+        "move": "aerial_ace"
+      },
+      {
+        "level": 25,
+        "move": "mirror_move"
+      },
+      {
+        "level": 31,
+        "move": "drill_peck"
+      }
+    ],
+    "evolutions": [
+      {
+        "method": "level",
+        "level": 20,
+        "into": "022"
+      }
+    ]
+  },
+  "022": {
+    "name": "Fearow",
+    "types": [
+      "Normal",
+      "Flying"
+    ],
+    "base_stats": {
+      "hp": 65,
+      "atk": 90,
+      "def": 65,
+      "sp_atk": 61,
+      "sp_def": 61,
+      "speed": 100
+    },
+    "ability": "keen_eye",
+    "catch_rate": 90,
+    "base_exp_yield": 162,
+    "levelup_moves": [
+      {
+        "level": 1,
+        "move": "peck"
+      },
+      {
+        "level": 1,
+        "move": "growl"
+      },
+      {
+        "level": 9,
+        "move": "leer"
+      },
+      {
+        "level": 13,
+        "move": "fury_attack"
+      },
+      {
+        "level": 19,
+        "move": "aerial_ace"
+      },
+      {
+        "level": 27,
+        "move": "drill_peck"
+      },
+      {
+        "level": 37,
+        "move": "take_down"
+      },
+      {
+        "level": 47,
+        "move": "hyper_beam"
+      }
+    ],
+    "evolutions": []
+  },
+  "023": {
+    "name": "Ekans",
+    "types": [
+      "Poison"
+    ],
+    "base_stats": {
+      "hp": 35,
+      "atk": 60,
+      "def": 44,
+      "sp_atk": 40,
+      "sp_def": 54,
+      "speed": 55
+    },
+    "ability": "intimidate",
+    "catch_rate": 255,
+    "base_exp_yield": 58,
+    "levelup_moves": [
+      {
+        "level": 1,
+        "move": "wrap"
+      },
+      {
+        "level": 1,
+        "move": "leer"
+      },
+      {
+        "level": 9,
+        "move": "poison_sting"
+      },
+      {
+        "level": 15,
+        "move": "bite"
+      },
+      {
+        "level": 23,
+        "move": "glare"
+      },
+      {
+        "level": 29,
+        "move": "acid"
+      },
+      {
+        "level": 37,
+        "move": "sludge_bomb"
+      }
+    ],
+    "evolutions": [
+      {
+        "method": "level",
+        "level": 22,
+        "into": "024"
+      }
+    ]
+  },
+  "024": {
+    "name": "Arbok",
+    "types": [
+      "Poison"
+    ],
+    "base_stats": {
+      "hp": 60,
+      "atk": 85,
+      "def": 69,
+      "sp_atk": 65,
+      "sp_def": 79,
+      "speed": 80
+    },
+    "ability": "intimidate",
+    "catch_rate": 90,
+    "base_exp_yield": 157,
+    "levelup_moves": [
+      {
+        "level": 1,
+        "move": "wrap"
+      },
+      {
+        "level": 1,
+        "move": "leer"
+      },
+      {
+        "level": 9,
+        "move": "poison_sting"
+      },
+      {
+        "level": 15,
+        "move": "bite"
+      },
+      {
+        "level": 22,
+        "move": "glare"
+      },
+      {
+        "level": 30,
+        "move": "acid"
+      },
+      {
+        "level": 38,
+        "move": "crunch"
+      },
+      {
+        "level": 46,
+        "move": "sludge_bomb"
+      }
+    ],
+    "evolutions": []
+  },
+  "027": {
+    "name": "Sandshrew",
+    "types": [
+      "Ground"
+    ],
+    "base_stats": {
+      "hp": 50,
+      "atk": 75,
+      "def": 85,
+      "sp_atk": 20,
+      "sp_def": 30,
+      "speed": 40
+    },
+    "ability": "sand_veil",
+    "catch_rate": 255,
+    "base_exp_yield": 60,
+    "levelup_moves": [
+      {
+        "level": 1,
+        "move": "scratch"
+      },
+      {
+        "level": 1,
+        "move": "sand_attack"
+      },
+      {
+        "level": 11,
+        "move": "fury_swipes"
+      },
+      {
+        "level": 17,
+        "move": "mud_slap"
+      },
+      {
+        "level": 23,
+        "move": "slash"
+      },
+      {
+        "level": 30,
+        "move": "dig"
+      },
+      {
+        "level": 37,
+        "move": "earthquake"
+      }
+    ],
+    "evolutions": [
+      {
+        "method": "level",
+        "level": 22,
+        "into": "028"
+      }
+    ]
+  },
+  "028": {
+    "name": "Sandslash",
+    "types": [
+      "Ground"
+    ],
+    "base_stats": {
+      "hp": 75,
+      "atk": 100,
+      "def": 110,
+      "sp_atk": 45,
+      "sp_def": 55,
+      "speed": 65
+    },
+    "ability": "sand_veil",
+    "catch_rate": 90,
+    "base_exp_yield": 158,
+    "levelup_moves": [
+      {
+        "level": 1,
+        "move": "scratch"
+      },
+      {
+        "level": 1,
+        "move": "sand_attack"
+      },
+      {
+        "level": 11,
+        "move": "fury_swipes"
+      },
+      {
+        "level": 17,
+        "move": "mud_slap"
+      },
+      {
+        "level": 22,
+        "move": "slash"
+      },
+      {
+        "level": 30,
+        "move": "dig"
+      },
+      {
+        "level": 40,
+        "move": "earthquake"
+      },
+      {
+        "level": 50,
+        "move": "swords_dance"
+      }
+    ],
+    "evolutions": []
+  },
+  "035": {
+    "name": "Clefairy",
+    "types": [
+      "Fairy"
+    ],
+    "base_stats": {
+      "hp": 70,
+      "atk": 45,
+      "def": 48,
+      "sp_atk": 60,
+      "sp_def": 65,
+      "speed": 35
+    },
+    "ability": "cute_charm",
+    "catch_rate": 150,
+    "base_exp_yield": 113,
+    "levelup_moves": [
+      {
+        "level": 1,
+        "move": "tackle"
+      },
+      {
+        "level": 1,
+        "move": "growl"
+      },
+      {
+        "level": 1,
+        "move": "fairy_wind"
+      },
+      {
+        "level": 9,
+        "move": "double_team"
+      },
+      {
+        "level": 13,
+        "move": "disable"
+      },
+      {
+        "level": 19,
+        "move": "body_slam"
+      },
+      {
+        "level": 29,
+        "move": "psychic"
+      },
+      {
+        "level": 31,
+        "move": "dazzling_gleam"
+      },
+      {
+        "level": 37,
+        "move": "hyper_beam"
+      },
+      {
+        "level": 40,
+        "move": "moonblast"
+      }
+    ],
+    "evolutions": [
+      {
+        "method": "item",
+        "item": "moon_stone",
+        "into": "036"
+      }
+    ]
+  },
+  "036": {
+    "name": "Clefable",
+    "types": [
+      "Fairy"
+    ],
+    "base_stats": {
+      "hp": 95,
+      "atk": 70,
+      "def": 73,
+      "sp_atk": 95,
+      "sp_def": 90,
+      "speed": 60
+    },
+    "ability": "cute_charm",
+    "catch_rate": 25,
+    "base_exp_yield": 217,
+    "levelup_moves": [
+      {
+        "level": 1,
+        "move": "tackle"
+      },
+      {
+        "level": 1,
+        "move": "growl"
+      },
+      {
+        "level": 1,
+        "move": "fairy_wind"
+      },
+      {
+        "level": 1,
+        "move": "dazzling_gleam"
+      },
+      {
+        "level": 9,
+        "move": "double_team"
+      },
+      {
+        "level": 13,
+        "move": "body_slam"
+      },
+      {
+        "level": 25,
+        "move": "psychic"
+      },
+      {
+        "level": 37,
+        "move": "hyper_beam"
+      },
+      {
+        "level": 45,
+        "move": "moonblast"
+      }
+    ],
+    "evolutions": []
+  },
+  "040": {
+    "name": "Wigglytuff",
+    "types": [
+      "Normal",
+      "Fairy"
+    ],
+    "base_stats": {
+      "hp": 140,
+      "atk": 70,
+      "def": 45,
+      "sp_atk": 85,
+      "sp_def": 50,
+      "speed": 45
+    },
+    "ability": "cute_charm",
+    "catch_rate": 50,
+    "base_exp_yield": 196,
+    "levelup_moves": [
+      {
+        "level": 1,
+        "move": "tackle"
+      },
+      {
+        "level": 1,
+        "move": "disable"
+      },
+      {
+        "level": 1,
+        "move": "fairy_wind"
+      },
+      {
+        "level": 1,
+        "move": "dazzling_gleam"
+      },
+      {
+        "level": 9,
+        "move": "double_team"
+      },
+      {
+        "level": 14,
+        "move": "body_slam"
+      },
+      {
+        "level": 24,
+        "move": "hyper_beam"
+      },
+      {
+        "level": 42,
+        "move": "moonblast"
+      }
+    ],
+    "evolutions": []
+  },
+  "046": {
+    "name": "Paras",
+    "types": [
+      "Bug",
+      "Grass"
+    ],
+    "base_stats": {
+      "hp": 35,
+      "atk": 70,
+      "def": 55,
+      "sp_atk": 45,
+      "sp_def": 55,
+      "speed": 25
+    },
+    "ability": "effect_spore",
+    "catch_rate": 190,
+    "base_exp_yield": 57,
+    "levelup_moves": [
+      {
+        "level": 1,
+        "move": "scratch"
+      },
+      {
+        "level": 7,
+        "move": "stun_spore"
+      },
+      {
+        "level": 13,
+        "move": "poison_powder"
+      },
+      {
+        "level": 19,
+        "move": "leech_seed"
+      },
+      {
+        "level": 25,
+        "move": "slash"
+      },
+      {
+        "level": 31,
+        "move": "spore"
+      }
+    ],
+    "evolutions": [
+      {
+        "method": "level",
+        "level": 24,
+        "into": "047"
+      }
+    ]
+  },
+  "047": {
+    "name": "Parasect",
+    "types": [
+      "Bug",
+      "Grass"
+    ],
+    "base_stats": {
+      "hp": 60,
+      "atk": 95,
+      "def": 80,
+      "sp_atk": 60,
+      "sp_def": 80,
+      "speed": 30
+    },
+    "ability": "effect_spore",
+    "catch_rate": 75,
+    "base_exp_yield": 142,
+    "levelup_moves": [
+      {
+        "level": 1,
+        "move": "scratch"
+      },
+      {
+        "level": 7,
+        "move": "stun_spore"
+      },
+      {
+        "level": 13,
+        "move": "poison_powder"
+      },
+      {
+        "level": 19,
+        "move": "leech_seed"
+      },
+      {
+        "level": 27,
+        "move": "slash"
+      },
+      {
+        "level": 35,
+        "move": "spore"
+      },
+      {
+        "level": 43,
+        "move": "solar_beam"
+      }
+    ],
+    "evolutions": []
+  },
+  "050": {
+    "name": "Diglett",
+    "types": [
+      "Ground"
+    ],
+    "base_stats": {
+      "hp": 10,
+      "atk": 55,
+      "def": 25,
+      "sp_atk": 35,
+      "sp_def": 45,
+      "speed": 95
+    },
+    "ability": "sand_veil",
+    "catch_rate": 255,
+    "base_exp_yield": 53,
+    "levelup_moves": [
+      {
+        "level": 1,
+        "move": "scratch"
+      },
+      {
+        "level": 1,
+        "move": "sand_attack"
+      },
+      {
+        "level": 15,
+        "move": "dig"
+      },
+      {
+        "level": 19,
+        "move": "mud_slap"
+      },
+      {
+        "level": 25,
+        "move": "slash"
+      },
+      {
+        "level": 33,
+        "move": "earthquake"
+      }
+    ],
+    "evolutions": [
+      {
+        "method": "level",
+        "level": 26,
+        "into": "051"
+      }
+    ]
+  },
+  "051": {
+    "name": "Dugtrio",
+    "types": [
+      "Ground"
+    ],
+    "base_stats": {
+      "hp": 35,
+      "atk": 80,
+      "def": 50,
+      "sp_atk": 50,
+      "sp_def": 70,
+      "speed": 120
+    },
+    "ability": "sand_veil",
+    "catch_rate": 50,
+    "base_exp_yield": 149,
+    "levelup_moves": [
+      {
+        "level": 1,
+        "move": "scratch"
+      },
+      {
+        "level": 1,
+        "move": "sand_attack"
+      },
+      {
+        "level": 15,
+        "move": "dig"
+      },
+      {
+        "level": 19,
+        "move": "mud_slap"
+      },
+      {
+        "level": 26,
+        "move": "slash"
+      },
+      {
+        "level": 38,
+        "move": "earthquake"
+      },
+      {
+        "level": 47,
+        "move": "hyper_beam"
+      }
+    ],
+    "evolutions": []
+  },
+  "052": {
+    "name": "Meowth",
+    "types": [
+      "Normal"
+    ],
+    "base_stats": {
+      "hp": 40,
+      "atk": 45,
+      "def": 35,
+      "sp_atk": 40,
+      "sp_def": 40,
+      "speed": 90
+    },
+    "ability": "pickup",
+    "catch_rate": 255,
+    "base_exp_yield": 58,
+    "levelup_moves": [
+      {
+        "level": 1,
+        "move": "scratch"
+      },
+      {
+        "level": 1,
+        "move": "growl"
+      },
+      {
+        "level": 11,
+        "move": "bite"
+      },
+      {
+        "level": 17,
+        "move": "pay_day"
+      },
+      {
+        "level": 24,
+        "move": "fury_swipes"
+      },
+      {
+        "level": 33,
+        "move": "slash"
+      }
+    ],
+    "evolutions": [
+      {
+        "method": "level",
+        "level": 28,
+        "into": "053"
+      }
+    ]
+  },
+  "053": {
+    "name": "Persian",
+    "types": [
+      "Normal"
+    ],
+    "base_stats": {
+      "hp": 65,
+      "atk": 70,
+      "def": 60,
+      "sp_atk": 65,
+      "sp_def": 65,
+      "speed": 115
+    },
+    "ability": "limber",
+    "catch_rate": 90,
+    "base_exp_yield": 154,
+    "levelup_moves": [
+      {
+        "level": 1,
+        "move": "scratch"
+      },
+      {
+        "level": 1,
+        "move": "growl"
+      },
+      {
+        "level": 11,
+        "move": "bite"
+      },
+      {
+        "level": 17,
+        "move": "pay_day"
+      },
+      {
+        "level": 24,
+        "move": "fury_swipes"
+      },
+      {
+        "level": 30,
+        "move": "slash"
+      },
+      {
+        "level": 42,
+        "move": "hyper_beam"
+      }
+    ],
+    "evolutions": []
+  },
+  "056": {
+    "name": "Mankey",
+    "types": [
+      "Fighting"
+    ],
+    "base_stats": {
+      "hp": 40,
+      "atk": 80,
+      "def": 35,
+      "sp_atk": 35,
+      "sp_def": 45,
+      "speed": 70
+    },
+    "ability": "vital_spirit",
+    "catch_rate": 190,
+    "base_exp_yield": 61,
+    "levelup_moves": [
+      {
+        "level": 1,
+        "move": "scratch"
+      },
+      {
+        "level": 1,
+        "move": "leer"
+      },
+      {
+        "level": 9,
+        "move": "low_kick"
+      },
+      {
+        "level": 15,
+        "move": "karate_chop"
+      },
+      {
+        "level": 21,
+        "move": "fury_swipes"
+      },
+      {
+        "level": 27,
+        "move": "focus_energy"
+      },
+      {
+        "level": 33,
+        "move": "cross_chop"
+      }
+    ],
+    "evolutions": [
+      {
+        "method": "level",
+        "level": 28,
+        "into": "057"
+      }
+    ]
+  },
+  "057": {
+    "name": "Primeape",
+    "types": [
+      "Fighting"
+    ],
+    "base_stats": {
+      "hp": 65,
+      "atk": 105,
+      "def": 60,
+      "sp_atk": 60,
+      "sp_def": 70,
+      "speed": 95
+    },
+    "ability": "vital_spirit",
+    "catch_rate": 75,
+    "base_exp_yield": 159,
+    "levelup_moves": [
+      {
+        "level": 1,
+        "move": "scratch"
+      },
+      {
+        "level": 1,
+        "move": "leer"
+      },
+      {
+        "level": 9,
+        "move": "low_kick"
+      },
+      {
+        "level": 15,
+        "move": "karate_chop"
+      },
+      {
+        "level": 21,
+        "move": "fury_swipes"
+      },
+      {
+        "level": 28,
+        "move": "cross_chop"
+      },
+      {
+        "level": 38,
+        "move": "submission"
+      },
+      {
+        "level": 48,
+        "move": "hyper_beam"
+      }
+    ],
+    "evolutions": []
+  },
+  "060": {
+    "name": "Poliwag",
+    "types": [
+      "Water"
+    ],
+    "base_stats": {
+      "hp": 40,
+      "atk": 50,
+      "def": 40,
+      "sp_atk": 40,
+      "sp_def": 40,
+      "speed": 90
+    },
+    "ability": "water_absorb",
+    "catch_rate": 255,
+    "base_exp_yield": 60,
+    "levelup_moves": [
+      {
+        "level": 1,
+        "move": "bubble"
+      },
+      {
+        "level": 7,
+        "move": "hypnosis"
+      },
+      {
+        "level": 13,
+        "move": "water_gun"
+      },
+      {
+        "level": 19,
+        "move": "double_team"
+      },
+      {
+        "level": 25,
+        "move": "body_slam"
+      },
+      {
+        "level": 31,
+        "move": "surf"
+      }
+    ],
+    "evolutions": [
+      {
+        "method": "level",
+        "level": 25,
+        "into": "061"
+      }
+    ]
+  },
+  "061": {
+    "name": "Poliwhirl",
+    "types": [
+      "Water"
+    ],
+    "base_stats": {
+      "hp": 65,
+      "atk": 65,
+      "def": 65,
+      "sp_atk": 50,
+      "sp_def": 50,
+      "speed": 90
+    },
+    "ability": "water_absorb",
+    "catch_rate": 120,
+    "base_exp_yield": 135,
+    "levelup_moves": [
+      {
+        "level": 1,
+        "move": "bubble"
+      },
+      {
+        "level": 7,
+        "move": "hypnosis"
+      },
+      {
+        "level": 13,
+        "move": "water_gun"
+      },
+      {
+        "level": 19,
+        "move": "double_team"
+      },
+      {
+        "level": 27,
+        "move": "body_slam"
+      },
+      {
+        "level": 35,
+        "move": "surf"
+      }
+    ],
+    "evolutions": [
+      {
+        "method": "item",
+        "item": "water_stone",
+        "into": "062"
+      }
+    ]
+  },
+  "062": {
+    "name": "Poliwrath",
+    "types": [
+      "Water",
+      "Fighting"
+    ],
+    "base_stats": {
+      "hp": 90,
+      "atk": 95,
+      "def": 95,
+      "sp_atk": 70,
+      "sp_def": 90,
+      "speed": 70
+    },
+    "ability": "water_absorb",
+    "catch_rate": 45,
+    "base_exp_yield": 230,
+    "levelup_moves": [
+      {
+        "level": 1,
+        "move": "water_gun"
+      },
+      {
+        "level": 1,
+        "move": "hypnosis"
+      },
+      {
+        "level": 1,
+        "move": "double_team"
+      },
+      {
+        "level": 19,
+        "move": "submission"
+      },
+      {
+        "level": 27,
+        "move": "surf"
+      },
+      {
+        "level": 35,
+        "move": "cross_chop"
+      },
+      {
+        "level": 43,
+        "move": "hydro_pump"
+      }
+    ],
+    "evolutions": []
+  },
+  "068": {
+    "name": "Machamp",
+    "types": [
+      "Fighting"
+    ],
+    "base_stats": {
+      "hp": 90,
+      "atk": 130,
+      "def": 80,
+      "sp_atk": 65,
+      "sp_def": 85,
+      "speed": 55
+    },
+    "ability": "guts",
+    "catch_rate": 45,
+    "base_exp_yield": 227,
+    "levelup_moves": [
+      {
+        "level": 1,
+        "move": "low_kick"
+      },
+      {
+        "level": 1,
+        "move": "leer"
+      },
+      {
+        "level": 10,
+        "move": "karate_chop"
+      },
+      {
+        "level": 19,
+        "move": "focus_energy"
+      },
+      {
+        "level": 28,
+        "move": "seismic_toss"
+      },
+      {
+        "level": 36,
+        "move": "cross_chop"
+      },
+      {
+        "level": 44,
+        "move": "submission"
+      },
+      {
+        "level": 52,
+        "move": "hyper_beam"
+      }
+    ],
+    "evolutions": []
+  },
+  "069": {
+    "name": "Bellsprout",
+    "types": [
+      "Grass",
+      "Poison"
+    ],
+    "base_stats": {
+      "hp": 50,
+      "atk": 75,
+      "def": 35,
+      "sp_atk": 70,
+      "sp_def": 30,
+      "speed": 40
+    },
+    "ability": "chlorophyll",
+    "catch_rate": 255,
+    "base_exp_yield": 60,
+    "levelup_moves": [
+      {
+        "level": 1,
+        "move": "vine_whip"
+      },
+      {
+        "level": 1,
+        "move": "growth"
+      },
+      {
+        "level": 11,
+        "move": "wrap"
+      },
+      {
+        "level": 15,
+        "move": "sleep_powder"
+      },
+      {
+        "level": 19,
+        "move": "poison_powder"
+      },
+      {
+        "level": 23,
+        "move": "acid"
+      },
+      {
+        "level": 29,
+        "move": "razor_leaf"
+      }
+    ],
+    "evolutions": [
+      {
+        "method": "level",
+        "level": 21,
+        "into": "070"
+      }
+    ]
+  },
+  "070": {
+    "name": "Weepinbell",
+    "types": [
+      "Grass",
+      "Poison"
+    ],
+    "base_stats": {
+      "hp": 65,
+      "atk": 90,
+      "def": 50,
+      "sp_atk": 85,
+      "sp_def": 45,
+      "speed": 55
+    },
+    "ability": "chlorophyll",
+    "catch_rate": 120,
+    "base_exp_yield": 137,
+    "levelup_moves": [
+      {
+        "level": 1,
+        "move": "vine_whip"
+      },
+      {
+        "level": 1,
+        "move": "growth"
+      },
+      {
+        "level": 11,
+        "move": "wrap"
+      },
+      {
+        "level": 15,
+        "move": "sleep_powder"
+      },
+      {
+        "level": 19,
+        "move": "poison_powder"
+      },
+      {
+        "level": 24,
+        "move": "acid"
+      },
+      {
+        "level": 33,
+        "move": "razor_leaf"
+      },
+      {
+        "level": 39,
+        "move": "slam"
+      }
+    ],
+    "evolutions": [
+      {
+        "method": "item",
+        "item": "leaf_stone",
+        "into": "071"
+      }
+    ]
+  },
+  "071": {
+    "name": "Victreebel",
+    "types": [
+      "Grass",
+      "Poison"
+    ],
+    "base_stats": {
+      "hp": 80,
+      "atk": 105,
+      "def": 65,
+      "sp_atk": 100,
+      "sp_def": 70,
+      "speed": 70
+    },
+    "ability": "chlorophyll",
+    "catch_rate": 45,
+    "base_exp_yield": 221,
+    "levelup_moves": [
+      {
+        "level": 1,
+        "move": "vine_whip"
+      },
+      {
+        "level": 1,
+        "move": "sleep_powder"
+      },
+      {
+        "level": 1,
+        "move": "razor_leaf"
+      },
+      {
+        "level": 27,
+        "move": "acid"
+      },
+      {
+        "level": 33,
+        "move": "slam"
+      },
+      {
+        "level": 39,
+        "move": "sludge_bomb"
+      },
+      {
+        "level": 47,
+        "move": "solar_beam"
+      }
+    ],
+    "evolutions": []
+  },
+  "076": {
+    "name": "Golem",
+    "types": [
+      "Rock",
+      "Ground"
+    ],
+    "base_stats": {
+      "hp": 80,
+      "atk": 120,
+      "def": 130,
+      "sp_atk": 55,
+      "sp_def": 65,
+      "speed": 45
+    },
+    "ability": "rock_head",
+    "catch_rate": 45,
+    "base_exp_yield": 223,
+    "levelup_moves": [
+      {
+        "level": 1,
+        "move": "tackle"
+      },
+      {
+        "level": 1,
+        "move": "mud_slap"
+      },
+      {
+        "level": 11,
+        "move": "rock_throw"
+      },
+      {
+        "level": 16,
+        "move": "self_destruct"
+      },
+      {
+        "level": 22,
+        "move": "rock_slide"
+      },
+      {
+        "level": 29,
+        "move": "earthquake"
+      },
+      {
+        "level": 40,
+        "move": "hyper_beam"
+      }
+    ],
+    "evolutions": []
+  },
+  "083": {
+    "name": "Farfetch'd",
+    "types": [
+      "Normal",
+      "Flying"
+    ],
+    "base_stats": {
+      "hp": 52,
+      "atk": 65,
+      "def": 55,
+      "sp_atk": 58,
+      "sp_def": 62,
+      "speed": 60
+    },
+    "ability": "keen_eye",
+    "catch_rate": 45,
+    "base_exp_yield": 123,
+    "levelup_moves": [
+      {
+        "level": 1,
+        "move": "peck"
+      },
+      {
+        "level": 1,
+        "move": "sand_attack"
+      },
+      {
+        "level": 9,
+        "move": "leer"
+      },
+      {
+        "level": 13,
+        "move": "fury_attack"
+      },
+      {
+        "level": 21,
+        "move": "slash"
+      },
+      {
+        "level": 29,
+        "move": "swords_dance"
+      },
+      {
+        "level": 37,
+        "move": "aerial_ace"
+      }
+    ],
+    "evolutions": []
+  },
+  "084": {
+    "name": "Doduo",
+    "types": [
+      "Normal",
+      "Flying"
+    ],
+    "base_stats": {
+      "hp": 35,
+      "atk": 85,
+      "def": 45,
+      "sp_atk": 35,
+      "sp_def": 35,
+      "speed": 75
+    },
+    "ability": "run_away",
+    "catch_rate": 190,
+    "base_exp_yield": 62,
+    "levelup_moves": [
+      {
+        "level": 1,
+        "move": "peck"
+      },
+      {
+        "level": 1,
+        "move": "growl"
+      },
+      {
+        "level": 9,
+        "move": "quick_attack"
+      },
+      {
+        "level": 13,
+        "move": "fury_attack"
+      },
+      {
+        "level": 21,
+        "move": "aerial_ace"
+      },
+      {
+        "level": 29,
+        "move": "drill_peck"
+      },
+      {
+        "level": 37,
+        "move": "agility"
+      }
+    ],
+    "evolutions": [
+      {
+        "method": "level",
+        "level": 31,
+        "into": "085"
+      }
+    ]
+  },
+  "085": {
+    "name": "Dodrio",
+    "types": [
+      "Normal",
+      "Flying"
+    ],
+    "base_stats": {
+      "hp": 60,
+      "atk": 110,
+      "def": 70,
+      "sp_atk": 60,
+      "sp_def": 60,
+      "speed": 100
+    },
+    "ability": "run_away",
+    "catch_rate": 45,
+    "base_exp_yield": 165,
+    "levelup_moves": [
+      {
+        "level": 1,
+        "move": "peck"
+      },
+      {
+        "level": 1,
+        "move": "growl"
+      },
+      {
+        "level": 9,
+        "move": "quick_attack"
+      },
+      {
+        "level": 13,
+        "move": "fury_attack"
+      },
+      {
+        "level": 21,
+        "move": "aerial_ace"
+      },
+      {
+        "level": 31,
+        "move": "drill_peck"
+      },
+      {
+        "level": 41,
+        "move": "agility"
+      },
+      {
+        "level": 51,
+        "move": "hyper_beam"
+      }
+    ],
+    "evolutions": []
+  },
+  "090": {
+    "name": "Shellder",
+    "types": [
+      "Water"
+    ],
+    "base_stats": {
+      "hp": 30,
+      "atk": 65,
+      "def": 100,
+      "sp_atk": 45,
+      "sp_def": 25,
+      "speed": 40
+    },
+    "ability": "shell_armor",
+    "catch_rate": 190,
+    "base_exp_yield": 61,
+    "levelup_moves": [
+      {
+        "level": 1,
+        "move": "tackle"
+      },
+      {
+        "level": 1,
+        "move": "withdraw"
+      },
+      {
+        "level": 9,
+        "move": "supersonic"
+      },
+      {
+        "level": 17,
+        "move": "aurora_beam"
+      },
+      {
+        "level": 25,
+        "move": "clamp"
+      },
+      {
+        "level": 33,
+        "move": "ice_beam"
+      }
+    ],
+    "evolutions": [
+      {
+        "method": "item",
+        "item": "water_stone",
+        "into": "091"
+      }
+    ]
+  },
+  "091": {
+    "name": "Cloyster",
+    "types": [
+      "Water",
+      "Ice"
+    ],
+    "base_stats": {
+      "hp": 50,
+      "atk": 95,
+      "def": 180,
+      "sp_atk": 85,
+      "sp_def": 45,
+      "speed": 70
+    },
+    "ability": "shell_armor",
+    "catch_rate": 60,
+    "base_exp_yield": 184,
+    "levelup_moves": [
+      {
+        "level": 1,
+        "move": "withdraw"
+      },
+      {
+        "level": 1,
+        "move": "supersonic"
+      },
+      {
+        "level": 1,
+        "move": "aurora_beam"
+      },
+      {
+        "level": 33,
+        "move": "spike_cannon"
+      },
+      {
+        "level": 41,
+        "move": "ice_beam"
+      },
+      {
+        "level": 49,
+        "move": "hydro_pump"
+      }
+    ],
+    "evolutions": []
+  },
+  "096": {
+    "name": "Drowzee",
+    "types": [
+      "Psychic"
+    ],
+    "base_stats": {
+      "hp": 60,
+      "atk": 48,
+      "def": 45,
+      "sp_atk": 43,
+      "sp_def": 90,
+      "speed": 42
+    },
+    "ability": "insomnia",
+    "catch_rate": 190,
+    "base_exp_yield": 66,
+    "levelup_moves": [
+      {
+        "level": 1,
+        "move": "tackle"
+      },
+      {
+        "level": 1,
+        "move": "hypnosis"
+      },
+      {
+        "level": 12,
+        "move": "confusion"
+      },
+      {
+        "level": 17,
+        "move": "disable"
+      },
+      {
+        "level": 24,
+        "move": "psybeam"
+      },
+      {
+        "level": 29,
+        "move": "psychic"
+      },
+      {
+        "level": 36,
+        "move": "dream_eater"
+      }
+    ],
+    "evolutions": [
+      {
+        "method": "level",
+        "level": 26,
+        "into": "097"
+      }
+    ]
+  },
+  "098": {
+    "name": "Krabby",
+    "types": [
+      "Water"
+    ],
+    "base_stats": {
+      "hp": 30,
+      "atk": 105,
+      "def": 90,
+      "sp_atk": 25,
+      "sp_def": 25,
+      "speed": 50
+    },
+    "ability": "hyper_cutter",
+    "catch_rate": 225,
+    "base_exp_yield": 65,
+    "levelup_moves": [
+      {
+        "level": 1,
+        "move": "bubble"
+      },
+      {
+        "level": 1,
+        "move": "leer"
+      },
+      {
+        "level": 12,
+        "move": "mud_slap"
+      },
+      {
+        "level": 16,
+        "move": "water_gun"
+      },
+      {
+        "level": 23,
+        "move": "stomp"
+      },
+      {
+        "level": 29,
+        "move": "slam"
+      },
+      {
+        "level": 35,
+        "move": "surf"
+      }
+    ],
+    "evolutions": [
+      {
+        "method": "level",
+        "level": 28,
+        "into": "099"
+      }
+    ]
+  },
+  "099": {
+    "name": "Kingler",
+    "types": [
+      "Water"
+    ],
+    "base_stats": {
+      "hp": 55,
+      "atk": 130,
+      "def": 115,
+      "sp_atk": 50,
+      "sp_def": 50,
+      "speed": 75
+    },
+    "ability": "hyper_cutter",
+    "catch_rate": 60,
+    "base_exp_yield": 166,
+    "levelup_moves": [
+      {
+        "level": 1,
+        "move": "bubble"
+      },
+      {
+        "level": 1,
+        "move": "leer"
+      },
+      {
+        "level": 12,
+        "move": "mud_slap"
+      },
+      {
+        "level": 16,
+        "move": "water_gun"
+      },
+      {
+        "level": 23,
+        "move": "stomp"
+      },
+      {
+        "level": 28,
+        "move": "slash"
+      },
+      {
+        "level": 38,
+        "move": "surf"
+      },
+      {
+        "level": 48,
+        "move": "hyper_beam"
+      }
+    ],
+    "evolutions": []
+  },
+  "102": {
+    "name": "Exeggcute",
+    "types": [
+      "Grass",
+      "Psychic"
+    ],
+    "base_stats": {
+      "hp": 60,
+      "atk": 40,
+      "def": 80,
+      "sp_atk": 60,
+      "sp_def": 45,
+      "speed": 40
+    },
+    "ability": "chlorophyll",
+    "catch_rate": 90,
+    "base_exp_yield": 65,
+    "levelup_moves": [
+      {
+        "level": 1,
+        "move": "tackle"
+      },
+      {
+        "level": 1,
+        "move": "hypnosis"
+      },
+      {
+        "level": 11,
+        "move": "confusion"
+      },
+      {
+        "level": 17,
+        "move": "stun_spore"
+      },
+      {
+        "level": 23,
+        "move": "leech_seed"
+      },
+      {
+        "level": 29,
+        "move": "psybeam"
+      },
+      {
+        "level": 37,
+        "move": "solar_beam"
+      }
+    ],
+    "evolutions": [
+      {
+        "method": "item",
+        "item": "leaf_stone",
+        "into": "103"
+      }
+    ]
+  },
+  "103": {
+    "name": "Exeggutor",
+    "types": [
+      "Grass",
+      "Psychic"
+    ],
+    "base_stats": {
+      "hp": 95,
+      "atk": 95,
+      "def": 85,
+      "sp_atk": 125,
+      "sp_def": 65,
+      "speed": 55
+    },
+    "ability": "chlorophyll",
+    "catch_rate": 45,
+    "base_exp_yield": 186,
+    "levelup_moves": [
+      {
+        "level": 1,
+        "move": "confusion"
+      },
+      {
+        "level": 1,
+        "move": "hypnosis"
+      },
+      {
+        "level": 19,
+        "move": "psybeam"
+      },
+      {
+        "level": 27,
+        "move": "egg_bomb"
+      },
+      {
+        "level": 33,
+        "move": "psychic"
+      },
+      {
+        "level": 43,
+        "move": "solar_beam"
+      }
+    ],
+    "evolutions": []
+  },
+  "104": {
+    "name": "Cubone",
+    "types": [
+      "Ground"
+    ],
+    "base_stats": {
+      "hp": 50,
+      "atk": 50,
+      "def": 95,
+      "sp_atk": 40,
+      "sp_def": 50,
+      "speed": 35
+    },
+    "ability": "rock_head",
+    "catch_rate": 190,
+    "base_exp_yield": 64,
+    "levelup_moves": [
+      {
+        "level": 1,
+        "move": "growl"
+      },
+      {
+        "level": 1,
+        "move": "mud_slap"
+      },
+      {
+        "level": 9,
+        "move": "bone_club"
+      },
+      {
+        "level": 13,
+        "move": "leer"
+      },
+      {
+        "level": 17,
+        "move": "focus_energy"
+      },
+      {
+        "level": 23,
+        "move": "bonemerang"
+      },
+      {
+        "level": 29,
+        "move": "dig"
+      },
+      {
+        "level": 37,
+        "move": "earthquake"
+      }
+    ],
+    "evolutions": [
+      {
+        "method": "level",
+        "level": 28,
+        "into": "105"
+      }
+    ]
+  },
+  "105": {
+    "name": "Marowak",
+    "types": [
+      "Ground"
+    ],
+    "base_stats": {
+      "hp": 60,
+      "atk": 80,
+      "def": 110,
+      "sp_atk": 50,
+      "sp_def": 80,
+      "speed": 45
+    },
+    "ability": "rock_head",
+    "catch_rate": 75,
+    "base_exp_yield": 149,
+    "levelup_moves": [
+      {
+        "level": 1,
+        "move": "growl"
+      },
+      {
+        "level": 1,
+        "move": "mud_slap"
+      },
+      {
+        "level": 9,
+        "move": "bone_club"
+      },
+      {
+        "level": 13,
+        "move": "leer"
+      },
+      {
+        "level": 17,
+        "move": "focus_energy"
+      },
+      {
+        "level": 23,
+        "move": "bonemerang"
+      },
+      {
+        "level": 32,
+        "move": "dig"
+      },
+      {
+        "level": 43,
+        "move": "earthquake"
+      },
+      {
+        "level": 53,
+        "move": "hyper_beam"
+      }
+    ],
+    "evolutions": []
+  },
+  "106": {
+    "name": "Hitmonlee",
+    "types": [
+      "Fighting"
+    ],
+    "base_stats": {
+      "hp": 50,
+      "atk": 120,
+      "def": 53,
+      "sp_atk": 35,
+      "sp_def": 110,
+      "speed": 87
+    },
+    "ability": "limber",
+    "catch_rate": 45,
+    "base_exp_yield": 159,
+    "levelup_moves": [
+      {
+        "level": 1,
+        "move": "double_kick"
+      },
+      {
+        "level": 1,
+        "move": "focus_energy"
+      },
+      {
+        "level": 11,
+        "move": "low_kick"
+      },
+      {
+        "level": 21,
+        "move": "stomp"
+      },
+      {
+        "level": 31,
+        "move": "high_jump_kick"
+      },
+      {
+        "level": 41,
+        "move": "mega_kick"
+      },
+      {
+        "level": 51,
+        "move": "hyper_beam"
+      }
+    ],
+    "evolutions": []
+  },
+  "107": {
+    "name": "Hitmonchan",
+    "types": [
+      "Fighting"
+    ],
+    "base_stats": {
+      "hp": 50,
+      "atk": 105,
+      "def": 79,
+      "sp_atk": 35,
+      "sp_def": 110,
+      "speed": 76
+    },
+    "ability": "keen_eye",
+    "catch_rate": 45,
+    "base_exp_yield": 159,
+    "levelup_moves": [
+      {
+        "level": 1,
+        "move": "comet_punch"
+      },
+      {
+        "level": 1,
+        "move": "focus_energy"
+      },
+      {
+        "level": 11,
+        "move": "mega_punch"
+      },
+      {
+        "level": 16,
+        "move": "fire_punch"
+      },
+      {
+        "level": 26,
+        "move": "karate_chop"
+      },
+      {
+        "level": 36,
+        "move": "cross_chop"
+      },
+      {
+        "level": 46,
+        "move": "mega_kick"
+      }
+    ],
+    "evolutions": []
+  },
+  "108": {
+    "name": "Lickitung",
+    "types": [
+      "Normal"
+    ],
+    "base_stats": {
+      "hp": 90,
+      "atk": 55,
+      "def": 75,
+      "sp_atk": 60,
+      "sp_def": 75,
+      "speed": 30
+    },
+    "ability": "own_tempo",
+    "catch_rate": 45,
+    "base_exp_yield": 127,
+    "levelup_moves": [
+      {
+        "level": 1,
+        "move": "lick"
+      },
+      {
+        "level": 1,
+        "move": "supersonic"
+      },
+      {
+        "level": 9,
+        "move": "stomp"
+      },
+      {
+        "level": 13,
+        "move": "disable"
+      },
+      {
+        "level": 21,
+        "move": "wrap"
+      },
+      {
+        "level": 29,
+        "move": "slam"
+      },
+      {
+        "level": 37,
+        "move": "body_slam"
+      },
+      {
+        "level": 45,
+        "move": "screech"
+      }
+    ],
+    "evolutions": []
+  },
+  "111": {
+    "name": "Rhyhorn",
+    "types": [
+      "Ground",
+      "Rock"
+    ],
+    "base_stats": {
+      "hp": 80,
+      "atk": 85,
+      "def": 95,
+      "sp_atk": 30,
+      "sp_def": 30,
+      "speed": 25
+    },
+    "ability": "rock_head",
+    "catch_rate": 120,
+    "base_exp_yield": 69,
+    "levelup_moves": [
+      {
+        "level": 1,
+        "move": "horn_attack"
+      },
+      {
+        "level": 1,
+        "move": "tail_whip"
+      },
+      {
+        "level": 13,
+        "move": "stomp"
+      },
+      {
+        "level": 19,
+        "move": "rock_throw"
+      },
+      {
+        "level": 29,
+        "move": "take_down"
+      },
+      {
+        "level": 37,
+        "move": "earthquake"
+      },
+      {
+        "level": 45,
+        "move": "rock_slide"
+      }
+    ],
+    "evolutions": [
+      {
+        "method": "level",
+        "level": 42,
+        "into": "112"
+      }
+    ]
+  },
+  "112": {
+    "name": "Rhydon",
+    "types": [
+      "Ground",
+      "Rock"
+    ],
+    "base_stats": {
+      "hp": 105,
+      "atk": 130,
+      "def": 120,
+      "sp_atk": 45,
+      "sp_def": 45,
+      "speed": 40
+    },
+    "ability": "rock_head",
+    "catch_rate": 60,
+    "base_exp_yield": 170,
+    "levelup_moves": [
+      {
+        "level": 1,
+        "move": "horn_attack"
+      },
+      {
+        "level": 1,
+        "move": "tail_whip"
+      },
+      {
+        "level": 13,
+        "move": "stomp"
+      },
+      {
+        "level": 19,
+        "move": "rock_throw"
+      },
+      {
+        "level": 29,
+        "move": "take_down"
+      },
+      {
+        "level": 42,
+        "move": "earthquake"
+      },
+      {
+        "level": 50,
+        "move": "rock_slide"
+      },
+      {
+        "level": 58,
+        "move": "hyper_beam"
+      }
+    ],
+    "evolutions": []
+  },
+  "113": {
+    "name": "Chansey",
+    "types": [
+      "Normal"
+    ],
+    "base_stats": {
+      "hp": 250,
+      "atk": 5,
+      "def": 5,
+      "sp_atk": 35,
+      "sp_def": 105,
+      "speed": 50
+    },
+    "ability": "natural_cure",
+    "catch_rate": 30,
+    "base_exp_yield": 395,
+    "levelup_moves": [
+      {
+        "level": 1,
+        "move": "tackle"
+      },
+      {
+        "level": 1,
+        "move": "growl"
+      },
+      {
+        "level": 9,
+        "move": "double_team"
+      },
+      {
+        "level": 13,
+        "move": "soft_boiled"
+      },
+      {
+        "level": 23,
+        "move": "body_slam"
+      },
+      {
+        "level": 29,
+        "move": "egg_bomb"
+      },
+      {
+        "level": 39,
+        "move": "thunder_wave"
+      }
+    ],
+    "evolutions": []
+  },
+  "114": {
+    "name": "Tangela",
+    "types": [
+      "Grass"
+    ],
+    "base_stats": {
+      "hp": 65,
+      "atk": 55,
+      "def": 115,
+      "sp_atk": 100,
+      "sp_def": 40,
+      "speed": 60
+    },
+    "ability": "chlorophyll",
+    "catch_rate": 45,
+    "base_exp_yield": 166,
+    "levelup_moves": [
+      {
+        "level": 1,
+        "move": "vine_whip"
+      },
+      {
+        "level": 1,
+        "move": "absorb"
+      },
+      {
+        "level": 10,
+        "move": "growth"
+      },
+      {
+        "level": 19,
+        "move": "poison_powder"
+      },
+      {
+        "level": 25,
+        "move": "mega_drain"
+      },
+      {
+        "level": 31,
+        "move": "stun_spore"
+      },
+      {
+        "level": 40,
+        "move": "slam"
+      },
+      {
+        "level": 46,
+        "move": "solar_beam"
+      }
+    ],
+    "evolutions": []
+  },
+  "115": {
+    "name": "Kangaskhan",
+    "types": [
+      "Normal"
+    ],
+    "base_stats": {
+      "hp": 105,
+      "atk": 95,
+      "def": 80,
+      "sp_atk": 40,
+      "sp_def": 80,
+      "speed": 90
+    },
+    "ability": "scrappy",
+    "catch_rate": 45,
+    "base_exp_yield": 172,
+    "levelup_moves": [
+      {
+        "level": 1,
+        "move": "tackle"
+      },
+      {
+        "level": 1,
+        "move": "leer"
+      },
+      {
+        "level": 7,
+        "move": "bite"
+      },
+      {
+        "level": 13,
+        "move": "stomp"
+      },
+      {
+        "level": 19,
+        "move": "mega_punch"
+      },
+      {
+        "level": 25,
+        "move": "body_slam"
+      },
+      {
+        "level": 37,
+        "move": "earthquake"
+      },
+      {
+        "level": 49,
+        "move": "hyper_beam"
+      }
+    ],
+    "evolutions": []
+  },
+  "116": {
+    "name": "Horsea",
+    "types": [
+      "Water"
+    ],
+    "base_stats": {
+      "hp": 30,
+      "atk": 40,
+      "def": 70,
+      "sp_atk": 70,
+      "sp_def": 25,
+      "speed": 60
+    },
+    "ability": "swift_swim",
+    "catch_rate": 225,
+    "base_exp_yield": 59,
+    "levelup_moves": [
+      {
+        "level": 1,
+        "move": "bubble"
+      },
+      {
+        "level": 1,
+        "move": "smokescreen"
+      },
+      {
+        "level": 11,
+        "move": "water_gun"
+      },
+      {
+        "level": 18,
+        "move": "leer"
+      },
+      {
+        "level": 25,
+        "move": "water_pulse"
+      },
+      {
+        "level": 32,
+        "move": "agility"
+      },
+      {
+        "level": 40,
+        "move": "hydro_pump"
+      }
+    ],
+    "evolutions": [
+      {
+        "method": "level",
+        "level": 32,
+        "into": "117"
+      }
+    ]
+  },
+  "117": {
+    "name": "Seadra",
+    "types": [
+      "Water"
+    ],
+    "base_stats": {
+      "hp": 55,
+      "atk": 65,
+      "def": 95,
+      "sp_atk": 95,
+      "sp_def": 45,
+      "speed": 85
+    },
+    "ability": "swift_swim",
+    "catch_rate": 75,
+    "base_exp_yield": 154,
+    "levelup_moves": [
+      {
+        "level": 1,
+        "move": "bubble"
+      },
+      {
+        "level": 1,
+        "move": "smokescreen"
+      },
+      {
+        "level": 11,
+        "move": "water_gun"
+      },
+      {
+        "level": 18,
+        "move": "leer"
+      },
+      {
+        "level": 25,
+        "move": "water_pulse"
+      },
+      {
+        "level": 32,
+        "move": "agility"
+      },
+      {
+        "level": 40,
+        "move": "surf"
+      },
+      {
+        "level": 48,
+        "move": "hydro_pump"
+      }
+    ],
+    "evolutions": []
+  },
+  "118": {
+    "name": "Goldeen",
+    "types": [
+      "Water"
+    ],
+    "base_stats": {
+      "hp": 45,
+      "atk": 67,
+      "def": 60,
+      "sp_atk": 35,
+      "sp_def": 50,
+      "speed": 63
+    },
+    "ability": "swift_swim",
+    "catch_rate": 225,
+    "base_exp_yield": 64,
+    "levelup_moves": [
+      {
+        "level": 1,
+        "move": "peck"
+      },
+      {
+        "level": 1,
+        "move": "tail_whip"
+      },
+      {
+        "level": 10,
+        "move": "supersonic"
+      },
+      {
+        "level": 15,
+        "move": "horn_attack"
+      },
+      {
+        "level": 24,
+        "move": "water_pulse"
+      },
+      {
+        "level": 29,
+        "move": "waterfall"
+      },
+      {
+        "level": 37,
+        "move": "agility"
+      }
+    ],
+    "evolutions": [
+      {
+        "method": "level",
+        "level": 33,
+        "into": "119"
+      }
+    ]
+  },
+  "119": {
+    "name": "Seaking",
+    "types": [
+      "Water"
+    ],
+    "base_stats": {
+      "hp": 80,
+      "atk": 92,
+      "def": 65,
+      "sp_atk": 65,
+      "sp_def": 80,
+      "speed": 68
+    },
+    "ability": "swift_swim",
+    "catch_rate": 60,
+    "base_exp_yield": 158,
+    "levelup_moves": [
+      {
+        "level": 1,
+        "move": "peck"
+      },
+      {
+        "level": 1,
+        "move": "tail_whip"
+      },
+      {
+        "level": 10,
+        "move": "supersonic"
+      },
+      {
+        "level": 15,
+        "move": "horn_attack"
+      },
+      {
+        "level": 24,
+        "move": "water_pulse"
+      },
+      {
+        "level": 33,
+        "move": "waterfall"
+      },
+      {
+        "level": 41,
+        "move": "agility"
+      },
+      {
+        "level": 49,
+        "move": "hyper_beam"
+      }
+    ],
+    "evolutions": []
+  },
+  "122": {
+    "name": "Mr. Mime",
+    "types": [
+      "Psychic",
+      "Fairy"
+    ],
+    "base_stats": {
+      "hp": 40,
+      "atk": 45,
+      "def": 65,
+      "sp_atk": 100,
+      "sp_def": 120,
+      "speed": 90
+    },
+    "ability": "soundproof",
+    "catch_rate": 45,
+    "base_exp_yield": 161,
+    "levelup_moves": [
+      {
+        "level": 1,
+        "move": "confusion"
+      },
+      {
+        "level": 1,
+        "move": "double_team"
+      },
+      {
+        "level": 1,
+        "move": "fairy_wind"
+      },
+      {
+        "level": 11,
+        "move": "psybeam"
+      },
+      {
+        "level": 18,
+        "move": "protect"
+      },
+      {
+        "level": 22,
+        "move": "psychic"
+      },
+      {
+        "level": 36,
+        "move": "body_slam"
+      },
+      {
+        "level": 36,
+        "move": "dazzling_gleam"
+      }
+    ],
+    "evolutions": []
+  },
+  "123": {
+    "name": "Scyther",
+    "types": [
+      "Bug",
+      "Flying"
+    ],
+    "base_stats": {
+      "hp": 70,
+      "atk": 110,
+      "def": 80,
+      "sp_atk": 55,
+      "sp_def": 80,
+      "speed": 105
+    },
+    "ability": "swarm",
+    "catch_rate": 45,
+    "base_exp_yield": 187,
+    "levelup_moves": [
+      {
+        "level": 1,
+        "move": "quick_attack"
+      },
+      {
+        "level": 1,
+        "move": "leer"
+      },
+      {
+        "level": 11,
+        "move": "fury_attack"
+      },
+      {
+        "level": 16,
+        "move": "focus_energy"
+      },
+      {
+        "level": 21,
+        "move": "slash"
+      },
+      {
+        "level": 31,
+        "move": "slash_x"
+      },
+      {
+        "level": 36,
+        "move": "swords_dance"
+      },
+      {
+        "level": 46,
+        "move": "aerial_ace"
+      }
+    ],
+    "evolutions": []
+  },
+  "124": {
+    "name": "Jynx",
+    "types": [
+      "Ice",
+      "Psychic"
+    ],
+    "base_stats": {
+      "hp": 65,
+      "atk": 50,
+      "def": 35,
+      "sp_atk": 115,
+      "sp_def": 95,
+      "speed": 95
+    },
+    "ability": "oblivious",
+    "catch_rate": 45,
+    "base_exp_yield": 159,
+    "levelup_moves": [
+      {
+        "level": 1,
+        "move": "lick"
+      },
+      {
+        "level": 1,
+        "move": "confusion"
+      },
+      {
+        "level": 15,
+        "move": "ice_beam"
+      },
+      {
+        "level": 21,
+        "move": "psybeam"
+      },
+      {
+        "level": 28,
+        "move": "body_slam"
+      },
+      {
+        "level": 35,
+        "move": "psychic"
+      },
+      {
+        "level": 44,
+        "move": "blizzard"
+      }
+    ],
+    "evolutions": []
+  },
+  "125": {
+    "name": "Electabuzz",
+    "types": [
+      "Electric"
+    ],
+    "base_stats": {
+      "hp": 65,
+      "atk": 83,
+      "def": 57,
+      "sp_atk": 95,
+      "sp_def": 85,
+      "speed": 105
+    },
+    "ability": "static",
+    "catch_rate": 45,
+    "base_exp_yield": 172,
+    "levelup_moves": [
+      {
+        "level": 1,
+        "move": "quick_attack"
+      },
+      {
+        "level": 1,
+        "move": "leer"
+      },
+      {
+        "level": 9,
+        "move": "thunder_shock"
+      },
+      {
+        "level": 17,
+        "move": "spark"
+      },
+      {
+        "level": 25,
+        "move": "thunder_wave"
+      },
+      {
+        "level": 36,
+        "move": "thunderbolt"
+      },
+      {
+        "level": 47,
+        "move": "thunder"
+      }
+    ],
+    "evolutions": []
+  },
+  "127": {
+    "name": "Pinsir",
+    "types": [
+      "Bug"
+    ],
+    "base_stats": {
+      "hp": 65,
+      "atk": 125,
+      "def": 100,
+      "sp_atk": 55,
+      "sp_def": 70,
+      "speed": 85
+    },
+    "ability": "hyper_cutter",
+    "catch_rate": 45,
+    "base_exp_yield": 175,
+    "levelup_moves": [
+      {
+        "level": 1,
+        "move": "focus_energy"
+      },
+      {
+        "level": 1,
+        "move": "bite"
+      },
+      {
+        "level": 11,
+        "move": "harden"
+      },
+      {
+        "level": 18,
+        "move": "slash_x"
+      },
+      {
+        "level": 25,
+        "move": "submission"
+      },
+      {
+        "level": 32,
+        "move": "slash"
+      },
+      {
+        "level": 39,
+        "move": "swords_dance"
+      },
+      {
+        "level": 47,
+        "move": "hyper_beam"
+      }
+    ],
+    "evolutions": []
+  },
+  "128": {
+    "name": "Tauros",
+    "types": [
+      "Normal"
+    ],
+    "base_stats": {
+      "hp": 75,
+      "atk": 100,
+      "def": 95,
+      "sp_atk": 40,
+      "sp_def": 70,
+      "speed": 110
+    },
+    "ability": "intimidate",
+    "catch_rate": 45,
+    "base_exp_yield": 172,
+    "levelup_moves": [
+      {
+        "level": 1,
+        "move": "tackle"
+      },
+      {
+        "level": 1,
+        "move": "tail_whip"
+      },
+      {
+        "level": 8,
+        "move": "stomp"
+      },
+      {
+        "level": 15,
+        "move": "horn_attack"
+      },
+      {
+        "level": 22,
+        "move": "take_down"
+      },
+      {
+        "level": 29,
+        "move": "body_slam"
+      },
+      {
+        "level": 39,
+        "move": "earthquake"
+      },
+      {
+        "level": 49,
+        "move": "hyper_beam"
+      }
+    ],
+    "evolutions": []
+  },
+  "129": {
+    "name": "Magikarp",
+    "types": [
+      "Water"
+    ],
+    "base_stats": {
+      "hp": 20,
+      "atk": 10,
+      "def": 55,
+      "sp_atk": 15,
+      "sp_def": 20,
+      "speed": 80
+    },
+    "ability": "swift_swim",
+    "catch_rate": 255,
+    "base_exp_yield": 40,
+    "levelup_moves": [
+      {
+        "level": 1,
+        "move": "splash"
+      },
+      {
+        "level": 15,
+        "move": "tackle"
+      }
+    ],
+    "evolutions": [
+      {
+        "method": "level",
+        "level": 20,
+        "into": "130"
+      }
+    ]
+  },
+  "130": {
+    "name": "Gyarados",
+    "types": [
+      "Water",
+      "Flying"
+    ],
+    "base_stats": {
+      "hp": 95,
+      "atk": 125,
+      "def": 79,
+      "sp_atk": 60,
+      "sp_def": 100,
+      "speed": 81
+    },
+    "ability": "intimidate",
+    "catch_rate": 45,
+    "base_exp_yield": 189,
+    "levelup_moves": [
+      {
+        "level": 1,
+        "move": "bite"
+      },
+      {
+        "level": 1,
+        "move": "leer"
+      },
+      {
+        "level": 20,
+        "move": "dragon_rage"
+      },
+      {
+        "level": 25,
+        "move": "crunch"
+      },
+      {
+        "level": 32,
+        "move": "waterfall"
+      },
+      {
+        "level": 35,
+        "move": "aerial_ace"
+      },
+      {
+        "level": 41,
+        "move": "surf"
+      },
+      {
+        "level": 50,
+        "move": "hydro_pump"
+      },
+      {
+        "level": 56,
+        "move": "hyper_beam"
+      }
+    ],
+    "evolutions": []
+  },
+  "131": {
+    "name": "Lapras",
+    "types": [
+      "Water",
+      "Ice"
+    ],
+    "base_stats": {
+      "hp": 130,
+      "atk": 85,
+      "def": 80,
+      "sp_atk": 85,
+      "sp_def": 95,
+      "speed": 60
+    },
+    "ability": "water_absorb",
+    "catch_rate": 45,
+    "base_exp_yield": 187,
+    "levelup_moves": [
+      {
+        "level": 1,
+        "move": "water_gun"
+      },
+      {
+        "level": 1,
+        "move": "growl"
+      },
+      {
+        "level": 7,
+        "move": "body_slam"
+      },
+      {
+        "level": 13,
+        "move": "confuse_ray"
+      },
+      {
+        "level": 19,
+        "move": "ice_beam"
+      },
+      {
+        "level": 25,
+        "move": "surf"
+      },
+      {
+        "level": 31,
+        "move": "rain_dance"
+      },
+      {
+        "level": 37,
+        "move": "hydro_pump"
+      },
+      {
+        "level": 43,
+        "move": "blizzard"
+      }
+    ],
+    "evolutions": []
+  },
+  "132": {
+    "name": "Ditto",
+    "types": [
+      "Normal"
+    ],
+    "base_stats": {
+      "hp": 48,
+      "atk": 48,
+      "def": 48,
+      "sp_atk": 48,
+      "sp_def": 48,
+      "speed": 48
+    },
+    "ability": "limber",
+    "catch_rate": 35,
+    "base_exp_yield": 101,
+    "levelup_moves": [
+      {
+        "level": 1,
+        "move": "transform"
+      }
+    ],
+    "evolutions": []
+  },
+  "134": {
+    "name": "Vaporeon",
+    "types": [
+      "Water"
+    ],
+    "base_stats": {
+      "hp": 130,
+      "atk": 65,
+      "def": 60,
+      "sp_atk": 110,
+      "sp_def": 95,
+      "speed": 65
+    },
+    "ability": "water_absorb",
+    "catch_rate": 45,
+    "base_exp_yield": 184,
+    "levelup_moves": [
+      {
+        "level": 1,
+        "move": "tackle"
+      },
+      {
+        "level": 1,
+        "move": "tail_whip"
+      },
+      {
+        "level": 8,
+        "move": "water_gun"
+      },
+      {
+        "level": 16,
+        "move": "quick_attack"
+      },
+      {
+        "level": 23,
+        "move": "water_pulse"
+      },
+      {
+        "level": 30,
+        "move": "aurora_beam"
+      },
+      {
+        "level": 36,
+        "move": "surf"
+      },
+      {
+        "level": 42,
+        "move": "acid"
+      },
+      {
+        "level": 52,
+        "move": "hydro_pump"
+      }
+    ],
+    "evolutions": []
+  },
+  "135": {
+    "name": "Jolteon",
+    "types": [
+      "Electric"
+    ],
+    "base_stats": {
+      "hp": 65,
+      "atk": 65,
+      "def": 60,
+      "sp_atk": 110,
+      "sp_def": 95,
+      "speed": 130
+    },
+    "ability": "volt_absorb",
+    "catch_rate": 45,
+    "base_exp_yield": 184,
+    "levelup_moves": [
+      {
+        "level": 1,
+        "move": "tackle"
+      },
+      {
+        "level": 1,
+        "move": "tail_whip"
+      },
+      {
+        "level": 8,
+        "move": "thunder_shock"
+      },
+      {
+        "level": 16,
+        "move": "quick_attack"
+      },
+      {
+        "level": 23,
+        "move": "spark"
+      },
+      {
+        "level": 30,
+        "move": "thunder_wave"
+      },
+      {
+        "level": 36,
+        "move": "agility"
+      },
+      {
+        "level": 42,
+        "move": "thunderbolt"
+      },
+      {
+        "level": 52,
+        "move": "thunder"
+      }
+    ],
+    "evolutions": []
+  },
+  "136": {
+    "name": "Flareon",
+    "types": [
+      "Fire"
+    ],
+    "base_stats": {
+      "hp": 65,
+      "atk": 130,
+      "def": 60,
+      "sp_atk": 95,
+      "sp_def": 110,
+      "speed": 65
+    },
+    "ability": "flash_fire",
+    "catch_rate": 45,
+    "base_exp_yield": 184,
+    "levelup_moves": [
+      {
+        "level": 1,
+        "move": "tackle"
+      },
+      {
+        "level": 1,
+        "move": "tail_whip"
+      },
+      {
+        "level": 8,
+        "move": "ember"
+      },
+      {
+        "level": 16,
+        "move": "quick_attack"
+      },
+      {
+        "level": 23,
+        "move": "fire_spin"
+      },
+      {
+        "level": 30,
+        "move": "bite"
+      },
+      {
+        "level": 36,
+        "move": "flamethrower"
+      },
+      {
+        "level": 42,
+        "move": "smokescreen"
+      },
+      {
+        "level": 52,
+        "move": "fire_blast"
+      }
+    ],
+    "evolutions": []
+  },
+  "137": {
+    "name": "Porygon",
+    "types": [
+      "Normal"
+    ],
+    "base_stats": {
+      "hp": 65,
+      "atk": 60,
+      "def": 70,
+      "sp_atk": 85,
+      "sp_def": 75,
+      "speed": 40
+    },
+    "ability": "trace",
+    "catch_rate": 45,
+    "base_exp_yield": 79,
+    "levelup_moves": [
+      {
+        "level": 1,
+        "move": "tackle"
+      },
+      {
+        "level": 1,
+        "move": "harden"
+      },
+      {
+        "level": 9,
+        "move": "psybeam"
+      },
+      {
+        "level": 15,
+        "move": "agility"
+      },
+      {
+        "level": 23,
+        "move": "recover"
+      },
+      {
+        "level": 29,
+        "move": "tri_attack"
+      },
+      {
+        "level": 38,
+        "move": "hyper_beam"
+      }
+    ],
+    "evolutions": []
+  },
+  "138": {
+    "name": "Omanyte",
+    "types": [
+      "Rock",
+      "Water"
+    ],
+    "base_stats": {
+      "hp": 35,
+      "atk": 40,
+      "def": 100,
+      "sp_atk": 90,
+      "sp_def": 55,
+      "speed": 35
+    },
+    "ability": "swift_swim",
+    "catch_rate": 45,
+    "base_exp_yield": 71,
+    "levelup_moves": [
+      {
+        "level": 1,
+        "move": "water_gun"
+      },
+      {
+        "level": 1,
+        "move": "withdraw"
+      },
+      {
+        "level": 13,
+        "move": "bite"
+      },
+      {
+        "level": 19,
+        "move": "mud_slap"
+      },
+      {
+        "level": 25,
+        "move": "water_pulse"
+      },
+      {
+        "level": 31,
+        "move": "ancient_power"
+      },
+      {
+        "level": 37,
+        "move": "surf"
+      },
+      {
+        "level": 43,
+        "move": "hydro_pump"
+      }
+    ],
+    "evolutions": [
+      {
+        "method": "level",
+        "level": 40,
+        "into": "139"
+      }
+    ]
+  },
+  "139": {
+    "name": "Omastar",
+    "types": [
+      "Rock",
+      "Water"
+    ],
+    "base_stats": {
+      "hp": 70,
+      "atk": 60,
+      "def": 125,
+      "sp_atk": 115,
+      "sp_def": 70,
+      "speed": 55
+    },
+    "ability": "swift_swim",
+    "catch_rate": 45,
+    "base_exp_yield": 173,
+    "levelup_moves": [
+      {
+        "level": 1,
+        "move": "water_gun"
+      },
+      {
+        "level": 1,
+        "move": "withdraw"
+      },
+      {
+        "level": 13,
+        "move": "bite"
+      },
+      {
+        "level": 19,
+        "move": "mud_slap"
+      },
+      {
+        "level": 25,
+        "move": "water_pulse"
+      },
+      {
+        "level": 31,
+        "move": "ancient_power"
+      },
+      {
+        "level": 40,
+        "move": "surf"
+      },
+      {
+        "level": 48,
+        "move": "rock_slide"
+      },
+      {
+        "level": 56,
+        "move": "hydro_pump"
+      }
+    ],
+    "evolutions": []
+  },
+  "140": {
+    "name": "Kabuto",
+    "types": [
+      "Rock",
+      "Water"
+    ],
+    "base_stats": {
+      "hp": 30,
+      "atk": 80,
+      "def": 90,
+      "sp_atk": 55,
+      "sp_def": 45,
+      "speed": 55
+    },
+    "ability": "swift_swim",
+    "catch_rate": 45,
+    "base_exp_yield": 71,
+    "levelup_moves": [
+      {
+        "level": 1,
+        "move": "scratch"
+      },
+      {
+        "level": 1,
+        "move": "harden"
+      },
+      {
+        "level": 11,
+        "move": "absorb"
+      },
+      {
+        "level": 16,
+        "move": "mud_slap"
+      },
+      {
+        "level": 21,
+        "move": "water_gun"
+      },
+      {
+        "level": 31,
+        "move": "ancient_power"
+      },
+      {
+        "level": 36,
+        "move": "slash"
+      },
+      {
+        "level": 41,
+        "move": "surf"
+      }
+    ],
+    "evolutions": [
+      {
+        "method": "level",
+        "level": 40,
+        "into": "141"
+      }
+    ]
+  },
+  "141": {
+    "name": "Kabutops",
+    "types": [
+      "Rock",
+      "Water"
+    ],
+    "base_stats": {
+      "hp": 60,
+      "atk": 115,
+      "def": 105,
+      "sp_atk": 65,
+      "sp_def": 70,
+      "speed": 80
+    },
+    "ability": "swift_swim",
+    "catch_rate": 45,
+    "base_exp_yield": 173,
+    "levelup_moves": [
+      {
+        "level": 1,
+        "move": "scratch"
+      },
+      {
+        "level": 1,
+        "move": "harden"
+      },
+      {
+        "level": 11,
+        "move": "absorb"
+      },
+      {
+        "level": 16,
+        "move": "mud_slap"
+      },
+      {
+        "level": 21,
+        "move": "water_gun"
+      },
+      {
+        "level": 31,
+        "move": "ancient_power"
+      },
+      {
+        "level": 40,
+        "move": "slash"
+      },
+      {
+        "level": 46,
+        "move": "waterfall"
+      },
+      {
+        "level": 54,
+        "move": "hyper_beam"
+      }
+    ],
+    "evolutions": []
+  },
+  "142": {
+    "name": "Aerodactyl",
+    "types": [
+      "Rock",
+      "Flying"
+    ],
+    "base_stats": {
+      "hp": 80,
+      "atk": 105,
+      "def": 65,
+      "sp_atk": 60,
+      "sp_def": 75,
+      "speed": 130
+    },
+    "ability": "rock_head",
+    "catch_rate": 45,
+    "base_exp_yield": 180,
+    "levelup_moves": [
+      {
+        "level": 1,
+        "move": "wing_attack"
+      },
+      {
+        "level": 1,
+        "move": "bite"
+      },
+      {
+        "level": 8,
+        "move": "supersonic"
+      },
+      {
+        "level": 15,
+        "move": "ancient_power"
+      },
+      {
+        "level": 22,
+        "move": "rock_slide"
+      },
+      {
+        "level": 29,
+        "move": "aerial_ace"
+      },
+      {
+        "level": 36,
+        "move": "crunch"
+      },
+      {
+        "level": 43,
+        "move": "take_down"
+      },
+      {
+        "level": 50,
+        "move": "hyper_beam"
+      }
+    ],
+    "evolutions": []
+  },
+  "143": {
+    "name": "Snorlax",
+    "types": [
+      "Normal"
+    ],
+    "base_stats": {
+      "hp": 160,
+      "atk": 110,
+      "def": 65,
+      "sp_atk": 65,
+      "sp_def": 110,
+      "speed": 30
+    },
+    "ability": "thick_fat",
+    "catch_rate": 25,
+    "base_exp_yield": 189,
+    "levelup_moves": [
+      {
+        "level": 1,
+        "move": "tackle"
+      },
+      {
+        "level": 1,
+        "move": "amnesia"
+      },
+      {
+        "level": 9,
+        "move": "lick"
+      },
+      {
+        "level": 17,
+        "move": "body_slam"
+      },
+      {
+        "level": 25,
+        "move": "rest"
+      },
+      {
+        "level": 33,
+        "move": "earthquake"
+      },
+      {
+        "level": 41,
+        "move": "crunch"
+      },
+      {
+        "level": 49,
+        "move": "hyper_beam"
+      }
+    ],
+    "evolutions": []
+  },
+  "144": {
+    "name": "Articuno",
+    "types": [
+      "Ice",
+      "Flying"
+    ],
+    "base_stats": {
+      "hp": 90,
+      "atk": 85,
+      "def": 100,
+      "sp_atk": 95,
+      "sp_def": 125,
+      "speed": 85
+    },
+    "ability": "pressure",
+    "catch_rate": 3,
+    "base_exp_yield": 261,
+    "levelup_moves": [
+      {
+        "level": 1,
+        "move": "gust"
+      },
+      {
+        "level": 1,
+        "move": "ice_beam"
+      },
+      {
+        "level": 15,
+        "move": "aurora_beam"
+      },
+      {
+        "level": 22,
+        "move": "agility"
+      },
+      {
+        "level": 29,
+        "move": "ice_beam"
+      },
+      {
+        "level": 36,
+        "move": "aerial_ace"
+      },
+      {
+        "level": 50,
+        "move": "blizzard"
+      },
+      {
+        "level": 64,
+        "move": "hyper_beam"
+      }
+    ],
+    "evolutions": []
+  },
+  "145": {
+    "name": "Zapdos",
+    "types": [
+      "Electric",
+      "Flying"
+    ],
+    "base_stats": {
+      "hp": 90,
+      "atk": 90,
+      "def": 85,
+      "sp_atk": 125,
+      "sp_def": 90,
+      "speed": 100
+    },
+    "ability": "pressure",
+    "catch_rate": 3,
+    "base_exp_yield": 261,
+    "levelup_moves": [
+      {
+        "level": 1,
+        "move": "thunder_shock"
+      },
+      {
+        "level": 1,
+        "move": "peck"
+      },
+      {
+        "level": 15,
+        "move": "spark"
+      },
+      {
+        "level": 22,
+        "move": "agility"
+      },
+      {
+        "level": 29,
+        "move": "thunderbolt"
+      },
+      {
+        "level": 36,
+        "move": "drill_peck"
+      },
+      {
+        "level": 50,
+        "move": "thunder"
+      },
+      {
+        "level": 64,
+        "move": "hyper_beam"
+      }
+    ],
+    "evolutions": []
+  },
+  "146": {
+    "name": "Moltres",
+    "types": [
+      "Fire",
+      "Flying"
+    ],
+    "base_stats": {
+      "hp": 90,
+      "atk": 100,
+      "def": 90,
+      "sp_atk": 125,
+      "sp_def": 85,
+      "speed": 90
+    },
+    "ability": "pressure",
+    "catch_rate": 3,
+    "base_exp_yield": 261,
+    "levelup_moves": [
+      {
+        "level": 1,
+        "move": "ember"
+      },
+      {
+        "level": 1,
+        "move": "wing_attack"
+      },
+      {
+        "level": 15,
+        "move": "fire_spin"
+      },
+      {
+        "level": 22,
+        "move": "agility"
+      },
+      {
+        "level": 29,
+        "move": "flamethrower"
+      },
+      {
+        "level": 36,
+        "move": "aerial_ace"
+      },
+      {
+        "level": 50,
+        "move": "fire_blast"
+      },
+      {
+        "level": 57,
+        "move": "sky_attack"
+      },
+      {
+        "level": 64,
+        "move": "hyper_beam"
+      }
+    ],
+    "evolutions": []
+  },
+  "147": {
+    "name": "Dratini",
+    "types": [
+      "Dragon"
+    ],
+    "base_stats": {
+      "hp": 41,
+      "atk": 64,
+      "def": 45,
+      "sp_atk": 50,
+      "sp_def": 50,
+      "speed": 50
+    },
+    "ability": "shed_skin",
+    "catch_rate": 45,
+    "base_exp_yield": 60,
+    "levelup_moves": [
+      {
+        "level": 1,
+        "move": "wrap"
+      },
+      {
+        "level": 1,
+        "move": "leer"
+      },
+      {
+        "level": 11,
+        "move": "thunder_wave"
+      },
+      {
+        "level": 15,
+        "move": "dragon_rage"
+      },
+      {
+        "level": 21,
+        "move": "slam"
+      },
+      {
+        "level": 25,
+        "move": "dragon_breath"
+      },
+      {
+        "level": 35,
+        "move": "agility"
+      },
+      {
+        "level": 45,
+        "move": "dragon_claw"
+      }
+    ],
+    "evolutions": [
+      {
+        "method": "level",
+        "level": 30,
+        "into": "148"
+      }
+    ]
+  },
+  "148": {
+    "name": "Dragonair",
+    "types": [
+      "Dragon"
+    ],
+    "base_stats": {
+      "hp": 61,
+      "atk": 84,
+      "def": 65,
+      "sp_atk": 70,
+      "sp_def": 70,
+      "speed": 70
+    },
+    "ability": "shed_skin",
+    "catch_rate": 45,
+    "base_exp_yield": 147,
+    "levelup_moves": [
+      {
+        "level": 1,
+        "move": "wrap"
+      },
+      {
+        "level": 1,
+        "move": "leer"
+      },
+      {
+        "level": 11,
+        "move": "thunder_wave"
+      },
+      {
+        "level": 15,
+        "move": "dragon_rage"
+      },
+      {
+        "level": 21,
+        "move": "slam"
+      },
+      {
+        "level": 25,
+        "move": "dragon_breath"
+      },
+      {
+        "level": 33,
+        "move": "agility"
+      },
+      {
+        "level": 41,
+        "move": "dragon_claw"
+      },
+      {
+        "level": 51,
+        "move": "outrage"
+      }
+    ],
+    "evolutions": [
+      {
+        "method": "level",
+        "level": 55,
+        "into": "149"
+      }
+    ]
+  },
+  "149": {
+    "name": "Dragonite",
+    "types": [
+      "Dragon",
+      "Flying"
+    ],
+    "base_stats": {
+      "hp": 91,
+      "atk": 134,
+      "def": 95,
+      "sp_atk": 100,
+      "sp_def": 100,
+      "speed": 80
+    },
+    "ability": "inner_focus",
+    "catch_rate": 45,
+    "base_exp_yield": 270,
+    "levelup_moves": [
+      {
+        "level": 1,
+        "move": "wrap"
+      },
+      {
+        "level": 1,
+        "move": "thunder_wave"
+      },
+      {
+        "level": 15,
+        "move": "dragon_rage"
+      },
+      {
+        "level": 21,
+        "move": "slam"
+      },
+      {
+        "level": 25,
+        "move": "dragon_breath"
+      },
+      {
+        "level": 33,
+        "move": "wing_attack"
+      },
+      {
+        "level": 41,
+        "move": "dragon_claw"
+      },
+      {
+        "level": 55,
+        "move": "outrage"
+      },
+      {
+        "level": 61,
+        "move": "hyper_beam"
+      }
+    ],
+    "evolutions": []
+  },
+  "150": {
+    "name": "Mewtwo",
+    "types": [
+      "Psychic"
+    ],
+    "base_stats": {
+      "hp": 106,
+      "atk": 110,
+      "def": 90,
+      "sp_atk": 154,
+      "sp_def": 90,
+      "speed": 130
+    },
+    "ability": "pressure",
+    "catch_rate": 3,
+    "base_exp_yield": 306,
+    "levelup_moves": [
+      {
+        "level": 1,
+        "move": "confusion"
+      },
+      {
+        "level": 1,
+        "move": "disable"
+      },
+      {
+        "level": 11,
+        "move": "psybeam"
+      },
+      {
+        "level": 22,
+        "move": "shadow_ball"
+      },
+      {
+        "level": 33,
+        "move": "psychic"
+      },
+      {
+        "level": 44,
+        "move": "recover"
+      },
+      {
+        "level": 55,
+        "move": "amnesia"
+      },
+      {
+        "level": 66,
+        "move": "ice_beam"
+      },
+      {
+        "level": 77,
+        "move": "hyper_beam"
+      }
+    ],
+    "evolutions": []
+  },
+  "151": {
+    "name": "Mew",
+    "types": [
+      "Psychic"
+    ],
+    "base_stats": {
+      "hp": 100,
+      "atk": 100,
+      "def": 100,
+      "sp_atk": 100,
+      "sp_def": 100,
+      "speed": 100
+    },
+    "ability": "synchronize",
+    "catch_rate": 45,
+    "base_exp_yield": 270,
+    "levelup_moves": [
+      {
+        "level": 1,
+        "move": "tackle"
+      },
+      {
+        "level": 10,
+        "move": "confusion"
+      },
+      {
+        "level": 20,
+        "move": "psybeam"
+      },
+      {
+        "level": 30,
+        "move": "psychic"
+      },
+      {
+        "level": 40,
+        "move": "shadow_ball"
+      },
+      {
+        "level": 50,
+        "move": "ice_beam"
+      },
+      {
+        "level": 60,
+        "move": "thunderbolt"
+      },
+      {
+        "level": 70,
+        "move": "flamethrower"
+      },
+      {
+        "level": 80,
+        "move": "earthquake"
+      },
+      {
+        "level": 90,
+        "move": "hyper_beam"
+      }
     ],
     "evolutions": []
   }

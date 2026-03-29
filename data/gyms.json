@@ -58,5 +58,25 @@
     "trainers": ["safrania_trainer_1", "safrania_trainer_2"],
     "required_badge": "rainbow_badge",
     "hm_unlock": null
+  },
+  "fuchsia_gym": {
+    "name": "Arène de Parmanie",
+    "city": "Parmanie",
+    "badge_id": "soul_badge",
+    "badge_name": "Badge Âme",
+    "leader_id": "gym_leader_koga",
+    "trainers": ["fuchsia_trainer_1", "fuchsia_trainer_2"],
+    "required_badge": "marsh_badge",
+    "hm_unlock": null
+  },
+  "cramoisile_gym": {
+    "name": "Arène de Cramois'Île",
+    "city": "Cramois'Île",
+    "badge_id": "volcano_badge",
+    "badge_name": "Badge Volcan",
+    "leader_id": "gym_leader_blaine",
+    "trainers": ["cramoisile_trainer_1", "cramoisile_trainer_2"],
+    "required_badge": "soul_badge",
+    "hm_unlock": null
   }
 }

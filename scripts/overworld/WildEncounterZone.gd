@@ -30,6 +30,10 @@ func _on_body_exited(body: Node2D) -> void:
 func _on_player_stepped(_world_pos: Vector2) -> void:
 	if not _player_inside:
 		return
+	# Repousse : décrémenter et bloquer les rencontres
+	if GameState.is_repel_active():
+		GameState.tick_repel()
+		return
 	if randf() > encounter_rate:
 		return
 	_trigger_encounter()

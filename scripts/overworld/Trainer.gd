@@ -74,5 +74,6 @@ func _start_battle(tdata: Dictionary) -> void:
 		"reward_money": tdata.get("reward_money", 100),
 		"badge_id": tdata.get("badge_id", ""),
 		"is_gym_leader": tdata.get("is_gym_leader", false),
+		"dialogue_after": tdata.get("dialogue_after", ""),
 	}
 	EventBus.trainer_battle_started.emit(trainer_id)

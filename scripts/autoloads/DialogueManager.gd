@@ -24,7 +24,7 @@ func _ready() -> void:
 func _build_ui() -> void:
 	# Outer frame
 	_box = ColorRect.new()
-	_box.color = Color(0.0, 0.0, 0.0)
+	_box.color = Color(0.08, 0.08, 0.16, 0.95)
 	_box.set_anchors_preset(Control.PRESET_BOTTOM_WIDE)
 	_box.offset_top    = -58
 	_box.offset_bottom = -2
@@ -32,49 +32,48 @@ func _build_ui() -> void:
 	_box.offset_right  = -4
 	add_child(_box)
 
-	# White border
+	# Border
 	var border := ColorRect.new()
-	border.color = Color(1.0, 1.0, 1.0)
+	border.color = Color(0.22, 0.25, 0.38)
 	border.set_anchors_preset(Control.PRESET_FULL_RECT)
-	border.offset_left   = 1
-	border.offset_top    = 1
-	border.offset_right  = -1
-	border.offset_bottom = -1
+	border.offset_left   = -1
+	border.offset_top    = -1
+	border.offset_right  = 1
+	border.offset_bottom = 1
+	border.z_index = -1
 	_box.add_child(border)
 
-	# Dark inner background
-	var inner := ColorRect.new()
-	inner.color = Color(0.05, 0.05, 0.12)
-	inner.set_anchors_preset(Control.PRESET_FULL_RECT)
-	inner.offset_left   = 2
-	inner.offset_top    = 2
-	inner.offset_right  = -2
-	inner.offset_bottom = -2
-	border.add_child(inner)
+	# Left accent bar
+	var accent := ColorRect.new()
+	accent.color = Color(0.30, 0.55, 0.95)
+	accent.set_anchors_preset(Control.PRESET_LEFT_WIDE)
+	accent.offset_left  = 0
+	accent.offset_right = 3
+	_box.add_child(accent)
 
 	# Text label
 	_text_label = Label.new()
 	_text_label.set_anchors_preset(Control.PRESET_FULL_RECT)
-	_text_label.offset_left   = 8
+	_text_label.offset_left   = 10
 	_text_label.offset_top    = 6
 	_text_label.offset_right  = -16
 	_text_label.offset_bottom = -6
 	_text_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_text_label.add_theme_font_size_override("font_size", FONT_SIZE)
-	_text_label.add_theme_color_override("font_color", Color.WHITE)
-	inner.add_child(_text_label)
+	_text_label.add_theme_color_override("font_color", Color(0.92, 0.92, 0.96))
+	_box.add_child(_text_label)
 
 	# Continue arrow
 	_arrow = Label.new()
-	_arrow.text = "▼"
+	_arrow.text = "v"
 	_arrow.add_theme_font_size_override("font_size", FONT_SIZE)
-	_arrow.add_theme_color_override("font_color", Color.WHITE)
+	_arrow.add_theme_color_override("font_color", Color(0.30, 0.55, 0.95))
 	_arrow.set_anchors_preset(Control.PRESET_BOTTOM_RIGHT)
 	_arrow.offset_left   = -12
 	_arrow.offset_top    = -14
 	_arrow.offset_right  = -4
 	_arrow.offset_bottom = -4
-	inner.add_child(_arrow)
+	_box.add_child(_arrow)
 
 # ── API publique ────────────────────────────────────────────────────────────────
 

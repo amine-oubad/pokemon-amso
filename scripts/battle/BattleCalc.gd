@@ -14,6 +14,13 @@ static func calculate_damage(
 
 	var result := { "damage": 0, "critical": false, "effectiveness": 1.0, "stab": false }
 
+	# Fixed-damage moves (Night Shade, Seismic Toss) deal damage equal to user's level
+	if move.get_effect() == "fixed_damage_level":
+		var type_eff: float = GameData.get_total_effectiveness(move.get_type(), defender.get_types())
+		result.effectiveness = type_eff
+		result.damage = attacker.level if type_eff > 0.0 else 0
+		return result
+
 	var power: int = move.get_power()
 	if power == 0:
 		return result  # Move de statut — pas de dégâts directs
@@ -23,6 +30,9 @@ static func calculate_damage(
 	var def_val: int
 	if move.get_category() == "physical":
 		atk_val = attacker.get_effective_stat("atk")
+		# Burn halves physical attack (Gen 3)
+		if attacker.status == "burn":
+			atk_val = maxi(1, int(atk_val * 0.5))
 		def_val = defender.get_effective_stat("def")
 	else:
 		atk_val = attacker.get_effective_stat("sp_atk")

@@ -21,6 +21,12 @@ var _fled: bool            = false
 var _flee_attempts: int    = 0
 var _cancel_learn_btn: Button = null
 var _is_trainer_battle: bool = false
+var _weather: String = ""        # "", "rain", "sun"
+var _weather_turns: int = 0
+var _baton_pass_stages: Dictionary = {}  # stat stages to transfer on switch
+var _enemy_goes_first: bool = false       # true if enemy attacks before player this turn
+var _enemy_queued_move: MoveInstance = null # pre-picked enemy move for turn order
+var _turn_phase: int = 0                  # 0 = first attacker, 1 = second attacker done
 
 # ── Trainer battle data ───────────────────────────────────────────────────────
 var _trainer_id: String      = ""
@@ -35,14 +41,20 @@ var _is_gym_leader: bool     = false
 var player_pkmn: PokemonInstance   ## Raccourci vers le Pokémon actif de l'équipe
 var _active_idx: int = 0
 var enemy_pkmn:  PokemonInstance
+var _charging_move: MoveInstance = null       ## Move two-turn joueur en charge
+var _enemy_charging_move: MoveInstance = null ## Move two-turn ennemi en charge
 var _selected_move: MoveInstance
 
-# ── Constantes UI ─────────────────────────────────────────────────────────────
-const C_BG    := Color(0.93, 0.89, 0.79)
-const C_DARK  := Color(0.20, 0.15, 0.10)
-const C_PANEL := Color(0.97, 0.94, 0.86)
-const C_HP_BG := Color(0.25, 0.12, 0.12)
-const HP_W    := 96
+# ── Constantes UI (Modern Clean) ──────────────────────────────────────────────
+const C_BG     := Color(0.12, 0.14, 0.22)
+const C_DARK   := Color(0.08, 0.08, 0.14)
+const C_PANEL  := Color(0.16, 0.18, 0.28)
+const C_BORDER := Color(0.28, 0.32, 0.45)
+const C_HP_BG  := Color(0.10, 0.10, 0.18)
+const C_TEXT   := Color(0.92, 0.92, 0.96)
+const C_TEXT2  := Color(0.60, 0.62, 0.72)
+const C_ACCENT := Color(0.30, 0.55, 0.95)
+const HP_W     := 100
 
 # ── UI nodes ──────────────────────────────────────────────────────────────────
 var _msg_label:       Label
@@ -60,6 +72,10 @@ var _move_menu:       Control
 var _item_menu:       Control
 var _pkmn_menu:       Control
 var _move_buttons:    Array[Button] = []
+var _enemy_sprite_node: Control
+var _player_sprite_node: Control
+var _enemy_sprite_container: Control
+var _player_sprite_container: Control
 
 # ── Initialisation ────────────────────────────────────────────────────────────
 
@@ -122,6 +138,25 @@ func _set_state(s: State) -> void:
 				_msg("Un %s sauvage apparaît !" % enemy_pkmn.get_name())
 
 		State.PLAYER_CHOOSE:
+			# Two-turn : tour 2, forcer l'attaque
+			if _charging_move != null:
+				_selected_move = _charging_move
+				_charging_move = null
+				_set_state(State.PLAYER_MOVE)
+				return
+			# Struggle — si aucun move utilisable, forcer Struggle
+			var has_usable := false
+			for mv in player_pkmn.moves:
+				if mv.is_usable():
+					has_usable = true; break
+			if not has_usable:
+				_animating = true
+				_turn_phase = 0  # Struggle → enemy still gets their turn
+				await _do_struggle(player_pkmn, enemy_pkmn)
+				_animating = false
+				_last_attacker = "player"
+				_set_state(State.CHECK_END)
+				return
 			_msg("Que va faire %s ?" % player_pkmn.get_name())
 			_action_menu.visible = true
 
@@ -157,6 +192,7 @@ func _input(event: InputEvent) -> void:
 		State.CHOOSE_ITEM:  _set_state(State.PLAYER_CHOOSE)
 		State.CHOOSE_POKEMON:
 			if not _forced_switch:
+				_baton_pass_stages = {}  # Annuler Baton Pass si retour
 				_set_state(State.PLAYER_CHOOSE)
 
 # ── Boutons d'action ──────────────────────────────────────────────────────────
@@ -178,7 +214,48 @@ func _on_move(idx: int) -> void:
 	if idx >= player_pkmn.moves.size(): return
 	_selected_move = player_pkmn.moves[idx]
 	_move_menu.visible = false
-	_set_state(State.PLAYER_MOVE)
+	# Determine turn order based on priority and Speed
+	_resolve_turn_order()
+
+## Determines who attacks first based on priority and Speed.
+## Player actions (items, switch, flee) always go before enemy moves.
+func _resolve_turn_order() -> void:
+	_turn_phase = 0
+	# Pre-pick the enemy move now to compare priority
+	var usable: Array = enemy_pkmn.moves.filter(func(m: MoveInstance) -> bool: return m.is_usable())
+	if usable.is_empty():
+		_set_state(State.PLAYER_MOVE)
+		return
+	var enemy_move: MoveInstance
+	if _enemy_charging_move != null:
+		enemy_move = _enemy_charging_move
+	else:
+		enemy_move = _ai_pick_move(usable)
+	_enemy_queued_move = enemy_move
+
+	var player_prio: int = _selected_move.get_priority()
+	var enemy_prio: int  = enemy_move.get_priority()
+
+	if player_prio > enemy_prio:
+		_set_state(State.PLAYER_MOVE)
+	elif enemy_prio > player_prio:
+		_enemy_goes_first = true
+		_set_state(State.ENEMY_MOVE)
+	else:
+		# Same priority — faster Pokémon goes first, random on tie
+		var p_spd := player_pkmn.get_effective_stat("speed")
+		var e_spd := enemy_pkmn.get_effective_stat("speed")
+		if p_spd > e_spd:
+			_set_state(State.PLAYER_MOVE)
+		elif e_spd > p_spd:
+			_enemy_goes_first = true
+			_set_state(State.ENEMY_MOVE)
+		else:
+			if randf() < 0.5:
+				_set_state(State.PLAYER_MOVE)
+			else:
+				_enemy_goes_first = true
+				_set_state(State.ENEMY_MOVE)
 
 func _on_item_used(item_id: String) -> void:
 	if _animating: return
@@ -186,6 +263,7 @@ func _on_item_used(item_id: String) -> void:
 	var idata := GameData.items_data.get(item_id, {})
 	GameState.remove_item(item_id)
 	_last_attacker = "player"
+	_turn_phase = 0  # Item use → enemy still gets their turn
 	_animating = true
 
 	match idata.get("category", ""):
@@ -262,6 +340,7 @@ func _on_item_used(item_id: String) -> void:
 				_msg("%s s'échappe de la Ball !" % enemy_pkmn.get_name())
 				await get_tree().create_timer(1.5).timeout
 				_animating = false
+				_turn_phase = 1  # Ball was player's action → after enemy move, end turn
 				_set_state(State.ENEMY_MOVE)
 
 func _on_switch_pkmn(idx: int) -> void:
@@ -269,9 +348,20 @@ func _on_switch_pkmn(idx: int) -> void:
 	if idx == _active_idx: return
 	if GameState.team[idx].is_fainted(): return
 	var old_name := player_pkmn.get_name()
-	player_pkmn.reset_stat_stages()
+	# Baton Pass : transférer les stat stages au lieu de reset
+	if not _baton_pass_stages.is_empty():
+		# Ne pas reset, on transfère
+		pass
+	else:
+		player_pkmn.reset_stat_stages()
+	player_pkmn.clear_battle_meta()
 	_active_idx  = idx
 	player_pkmn  = GameState.team[idx]
+	# Appliquer les stat stages de Baton Pass
+	if not _baton_pass_stages.is_empty():
+		for k in _baton_pass_stages:
+			player_pkmn.stat_stages[k] = _baton_pass_stages[k]
+		_baton_pass_stages = {}
 	_pkmn_menu.visible = false
 	_animating = true
 	_msg("Reviens, %s !\nAllez, %s !" % [old_name, player_pkmn.get_name()])
@@ -283,6 +373,7 @@ func _on_switch_pkmn(idx: int) -> void:
 		_set_state(State.PLAYER_CHOOSE)  # force switch après KO → pas de tour ennemi
 	else:
 		_last_attacker = "player"
+		_turn_phase = 0  # Switch → enemy still gets their turn
 		_set_state(State.CHECK_END)
 
 # ── Tours de combat ───────────────────────────────────────────────────────────
@@ -302,7 +393,60 @@ func _do_player_move() -> void:
 		return
 
 	var move := _selected_move
+
+	# ── Two-turn : tour de charge ─────────────────────────────────────────
+	if move.get_effect() == "two_turn" and not player_pkmn.has_meta("charging"):
+		move.use()
+		player_pkmn.set_meta("charging", true)
+		_charging_move = move  # Forcer l'exécution au tour suivant
+		_msg("%s accumule de l'énergie !" % player_pkmn.get_name())
+		await get_tree().create_timer(1.5).timeout
+		_animating = false
+		_set_state(State.CHECK_END)
+		return
+
+	# Tour 2 two-turn : retirer le flag charging
+	if player_pkmn.has_meta("charging"):
+		player_pkmn.remove_meta("charging")
+
 	move.use()
+
+	# ── Baton Pass : switch en gardant les stat stages ────────────────────
+	if move.get_effect() == "baton_pass":
+		_msg("%s utilise %s !" % [player_pkmn.get_name(), move.get_name()])
+		await get_tree().create_timer(1.2).timeout
+		_baton_pass_stages = player_pkmn.stat_stages.duplicate()
+		_animating = false
+		_forced_switch = false
+		_set_state(State.CHOOSE_POKEMON)
+		return
+
+	# ── Rain Dance : météo pluie ──────────────────────────────────────────
+	if move.get_effect() == "rain_dance":
+		_weather = "rain"
+		_weather_turns = 5
+		_msg("%s utilise %s !\nIl commence à pleuvoir !" % [player_pkmn.get_name(), move.get_name()])
+		await get_tree().create_timer(1.8).timeout
+		_animating = false
+		_set_state(State.CHECK_END)
+		return
+
+	# ── Protect : se protéger (effet déjà géré via MoveEffects) ───────────
+	if move.get_effect() == "protect":
+		var eff := MoveEffects.apply_move_effect(move, player_pkmn, enemy_pkmn)
+		if eff != "":
+			_msg(eff); await get_tree().create_timer(1.2).timeout
+		_animating = false
+		_set_state(State.CHECK_END)
+		return
+
+	# Vérif Protect adverse
+	if enemy_pkmn.has_meta("protect") and enemy_pkmn.get_meta("protect"):
+		_msg("%s utilise %s !\n%s se protège !" % [player_pkmn.get_name(), move.get_name(), enemy_pkmn.get_name()])
+		await get_tree().create_timer(1.5).timeout
+		_animating = false
+		_set_state(State.CHECK_END)
+		return
 
 	# Précision
 	if not BattleCalc.accuracy_check(move, player_pkmn, enemy_pkmn):
@@ -312,17 +456,21 @@ func _do_player_move() -> void:
 		_set_state(State.CHECK_END)
 		return
 
-	# Dégâts
+	# Dégâts (avec bonus météo)
 	var calc := BattleCalc.calculate_damage(player_pkmn, enemy_pkmn, move)
+	var weather_mult := _get_weather_multiplier(move.get_type())
+	calc.damage = int(calc.damage * weather_mult)
 	enemy_pkmn.take_damage(calc.damage)
 	_refresh_ui()
 
 	var msg := "%s utilise %s !" % [player_pkmn.get_name(), move.get_name()]
 	if calc.critical: msg += "\nCoup critique !"
-	match calc.effectiveness:
-		2.0, 4.0:   msg += "\nC'est super efficace !"
-		0.5, 0.25:  msg += "\nCe n'est pas très efficace..."
-		0.0:        msg += "\nSans effet sur %s !" % enemy_pkmn.get_name()
+	if calc.effectiveness == 0.0:
+		msg += "\nSans effet sur %s !" % enemy_pkmn.get_name()
+	elif calc.effectiveness > 1.0:
+		msg += "\nC'est super efficace !"
+	elif calc.effectiveness < 1.0:
+		msg += "\nCe n'est pas très efficace..."
 	_msg(msg)
 	_refresh_move_buttons()
 	await get_tree().create_timer(1.8).timeout
@@ -345,8 +493,10 @@ func _do_enemy_move() -> void:
 	# IA : move aléatoire avec PP > 0
 	var usable: Array = enemy_pkmn.moves.filter(func(m: MoveInstance) -> bool: return m.is_usable())
 	if usable.is_empty():
+		# Struggle — typeless 50 power + 1/4 recoil
+		await _do_struggle(enemy_pkmn, player_pkmn)
 		_animating = false
-		_set_state(State.PLAYER_CHOOSE)
+		_set_state(State.CHECK_END)
 		return
 
 	# Vérification statut ennemi
@@ -359,8 +509,86 @@ func _do_enemy_move() -> void:
 		_set_state(State.CHECK_END)
 		return
 
-	var move: MoveInstance = _ai_pick_move(usable)
+	var move: MoveInstance
+	# Use pre-picked move from turn order resolution if available
+	if _enemy_queued_move != null:
+		move = _enemy_queued_move
+		_enemy_queued_move = null
+		if _enemy_charging_move != null and _enemy_charging_move == move:
+			_enemy_charging_move = null
+	# Two-turn : tour 2, forcer le même move
+	elif _enemy_charging_move != null:
+		move = _enemy_charging_move
+		_enemy_charging_move = null
+	else:
+		move = _ai_pick_move(usable)
+
+	# ── Two-turn : tour de charge ─────────────────────────────────────────
+	if move.get_effect() == "two_turn" and not enemy_pkmn.has_meta("charging"):
+		move.use()
+		enemy_pkmn.set_meta("charging", true)
+		_enemy_charging_move = move
+		_msg("%s accumule de l'énergie !" % enemy_pkmn.get_name())
+		await get_tree().create_timer(1.5).timeout
+		_animating = false
+		_set_state(State.CHECK_END)
+		return
+
+	# Tour 2 two-turn : retirer le flag charging
+	if enemy_pkmn.has_meta("charging"):
+		enemy_pkmn.remove_meta("charging")
+
 	move.use()
+
+	# ── Rain Dance ────────────────────────────────────────────────────────
+	if move.get_effect() == "rain_dance":
+		_weather = "rain"
+		_weather_turns = 5
+		_msg("%s utilise %s !\nIl commence à pleuvoir !" % [enemy_pkmn.get_name(), move.get_name()])
+		await get_tree().create_timer(1.8).timeout
+		_animating = false
+		_set_state(State.CHECK_END)
+		return
+
+	# ── Protect ───────────────────────────────────────────────────────────
+	if move.get_effect() == "protect":
+		var eff := MoveEffects.apply_move_effect(move, enemy_pkmn, player_pkmn)
+		if eff != "":
+			_msg(eff); await get_tree().create_timer(1.2).timeout
+		_animating = false
+		_set_state(State.CHECK_END)
+		return
+
+	# ── Baton Pass (IA : pas de switch, juste boost stats) ────────────────
+	if move.get_effect() == "baton_pass":
+		_msg("%s utilise %s !" % [enemy_pkmn.get_name(), move.get_name()])
+		await get_tree().create_timer(1.2).timeout
+		# IA trainer : switch to next alive if possible
+		if _is_trainer_battle:
+			var next_idx := -1
+			for i in range(_trainer_team.size()):
+				if i != _trainer_team_idx and not _trainer_team[i].is_fainted():
+					next_idx = i; break
+			if next_idx >= 0:
+				var old_stages := enemy_pkmn.stat_stages.duplicate()
+				_trainer_team_idx = next_idx
+				enemy_pkmn = _trainer_team[next_idx]
+				for k in old_stages:
+					enemy_pkmn.stat_stages[k] = old_stages[k]
+				_refresh_ui()
+				_msg("%s passe le relais à %s !" % [_trainer_name, enemy_pkmn.get_name()])
+				await get_tree().create_timer(1.5).timeout
+		_animating = false
+		_set_state(State.CHECK_END)
+		return
+
+	# Vérif Protect joueur
+	if player_pkmn.has_meta("protect") and player_pkmn.get_meta("protect"):
+		_msg("%s utilise %s !\n%s se protège !" % [enemy_pkmn.get_name(), move.get_name(), player_pkmn.get_name()])
+		await get_tree().create_timer(1.5).timeout
+		_animating = false
+		_set_state(State.CHECK_END)
+		return
 
 	if not BattleCalc.accuracy_check(move, enemy_pkmn, player_pkmn):
 		_msg("%s rate son attaque !" % enemy_pkmn.get_name())
@@ -370,14 +598,19 @@ func _do_enemy_move() -> void:
 		return
 
 	var calc := BattleCalc.calculate_damage(enemy_pkmn, player_pkmn, move)
+	var weather_mult := _get_weather_multiplier(move.get_type())
+	calc.damage = int(calc.damage * weather_mult)
 	player_pkmn.take_damage(calc.damage)
 	_refresh_ui()
 
 	var msg := "%s utilise %s !" % [enemy_pkmn.get_name(), move.get_name()]
 	if calc.critical: msg += "\nCoup critique !"
-	match calc.effectiveness:
-		2.0, 4.0:  msg += "\nC'est super efficace !"
-		0.5, 0.25: msg += "\nCe n'est pas très efficace..."
+	if calc.effectiveness == 0.0:
+		msg += "\nSans effet sur %s !" % player_pkmn.get_name()
+	elif calc.effectiveness > 1.0:
+		msg += "\nC'est super efficace !"
+	elif calc.effectiveness < 1.0:
+		msg += "\nCe n'est pas très efficace..."
 	_msg(msg)
 	await get_tree().create_timer(1.8).timeout
 
@@ -407,8 +640,11 @@ func _do_flee() -> void:
 	if p_spd >= e_spd:
 		success = true
 	else:
-		var chance := (int(p_spd * 32.0 / maxi(1, e_spd) + 30.0) * _flee_attempts) % 256
-		success = randi() % 256 < chance
+		var chance := mini(255, int(p_spd * 32.0 / maxi(1, e_spd) + 30.0) * _flee_attempts)
+		if chance >= 255:
+			success = true
+		else:
+			success = randi() % 256 < chance
 	if success:
 		_fled = true
 		_msg("Vous prenez la fuite !")
@@ -420,26 +656,48 @@ func _do_flee() -> void:
 		await get_tree().create_timer(1.5).timeout
 		_animating = false
 		_last_attacker = "player"
+		_turn_phase = 0  # Failed flee → enemy gets their turn
 		_set_state(State.CHECK_END)
 
 # ── Check fin de tour ─────────────────────────────────────────────────────────
 
 func _check_end() -> void:
 	if enemy_pkmn.is_fainted():
+		_reset_protect_flags()
 		_set_state(State.SHOW_XP)
 		return
 	if player_pkmn.is_fainted():
+		_reset_protect_flags()
 		await _handle_player_ko()
 		return
 
-	# Effets fin de tour sur le défenseur du tour précédent
-	if _last_attacker == "player":
-		await _apply_eot(enemy_pkmn)
-		if enemy_pkmn.is_fainted(): _set_state(State.SHOW_XP); return
-		_set_state(State.ENEMY_MOVE)
+	# Phase 0: first attacker just finished → apply EOT on defender, then second attacker
+	# Phase 1: second attacker done → apply EOT on first attacker, then end turn
+	if _turn_phase == 0:
+		# First attacker just finished — apply EOT on defender
+		_turn_phase = 1
+		if _last_attacker == "player":
+			await _apply_eot(enemy_pkmn)
+			if enemy_pkmn.is_fainted(): _reset_protect_flags(); _turn_phase = 0; _set_state(State.SHOW_XP); return
+			_set_state(State.ENEMY_MOVE)
+		else:
+			await _apply_eot(player_pkmn)
+			if player_pkmn.is_fainted(): _reset_protect_flags(); _turn_phase = 0; await _handle_player_ko(); return
+			_set_state(State.PLAYER_MOVE)
 	else:
-		await _apply_eot(player_pkmn)
-		if player_pkmn.is_fainted(): await _handle_player_ko(); return
+		# Second attacker done — apply EOT on first attacker, end full turn
+		_turn_phase = 0
+		if _last_attacker == "player":
+			# Player was second (enemy went first) → EOT on enemy
+			await _apply_eot(enemy_pkmn)
+			if enemy_pkmn.is_fainted(): _reset_protect_flags(); _set_state(State.SHOW_XP); return
+		else:
+			# Enemy was second (player went first) → EOT on player
+			await _apply_eot(player_pkmn)
+			if player_pkmn.is_fainted(): _reset_protect_flags(); await _handle_player_ko(); return
+		_enemy_goes_first = false
+		await _tick_weather()
+		_reset_protect_flags()
 		_set_state(State.PLAYER_CHOOSE)
 
 func _apply_eot(pkmn: PokemonInstance) -> void:
@@ -447,6 +705,14 @@ func _apply_eot(pkmn: PokemonInstance) -> void:
 	if msg != "":
 		_msg(msg); _refresh_ui()
 		await get_tree().create_timer(1.2).timeout
+
+func _tick_weather() -> void:
+	if _weather_turns > 0:
+		_weather_turns -= 1
+		if _weather_turns == 0:
+			_msg("La pluie s'arrête.")
+			_weather = ""
+			await get_tree().create_timer(1.0).timeout
 
 func _handle_player_ko() -> void:
 	var next := GameState.get_first_alive()
@@ -635,6 +901,10 @@ func _trainer_send_next() -> void:
 func _finish() -> void:
 	var result := "flee" if _fled else ("win" if not player_pkmn.is_fainted() else "lose")
 	player_pkmn.reset_stat_stages()
+	player_pkmn.clear_battle_meta()
+	# Clear meta on all team members (leech seed etc.)
+	for pkmn in GameState.team:
+		pkmn.clear_battle_meta()
 
 	# Défaite — afficher l'écran Game Over
 	if result == "lose":
@@ -664,9 +934,58 @@ func _finish() -> void:
 			_msg("Vous obtenez le %s !" % badge_name)
 			await get_tree().create_timer(2.5).timeout
 
+		# Dialogue post-combat du dresseur
+		var after_key: String = GameState.pending_battle.get("dialogue_after", "")
+		if after_key != "":
+			var after_lines: Array = GameData.dialogues_data.get(after_key, [])
+			if not after_lines.is_empty():
+				DialogueManager.start_dialogue(after_lines)
+				await DialogueManager.dialogue_finished
+
 	GameState.pending_battle = {}
 	EventBus.battle_ended.emit(result)
 	get_tree().change_scene_to_file(GameState.return_to_scene)
+
+# ── Struggle (no PP left) ──────────────────────────────────────────────────────
+
+func _do_struggle(attacker: PokemonInstance, defender: PokemonInstance) -> void:
+	_msg("%s n'a plus de PP !\n%s utilise Lutte !" % [attacker.get_name(), attacker.get_name()])
+	await get_tree().create_timer(1.5).timeout
+	# Typeless 50 power physical attack
+	var atk_val: int = attacker.get_effective_stat("atk")
+	var def_val: int = defender.get_effective_stat("def")
+	var base: int = int(int(int(2.0 * attacker.level / 5.0 + 2.0) * 50 * atk_val / def_val) / 50.0) + 2
+	var rng := randf_range(0.85, 1.0)
+	var dmg := maxi(1, int(base * rng))
+	defender.take_damage(dmg)
+	# Recoil: 1/4 of max HP
+	var recoil := maxi(1, int(attacker.max_hp / 4.0))
+	attacker.take_damage(recoil)
+	_refresh_ui()
+	_msg("%s inflige %d dégâts !\n%s subit le contrecoup !" % [attacker.get_name(), dmg, attacker.get_name()])
+	await get_tree().create_timer(1.8).timeout
+
+# ── Météo ─────────────────────────────────────────────────────────────────────
+
+func _get_weather_multiplier(move_type: String) -> float:
+	if _weather == "rain":
+		if move_type == "Water": return 1.5
+		if move_type == "Fire":  return 0.5
+	return 1.0
+
+func _reset_protect_flags() -> void:
+	# Clear flinch at end of turn so it doesn't persist
+	if player_pkmn.has_meta("flinch"): player_pkmn.remove_meta("flinch")
+	if enemy_pkmn.has_meta("flinch"): enemy_pkmn.remove_meta("flinch")
+	# Reset consecutive counter for Pokemon who did NOT protect this turn
+	if not player_pkmn.has_meta("protect"):
+		if player_pkmn.has_meta("protect_consecutive"): player_pkmn.remove_meta("protect_consecutive")
+	else:
+		player_pkmn.remove_meta("protect")
+	if not enemy_pkmn.has_meta("protect"):
+		if enemy_pkmn.has_meta("protect_consecutive"): enemy_pkmn.remove_meta("protect_consecutive")
+	else:
+		enemy_pkmn.remove_meta("protect")
 
 # ── IA ennemie ────────────────────────────────────────────────────────────────
 
@@ -723,6 +1042,9 @@ func _refresh_ui() -> void:
 	_player_hp_text.text  = "%d/%d" % [player_pkmn.current_hp, player_pkmn.max_hp]
 	_set_status_tag(_player_status, player_pkmn.status)
 
+	# Refresh sprites
+	_refresh_pokemon_sprites()
+
 func _set_status_tag(lbl: Label, status: String) -> void:
 	if status == "":
 		lbl.text = ""; lbl.visible = false; return
@@ -742,9 +1064,23 @@ func _refresh_move_buttons() -> void:
 			btn.visible = false
 
 func _hp_color(r: float) -> Color:
-	if r > 0.50: return Color(0.20, 0.75, 0.20)
-	if r > 0.20: return Color(0.88, 0.70, 0.08)
-	return Color(0.88, 0.18, 0.10)
+	if r > 0.50: return Color(0.20, 0.85, 0.40)
+	if r > 0.20: return Color(0.95, 0.75, 0.10)
+	return Color(0.95, 0.22, 0.15)
+
+func _refresh_pokemon_sprites() -> void:
+	# Enemy sprite
+	if _enemy_sprite_node != null:
+		_enemy_sprite_node.queue_free()
+	_enemy_sprite_node = SpriteLoader.make_sprite(enemy_pkmn.pokemon_id, "front", Vector2(80, 80))
+	_enemy_sprite_node.position = Vector2(4, 4)
+	_enemy_sprite_container.add_child(_enemy_sprite_node)
+	# Player sprite
+	if _player_sprite_node != null:
+		_player_sprite_node.queue_free()
+	_player_sprite_node = SpriteLoader.make_sprite(player_pkmn.pokemon_id, "back", Vector2(80, 80))
+	_player_sprite_node.position = Vector2(6, -4)
+	_player_sprite_container.add_child(_player_sprite_node)
 
 # ── Menus dynamiques ──────────────────────────────────────────────────────────
 
@@ -762,8 +1098,13 @@ func _populate_item_menu() -> void:
 		var btn := _make_btn(_item_menu, Vector2(2, y), Vector2(196, 18),
 			"%s   x%d" % [idata.get("name", item_id), GameState.bag[item_id]])
 		var disable := false
-		if cat == "heal" and player_pkmn.current_hp >= player_pkmn.max_hp:
-			disable = true
+		if cat == "heal":
+			var hp_full := player_pkmn.current_hp >= player_pkmn.max_hp
+			var has_curable_status := false
+			var cures: Array = idata.get("cures", [])
+			if not cures.is_empty() and player_pkmn.status in cures:
+				has_curable_status = true
+			disable = hp_full and not has_curable_status
 		if cat == "ball" and _is_trainer_battle:
 			disable = true
 		btn.disabled = disable
@@ -781,8 +1122,8 @@ func _populate_pkmn_menu() -> void:
 		var pk: PokemonInstance = GameState.team[i]
 		var is_active := i == _active_idx
 		var is_faint  := pk.is_fainted()
-		var bg := _add_rect(_pkmn_menu, Vector2(2, y), Vector2(196, 28),
-			Color(0.85, 0.82, 0.72) if is_active else (Color(0.7, 0.7, 0.7) if is_faint else C_PANEL))
+		var bg := _add_rect(_pkmn_menu, Vector2(2, y), Vector2(200, 28),
+			Color(0.22, 0.26, 0.40) if is_active else (Color(0.12, 0.12, 0.18) if is_faint else C_PANEL))
 		_add_label(bg, Vector2(4, 2), pk.get_name().to_upper() + (" ◀" if is_active else ""), 8)
 		var hp_r := maxf(0.0, float(pk.current_hp) / float(pk.max_hp))
 		var hp_bg := _add_rect(bg, Vector2(4, 14), Vector2(80, 6), C_HP_BG)
@@ -803,79 +1144,119 @@ func _build_ui() -> void:
 	var layer := CanvasLayer.new()
 	add_child(layer)
 
-	_add_rect(layer, Vector2.ZERO, Vector2(320, 240), C_BG)
+	# Fond gradient (deux rectangles pour simuler un dégradé)
+	_add_rect(layer, Vector2.ZERO, Vector2(320, 120), Color(0.10, 0.12, 0.20))
+	_add_rect(layer, Vector2(0, 120), Vector2(320, 60), Color(0.14, 0.16, 0.26))
+	_add_rect(layer, Vector2(0, 180), Vector2(320, 60), C_DARK)
 
-	# Zone sprite ennemi
-	_add_rect(layer, Vector2(8, 10), Vector2(80, 72), Color(0.85, 0.82, 0.72))
-	_add_rect(layer, Vector2(28, 26), Vector2(40, 40), _type_col(
-		GameData.pokemon_data.get(
-			GameState.pending_battle.get("enemy_data", {}).get("id", "025"), {}
-		).get("types", ["Normal"])[0]))
+	# Ligne de sol stylisée
+	_add_rect(layer, Vector2(0, 156), Vector2(320, 2), Color(0.22, 0.25, 0.38))
+	_add_rect(layer, Vector2(0, 158), Vector2(320, 18), Color(0.11, 0.13, 0.22, 0.6))
 
-	# Panel info ennemi
-	var ep := _add_panel(layer, Vector2(164, 8), Vector2(152, 62))
-	_enemy_name   = _add_label(ep, Vector2(6, 4),  "...", 8)
-	_enemy_level  = _add_label(ep, Vector2(104, 4), "Lv?", 8)
-	_enemy_status = _add_label(ep, Vector2(104, 16), "", 7)
-	_add_label(ep, Vector2(6, 24), "HP", 7)
-	_add_rect(ep, Vector2(22, 26), Vector2(HP_W, 7), C_HP_BG)
-	_enemy_hp_fill = _add_rect(ep, Vector2(22, 26), Vector2(HP_W, 7), Color(0.2, 0.75, 0.2))
+	# ── Zone sprite ennemi (coin supérieur gauche) ─────────────────────────────
+	_enemy_sprite_container = Control.new()
+	_enemy_sprite_container.position = Vector2(8, 4)
+	_enemy_sprite_container.size = Vector2(88, 88)
+	layer.add_child(_enemy_sprite_container)
+	# Fond circulaire derrière le sprite
+	var enemy_glow := _add_rect(_enemy_sprite_container, Vector2(4, 48), Vector2(80, 6), Color(0.2, 0.2, 0.3, 0.5))
+	# Sprite
+	_enemy_sprite_node = SpriteLoader.make_sprite(
+		GameState.pending_battle.get("enemy_data", {}).get("id", "025"), "front", Vector2(80, 80))
+	_enemy_sprite_node.position = Vector2(4, 4)
+	_enemy_sprite_container.add_child(_enemy_sprite_node)
 
-	# Zone sprite joueur
-	_add_rect(layer, Vector2(200, 88), Vector2(80, 68), Color(0.80, 0.78, 0.68))
-	_add_rect(layer, Vector2(224, 104), Vector2(32, 32), Color(0.196, 0.408, 0.941))
+	# ── Panel info ennemi (moderne — coin supérieur droit) ────────────────────
+	var ep := _add_modern_panel(layer, Vector2(104, 8), Vector2(212, 54))
+	_enemy_name   = _add_label(ep, Vector2(8, 4),  "...", 9)
+	_enemy_name.add_theme_color_override("font_color", C_TEXT)
+	_enemy_level  = _add_label(ep, Vector2(160, 4), "Lv?", 9)
+	_enemy_level.add_theme_color_override("font_color", C_ACCENT)
+	_enemy_status = _add_label(ep, Vector2(160, 18), "", 7)
+	var hp_lbl_e := _add_label(ep, Vector2(8, 24), "HP", 7)
+	hp_lbl_e.add_theme_color_override("font_color", C_TEXT2)
+	_add_rect(ep, Vector2(26, 28), Vector2(HP_W, 6), C_HP_BG)
+	_enemy_hp_fill = _add_rect(ep, Vector2(26, 28), Vector2(HP_W, 6), Color(0.2, 0.85, 0.4))
+	# Type badge ennemi
+	var etype: String = GameData.pokemon_data.get(
+		GameState.pending_battle.get("enemy_data", {}).get("id", "025"), {}
+	).get("types", ["Normal"])[0]
+	var etype_badge := _add_rect(ep, Vector2(8, 38), Vector2(50, 12), _type_col(etype).darkened(0.3))
+	var etype_lbl := _add_label(etype_badge, Vector2(2, -1), etype.to_upper(), 6)
+	etype_lbl.add_theme_color_override("font_color", Color.WHITE)
 
-	# Panel info joueur
-	var pp := _add_panel(layer, Vector2(8, 106), Vector2(160, 70))
-	_player_name   = _add_label(pp, Vector2(6, 4),  "...", 8)
-	_player_level  = _add_label(pp, Vector2(108, 4), "Lv?", 8)
-	_player_status = _add_label(pp, Vector2(108, 16), "", 7)
-	_add_label(pp, Vector2(6, 24), "HP", 7)
-	_add_rect(pp, Vector2(22, 26), Vector2(HP_W, 7), C_HP_BG)
-	_player_hp_fill = _add_rect(pp, Vector2(22, 26), Vector2(HP_W, 7), Color(0.2, 0.75, 0.2))
-	_player_hp_text = _add_label(pp, Vector2(6, 42), "?/?", 8)
+	# ── Zone sprite joueur (coin inférieur droit) ──────────────────────────────
+	_player_sprite_container = Control.new()
+	_player_sprite_container.position = Vector2(220, 68)
+	_player_sprite_container.size = Vector2(92, 92)
+	layer.add_child(_player_sprite_container)
+	# Ombre sous le sprite
+	_add_rect(_player_sprite_container, Vector2(6, 70), Vector2(80, 6), Color(0.15, 0.15, 0.25, 0.5))
+	# Sprite back
+	var player_id := "025"
+	if GameState.team.size() > 0:
+		player_id = GameState.team[0].pokemon_id if _active_idx == 0 else GameState.team[_active_idx].pokemon_id
+	_player_sprite_node = SpriteLoader.make_sprite(player_id, "back", Vector2(80, 80))
+	_player_sprite_node.position = Vector2(6, -4)
+	_player_sprite_container.add_child(_player_sprite_node)
 
-	# Boîte message
-	_add_rect(layer, Vector2(0, 176), Vector2(320, 4), C_DARK)
-	var mbox := _add_rect(layer, Vector2(0, 180), Vector2(320, 60), C_PANEL)
-	_add_rect(layer, Vector2(0, 180), Vector2(4, 60), C_DARK)
-	_add_rect(layer, Vector2(316, 180), Vector2(4, 60), C_DARK)
-	_add_rect(layer, Vector2(0, 236), Vector2(320, 4), C_DARK)
-	_msg_label = _add_label(mbox, Vector2(10, 6), "...", 9)
-	_msg_label.size = Vector2(200, 52)
+	# ── Panel info joueur (moderne — coin inférieur gauche) ───────────────────
+	var pp := _add_modern_panel(layer, Vector2(4, 96), Vector2(210, 66))
+	_player_name   = _add_label(pp, Vector2(8, 4),  "...", 9)
+	_player_name.add_theme_color_override("font_color", C_TEXT)
+	_player_level  = _add_label(pp, Vector2(156, 4), "Lv?", 9)
+	_player_level.add_theme_color_override("font_color", C_ACCENT)
+	_player_status = _add_label(pp, Vector2(156, 18), "", 7)
+	var hp_lbl_p := _add_label(pp, Vector2(8, 24), "HP", 7)
+	hp_lbl_p.add_theme_color_override("font_color", C_TEXT2)
+	_add_rect(pp, Vector2(26, 28), Vector2(HP_W, 6), C_HP_BG)
+	_player_hp_fill = _add_rect(pp, Vector2(26, 28), Vector2(HP_W, 6), Color(0.2, 0.85, 0.4))
+	_player_hp_text = _add_label(pp, Vector2(130, 24), "?/?", 8)
+	_player_hp_text.add_theme_color_override("font_color", C_TEXT)
+	# XP bar sous HP
+	_add_rect(pp, Vector2(26, 38), Vector2(HP_W, 3), Color(0.08, 0.08, 0.14))
+	var xp_fill := _add_rect(pp, Vector2(26, 38), Vector2(0, 3), Color(0.3, 0.5, 0.95))
+	xp_fill.name = "XPFill"
+
+	# ── Boîte message (moderne) ───────────────────────────────────────────────
+	_add_rect(layer, Vector2(0, 175), Vector2(320, 1), C_BORDER)
+	var mbox := _add_rect(layer, Vector2(0, 176), Vector2(320, 64), C_DARK)
+	_add_rect(mbox, Vector2(0, 0), Vector2(4, 64), C_ACCENT)  # accent bar gauche
+	_msg_label = _add_label(mbox, Vector2(12, 8), "...", 9)
+	_msg_label.size = Vector2(194, 52)
 	_msg_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_msg_label.add_theme_color_override("font_color", C_TEXT)
 
-	# ── Menu action ────────────────────────────────────────────────────────────
-	_action_menu = _add_overlay(layer, Vector2(210, 182), Vector2(106, 56))
-	var a_atk := _make_btn(_action_menu, Vector2(0, 0),  Vector2(104, 16), "⚔  ATTAQUER")
+	# ── Menu action (moderne) ─────────────────────────────────────────────────
+	_action_menu = _add_overlay(layer, Vector2(210, 178), Vector2(108, 60))
+	var a_atk := _make_btn(_action_menu, Vector2(0, 0),  Vector2(106, 18), "ATTAQUER")
 	a_atk.pressed.connect(_on_attack)
-	var a_bag := _make_btn(_action_menu, Vector2(0, 18), Vector2(104, 16), "🎒  SAC")
+	var a_bag := _make_btn(_action_menu, Vector2(0, 20), Vector2(106, 18), "SAC")
 	a_bag.pressed.connect(_on_bag)
-	var a_sw  := _make_btn(_action_menu, Vector2(0, 36), Vector2(104, 16), "🔄  SWITCH")
+	var a_sw  := _make_btn(_action_menu, Vector2(0, 40), Vector2(52, 18), "SWITCH")
 	a_sw.pressed.connect(_on_switch_btn)
-
-	# ── FUIR (sous la boîte message) ──────────────────────────────────────────
-	var flee_btn := _make_btn(layer, Vector2(240, 224), Vector2(76, 12), "↩  FUIR")
-	flee_btn.add_theme_font_size_override("font_size", 7)
+	var flee_btn := _make_btn(_action_menu, Vector2(54, 40), Vector2(52, 18), "FUIR")
 	flee_btn.pressed.connect(_on_flee)
 
-	# ── Menu moves ─────────────────────────────────────────────────────────────
-	_move_menu = _add_overlay(layer, Vector2(2, 180), Vector2(316, 58))
-	var mpos := [Vector2(0,0), Vector2(160,0), Vector2(0,30), Vector2(160,30)]
+	# ── Menu moves (moderne — 2x2 grid) ───────────────────────────────────────
+	_move_menu = _add_overlay(layer, Vector2(2, 176), Vector2(316, 62))
+	var mpos := [Vector2(0,2), Vector2(158,2), Vector2(0,32), Vector2(158,32)]
 	for i in range(4):
-		var btn := _make_btn(_move_menu, mpos[i], Vector2(158, 28), "—")
+		var btn := _make_btn(_move_menu, mpos[i], Vector2(156, 28), "—")
 		btn.add_theme_font_size_override("font_size", 8)
 		var idx := i
 		btn.pressed.connect(func() -> void: _on_move(idx))
 		_move_buttons.append(btn)
 
-	# ── Menu items (overlay latéral gauche) ────────────────────────────────────
-	_item_menu = _add_panel(layer, Vector2(4, 106), Vector2(204, 68))
-	_add_label(_item_menu, Vector2(4, 2), "━ SAC ━", 8)
+	# ── Menu items (overlay) ──────────────────────────────────────────────────
+	_item_menu = _add_modern_panel(layer, Vector2(4, 100), Vector2(204, 72))
+	var item_title := _add_label(_item_menu, Vector2(6, 2), "SAC", 8)
+	item_title.add_theme_color_override("font_color", C_ACCENT)
 
-	# ── Menu Pokémon (overlay latéral gauche) ─────────────────────────────────
-	_pkmn_menu = _add_panel(layer, Vector2(4, 4), Vector2(204, 170))
-	_add_label(_pkmn_menu, Vector2(4, 2), "━ ÉQUIPE ━", 8)
+	# ── Menu Pokémon (overlay) ────────────────────────────────────────────────
+	_pkmn_menu = _add_modern_panel(layer, Vector2(4, 4), Vector2(210, 170))
+	var pkmn_title := _add_label(_pkmn_menu, Vector2(6, 2), "EQUIPE", 8)
+	pkmn_title.add_theme_color_override("font_color", C_ACCENT)
 
 # ── Helpers UI ────────────────────────────────────────────────────────────────
 
@@ -885,8 +1266,15 @@ func _add_rect(p: Node, pos: Vector2, sz: Vector2, col: Color) -> ColorRect:
 	p.add_child(r); return r
 
 func _add_panel(p: Node, pos: Vector2, sz: Vector2) -> ColorRect:
-	var border := _add_rect(p, pos, sz, C_DARK)
-	return _add_rect(border, Vector2(2, 2), sz - Vector2(4, 4), C_PANEL)
+	var border := _add_rect(p, pos, sz, C_BORDER)
+	return _add_rect(border, Vector2(1, 1), sz - Vector2(2, 2), C_PANEL)
+
+func _add_modern_panel(p: Node, pos: Vector2, sz: Vector2) -> ColorRect:
+	var border := _add_rect(p, pos - Vector2(1, 1), sz + Vector2(2, 2), C_BORDER)
+	var panel := _add_rect(border, Vector2(1, 1), sz, C_PANEL)
+	# Subtle top highlight
+	_add_rect(panel, Vector2.ZERO, Vector2(sz.x, 1), Color(1, 1, 1, 0.05))
+	return panel
 
 func _add_overlay(p: Node, pos: Vector2, sz: Vector2) -> Control:
 	var c := Control.new()
@@ -897,7 +1285,7 @@ func _add_label(p: Node, pos: Vector2, text: String, fsize: int) -> Label:
 	var l := Label.new()
 	l.position = pos; l.text = text
 	l.add_theme_font_size_override("font_size", fsize)
-	l.add_theme_color_override("font_color", C_DARK)
+	l.add_theme_color_override("font_color", C_TEXT)
 	p.add_child(l); return l
 
 func _make_btn(p: Node, pos: Vector2, sz: Vector2, text: String) -> Button:

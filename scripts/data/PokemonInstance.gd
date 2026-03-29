@@ -148,7 +148,7 @@ func check_evolution() -> String:
 	var evolutions: Array = _base_data.get("evolutions", [])
 	for evo in evolutions:
 		if evo.get("method", "") == "level" and level >= evo.get("level", 999):
-				var target_id: String = evo.get("into", "")
+			var target_id: String = evo.get("into", "")
 			if target_id != "" and GameData.pokemon_data.has(target_id):
 				return target_id
 	return ""

@@ -10,6 +10,7 @@ func _ready() -> void:
 	_build_ground()
 	_build_path()
 	_build_grass()
+	_build_encounter_zones()
 	_build_borders()
 	_build_trainers()
 	_build_signs()
@@ -67,40 +68,13 @@ func _spawn_player(default_pos: Vector2) -> void:
 	if cam:
 		cam.limit_left = 0; cam.limit_top = 0; cam.limit_right = MAP_W; cam.limit_bottom = MAP_H
 
+func _build_encounter_zones() -> void:
+	_encounter_zone(Vector2(128.0, 120.0), Vector2(160.0, 240.0), "route6", "grass_01", 0.15)
+	_encounter_zone(Vector2(350.0, 120.0), Vector2(160.0, 240.0), "route6", "grass_02", 0.15)
+
 func _connect_signals() -> void:
 	EventBus.battle_started.connect(_on_battle_started)
 	EventBus.trainer_battle_started.connect(_on_trainer_battle)
-	EventBus.player_stepped.connect(_on_player_stepped)
-
-func _on_player_stepped(world_pos: Vector2) -> void:
-	var zone := _get_grass_zone(world_pos)
-	if zone == "": return
-	if randf() > 0.15: return
-	var encounters: Array = GameData.encounters_data.get("route6", {}).get(zone, [])
-	if encounters.is_empty(): return
-	var chosen: Dictionary = _weighted_pick(encounters)
-	if chosen.is_empty(): return
-	var level := randi_range(int(chosen.get("level_min", 3)), int(chosen.get("level_max", 5)))
-	var pokemon := PokemonInstance.create_wild(chosen["id"], level)
-	GameState.pending_battle = { "enemy_data": pokemon.to_dict(), "is_trainer": false }
-	EventBus.battle_started.emit(pokemon.to_dict(), false)
-
-func _get_grass_zone(pos: Vector2) -> String:
-	if pos.x >= 48 and pos.x <= 208:
-		if pos.y <= 104 or pos.y >= 136: return "grass_01"
-	if pos.x >= 270 and pos.x <= 430:
-		if pos.y <= 104 or pos.y >= 136: return "grass_02"
-	return ""
-
-func _weighted_pick(list: Array) -> Dictionary:
-	var total := 0
-	for e in list: total += int(e.get("weight", 1))
-	var roll := randi_range(1, total)
-	var acc  := 0
-	for e in list:
-		acc += int(e.get("weight", 1))
-		if roll <= acc: return e
-	return list[-1]
 
 func _on_battle_started(enemy_data: Dictionary, is_trainer: bool) -> void:
 	GameState.pending_battle   = { "enemy_data": enemy_data, "is_trainer": is_trainer }
@@ -125,6 +99,10 @@ func _transition(center: Vector2, shape_size: Vector2, target: String, spawn: Ve
 	var t := MapTransition.new(); t.position = center; t.target_scene = target; t.spawn_position = spawn
 	var cs := CollisionShape2D.new(); var rs := RectangleShape2D.new(); rs.size = shape_size; cs.shape = rs
 	t.add_child(cs); add_child(t)
+func _encounter_zone(center: Vector2, shape_size: Vector2, map_id: String, zone_id: String, rate: float) -> void:
+	var zone := WildEncounterZone.new(); zone.position = center; zone.map_id = map_id; zone.zone_id = zone_id; zone.encounter_rate = rate
+	var cs := CollisionShape2D.new(); var rs := RectangleShape2D.new(); rs.size = shape_size; cs.shape = rs
+	zone.add_child(cs); add_child(zone)
 func _grass_label(pos: Vector2, text: String) -> void:
 	var lbl := Label.new(); lbl.text = text; lbl.position = pos
 	lbl.add_theme_font_size_override("font_size", 5)

@@ -5,7 +5,7 @@ extends CharacterBody2D
 ## Doit être dans le groupe "interactable" (ajouté dans _ready).
 
 var dialogue_key:   String  = ""
-var special_action: String  = ""   # "heal_team" | "open_shop" | "open_pc" | ""
+var special_action: String  = ""   # "heal_team" | "open_shop" | "open_pc" | "start_league" | ""
 var shop_id:        String  = ""
 var npc_color:      Color   = Color(0.40, 0.45, 0.80)
 
@@ -49,6 +49,19 @@ func interact() -> void:
 			ShopMenu.open_shop(shop_id)
 		"open_pc":
 			PCBoxScreen.open_pc()
+		"start_league":
+			if GameState.badges.size() >= 8:
+				var lines: Array = GameData.dialogues_data.get("indigo_gate_npc", ["Bonne chance !"])
+				DialogueManager.start_dialogue(lines)
+				# Start league after dialogue
+				await DialogueManager.dialogue_finished
+				GameState.set_flag("league_started", true)
+				GameState.flags["league_battle_idx"] = 0
+				GameState.return_to_scene = "res://scenes/overworld/maps/IndigoPlateau.tscn"
+				get_tree().change_scene_to_file("res://scenes/battle/LeagueArena.tscn")
+			else:
+				var lines: Array = GameData.dialogues_data.get("indigo_gate_blocked", ["Il te faut 8 badges."])
+				DialogueManager.start_dialogue(lines)
 		_:
 			var lines: Array = GameData.dialogues_data.get(dialogue_key, ["..."])
 			DialogueManager.start_dialogue(lines)

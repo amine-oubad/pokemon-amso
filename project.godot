@@ -24,6 +24,7 @@ PCBoxScreen="*res://scripts/ui/PCBoxScreen.gd"
 TitleScreen="*res://scripts/ui/TitleScreen.gd"
 GameOverScreen="*res://scripts/ui/GameOverScreen.gd"
 PokemonSummary="*res://scripts/ui/PokemonSummary.gd"
+SpriteLoader="*res://scripts/autoloads/SpriteLoader.gd"
 
 [display]
 

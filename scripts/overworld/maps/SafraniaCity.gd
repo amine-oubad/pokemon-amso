@@ -37,7 +37,9 @@ func _build_buildings() -> void:
 
 func _build_borders() -> void:
 	_wall(Vector2(-8.0, MAP_H * 0.5), Vector2(16.0, MAP_H + 16.0))
-	_wall(Vector2(MAP_W + 8.0, MAP_H * 0.5), Vector2(16.0, MAP_H + 16.0))
+	# Est wall — gap at y=96-136 for Route 7
+	_wall(Vector2(MAP_W + 8.0, 48.0), Vector2(16.0, 96.0))
+	_wall(Vector2(MAP_W + 8.0, 192.0), Vector2(16.0, 96.0))
 	_wall(Vector2(MAP_W * 0.5, -8.0), Vector2(MAP_W + 16.0, 16.0))
 	_wall(Vector2(MAP_W * 0.5, MAP_H + 8.0), Vector2(MAP_W + 16.0, 16.0))
 
@@ -54,6 +56,9 @@ func _build_transitions() -> void:
 	# Ouest → Route 6
 	_transition(Vector2(-8.0, 120.0), Vector2(24.0, 32.0),
 		"res://scenes/overworld/maps/Route6.tscn", Vector2(464.0, 120.0))
+	# Est → Route 7
+	_transition(Vector2(MAP_W + 8.0, 120.0), Vector2(24.0, 32.0),
+		"res://scenes/overworld/maps/Route7.tscn", Vector2(16.0, 120.0))
 	# Entrée Arène
 	_transition(Vector2(256.0, 64.0), Vector2(12.0, 8.0),
 		"res://scenes/overworld/maps/SafraniaGym.tscn", Vector2(160.0, 208.0))

@@ -47,12 +47,22 @@ static func apply_move_effect(
 		# ── Baisses de stats de la cible ──────────────────────────────────────
 		"lower_target_atk":      return _change_stat(defender, "atk",      -1)
 		"lower_target_def":      return _change_stat(defender, "def",      -1)
+		"lower_target_spdef":    return _change_stat(defender, "sp_def",   -1)
 		"lower_target_speed":    return _change_stat(defender, "speed",    -1)
+		"lower_target_spatk":    return _change_stat(defender, "sp_atk",  -1)
 		"lower_target_accuracy": return _change_stat(defender, "accuracy", -1)
 
 		# ── Hausses de stats de l'attaquant ───────────────────────────────────
-		"raise_self_def":   return _change_stat(attacker, "def",    1)
-		"raise_self_spatk": return _change_stat(attacker, "sp_atk", 1)
+		"raise_self_def":      return _change_stat(attacker, "def",     1)
+		"raise_self_spatk":    return _change_stat(attacker, "sp_atk",  1)
+		"raise_self_evasion":  return _change_stat(attacker, "evasion", 1)
+		"raise_self_atk_2":
+			return _change_stat(attacker, "atk", 2)
+		"raise_self_speed_2":
+			return _change_stat(attacker, "speed", 2)
+		"raise_self_atk":
+			return _change_stat(attacker, "atk", 1)
+		"raise_self_spdef":    return _change_stat(attacker, "sp_def", 1)
 
 		# ── Flinch (empêche l'adversaire d'agir ce tour) ─────────────────────
 		"flinch":
@@ -63,7 +73,46 @@ static func apply_move_effect(
 		"high_crit":
 			return ""  # Déjà géré via move flag dans BattleCalc
 
+		# ── Confusion ─────────────────────────────────────────────────────
+		"confuse":
+			if defender.has_meta("confused"):
+				return "%s est déjà confus !" % defender.get_name()
+			defender.set_meta("confused", randi_range(2, 5))
+			return "%s est confus !" % defender.get_name()
+
+		# ── Soin 50% PV max (Recover, Soft-Boiled) ───────────────────────
+		"heal_half":
+			var heal_amt := int(attacker.max_hp / 2.0)
+			var actual := attacker.heal(heal_amt)
+			if actual == 0:
+				return "%s a déjà tous ses PV !" % attacker.get_name()
+			return "%s récupère des PV !" % attacker.get_name()
+
+		# ── Rest — soin complet + endort 2 tours ─────────────────────────
+		"rest":
+			if attacker.current_hp == attacker.max_hp:
+				return "Mais cela échoue ! %s a déjà tous ses PV !" % attacker.get_name()
+			attacker.heal(attacker.max_hp)
+			attacker.status = "sleep"
+			attacker.status_turns = 2
+			return "%s se repose et récupère tous ses PV !" % attacker.get_name()
+
+		# ── Self-Destruct / Explosion — KO l'utilisateur ──────────────────
+		"self_faint":
+			attacker.take_damage(attacker.current_hp)
+			return "%s se sacrifie !" % attacker.get_name()
+
+		# ── Focus Energy — taux critique élevé ────────────────────────────
+		"focus_energy":
+			if attacker.has_meta("focus_energy"):
+				return "Mais cela échoue !"
+			attacker.set_meta("focus_energy", true)
+			return "%s se concentre !" % attacker.get_name()
+
 		# ── Dégâts fixes (ex: Dragon Rage = 40 HP) ───────────────────────
+		"fixed_damage_20":
+			defender.take_damage(20)
+			return "%s subit 20 points de dégâts fixes !" % defender.get_name()
 		"fixed_damage_40":
 			defender.take_damage(40)
 			return "%s subit 40 points de dégâts fixes !" % defender.get_name()
@@ -75,11 +124,32 @@ static func apply_move_effect(
 			if defender.has_meta("leech_seed"):
 				return "%s est déjà parasité !" % defender.get_name()
 			defender.set_meta("leech_seed", true)
+			defender.set_meta("leech_seed_source", attacker)
 			return "%s est parasité !" % defender.get_name()
 
-		# ── Deux tours (placeholder — exécution en un tour pour l'instant) ─
+		# ── Deux tours (Solar Beam, Dig, Fly…) — géré dans BattleScene ──────
 		"two_turn":
 			return ""
+
+		# ── Protect — bloque toutes les attaques ce tour ─────────────────
+		"protect":
+			var consecutive: int = attacker.get_meta("protect_consecutive", 0)
+			var success_rate := 1.0 / pow(3.0, consecutive)
+			if randf() < success_rate:
+				attacker.set_meta("protect", true)
+				attacker.set_meta("protect_consecutive", consecutive + 1)
+				return "%s se protège !" % attacker.get_name()
+			else:
+				attacker.set_meta("protect_consecutive", 0)
+				return "Mais cela échoue !"
+
+		# ── Rain Dance — météo pluie 5 tours ─────────────────────────────
+		"rain_dance":
+			return ""  # Géré dans BattleScene (set weather)
+
+		# ── Baton Pass — switch en gardant les stat stages ────────────────
+		"baton_pass":
+			return ""  # Géré dans BattleScene (force switch menu)
 
 	return ""
 
@@ -92,6 +162,18 @@ static func check_can_move(pkmn: PokemonInstance) -> Dictionary:
 	if pkmn.has_meta("flinch") and pkmn.get_meta("flinch"):
 		pkmn.set_meta("flinch", false)
 		return { "can_move": false, "message": "%s a tressailli !\nIl ne peut pas attaquer !" % pkmn.get_name() }
+
+	# Confusion — chance de se frapper soi-même
+	if pkmn.has_meta("confused"):
+		var turns_left: int = pkmn.get_meta("confused")
+		if turns_left <= 0:
+			pkmn.remove_meta("confused")
+		else:
+			pkmn.set_meta("confused", turns_left - 1)
+			if randf() < 0.33:
+				var self_dmg := maxi(1, int(pkmn.max_hp / 8.0))
+				pkmn.take_damage(self_dmg)
+				return { "can_move": false, "message": "%s est confus !\nIl se blesse dans sa confusion !" % pkmn.get_name() }
 
 	match pkmn.status:
 		"paralyze":
@@ -133,10 +215,14 @@ static func apply_end_of_turn(pkmn: PokemonInstance) -> String:
 			pkmn.take_damage(dmg)
 			return "%s souffre du poison violent !" % pkmn.get_name()
 
-	# Vampigraine (leech_seed) — drain 1/8 PV max
+	# Vampigraine (leech_seed) — drain 1/8 PV max, heal opponent
 	if pkmn.has_meta("leech_seed") and pkmn.get_meta("leech_seed"):
 		var seed_dmg := maxi(1, int(pkmn.max_hp / 8.0))
-		pkmn.take_damage(seed_dmg)
+		var actual := pkmn.take_damage(seed_dmg)
+		# Heal the opponent (stored in meta as the seeder)
+		var seeder = pkmn.get_meta("leech_seed_source") if pkmn.has_meta("leech_seed_source") else null
+		if seeder is PokemonInstance and not seeder.is_fainted():
+			seeder.heal(actual)
 		return "%s est drainé par Vampigraine !" % pkmn.get_name()
 
 	return ""
@@ -174,7 +260,8 @@ static func _apply_status(target: PokemonInstance, status: String) -> String:
 static func _change_stat(target: PokemonInstance, stat: String, delta: int) -> String:
 	var actual := target.modify_stat_stage(stat, delta)
 	const NAMES := { "atk":"Attaque", "def":"Défense", "sp_atk":"Atq. Spé",
-	                 "sp_def":"Déf. Spé", "speed":"Vitesse", "accuracy":"Précision" }
+	                 "sp_def":"Déf. Spé", "speed":"Vitesse", "accuracy":"Précision",
+	                 "evasion":"Esquive" }
 	var lbl: String = NAMES.get(stat, stat)
 	if actual == 0:
 		return "%s : %s ne peut pas %s davantage !" % [target.get_name(), lbl, "monter" if delta > 0 else "baisser"]

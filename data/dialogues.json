@@ -300,5 +300,137 @@
     "Voici le Badge Marais en récompense !",
     "Tu as prouvé que la volonté surpasse la psyché.",
     "Ton voyage est loin d'être terminé, Dresseur !"
+  ],
+
+  "route7_npc1": ["La Route 7 mène vers Parmanie.", "On dit que des Pokémon Poison y rôdent."],
+  "route7_npc2": ["Parmanie est célèbre pour son\nZone Safari !", "Mais il est fermé en ce moment..."],
+  "route7_sign1": ["Route 7 — Parmanie →"],
+  "route7_juggler_before": ["Regarde mes Pokémon tourner !"],
+  "route7_juggler_after": ["Tu m'as fait perdre l'équilibre..."],
+  "route7_tamer_before": ["Mes Pokémon de Feu sont\nindomptables !"],
+  "route7_tamer_after": ["Hmm, tu es plus fort\nque mes flammes."],
+  "rival_fuchsia_before": [
+    "Tiens, tiens... encore toi !",
+    "J'ai capturé plein de nouveaux\nPokémon depuis la dernière fois.",
+    "Cette fois, je vais gagner !"
+  ],
+  "rival_fuchsia_after": [
+    "QUOI ?! Impossible !",
+    "Bon... je reconnais que tu\nes devenu fort.",
+    "Mais la prochaine fois\nne sera pas pareil !"
+  ],
+
+  "fuchsia_npc1": ["Bienvenue à Parmanie !", "Koga est le maître du Poison."],
+  "fuchsia_npc2": ["L'arène de Koga est piégée\navec des murs invisibles !"],
+  "fuchsia_npc3": ["Le Centre Pokémon est au\nnord de la ville."],
+  "fuchsia_sign1": ["Parmanie — La ville des ninjas"],
+  "fuchsia_t1_before": ["Les ombres sont mon domaine !"],
+  "fuchsia_t1_after": ["Tu as percé mes ténèbres..."],
+  "fuchsia_t2_before": ["Mes poisons sont mortels !\nEs-tu prêt ?"],
+  "fuchsia_t2_after": ["Ton antidote... c'est ta force."],
+  "koga_before": [
+    "Je suis Koga, maître ninja !",
+    "Le Poison est une arme\nsilencieuse et mortelle.",
+    "Voyons si tu peux résister\nà mes toxines !"
+  ],
+  "koga_after": [
+    "Impressionnant... Tu as survécu\nà mon arsenal empoisonné.",
+    "Prends le Badge Âme !",
+    "Le poison n'a pu t'atteindre,\nmais continue à te méfier."
+  ],
+
+  "route8_npc1": ["La Route 8 mène à Cramois'Île.", "C'est une île volcanique !"],
+  "route8_npc2": ["Attention aux courants marins\nsur cette route."],
+  "route8_sign1": ["Route 8 — Cramois'Île →"],
+  "route8_hiker_before": ["Ces rochers sont mon terrain !"],
+  "route8_hiker_after": ["Tu m'as fait rouler..."],
+  "route8_swimmer_before": ["L'eau est mon élément !"],
+  "route8_swimmer_after": ["Tu as nagé plus vite que moi..."],
+
+  "cramoisile_npc1": ["Bienvenue à Cramois'Île !", "Blaine est le maître du Feu."],
+  "cramoisile_npc2": ["Le laboratoire de recherche\nPokémon se trouve ici aussi."],
+  "cramoisile_npc3": ["L'arène est dans le volcan !"],
+  "cramoisile_sign1": ["Cramois'Île — L'île ardente"],
+  "cramoisile_t1_before": ["La science du Feu est\nfascinante !"],
+  "cramoisile_t1_after": ["Mes données étaient erronées..."],
+  "cramoisile_t2_before": ["Le Feu purifie tout !"],
+  "cramoisile_t2_after": ["Tu as éteint mes flammes..."],
+  "blaine_before": [
+    "Bienvenue dans mon volcan !",
+    "Je suis Blaine, le maître\ndu Feu ardent !",
+    "Mes Pokémon brûlent d'une\npassion dévorante !",
+    "Voyons si tu résistes\nà la chaleur !"
+  ],
+  "blaine_after": [
+    "Tu as éteint mes flammes !",
+    "Voici le Badge Volcan !",
+    "Tu as les 8 badges...",
+    "Le Plateau Indigo t'attend,\nDresseur !"
+  ],
+
+  "indigo_npc1": ["Bienvenue au Plateau Indigo !", "Le Conseil des 4 t'attend\nau sommet."],
+  "indigo_npc2": ["Seuls les Dresseurs ayant\n8 badges peuvent entrer."],
+  "indigo_sign1": ["Plateau Indigo — Ligue Pokémon"],
+  "indigo_gate_npc": ["Montre-moi tes 8 badges...", "C'est bon, tu peux entrer !", "Bonne chance, Dresseur !"],
+  "indigo_gate_blocked": ["Il te faut 8 badges pour\nentrer dans la Ligue Pokémon."],
+
+  "lorelei_before": [
+    "Bienvenue au Conseil des 4.",
+    "Je suis Lorelei, spécialiste\ndes Pokémon de Glace.",
+    "Voyons si tu résistes\nau froid !"
+  ],
+  "lorelei_after": [
+    "Impressionnant... Tu m'as vaincue.",
+    "Continue, le prochain membre\nt'attend."
+  ],
+  "bruno_before": [
+    "Je suis Bruno !",
+    "Mes Pokémon Combat sont\ndes machines de guerre !",
+    "Prépare-toi au combat !"
+  ],
+  "bruno_after": [
+    "Ta force est incroyable...",
+    "Avance, mais sache que\nle pire est à venir."
+  ],
+  "agatha_before": [
+    "Hé hé hé...",
+    "Je suis Agatha, la maîtresse\ndes Pokémon Spectre.",
+    "Les ombres vont t'engloutir !"
+  ],
+  "agatha_after": [
+    "Les ombres s'inclinent\ndevant toi...",
+    "Peter t'attend. Il est\nle plus puissant d'entre nous."
+  ],
+  "peter_before": [
+    "Je suis Peter, le dernier\nmembre du Conseil des 4.",
+    "Mes Pokémon draconiques\nsont légendaires !",
+    "Montre-moi ta puissance !"
+  ],
+  "peter_after": [
+    "Incroyable... Tu as vaincu\nle Conseil des 4 !",
+    "Mais il reste le Champion...",
+    "Va le défier dans la salle\ndu trône !"
+  ],
+  "rival_champion_before": [
+    "...Tiens, tiens.",
+    "Tu es arrivé jusqu'ici...",
+    "Je suis le Champion de la\nLigue Pokémon !",
+    "Bleu ! Ton Rival !",
+    "Cette fois, c'est le combat\nfinal entre nous !"
+  ],
+  "rival_champion_after": [
+    "Non... C'est impossible...",
+    "J'étais le Champion...",
+    "Et tu m'as battu...",
+    "Félicitations... Tu es le\nnouveau Champion Pokémon !",
+    "..."
+  ],
+
+  "league_victory": [
+    "FÉLICITATIONS !",
+    "Tu as vaincu le Conseil\ndes 4 et le Champion !",
+    "Tu es le nouveau CHAMPION\nde la Ligue Pokémon !",
+    "Ton nom est gravé dans\nle Hall of Fame !",
+    "Merci d'avoir joué à\nPokémon AMSO !"
   ]
 }

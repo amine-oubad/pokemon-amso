@@ -1,5 +1,5 @@
 extends CanvasLayer
-## Écran titre — Nouvelle Partie / Continuer.
+## Ecran titre moderne — Nouvelle Partie / Continuer.
 ## Layer 40 (au-dessus de tout). Affiché au lancement.
 
 var _bg:          ColorRect
@@ -8,92 +8,126 @@ var _btn_new:     Button
 var _btn_continue: Button
 var _visible_flag := true
 
+const C_BG     := Color(0.06, 0.06, 0.14)
+const C_PANEL  := Color(0.10, 0.12, 0.22)
+const C_ACCENT := Color(0.30, 0.55, 0.95)
+const C_GOLD   := Color(0.96, 0.80, 0.22)
+const C_TEXT   := Color(0.90, 0.90, 0.95)
+const C_TEXT2  := Color(0.50, 0.50, 0.65)
+
 func _ready() -> void:
 	layer = 40
 	_build_ui()
-	# Vérifier si une sauvegarde existe
-	_btn_continue.visible = SaveManager.has_save(0)
+	var has_any_save := false
+	for i in SaveManager.NUM_SLOTS:
+		if SaveManager.has_save(i):
+			has_any_save = true; break
+	_btn_continue.visible = has_any_save
 
 func _build_ui() -> void:
+	# Background
 	_bg = ColorRect.new()
-	_bg.color    = Color(0.04, 0.04, 0.12)
+	_bg.color    = C_BG
 	_bg.position = Vector2.ZERO
 	_bg.size     = Vector2(320, 240)
 	add_child(_bg)
 
-	# Logo / titre
+	# Subtle top gradient
+	var grad_top := ColorRect.new()
+	grad_top.color    = Color(0.12, 0.10, 0.25, 0.6)
+	grad_top.position = Vector2.ZERO
+	grad_top.size     = Vector2(320, 80)
+	add_child(grad_top)
+
+	# Accent line top
+	var accent_line := ColorRect.new()
+	accent_line.color    = C_ACCENT
+	accent_line.position = Vector2(0, 0)
+	accent_line.size     = Vector2(320, 2)
+	add_child(accent_line)
+
+	# Pokemon artwork (Pikachu as mascot)
+	var mascot := SpriteLoader.make_sprite("025", "artwork", Vector2(72, 72))
+	mascot.position = Vector2(124, 16)
+	add_child(mascot)
+
+	# Title
 	_title_lbl = Label.new()
-	_title_lbl.text     = "POKÉMON AMSO"
-	_title_lbl.position = Vector2(60, 32)
-	_title_lbl.add_theme_font_size_override("font_size", 16)
-	_title_lbl.add_theme_color_override("font_color", Color(0.96, 0.77, 0.18))
+	_title_lbl.text     = "POKEMON AMSO"
+	_title_lbl.position = Vector2(72, 94)
+	_title_lbl.add_theme_font_size_override("font_size", 14)
+	_title_lbl.add_theme_color_override("font_color", C_GOLD)
 	add_child(_title_lbl)
 
-	# Sous-titre
+	# Subtitle
 	var sub := Label.new()
 	sub.text     = "Fan-game Godot 4"
-	sub.position = Vector2(100, 58)
+	sub.position = Vector2(112, 114)
 	sub.add_theme_font_size_override("font_size", 7)
-	sub.add_theme_color_override("font_color", Color(0.5, 0.5, 0.65))
+	sub.add_theme_color_override("font_color", C_TEXT2)
 	add_child(sub)
 
-	# Décoration — rectangle Pokéball
-	var ball_outer := ColorRect.new()
-	ball_outer.position = Vector2(138, 78)
-	ball_outer.size     = Vector2(44, 44)
-	ball_outer.color    = Color(0.85, 0.20, 0.18)
-	add_child(ball_outer)
-	var ball_inner := ColorRect.new()
-	ball_inner.position = Vector2(143, 98)
-	ball_inner.size     = Vector2(34, 24)
-	ball_inner.color    = Color.WHITE
-	add_child(ball_inner)
-	var ball_center := ColorRect.new()
-	ball_center.position = Vector2(154, 95)
-	ball_center.size     = Vector2(12, 12)
-	ball_center.color    = Color(0.2, 0.2, 0.25)
-	add_child(ball_center)
+	# Separator
+	var sep := ColorRect.new()
+	sep.color    = Color(0.20, 0.22, 0.35)
+	sep.position = Vector2(80, 128)
+	sep.size     = Vector2(160, 1)
+	add_child(sep)
 
-	# Bouton "Nouvelle Partie"
+	# Button "Nouvelle Partie"
 	_btn_new = Button.new()
 	_btn_new.text     = "NOUVELLE PARTIE"
-	_btn_new.position = Vector2(90, 140)
-	_btn_new.size     = Vector2(140, 24)
+	_btn_new.position = Vector2(90, 142)
+	_btn_new.size     = Vector2(140, 26)
 	_btn_new.add_theme_font_size_override("font_size", 9)
 	_btn_new.pressed.connect(_on_new_game)
 	add_child(_btn_new)
 
-	# Bouton "Continuer"
+	# Button "Continuer"
 	_btn_continue = Button.new()
 	_btn_continue.text     = "CONTINUER"
-	_btn_continue.position = Vector2(90, 172)
-	_btn_continue.size     = Vector2(140, 24)
+	_btn_continue.position = Vector2(90, 174)
+	_btn_continue.size     = Vector2(140, 26)
 	_btn_continue.add_theme_font_size_override("font_size", 9)
 	_btn_continue.pressed.connect(_on_continue)
 	add_child(_btn_continue)
 
-	# Crédits
+	# Accent line bottom
+	var accent_bot := ColorRect.new()
+	accent_bot.color    = C_ACCENT
+	accent_bot.position = Vector2(0, 238)
+	accent_bot.size     = Vector2(320, 2)
+	add_child(accent_bot)
+
+	# Credits
 	var credits := Label.new()
 	credits.text     = "amine-oubad/pokemon-amso"
-	credits.position = Vector2(80, 220)
+	credits.position = Vector2(88, 222)
 	credits.add_theme_font_size_override("font_size", 6)
-	credits.add_theme_color_override("font_color", Color(0.35, 0.35, 0.50))
+	credits.add_theme_color_override("font_color", C_TEXT2)
 	add_child(credits)
 
 func _on_new_game() -> void:
 	_hide_title()
 
 func _on_continue() -> void:
-	SaveManager.load_game(0)
+	# Load the most recent save across all slots
+	var best_slot := -1
+	var best_time := 0
+	for i in SaveManager.NUM_SLOTS:
+		if SaveManager.has_save(i):
+			var info := SaveManager.get_save_info(i)
+			var t: int = info.get("timestamp", 0)
+			if t > best_time:
+				best_time = t
+				best_slot = i
+	if best_slot < 0:
+		return  # No valid save found
+	SaveManager.load_slot(best_slot)
 	_hide_title()
 
 func _hide_title() -> void:
 	_visible_flag = false
-	_bg.hide()
-	_title_lbl.hide()
-	_btn_new.hide()
-	_btn_continue.hide()
-	# Cacher tous les enfants
 	for child in get_children():
 		if child is CanvasItem:
 			child.hide()
@@ -104,5 +138,4 @@ func is_active() -> bool:
 func _unhandled_input(event: InputEvent) -> void:
 	if not _visible_flag:
 		return
-	# Bloquer tout input pendant l'écran titre
 	get_viewport().set_input_as_handled()
