@@ -2,6 +2,9 @@ extends CanvasLayer
 ## Fiche resume d'un Pokemon — style moderne avec artwork.
 ## Layer 36. Ouvert depuis PauseMenu ou PCBoxScreen.
 
+const MoveEffects = preload("res://scripts/battle/MoveEffects.gd")
+const MoveInstance = preload("res://scripts/data/MoveInstance.gd")
+const PokemonInstance = preload("res://scripts/data/PokemonInstance.gd")
 var _visible_flag := false
 var _pkmn: PokemonInstance = null
 var _bg: ColorRect

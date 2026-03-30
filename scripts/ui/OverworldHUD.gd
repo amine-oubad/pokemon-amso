@@ -2,6 +2,7 @@ extends CanvasLayer
 ## HUD overworld moderne — argent, HP du 1er Pokemon, badges.
 ## Layer 5 (derriere tous les menus).
 
+const PokemonInstance = preload("res://scripts/data/PokemonInstance.gd")
 var _money_label: Label
 var _hp_bar:       ColorRect
 var _hp_bar_bg:    ColorRect

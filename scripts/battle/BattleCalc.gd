@@ -3,6 +3,11 @@ class_name BattleCalc
 ## Integre abilities, held items, natures, ecrans, meteo, terrain.
 ## Toutes les fonctions sont statiques.
 
+const AbilityEffects = preload("res://scripts/battle/AbilityEffects.gd")
+const HeldItemEffects = preload("res://scripts/battle/HeldItemEffects.gd")
+const BattleField = preload("res://scripts/battle/BattleField.gd")
+const MoveInstance = preload("res://scripts/data/MoveInstance.gd")
+const PokemonInstance = preload("res://scripts/data/PokemonInstance.gd")
 # -- Degats ---------------------------------------------------------------
 
 static func calculate_damage(
@@ -127,7 +132,7 @@ static func calculate_damage(
 
 	# Avalanche / Revenge (doubles if hit first)
 	if move.move_id in ["avalanche", "revenge"]:
-		if attacker.has_meta("was_hit_this_turn"):
+		if attacker.has_bmeta("was_hit_this_turn"):
 			power *= 2
 
 	# -- Stat selection --
@@ -156,14 +161,14 @@ static func calculate_damage(
 	var crit_stage := 0
 	if move.get_effect() == "high_crit":
 		crit_stage += 1
-	if attacker.has_meta("focus_energy"):
+	if attacker.has_bmeta("focus_energy"):
 		crit_stage += 2
 	crit_stage += HeldItemEffects.get_crit_stage_bonus(attacker)
 
 	if AbilityEffects.prevents_critical(defender):
 		crit_stage = -99
 	# Lucky Chant prevents crits
-	if defender.has_meta("lucky_chant") and defender.get_meta("lucky_chant") > 0:
+	if defender.has_bmeta("lucky_chant") and defender.get_bmeta("lucky_chant") > 0:
 		crit_stage = -99
 
 	var crit_rates := [1.0/24.0, 1.0/8.0, 1.0/2.0, 1.0, 1.0]  # Gen 7+ rates

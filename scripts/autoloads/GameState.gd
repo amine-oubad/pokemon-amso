@@ -2,6 +2,7 @@ extends Node
 ## Singleton — état dynamique de la partie.
 ## Persisté via SaveManager (Phase 2).
 
+const PokemonInstance = preload("res://scripts/data/PokemonInstance.gd")
 # ── Joueur ─────────────────────────────────────────────────────────────────────
 var player_name: String = "RED"
 var money: int = 3000

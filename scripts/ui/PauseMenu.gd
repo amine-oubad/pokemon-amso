@@ -2,6 +2,7 @@ extends CanvasLayer
 ## Menu Pause moderne — 4 onglets : Equipe / Sac / Pokedex / Sauver.
 ## Layer 30.
 
+const PokemonInstance = preload("res://scripts/data/PokemonInstance.gd")
 var _visible_flag := false
 var _in_battle    := false
 var _tab_index    := 0

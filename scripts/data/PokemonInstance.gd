@@ -3,6 +3,9 @@ extends RefCounted
 ## Instance d'un Pokemon en equipe ou en combat.
 ## Creer via PokemonInstance.create("025", 5) ou PokemonInstance.from_encounter(data).
 
+const AbilityEffects = preload("res://scripts/battle/AbilityEffects.gd")
+const HeldItemEffects = preload("res://scripts/battle/HeldItemEffects.gd")
+const MoveInstance = preload("res://scripts/data/MoveInstance.gd")
 # -- Identite -------------------------------------------------------------
 var pokemon_id: String = ""
 var nickname: String   = ""
@@ -49,16 +52,16 @@ var _base_data: Dictionary = {}
 # -- Battle meta (flinch, leech_seed, protect, charging, etc.) ------------
 var _meta: Dictionary = {}
 
-func has_meta(key: String) -> bool:
+func has_bmeta(key: String) -> bool:
 	return _meta.has(key)
 
-func set_meta(key: String, value: Variant) -> void:
+func set_bmeta(key: String, value: Variant) -> void:
 	_meta[key] = value
 
-func get_meta(key: String, default: Variant = null) -> Variant:
+func get_bmeta(key: String, default: Variant = null) -> Variant:
 	return _meta.get(key, default)
 
-func remove_meta(key: String) -> void:
+func remove_bmeta(key: String) -> void:
 	_meta.erase(key)
 
 # =========================================================================
@@ -235,7 +238,7 @@ func check_evolution() -> String:
 	return ""
 
 func evolve(target_id: String) -> void:
-	var had_custom_nickname := nickname != _base_data.get("name", "")
+	var had_custom_nickname: bool = (nickname != str(_base_data.get("name", "")))
 	pokemon_id = target_id
 	_base_data = GameData.pokemon_data.get(target_id, _base_data)
 	ability = _base_data.get("ability", ability)
@@ -291,7 +294,7 @@ func _learn_levelup_moves() -> void:
 	for entry: Dictionary in levelup:
 		if entry.get("level", 99) <= level:
 			learnable.append(entry.get("move", ""))
-	var start := max(0, learnable.size() - 4)
+	var start: int = max(0, learnable.size() - 4)
 	moves.clear()
 	for i in range(start, learnable.size()):
 		moves.append(MoveInstance.create(learnable[i]))
@@ -308,8 +311,8 @@ func add_evs(stat: String, amount: int) -> int:
 	for s: String in evs:
 		total += int(evs[s])
 	var remaining := MAX_TOTAL_EVS - total
-	var stat_remaining := MAX_SINGLE_EV - evs.get(stat, 0)
-	var actual := mini(amount, mini(remaining, stat_remaining))
+	var stat_remaining: int = MAX_SINGLE_EV - int(evs.get(stat, 0))
+	var actual: int = mini(amount, mini(remaining, stat_remaining))
 	if actual > 0:
 		evs[stat] = evs.get(stat, 0) + actual
 	return actual
@@ -352,7 +355,7 @@ func get_effective_stat(stat_name: String) -> int:
 	elif stage < 0:
 		mult = 2.0 / (2.0 - stage)
 
-	var result := max(1, int(base_val * mult))
+	var result: int = max(1, int(base_val * mult))
 
 	# Ability modifiers
 	match ability:

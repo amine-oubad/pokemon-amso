@@ -157,8 +157,8 @@ func _get_or_create_tileset(biome: String) -> TileSet:
 
 		ts.add_source(source, source_id)
 		# Stocker le mapping type -> source_id dans les metadonnees
-		ts.set_meta("src_%s" % tile_type, source_id)
-		ts.set_meta("count_%s" % tile_type, colors.size())
+		ts.set_bmeta("src_%s" % tile_type, source_id)
+		ts.set_bmeta("count_%s" % tile_type, colors.size())
 		source_id += 1
 
 	_tileset_cache[biome] = ts
@@ -166,17 +166,17 @@ func _get_or_create_tileset(biome: String) -> TileSet:
 
 func _get_source_id(ts: TileSet, tile_type: String) -> int:
 	var key := "src_%s" % tile_type
-	if ts.has_meta(key):
-		return ts.get_meta(key)
+	if ts.has_bmeta(key):
+		return ts.get_bmeta(key)
 	return -1
 
 func _get_tile_count(ts: TileSet, source_id: int) -> int:
 	# Chercher le count correspondant
 	for key in ["ground", "path", "tall_grass", "water", "flower", "tree_trunk",
 				"tree_canopy", "building", "wall", "rock", "ice", "wet_sand"]:
-		if ts.has_meta("src_%s" % key) and ts.get_meta("src_%s" % key) == source_id:
-			if ts.has_meta("count_%s" % key):
-				return ts.get_meta("count_%s" % key)
+		if ts.has_bmeta("src_%s" % key) and ts.get_bmeta("src_%s" % key) == source_id:
+			if ts.has_bmeta("count_%s" % key):
+				return ts.get_bmeta("count_%s" % key)
 	return 1
 
 # ── Parallax Background ──────────────────────────────────────────────────────

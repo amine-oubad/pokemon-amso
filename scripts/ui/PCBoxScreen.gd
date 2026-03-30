@@ -2,6 +2,7 @@ extends CanvasLayer
 ## PC Box moderne — deux panneaux : Equipe (gauche) + Boite PC 5x6 (droite).
 ## Layer 35.
 
+const PokemonInstance = preload("res://scripts/data/PokemonInstance.gd")
 const BOX_COLS  := 5
 const BOX_ROWS  := 6
 const CELL_SIZE := 22

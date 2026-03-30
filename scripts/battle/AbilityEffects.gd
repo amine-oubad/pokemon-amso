@@ -3,6 +3,9 @@ class_name AbilityEffects
 ## Fonctions statiques appelees a differents moments du combat.
 ## Les donnees detaillees sont chargees depuis data/abilities.json via GameData.
 
+const MoveEffects = preload("res://scripts/battle/MoveEffects.gd")
+const BattleField = preload("res://scripts/battle/BattleField.gd")
+const BattleCalc = preload("res://scripts/battle/BattleCalc.gd")
 # -- Fallback data (used if abilities.json not loaded yet) -----------------
 
 const ABILITY_NAMES := {
@@ -223,13 +226,13 @@ static func on_switch_in(pkmn, opponent, field: BattleField) -> Array[String]:
 
 		# --- Disguise (Mimikyu) ---
 		"disguise":
-			if not pkmn.has_meta("disguise_broken"):
-				pkmn.set_meta("disguise_active", true)
+			if not pkmn.has_bmeta("disguise_broken"):
+				pkmn.set_bmeta("disguise_active", true)
 
 		# --- Ice Face ---
 		"ice_face":
-			if not pkmn.has_meta("ice_face_broken"):
-				pkmn.set_meta("ice_face_active", true)
+			if not pkmn.has_bmeta("ice_face_broken"):
+				pkmn.set_bmeta("ice_face_active", true)
 
 		# --- Guard Dog ---
 		"guard_dog":
@@ -276,7 +279,7 @@ static func on_before_hit(
 		"flash_fire":
 			if move_type == "Fire":
 				result.blocked = true
-				defender.set_meta("flash_fire_boost", true)
+				defender.set_bmeta("flash_fire_boost", true)
 				result.message = "%s absorbe l'attaque Feu !\nSes attaques Feu sont boostees !" % defender.get_name()
 
 		"water_absorb":
@@ -334,12 +337,12 @@ static func on_before_hit(
 				result.message = "Garde Mystik protege %s !" % defender.get_name()
 
 		"soundproof":
-			if MoveEffects.is_sound_move(attacker.get_meta("current_move_id", "")):
+			if MoveEffects.is_sound_move(attacker.get_bmeta("current_move_id", "")):
 				result.blocked = true
 				result.message = "%s est protege par Anti-Bruit !" % defender.get_name()
 
 		"bulletproof":
-			if MoveEffects.is_bullet_move(attacker.get_meta("current_move_id", "")):
+			if MoveEffects.is_bullet_move(attacker.get_bmeta("current_move_id", "")):
 				result.blocked = true
 				result.message = "%s est protege par Pare-Balles !" % defender.get_name()
 
@@ -349,27 +352,27 @@ static func on_before_hit(
 				result.message = "%s est protege par Corps en Or !" % defender.get_name()
 
 		"wind_rider":
-			if MoveEffects.is_wind_move(attacker.get_meta("current_move_id", "")):
+			if MoveEffects.is_wind_move(attacker.get_bmeta("current_move_id", "")):
 				result.blocked = true
 				defender.modify_stat_stage("atk", 1)
 				result.message = "%s absorbe le vent !\nSon Attaque monte !" % defender.get_name()
 
 		# Disguise (Mimikyu) — first hit blocked
 		"disguise":
-			if defender.has_meta("disguise_active") and move_category != "status":
+			if defender.has_bmeta("disguise_active") and move_category != "status":
 				result.blocked = true
-				defender.remove_meta("disguise_active")
-				defender.set_meta("disguise_broken", true)
+				defender.remove_bmeta("disguise_active")
+				defender.set_bmeta("disguise_broken", true)
 				var dmg := maxi(1, int(defender.max_hp / 8.0))
 				defender.take_damage(dmg)
 				result.message = "%s : le Deguisement absorbe l'attaque !" % defender.get_name()
 
 		# Ice Face — blocks first physical hit
 		"ice_face":
-			if defender.has_meta("ice_face_active") and move_category == "physical":
+			if defender.has_bmeta("ice_face_active") and move_category == "physical":
 				result.blocked = true
-				defender.remove_meta("ice_face_active")
-				defender.set_meta("ice_face_broken", true)
+				defender.remove_bmeta("ice_face_active")
+				defender.set_bmeta("ice_face_broken", true)
 				result.message = "%s : Tete de Gel absorbe l'attaque !" % defender.get_name()
 
 	return result
@@ -383,7 +386,7 @@ static func get_damage_multiplier(
 	var mult := 1.0
 	var a_ab: String = attacker.ability
 	var d_ab: String = defender.ability
-	var move_id: String = attacker.get_meta("current_move_id", "")
+	var move_id: String = attacker.get_bmeta("current_move_id", "")
 
 	# === ATTACKER ABILITIES ===
 
@@ -396,7 +399,7 @@ static func get_damage_multiplier(
 		"swarm":     if low_hp and move_type == "Bug":   mult *= 1.5
 
 	# Flash Fire boost
-	if a_ab == "flash_fire" and move_type == "Fire" and attacker.has_meta("flash_fire_boost"):
+	if a_ab == "flash_fire" and move_type == "Fire" and attacker.has_bmeta("flash_fire_boost"):
 		mult *= 1.5
 
 	# Guts
@@ -459,7 +462,7 @@ static func get_damage_multiplier(
 			mult *= 1.25
 
 	# Analytic — 1.3x if moving last
-	if a_ab == "analytic" and attacker.has_meta("moved_last"):
+	if a_ab == "analytic" and attacker.has_bmeta("moved_last"):
 		mult *= 1.3
 
 	# Sand Force — 1.3x to Rock/Ground/Steel in Sandstorm
@@ -612,8 +615,8 @@ static func on_after_contact(attacker, defender) -> String:
 
 		"cute_charm":
 			if randf() < 0.30:
-				if not attacker.has_meta("attracted"):
-					attacker.set_meta("attracted", true)
+				if not attacker.has_bmeta("attracted"):
+					attacker.set_bmeta("attracted", true)
 					return "Joli Sourire de %s seduit %s !" % [defender.get_name(), attacker.get_name()]
 
 		"seed_sower":
@@ -621,16 +624,16 @@ static func on_after_contact(attacker, defender) -> String:
 				return field.set_terrain(BattleField.Terrain.GRASSY, 5)
 
 		"electromorphosis":
-			defender.set_meta("charge_boost", true)
+			defender.set_bmeta("charge_boost", true)
 			return "%s se charge d'electricite !" % defender.get_name()
 
 		"wind_power":
-			if MoveEffects.is_wind_move(attacker.get_meta("current_move_id", "")):
-				defender.set_meta("charge_boost", true)
+			if MoveEffects.is_wind_move(attacker.get_bmeta("current_move_id", "")):
+				defender.set_bmeta("charge_boost", true)
 				return "%s se charge grace au vent !" % defender.get_name()
 
 		"steam_engine":
-			if attacker.get_meta("current_move_type", "") in ["Fire", "Water"]:
+			if attacker.get_bmeta("current_move_type", "") in ["Fire", "Water"]:
 				defender.modify_stat_stage("speed", 6)
 				return "%s : Machine a Vapeur maximise sa Vitesse !" % defender.get_name()
 
@@ -712,22 +715,22 @@ static func on_end_of_turn(pkmn, field: BattleField) -> Array[Dictionary]:
 			pass
 
 		"harvest":
-			if pkmn.has_meta("consumed_item"):
-				var consumed: String = pkmn.get_meta("consumed_item")
+			if pkmn.has_bmeta("consumed_item"):
+				var consumed: String = pkmn.get_bmeta("consumed_item")
 				if consumed.ends_with("_berry"):
 					var trigger := randf() < 0.5
 					if field.weather == BattleField.Weather.SUN:
 						trigger = true
 					if trigger:
 						pkmn.held_item = consumed
-						pkmn.remove_meta("consumed_item")
+						pkmn.remove_bmeta("consumed_item")
 						effects.append({"message": "%s recupere sa baie !" % pkmn.get_name()})
 
 		# Ice Face regeneration in hail
 		"ice_face":
-			if pkmn.has_meta("ice_face_broken") and field.weather == BattleField.Weather.HAIL:
-				pkmn.remove_meta("ice_face_broken")
-				pkmn.set_meta("ice_face_active", true)
+			if pkmn.has_bmeta("ice_face_broken") and field.weather == BattleField.Weather.HAIL:
+				pkmn.remove_bmeta("ice_face_broken")
+				pkmn.set_bmeta("ice_face_active", true)
 				effects.append({"message": "%s : Tete de Gel se reforme !" % pkmn.get_name()})
 
 	return effects
@@ -755,7 +758,7 @@ static func prevents_status(pkmn, status: String) -> bool:
 			if status in ["attract", "confuse", "flinch"]: return true
 		"leaf_guard":
 			# Prevents status in Sun
-			if pkmn.has_meta("_field_ref"):
+			if pkmn.has_bmeta("_field_ref"):
 				pass  # Would need field reference
 			return false
 		"overcoat":
@@ -852,7 +855,7 @@ static func check_color_change(defender, move_type: String) -> String:
 	var current_types := defender.get_types()
 	if current_types.size() == 1 and current_types[0] == move_type:
 		return ""
-	defender.set_meta("override_types", [move_type])
+	defender.set_bmeta("override_types", [move_type])
 	return "%s change de type en %s !" % [defender.get_name(), move_type]
 
 # -- Speed multiplier ------------------------------------------------------
@@ -869,7 +872,7 @@ static func get_speed_multiplier(pkmn, field: BattleField) -> float:
 		"slush_rush":
 			if field.weather == BattleField.Weather.HAIL: return 2.0
 		"unburden":
-			if pkmn.has_meta("consumed_item"): return 2.0
+			if pkmn.has_bmeta("consumed_item"): return 2.0
 		"quick_feet":
 			if pkmn.status != "": return 1.5
 		"surge_surfer":
@@ -913,9 +916,9 @@ static func get_modified_move_type(attacker, move_type: String, move_id: String)
 
 	# Protean / Libero — change type before attacking
 	if ab in ["protean", "libero"]:
-		if not attacker.has_meta("protean_used"):
-			attacker.set_meta("override_types", [move_type])
-			attacker.set_meta("protean_used", true)
+		if not attacker.has_bmeta("protean_used"):
+			attacker.set_bmeta("override_types", [move_type])
+			attacker.set_bmeta("protean_used", true)
 
 	return move_type
 
@@ -942,7 +945,7 @@ static func get_priority_modifier(attacker, move_category: String) -> int:
 	if attacker.ability == "gale_wings":
 		# Gen 7+: only at full HP
 		if attacker.current_hp == attacker.max_hp:
-			var move_type: String = attacker.get_meta("current_move_type", "")
+			var move_type: String = attacker.get_bmeta("current_move_type", "")
 			if move_type == "Flying":
 				return 1
 	return 0

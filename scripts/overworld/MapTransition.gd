@@ -1,5 +1,6 @@
 class_name MapTransition
 extends Area2D
+const Player = preload("res://scripts/overworld/Player.gd")
 ## Zone de transition entre maps.
 ## Quand le joueur entre dans cette zone, on change de scène.
 ##

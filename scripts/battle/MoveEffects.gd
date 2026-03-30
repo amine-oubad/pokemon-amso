@@ -2,6 +2,12 @@ class_name MoveEffects
 ## Effets secondaires des moves et gestion des statuts.
 ## Couvre Gen 1 a Gen 9. Toutes les fonctions sont statiques.
 
+const AbilityEffects = preload("res://scripts/battle/AbilityEffects.gd")
+const HeldItemEffects = preload("res://scripts/battle/HeldItemEffects.gd")
+const BattleField = preload("res://scripts/battle/BattleField.gd")
+const BattleCalc = preload("res://scripts/battle/BattleCalc.gd")
+const MoveInstance = preload("res://scripts/data/MoveInstance.gd")
+const PokemonInstance = preload("res://scripts/data/PokemonInstance.gd")
 # -- Infos statut ---------------------------------------------------------
 const STATUS_ABBR := {
 	"burn":      "BRU", "paralyze":  "PAR", "sleep":     "SOM",
@@ -217,7 +223,7 @@ static func apply_move_effect(
 			msgs.append(_change_stat(attacker, "sp_atk", 1))
 			msgs.append(_change_stat(attacker, "sp_def", 1))
 			msgs.append(_change_stat(attacker, "speed", 1))
-			attacker.set_meta("no_retreat", true)
+			attacker.set_bmeta("no_retreat", true)
 		"growth":
 			if field != null and field.weather == BattleField.Weather.SUN:
 				msgs.append(_change_stat(attacker, "atk", 2))
@@ -285,7 +291,7 @@ static func apply_move_effect(
 			if "Ghost" in attacker.get_types():
 				var dmg := int(attacker.max_hp / 2.0)
 				attacker.take_damage(dmg)
-				defender.set_meta("cursed", true)
+				defender.set_bmeta("cursed", true)
 				msgs.append("%s se maudit pour maudire %s !" % [attacker.get_name(), defender.get_name()])
 			else:
 				msgs.append(_change_stat(attacker, "atk", 1))
@@ -297,7 +303,7 @@ static func apply_move_effect(
 		# =============================================================
 		"flinch":
 			if not AbilityEffects.prevents_status(defender, "flinch"):
-				defender.set_meta("flinch", true)
+				defender.set_bmeta("flinch", true)
 
 		# High crit — handled in BattleCalc
 		"high_crit":
@@ -309,27 +315,27 @@ static func apply_move_effect(
 		"confuse":
 			if AbilityEffects.prevents_status(defender, "confuse"):
 				msgs.append("%s est protege par %s !" % [defender.get_name(), defender.get_ability_name()])
-			elif defender.has_meta("confused"):
+			elif defender.has_bmeta("confused"):
 				msgs.append("%s est deja confus !" % defender.get_name())
 			else:
-				defender.set_meta("confused", randi_range(2, 5))
+				defender.set_bmeta("confused", randi_range(2, 5))
 				msgs.append("%s est confus !" % defender.get_name())
 
 		"confuse_self":  # Outrage, Petal Dance, Thrash
-			if not attacker.has_meta("confused"):
-				attacker.set_meta("confused", randi_range(2, 3))
+			if not attacker.has_bmeta("confused"):
+				attacker.set_bmeta("confused", randi_range(2, 3))
 				msgs.append("%s est confus par la fatigue !" % attacker.get_name())
 
 		# Flatter / Swagger
 		"swagger":
 			msgs.append(_change_stat(defender, "atk", 2))
-			if not defender.has_meta("confused"):
-				defender.set_meta("confused", randi_range(2, 5))
+			if not defender.has_bmeta("confused"):
+				defender.set_bmeta("confused", randi_range(2, 5))
 				msgs.append("%s est confus !" % defender.get_name())
 		"flatter":
 			msgs.append(_change_stat(defender, "sp_atk", 1))
-			if not defender.has_meta("confused"):
-				defender.set_meta("confused", randi_range(2, 5))
+			if not defender.has_bmeta("confused"):
+				defender.set_bmeta("confused", randi_range(2, 5))
 				msgs.append("%s est confus !" % defender.get_name())
 
 		# =============================================================
@@ -399,12 +405,12 @@ static func apply_move_effect(
 
 		"healing_wish":
 			attacker.take_damage(attacker.current_hp)
-			attacker.set_meta("healing_wish", true)
+			attacker.set_bmeta("healing_wish", true)
 			msgs.append("%s utilise Voeu Soin !" % attacker.get_name())
 
 		"lunar_dance":
 			attacker.take_damage(attacker.current_hp)
-			attacker.set_meta("lunar_dance", true)
+			attacker.set_bmeta("lunar_dance", true)
 			msgs.append("%s utilise Danse Lunaire !" % attacker.get_name())
 
 		"final_gambit":
@@ -566,59 +572,59 @@ static func apply_move_effect(
 		#  PROTECT variants
 		# =============================================================
 		"protect":
-			var consecutive: int = attacker.get_meta("protect_consecutive", 0)
+			var consecutive: int = attacker.get_bmeta("protect_consecutive", 0)
 			var success_rate := 1.0 / pow(3.0, consecutive)
 			if randf() < success_rate:
-				attacker.set_meta("protect", true)
-				attacker.set_meta("protect_consecutive", consecutive + 1)
+				attacker.set_bmeta("protect", true)
+				attacker.set_bmeta("protect_consecutive", consecutive + 1)
 				msgs.append("%s se protege !" % attacker.get_name())
 			else:
-				attacker.set_meta("protect_consecutive", 0)
+				attacker.set_bmeta("protect_consecutive", 0)
 				msgs.append("Mais cela echoue !")
 
 		"king_shield":
-			var consecutive: int = attacker.get_meta("protect_consecutive", 0)
+			var consecutive: int = attacker.get_bmeta("protect_consecutive", 0)
 			var success_rate := 1.0 / pow(3.0, consecutive)
 			if randf() < success_rate:
-				attacker.set_meta("protect", true)
-				attacker.set_meta("king_shield", true)
-				attacker.set_meta("protect_consecutive", consecutive + 1)
+				attacker.set_bmeta("protect", true)
+				attacker.set_bmeta("king_shield", true)
+				attacker.set_bmeta("protect_consecutive", consecutive + 1)
 				msgs.append("%s se protege avec le Bouclier Royal !" % attacker.get_name())
 			else:
-				attacker.set_meta("protect_consecutive", 0)
+				attacker.set_bmeta("protect_consecutive", 0)
 				msgs.append("Mais cela echoue !")
 
 		"baneful_bunker":
-			var consecutive: int = attacker.get_meta("protect_consecutive", 0)
+			var consecutive: int = attacker.get_bmeta("protect_consecutive", 0)
 			var success_rate := 1.0 / pow(3.0, consecutive)
 			if randf() < success_rate:
-				attacker.set_meta("protect", true)
-				attacker.set_meta("baneful_bunker", true)
-				attacker.set_meta("protect_consecutive", consecutive + 1)
+				attacker.set_bmeta("protect", true)
+				attacker.set_bmeta("baneful_bunker", true)
+				attacker.set_bmeta("protect_consecutive", consecutive + 1)
 				msgs.append("%s se protege avec le Blockhaus !" % attacker.get_name())
 			else:
-				attacker.set_meta("protect_consecutive", 0)
+				attacker.set_bmeta("protect_consecutive", 0)
 				msgs.append("Mais cela echoue !")
 
 		"spiky_shield":
-			var consecutive: int = attacker.get_meta("protect_consecutive", 0)
+			var consecutive: int = attacker.get_bmeta("protect_consecutive", 0)
 			var success_rate := 1.0 / pow(3.0, consecutive)
 			if randf() < success_rate:
-				attacker.set_meta("protect", true)
-				attacker.set_meta("spiky_shield", true)
-				attacker.set_meta("protect_consecutive", consecutive + 1)
+				attacker.set_bmeta("protect", true)
+				attacker.set_bmeta("spiky_shield", true)
+				attacker.set_bmeta("protect_consecutive", consecutive + 1)
 				msgs.append("%s se protege avec le Bouclier Piquant !" % attacker.get_name())
 			else:
-				attacker.set_meta("protect_consecutive", 0)
+				attacker.set_bmeta("protect_consecutive", 0)
 				msgs.append("Mais cela echoue !")
 
 		# =============================================================
 		#  TRAPPING / BINDING
 		# =============================================================
 		"trap":
-			if not defender.has_meta("trapped"):
-				defender.set_meta("trapped", randi_range(4, 5))
-				defender.set_meta("trap_source", attacker)
+			if not defender.has_bmeta("trapped"):
+				defender.set_bmeta("trapped", randi_range(4, 5))
+				defender.set_bmeta("trap_source", attacker)
 				msgs.append("%s est pris au piege !" % defender.get_name())
 
 		# =============================================================
@@ -627,21 +633,21 @@ static func apply_move_effect(
 		"leech_seed":
 			if "Grass" in defender.get_types():
 				msgs.append("Ca n'affecte pas %s..." % defender.get_name())
-			elif defender.has_meta("leech_seed"):
+			elif defender.has_bmeta("leech_seed"):
 				msgs.append("%s est deja parasite !" % defender.get_name())
 			else:
-				defender.set_meta("leech_seed", true)
-				defender.set_meta("leech_seed_source", attacker)
+				defender.set_bmeta("leech_seed", true)
+				defender.set_bmeta("leech_seed_source", attacker)
 				msgs.append("%s est parasite !" % defender.get_name())
 
 		# =============================================================
 		#  FOCUS ENERGY
 		# =============================================================
 		"focus_energy":
-			if attacker.has_meta("focus_energy"):
+			if attacker.has_bmeta("focus_energy"):
 				msgs.append("Mais cela echoue !")
 			else:
-				attacker.set_meta("focus_energy", true)
+				attacker.set_bmeta("focus_energy", true)
 				msgs.append("%s se concentre !" % attacker.get_name())
 
 		# =============================================================
@@ -666,50 +672,50 @@ static func apply_move_effect(
 		#  VOLATILE STATUS
 		# =============================================================
 		"disable":
-			if defender.has_meta("disabled_move"):
+			if defender.has_bmeta("disabled_move"):
 				msgs.append("Mais cela echoue !")
 			else:
-				defender.set_meta("disabled_move", "")
-				defender.set_meta("disable_turns", randi_range(4, 7))
+				defender.set_bmeta("disabled_move", "")
+				defender.set_bmeta("disable_turns", randi_range(4, 7))
 				msgs.append("La capacite de %s est desactivee !" % defender.get_name())
 
 		"encore":
-			if defender.has_meta("encored"):
+			if defender.has_bmeta("encored"):
 				msgs.append("Mais cela echoue !")
 			else:
-				defender.set_meta("encored", true)
-				defender.set_meta("encore_turns", randi_range(3, 6))
+				defender.set_bmeta("encored", true)
+				defender.set_bmeta("encore_turns", randi_range(3, 6))
 				msgs.append("%s est oblige de repeter sa capacite !" % defender.get_name())
 
 		"taunt":
-			if defender.has_meta("taunted"):
+			if defender.has_bmeta("taunted"):
 				msgs.append("Mais cela echoue !")
 			else:
-				defender.set_meta("taunted", true)
-				defender.set_meta("taunt_turns", 3)
+				defender.set_bmeta("taunted", true)
+				defender.set_bmeta("taunt_turns", 3)
 				msgs.append("%s ne peut plus utiliser de capacites de statut !" % defender.get_name())
 
 		"torment":
-			if defender.has_meta("tormented"):
+			if defender.has_bmeta("tormented"):
 				msgs.append("Mais cela echoue !")
 			else:
-				defender.set_meta("tormented", true)
+				defender.set_bmeta("tormented", true)
 				msgs.append("%s ne peut plus utiliser la meme capacite 2 fois !" % defender.get_name())
 
 		"heal_block":
-			if defender.has_meta("heal_blocked"):
+			if defender.has_bmeta("heal_blocked"):
 				msgs.append("Mais cela echoue !")
 			else:
-				defender.set_meta("heal_blocked", true)
-				defender.set_meta("heal_block_turns", 5)
+				defender.set_bmeta("heal_blocked", true)
+				defender.set_bmeta("heal_block_turns", 5)
 				msgs.append("%s ne peut plus se soigner !" % defender.get_name())
 
 		"embargo":
-			if defender.has_meta("embargo"):
+			if defender.has_bmeta("embargo"):
 				msgs.append("Mais cela echoue !")
 			else:
-				defender.set_meta("embargo", true)
-				defender.set_meta("embargo_turns", 5)
+				defender.set_bmeta("embargo", true)
+				defender.set_bmeta("embargo_turns", 5)
 				msgs.append("%s ne peut plus utiliser d'objets !" % defender.get_name())
 
 		# =============================================================
@@ -718,12 +724,12 @@ static func apply_move_effect(
 		"substitute":
 			if attacker.current_hp <= int(attacker.max_hp / 4.0):
 				msgs.append("Mais cela echoue ! (PV insuffisants)")
-			elif attacker.has_meta("substitute_hp"):
+			elif attacker.has_bmeta("substitute_hp"):
 				msgs.append("Mais cela echoue ! (Clone deja actif)")
 			else:
 				var sub_hp := int(attacker.max_hp / 4.0)
 				attacker.take_damage(sub_hp)
-				attacker.set_meta("substitute_hp", sub_hp)
+				attacker.set_bmeta("substitute_hp", sub_hp)
 				msgs.append("%s cree un clone !" % attacker.get_name())
 
 		# =============================================================
@@ -756,9 +762,9 @@ static func apply_move_effect(
 				msgs.append("%s donne %s a %s !" % [attacker.get_name(), item_name, defender.get_name()])
 
 		"recycle":
-			if attacker.has_meta("consumed_item"):
-				attacker.held_item = attacker.get_meta("consumed_item")
-				attacker.remove_meta("consumed_item")
+			if attacker.has_bmeta("consumed_item"):
+				attacker.held_item = attacker.get_bmeta("consumed_item")
+				attacker.remove_bmeta("consumed_item")
 				var item_name := HeldItemEffects.get_item_name(attacker.held_item)
 				msgs.append("%s recupere son %s !" % [attacker.get_name(), item_name])
 			else:
@@ -783,8 +789,8 @@ static func apply_move_effect(
 		#  WISH / PAIN SPLIT / PERISH SONG
 		# =============================================================
 		"wish":
-			attacker.set_meta("wish_turns", 1)
-			attacker.set_meta("wish_hp", int(attacker.max_hp / 2.0))
+			attacker.set_bmeta("wish_turns", 1)
+			attacker.set_bmeta("wish_hp", int(attacker.max_hp / 2.0))
 			msgs.append("%s fait un voeu !" % attacker.get_name())
 
 		"pain_split":
@@ -794,18 +800,18 @@ static func apply_move_effect(
 			msgs.append("Les PV de %s et %s sont partages !" % [attacker.get_name(), defender.get_name()])
 
 		"perish_song":
-			if not attacker.has_meta("perish_count"):
-				attacker.set_meta("perish_count", 3)
-			if not defender.has_meta("perish_count"):
-				defender.set_meta("perish_count", 3)
+			if not attacker.has_bmeta("perish_count"):
+				attacker.set_bmeta("perish_count", 3)
+			if not defender.has_bmeta("perish_count"):
+				defender.set_bmeta("perish_count", 3)
 			msgs.append("Tous les Pokemon entendent le requiem !")
 
 		"destiny_bond":
-			attacker.set_meta("destiny_bond", true)
+			attacker.set_bmeta("destiny_bond", true)
 			msgs.append("%s lie son destin !" % attacker.get_name())
 
 		"grudge":
-			attacker.set_meta("grudge", true)
+			attacker.set_bmeta("grudge", true)
 			msgs.append("%s lance une rancune !" % attacker.get_name())
 
 		# =============================================================
@@ -822,60 +828,60 @@ static func apply_move_effect(
 			msgs.append("%s copie %s !" % [attacker.get_name(), AbilityEffects.get_ability_name(defender.ability)])
 
 		"gastro_acid":
-			defender.set_meta("ability_suppressed", true)
+			defender.set_bmeta("ability_suppressed", true)
 			msgs.append("Le talent de %s est supprime !" % defender.get_name())
 
 		"soak":
-			defender.set_meta("override_types", ["Water"])
+			defender.set_bmeta("override_types", ["Water"])
 			msgs.append("%s devient de type Eau !" % defender.get_name())
 
 		"forest_curse":
 			var types := defender.get_types()
 			if "Grass" not in types:
 				types.append("Grass")
-				defender.set_meta("override_types", types)
+				defender.set_bmeta("override_types", types)
 				msgs.append("%s gagne le type Plante !" % defender.get_name())
 
 		"trick_or_treat":
 			var types := defender.get_types()
 			if "Ghost" not in types:
 				types.append("Ghost")
-				defender.set_meta("override_types", types)
+				defender.set_bmeta("override_types", types)
 				msgs.append("%s gagne le type Spectre !" % defender.get_name())
 
 		# =============================================================
 		#  MISCELLANEOUS
 		# =============================================================
 		"attract":
-			if defender.has_meta("attracted"):
+			if defender.has_bmeta("attracted"):
 				msgs.append("Mais cela echoue !")
 			else:
-				defender.set_meta("attracted", true)
+				defender.set_bmeta("attracted", true)
 				msgs.append("%s est seduit !" % defender.get_name())
 
 		"yawn":
-			if defender.status != "" or defender.has_meta("yawn"):
+			if defender.status != "" or defender.has_bmeta("yawn"):
 				msgs.append("Mais cela echoue !")
 			else:
-				defender.set_meta("yawn", 1)
+				defender.set_bmeta("yawn", 1)
 				msgs.append("%s baille... %s a sommeil !" % [attacker.get_name(), defender.get_name()])
 
 		"transform":
 			msgs.append("%s se transforme en %s !" % [attacker.get_name(), defender.get_name()])
 			# Copy stats, types, moves (simplified)
-			attacker.set_meta("transformed", true)
-			attacker.set_meta("override_types", defender.get_types())
+			attacker.set_bmeta("transformed", true)
+			attacker.set_bmeta("override_types", defender.get_types())
 
 		"mimic":
-			if defender.has_meta("last_move_used"):
-				var mimicked: String = defender.get_meta("last_move_used")
+			if defender.has_bmeta("last_move_used"):
+				var mimicked: String = defender.get_bmeta("last_move_used")
 				msgs.append("%s copie %s !" % [attacker.get_name(), mimicked])
 
 		"spite":
-			if defender.has_meta("last_move_used"):
+			if defender.has_bmeta("last_move_used"):
 				# Reduce PP of last used move by 4
 				for mv in defender.moves:
-					if mv.move_id == defender.get_meta("last_move_used"):
+					if mv.move_id == defender.get_bmeta("last_move_used"):
 						mv.current_pp = maxi(0, mv.current_pp - 4)
 						msgs.append("%s perd 4 PP !" % mv.get_name())
 						break
@@ -883,8 +889,8 @@ static func apply_move_effect(
 		"conversion":
 			# Change type to first move's type
 			if attacker.moves.size() > 0:
-				var new_type := attacker.moves[0].get_type()
-				attacker.set_meta("override_types", [new_type])
+				var new_type: String = attacker.moves[0].get_type()
+				attacker.set_bmeta("override_types", [new_type])
 				msgs.append("%s change de type en %s !" % [attacker.get_name(), new_type])
 
 		"conversion_2":
@@ -892,29 +898,29 @@ static func apply_move_effect(
 			pass
 
 		"stockpile":
-			var count: int = attacker.get_meta("stockpile", 0)
+			var count: int = attacker.get_bmeta("stockpile", 0)
 			if count >= 3:
 				msgs.append("Mais cela echoue !")
 			else:
-				attacker.set_meta("stockpile", count + 1)
+				attacker.set_bmeta("stockpile", count + 1)
 				msgs.append(_change_stat(attacker, "def", 1))
 				msgs.append(_change_stat(attacker, "sp_def", 1))
 
 		"spit_up":
-			var count: int = attacker.get_meta("stockpile", 0)
+			var count: int = attacker.get_bmeta("stockpile", 0)
 			if count == 0:
 				msgs.append("Mais cela echoue !")
 			else:
-				attacker.set_meta("stockpile", 0)
+				attacker.set_bmeta("stockpile", 0)
 
 		"swallow":
-			var count: int = attacker.get_meta("stockpile", 0)
+			var count: int = attacker.get_bmeta("stockpile", 0)
 			if count == 0:
 				msgs.append("Mais cela echoue !")
 			else:
 				var ratios := [0.0, 0.25, 0.5, 1.0]
 				attacker.heal(int(attacker.max_hp * ratios[count]))
-				attacker.set_meta("stockpile", 0)
+				attacker.set_bmeta("stockpile", 0)
 				msgs.append("%s recupere des PV !" % attacker.get_name())
 
 		"power_trick":
@@ -938,23 +944,23 @@ static func apply_move_effect(
 			msgs.append("Les stats defensives sont partagees !")
 
 		"lucky_chant":
-			attacker.set_meta("lucky_chant", 5)
+			attacker.set_bmeta("lucky_chant", 5)
 			msgs.append("Porte-Bonheur protege l'equipe des coups critiques !")
 
 		"aqua_ring":
-			attacker.set_meta("aqua_ring", true)
+			attacker.set_bmeta("aqua_ring", true)
 			msgs.append("%s s'entoure d'un voile d'eau !" % attacker.get_name())
 
 		"ingrain":
-			attacker.set_meta("ingrain", true)
+			attacker.set_bmeta("ingrain", true)
 			msgs.append("%s plante ses racines !" % attacker.get_name())
 
 		"magic_coat":
-			attacker.set_meta("magic_coat", true)
+			attacker.set_bmeta("magic_coat", true)
 			msgs.append("%s dresse un Miroir Magik !" % attacker.get_name())
 
 		"imprison":
-			attacker.set_meta("imprison", true)
+			attacker.set_bmeta("imprison", true)
 			msgs.append("%s utilise Possessif !" % attacker.get_name())
 
 		"heal_bell":
@@ -994,22 +1000,22 @@ static func apply_move_effect(
 
 static func check_can_move(pkmn: PokemonInstance) -> Dictionary:
 	# Flinch
-	if pkmn.has_meta("flinch") and pkmn.get_meta("flinch"):
-		pkmn.set_meta("flinch", false)
+	if pkmn.has_bmeta("flinch") and pkmn.get_bmeta("flinch"):
+		pkmn.set_bmeta("flinch", false)
 		return { "can_move": false, "message": "%s a tressailli !\nIl ne peut pas attaquer !" % pkmn.get_name() }
 
 	# Attract
-	if pkmn.has_meta("attracted"):
+	if pkmn.has_bmeta("attracted"):
 		if randf() < 0.5:
 			return { "can_move": false, "message": "%s est amoureux !\nIl ne peut pas attaquer !" % pkmn.get_name() }
 
 	# Confusion
-	if pkmn.has_meta("confused"):
-		var turns_left: int = pkmn.get_meta("confused")
+	if pkmn.has_bmeta("confused"):
+		var turns_left: int = pkmn.get_bmeta("confused")
 		if turns_left <= 0:
-			pkmn.remove_meta("confused")
+			pkmn.remove_bmeta("confused")
 		else:
-			pkmn.set_meta("confused", turns_left - 1)
+			pkmn.set_bmeta("confused", turns_left - 1)
 			if randf() < 0.33:
 				var self_dmg := maxi(1, int(pkmn.max_hp / 8.0))
 				pkmn.take_damage(self_dmg)
@@ -1062,74 +1068,74 @@ static func apply_end_of_turn(pkmn: PokemonInstance, field: BattleField = null) 
 		return msgs
 
 	# -- Leech Seed --
-	if pkmn.has_meta("leech_seed") and pkmn.get_meta("leech_seed"):
+	if pkmn.has_bmeta("leech_seed") and pkmn.get_bmeta("leech_seed"):
 		var seed_dmg := maxi(1, int(pkmn.max_hp / 8.0))
 		var actual := pkmn.take_damage(seed_dmg)
-		var seeder = pkmn.get_meta("leech_seed_source") if pkmn.has_meta("leech_seed_source") else null
+		var seeder = pkmn.get_bmeta("leech_seed_source") if pkmn.has_bmeta("leech_seed_source") else null
 		if seeder is PokemonInstance and not seeder.is_fainted():
 			seeder.heal(actual)
 		msgs.append("%s est draine par Vampigraine !" % pkmn.get_name())
 
 	# -- Trap damage (Wrap, Bind, etc.) --
-	if pkmn.has_meta("trapped"):
-		var turns: int = pkmn.get_meta("trapped")
+	if pkmn.has_bmeta("trapped"):
+		var turns: int = pkmn.get_bmeta("trapped")
 		if turns > 0:
 			var trap_dmg := maxi(1, int(pkmn.max_hp / 16.0))
 			pkmn.take_damage(trap_dmg)
-			pkmn.set_meta("trapped", turns - 1)
+			pkmn.set_bmeta("trapped", turns - 1)
 			msgs.append("%s est pris au piege et perd des PV !" % pkmn.get_name())
 		else:
-			pkmn.remove_meta("trapped")
+			pkmn.remove_bmeta("trapped")
 			msgs.append("%s se libere du piege !" % pkmn.get_name())
 
 	# -- Curse damage (Ghost) --
-	if pkmn.has_meta("cursed"):
+	if pkmn.has_bmeta("cursed"):
 		var curse_dmg := maxi(1, int(pkmn.max_hp / 4.0))
 		pkmn.take_damage(curse_dmg)
 		msgs.append("%s est affecte par la malediction !" % pkmn.get_name())
 
 	# -- Perish Song --
-	if pkmn.has_meta("perish_count"):
-		var count: int = pkmn.get_meta("perish_count")
+	if pkmn.has_bmeta("perish_count"):
+		var count: int = pkmn.get_bmeta("perish_count")
 		msgs.append("%s : compte a rebours : %d !" % [pkmn.get_name(), count])
 		if count <= 0:
 			pkmn.take_damage(pkmn.current_hp)
 			msgs.append("%s tombe a cause du requiem !" % pkmn.get_name())
 		else:
-			pkmn.set_meta("perish_count", count - 1)
+			pkmn.set_bmeta("perish_count", count - 1)
 
 	# -- Wish fulfillment --
-	if pkmn.has_meta("wish_turns"):
-		var wt: int = pkmn.get_meta("wish_turns")
+	if pkmn.has_bmeta("wish_turns"):
+		var wt: int = pkmn.get_bmeta("wish_turns")
 		if wt <= 0:
-			var wish_hp: int = pkmn.get_meta("wish_hp", 0)
+			var wish_hp: int = pkmn.get_bmeta("wish_hp", 0)
 			pkmn.heal(wish_hp)
-			pkmn.remove_meta("wish_turns")
-			pkmn.remove_meta("wish_hp")
+			pkmn.remove_bmeta("wish_turns")
+			pkmn.remove_bmeta("wish_hp")
 			msgs.append("Le voeu de %s se realise !" % pkmn.get_name())
 		else:
-			pkmn.set_meta("wish_turns", wt - 1)
+			pkmn.set_bmeta("wish_turns", wt - 1)
 
 	# -- Yawn (sleeps next turn) --
-	if pkmn.has_meta("yawn"):
-		var yt: int = pkmn.get_meta("yawn")
+	if pkmn.has_bmeta("yawn"):
+		var yt: int = pkmn.get_bmeta("yawn")
 		if yt <= 0:
-			pkmn.remove_meta("yawn")
+			pkmn.remove_bmeta("yawn")
 			if pkmn.status == "":
 				pkmn.status = "sleep"
 				pkmn.status_turns = randi_range(1, 3)
 				msgs.append("%s s'endort a cause du baillement !" % pkmn.get_name())
 		else:
-			pkmn.set_meta("yawn", yt - 1)
+			pkmn.set_bmeta("yawn", yt - 1)
 
 	# -- Aqua Ring --
-	if pkmn.has_meta("aqua_ring"):
+	if pkmn.has_bmeta("aqua_ring"):
 		var heal := maxi(1, int(pkmn.max_hp / 16.0))
 		pkmn.heal(heal)
 		msgs.append("%s recupere des PV grace au voile d'eau !" % pkmn.get_name())
 
 	# -- Ingrain --
-	if pkmn.has_meta("ingrain"):
+	if pkmn.has_bmeta("ingrain"):
 		var heal := maxi(1, int(pkmn.max_hp / 16.0))
 		pkmn.heal(heal)
 		msgs.append("%s recupere des PV grace a ses racines !" % pkmn.get_name())
@@ -1169,26 +1175,26 @@ static func apply_end_of_turn(pkmn: PokemonInstance, field: BattleField = null) 
 	_tick_volatile(pkmn, "heal_blocked", "heal_block_turns")
 	_tick_volatile(pkmn, "embargo", "embargo_turns")
 
-	if pkmn.has_meta("disabled_move"):
-		var dt: int = pkmn.get_meta("disable_turns", 0)
+	if pkmn.has_bmeta("disabled_move"):
+		var dt: int = pkmn.get_bmeta("disable_turns", 0)
 		if dt <= 1:
-			pkmn.remove_meta("disabled_move")
-			pkmn.remove_meta("disable_turns")
+			pkmn.remove_bmeta("disabled_move")
+			pkmn.remove_bmeta("disable_turns")
 		else:
-			pkmn.set_meta("disable_turns", dt - 1)
+			pkmn.set_bmeta("disable_turns", dt - 1)
 
 	return msgs.filter(func(m: String) -> bool: return m != "")
 
 # -- Volatile status countdown helper ------------------------------------
 
 static func _tick_volatile(pkmn: PokemonInstance, flag_key: String, turns_key: String) -> void:
-	if pkmn.has_meta(flag_key):
-		var t: int = pkmn.get_meta(turns_key, 0)
+	if pkmn.has_bmeta(flag_key):
+		var t: int = pkmn.get_bmeta(turns_key, 0)
 		if t <= 1:
-			pkmn.remove_meta(flag_key)
-			pkmn.remove_meta(turns_key)
+			pkmn.remove_bmeta(flag_key)
+			pkmn.remove_bmeta(turns_key)
 		else:
-			pkmn.set_meta(turns_key, t - 1)
+			pkmn.set_bmeta(turns_key, t - 1)
 
 # -- Status damage -------------------------------------------------------
 
@@ -1221,7 +1227,7 @@ static func _try_status(target: PokemonInstance, status: String, attacker: Pokem
 		return msgs
 
 	# Substitute blocks status
-	if target.has_meta("substitute_hp"):
+	if target.has_bmeta("substitute_hp"):
 		return msgs
 
 	# Ability prevention

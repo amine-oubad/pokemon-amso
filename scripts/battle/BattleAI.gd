@@ -3,6 +3,10 @@ extends Node
 ## IA ennemie avec niveaux de difficulte.
 ## Enfant de BattleScene, accede au contexte via scene.
 
+const HeldItemEffects = preload("res://scripts/battle/HeldItemEffects.gd")
+const BattleField = preload("res://scripts/battle/BattleField.gd")
+const MoveInstance = preload("res://scripts/data/MoveInstance.gd")
+const PokemonInstance = preload("res://scripts/data/PokemonInstance.gd")
 enum Difficulty { EASY, NORMAL, HARD, ELITE }
 
 var scene  # Reference to BattleScene (set externally)
@@ -227,18 +231,18 @@ func _get_usable_moves(pkmn: PokemonInstance) -> Array:
 	var usable: Array = pkmn.moves.filter(func(m: MoveInstance) -> bool: return m.is_usable())
 
 	# Filter out taunted status moves
-	if pkmn.has_meta("taunted"):
+	if pkmn.has_bmeta("taunted"):
 		usable = usable.filter(func(m: MoveInstance) -> bool: return m.get_category() != "status")
 
 	# Filter out disabled moves
-	if pkmn.has_meta("disabled_move"):
-		var disabled_id: String = pkmn.get_meta("disabled_move", "")
+	if pkmn.has_bmeta("disabled_move"):
+		var disabled_id: String = pkmn.get_bmeta("disabled_move", "")
 		if disabled_id != "":
 			usable = usable.filter(func(m: MoveInstance) -> bool: return m.move_id != disabled_id)
 
 	# Choice lock — if a move has been chosen, only allow that move
-	if HeldItemEffects.is_choice_locked(pkmn) and pkmn.has_meta("choice_locked_move"):
-		var locked_id: String = pkmn.get_meta("choice_locked_move", "")
+	if HeldItemEffects.is_choice_locked(pkmn) and pkmn.has_bmeta("choice_locked_move"):
+		var locked_id: String = pkmn.get_bmeta("choice_locked_move", "")
 		var locked := usable.filter(func(m: MoveInstance) -> bool: return m.move_id == locked_id)
 		if not locked.is_empty():
 			return locked

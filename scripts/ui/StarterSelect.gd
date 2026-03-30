@@ -2,6 +2,7 @@ extends CanvasLayer
 ## Ecran de selection du Pokemon de depart — style moderne.
 ## S'affiche automatiquement si l'equipe du joueur est vide.
 
+const PokemonInstance = preload("res://scripts/data/PokemonInstance.gd")
 signal starter_chosen
 
 const FONT_SIZE := 8

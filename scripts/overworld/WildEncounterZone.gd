@@ -1,5 +1,6 @@
 class_name WildEncounterZone
 extends Area2D
+const Player = preload("res://scripts/overworld/Player.gd")
 ## Zone d'herbes hautes — déclenche des rencontres sauvages au fil des pas.
 ##
 ## Placer ce nœud dans la scène de map avec :

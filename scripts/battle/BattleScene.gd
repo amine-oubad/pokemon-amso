@@ -2,6 +2,11 @@ extends Node2D
 ## Scene de combat — coordinateur principal.
 ## Delegue aux composants : BattleUI, BattleTurnManager, BattleAI, BattleRewards.
 
+const AbilityEffects = preload("res://scripts/battle/AbilityEffects.gd")
+const BattleField = preload("res://scripts/battle/BattleField.gd")
+const BattleCalc = preload("res://scripts/battle/BattleCalc.gd")
+const MoveInstance = preload("res://scripts/data/MoveInstance.gd")
+const PokemonInstance = preload("res://scripts/data/PokemonInstance.gd")
 # -- State machine --------------------------------------------------------
 enum State {
 	INTRO,

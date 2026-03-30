@@ -2,6 +2,7 @@ class_name HeldItemEffects
 ## Effets des objets tenus en combat.
 ## Fonctions statiques appelees a differents moments.
 
+const MoveEffects = preload("res://scripts/battle/MoveEffects.gd")
 # -- Donnees des objets tenus --------------------------------------------
 
 const HELD_ITEM_DATA := {
@@ -146,7 +147,7 @@ static func get_damage_multiplier(attacker, move_type: String, move_category: St
 
 	# Punching Glove (+10% punch moves)
 	if item == "punching_glove":
-		var move_id: String = attacker.get_meta("current_move_id", "")
+		var move_id: String = attacker.get_bmeta("current_move_id", "")
 		if MoveEffects.is_punch_move(move_id):
 			mult *= 1.1
 
@@ -366,7 +367,7 @@ static func check_berry(pkmn) -> Dictionary:
 # -- Consume item (remove from pokemon) -----------------------------------
 
 static func consume_item(pkmn) -> void:
-	pkmn.set_meta("consumed_item", pkmn.held_item)
+	pkmn.set_bmeta("consumed_item", pkmn.held_item)
 	pkmn.held_item = ""
 
 # -- After being hit (defender, any move) ----------------------------------
@@ -392,7 +393,7 @@ static func on_after_hit(defender, effectiveness: float) -> Array[String]:
 
 	# Absorb Bulb: +1 SpAtk when hit by Water
 	if item == "absorb_bulb":
-		var move_type: String = defender.get_meta("hit_by_type", "")
+		var move_type: String = defender.get_bmeta("hit_by_type", "")
 		if move_type == "Water":
 			defender.modify_stat_stage("sp_atk", 1)
 			msgs.append("%s active son Bulbe !" % defender.get_name())
@@ -400,7 +401,7 @@ static func on_after_hit(defender, effectiveness: float) -> Array[String]:
 
 	# Cell Battery: +1 Atk when hit by Electric
 	if item == "cell_battery":
-		var move_type: String = defender.get_meta("hit_by_type", "")
+		var move_type: String = defender.get_bmeta("hit_by_type", "")
 		if move_type == "Electric":
 			defender.modify_stat_stage("atk", 1)
 			msgs.append("%s active sa Pile !" % defender.get_name())

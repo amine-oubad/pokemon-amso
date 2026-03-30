@@ -2,6 +2,7 @@ extends Node
 ## Sauvegarde et chargement de partie — 3 slots, format JSON.
 ## Usage : SaveManager.save(0)  |  SaveManager.load_slot(0)  |  SaveManager.has_save(0)
 
+const PokemonInstance = preload("res://scripts/data/PokemonInstance.gd")
 const SAVE_DIR  := "user://saves/"
 const SAVE_EXT  := ".json"
 const NUM_SLOTS := 3

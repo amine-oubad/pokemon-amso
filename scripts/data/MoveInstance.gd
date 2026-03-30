@@ -14,7 +14,7 @@ var _data: Dictionary = {}
 static func create(p_move_id: String) -> MoveInstance:
 	var inst := MoveInstance.new()
 	inst.move_id = p_move_id
-	inst._data = GameData.moves_data.get(p_move_id, {})
+	inst._data = GameData.moves_data.get(p_move_id, {}) as Dictionary
 	if inst._data.is_empty():
 		push_error("[MoveInstance] Move introuvable : " + p_move_id)
 	var base_pp: int = inst._data.get("pp", 10)

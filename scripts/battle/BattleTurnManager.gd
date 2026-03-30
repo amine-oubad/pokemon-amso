@@ -3,6 +3,12 @@ extends Node
 ## Execution des tours de combat : ordre, attaques, fuite, struggle.
 ## Gen 1-9 compatible. Enfant de BattleScene.
 
+const AbilityEffects = preload("res://scripts/battle/AbilityEffects.gd")
+const HeldItemEffects = preload("res://scripts/battle/HeldItemEffects.gd")
+const MoveEffects = preload("res://scripts/battle/MoveEffects.gd")
+const BattleCalc = preload("res://scripts/battle/BattleCalc.gd")
+const MoveInstance = preload("res://scripts/data/MoveInstance.gd")
+const PokemonInstance = preload("res://scripts/data/PokemonInstance.gd")
 var scene  # Reference to BattleScene
 
 var _enemy_queued_move: MoveInstance = null
@@ -94,8 +100,8 @@ func _execute_attack(attacker: PokemonInstance, defender: PokemonInstance, move:
 	var pivot_switch := false
 
 	# Set current move metadata for ability hooks
-	attacker.set_meta("current_move_id", move.move_id)
-	attacker.set_meta("current_move_type", move.get_type())
+	attacker.set_bmeta("current_move_id", move.move_id)
+	attacker.set_bmeta("current_move_type", move.get_type())
 
 	# Status check
 	var sc := MoveEffects.check_can_move(attacker)
@@ -107,11 +113,11 @@ func _execute_attack(attacker: PokemonInstance, defender: PokemonInstance, move:
 		return false
 
 	# Two-turn: charge phase
-	if move.get_effect() == "two_turn" and not attacker.has_meta("charging"):
+	if move.get_effect() == "two_turn" and not attacker.has_bmeta("charging"):
 		move.use()
 		if AbilityEffects.check_pressure(defender):
 			move.use()
-		attacker.set_meta("charging", true)
+		attacker.set_bmeta("charging", true)
 		if is_player:
 			_charging_move = move
 		else:
@@ -120,21 +126,21 @@ func _execute_attack(attacker: PokemonInstance, defender: PokemonInstance, move:
 		await scene.get_tree().create_timer(1.5).timeout
 		return false
 
-	if attacker.has_meta("charging"):
-		attacker.remove_meta("charging")
+	if attacker.has_bmeta("charging"):
+		attacker.remove_bmeta("charging")
 
 	move.use()
 	if AbilityEffects.check_pressure(defender):
 		move.use()
-	attacker.set_meta("last_move_used", move.move_id)
+	attacker.set_bmeta("last_move_used", move.move_id)
 
 	# Choice lock
 	if HeldItemEffects.is_choice_locked(attacker):
-		attacker.set_meta("choice_locked_move", move.move_id)
+		attacker.set_bmeta("choice_locked_move", move.move_id)
 
 	# Gorilla Tactics lock (same as choice)
 	if attacker.ability == "gorilla_tactics":
-		attacker.set_meta("choice_locked_move", move.move_id)
+		attacker.set_bmeta("choice_locked_move", move.move_id)
 
 	# -ate ability type modification
 	var actual_type := AbilityEffects.get_modified_move_type(attacker, move.get_type(), move.move_id)
@@ -161,23 +167,23 @@ func _execute_attack(attacker: PokemonInstance, defender: PokemonInstance, move:
 		return false
 
 	# Check opponent Protect
-	if defender.has_meta("protect") and defender.get_meta("protect"):
+	if defender.has_bmeta("protect") and defender.get_bmeta("protect"):
 		scene.ui.msg("%s utilise %s !\n%s se protege !" % [attacker.get_name(), move.get_name(), defender.get_name()])
 		await scene.get_tree().create_timer(1.5).timeout
 
 		# Protect variant punishments (contact into King's Shield, Spiky Shield, Baneful Bunker)
 		if MoveEffects.is_contact_move(move.move_id):
-			if defender.has_meta("king_shield"):
+			if defender.has_bmeta("king_shield"):
 				attacker.modify_stat_stage("atk", -1)
 				scene.ui.msg("%s : l'Attaque baisse a cause du Bouclier Royal !" % attacker.get_name())
 				await scene.get_tree().create_timer(1.0).timeout
-			elif defender.has_meta("spiky_shield"):
+			elif defender.has_bmeta("spiky_shield"):
 				var dmg := maxi(1, int(attacker.max_hp / 8.0))
 				attacker.take_damage(dmg)
 				scene.ui.msg("%s est blesse par le Bouclier Piquant !" % attacker.get_name())
 				scene.ui.refresh()
 				await scene.get_tree().create_timer(1.0).timeout
-			elif defender.has_meta("baneful_bunker"):
+			elif defender.has_bmeta("baneful_bunker"):
 				if attacker.status == "":
 					attacker.status = "poison"
 					scene.ui.msg("%s est empoisonne par le Blockhaus !" % attacker.get_name())
@@ -345,7 +351,7 @@ func _execute_attack(attacker: PokemonInstance, defender: PokemonInstance, move:
 			await scene.get_tree().create_timer(1.0).timeout
 
 		# Destiny Bond
-		if defender.has_meta("destiny_bond"):
+		if defender.has_bmeta("destiny_bond"):
 			attacker.take_damage(attacker.current_hp)
 			scene.ui.msg("%s emporte %s avec lui !" % [defender.get_name(), attacker.get_name()])
 			scene.ui.refresh()
@@ -356,8 +362,8 @@ func _execute_attack(attacker: PokemonInstance, defender: PokemonInstance, move:
 		pivot_switch = true
 
 	# Clean up move metadata
-	attacker.remove_meta("current_move_id")
-	attacker.remove_meta("current_move_type")
+	attacker.remove_bmeta("current_move_id")
+	attacker.remove_bmeta("current_move_type")
 
 	return pivot_switch
 
@@ -584,18 +590,18 @@ func do_flee() -> void:
 
 func _reset_protect_flags() -> void:
 	for pkmn in [scene.player_pkmn, scene.enemy_pkmn]:
-		if pkmn.has_meta("flinch"): pkmn.remove_meta("flinch")
-		if pkmn.has_meta("protect"):
-			pkmn.remove_meta("protect")
+		if pkmn.has_bmeta("flinch"): pkmn.remove_bmeta("flinch")
+		if pkmn.has_bmeta("protect"):
+			pkmn.remove_bmeta("protect")
 		else:
-			if pkmn.has_meta("protect_consecutive"): pkmn.remove_meta("protect_consecutive")
+			if pkmn.has_bmeta("protect_consecutive"): pkmn.remove_bmeta("protect_consecutive")
 		# Clean protect variant flags
 		for flag in ["king_shield", "spiky_shield", "baneful_bunker"]:
-			if pkmn.has_meta(flag): pkmn.remove_meta(flag)
+			if pkmn.has_bmeta(flag): pkmn.remove_bmeta(flag)
 		# Reset Destiny Bond
-		if pkmn.has_meta("destiny_bond"): pkmn.remove_meta("destiny_bond")
+		if pkmn.has_bmeta("destiny_bond"): pkmn.remove_bmeta("destiny_bond")
 		# Reset Protean
-		if pkmn.has_meta("protean_used"): pkmn.remove_meta("protean_used")
+		if pkmn.has_bmeta("protean_used"): pkmn.remove_bmeta("protean_used")
 
 func _enemy_baton_pass() -> void:
 	if not scene._is_trainer_battle: return

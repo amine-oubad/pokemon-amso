@@ -3,6 +3,12 @@ extends Node
 ## Construction et mise a jour de l'interface de combat.
 ## Enfant de BattleScene.
 
+const AbilityEffects = preload("res://scripts/battle/AbilityEffects.gd")
+const HeldItemEffects = preload("res://scripts/battle/HeldItemEffects.gd")
+const MoveEffects = preload("res://scripts/battle/MoveEffects.gd")
+const BattleField = preload("res://scripts/battle/BattleField.gd")
+const MoveInstance = preload("res://scripts/data/MoveInstance.gd")
+const PokemonInstance = preload("res://scripts/data/PokemonInstance.gd")
 var scene  # Reference to BattleScene
 
 # -- Constantes UI (Modern Clean) -----------------------------------------
@@ -227,10 +233,10 @@ func refresh_move_buttons() -> void:
 			btn.text    = "%s  %s\n%d/%d PP" % [mv.get_name(), mv.get_type(), mv.current_pp, mv.max_pp]
 			btn.disabled = not mv.is_usable()
 			# Disable if taunted and status move
-			if player.has_meta("taunted") and mv.get_category() == "status":
+			if player.has_bmeta("taunted") and mv.get_category() == "status":
 				btn.disabled = true
 			# Disable if disabled
-			if player.has_meta("disabled_move") and mv.move_id == player.get_meta("disabled_move", ""):
+			if player.has_bmeta("disabled_move") and mv.move_id == player.get_bmeta("disabled_move", ""):
 				btn.disabled = true
 			btn.visible  = true
 		else:
