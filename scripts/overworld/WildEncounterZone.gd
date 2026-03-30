@@ -1,6 +1,5 @@
 class_name WildEncounterZone
 extends Area2D
-const Player = preload("res://scripts/overworld/Player.gd")
 ## Zone d'herbes hautes — déclenche des rencontres sauvages au fil des pas.
 ##
 ## Placer ce nœud dans la scène de map avec :
@@ -21,11 +20,11 @@ func _ready() -> void:
 	EventBus.player_stepped.connect(_on_player_stepped)
 
 func _on_body_entered(body: Node2D) -> void:
-	if body is Player:
+	if body.get_script() and body.get_script().get_global_name() == &"Player":
 		_player_inside = true
 
 func _on_body_exited(body: Node2D) -> void:
-	if body is Player:
+	if body.get_script() and body.get_script().get_global_name() == &"Player":
 		_player_inside = false
 
 func _on_player_stepped(_world_pos: Vector2) -> void:

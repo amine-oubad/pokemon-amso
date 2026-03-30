@@ -2,12 +2,6 @@ class_name MoveEffects
 ## Effets secondaires des moves et gestion des statuts.
 ## Couvre Gen 1 a Gen 9. Toutes les fonctions sont statiques.
 
-const AbilityEffects = preload("res://scripts/battle/AbilityEffects.gd")
-const HeldItemEffects = preload("res://scripts/battle/HeldItemEffects.gd")
-const BattleField = preload("res://scripts/battle/BattleField.gd")
-const BattleCalc = preload("res://scripts/battle/BattleCalc.gd")
-const MoveInstance = preload("res://scripts/data/MoveInstance.gd")
-const PokemonInstance = preload("res://scripts/data/PokemonInstance.gd")
 # -- Infos statut ---------------------------------------------------------
 const STATUS_ABBR := {
 	"burn":      "BRU", "paralyze":  "PAR", "sleep":     "SOM",
@@ -386,7 +380,7 @@ static func apply_move_effect(
 
 		# Strength Sap (heal = target's Atk, then lower target's Atk)
 		"strength_sap":
-			var target_atk := defender.get_effective_stat("atk")
+			var target_atk: int = defender.get_effective_stat("atk")
 			attacker.heal(target_atk)
 			msgs.append("%s absorbe la force de %s !" % [attacker.get_name(), defender.get_name()])
 			msgs.append(_change_stat(defender, "atk", -1))
@@ -836,14 +830,14 @@ static func apply_move_effect(
 			msgs.append("%s devient de type Eau !" % defender.get_name())
 
 		"forest_curse":
-			var types := defender.get_types()
+			var types: Array = defender.get_types()
 			if "Grass" not in types:
 				types.append("Grass")
 				defender.set_bmeta("override_types", types)
 				msgs.append("%s gagne le type Plante !" % defender.get_name())
 
 		"trick_or_treat":
-			var types := defender.get_types()
+			var types: Array = defender.get_types()
 			if "Ghost" not in types:
 				types.append("Ghost")
 				defender.set_bmeta("override_types", types)
@@ -1236,7 +1230,7 @@ static func _try_status(target: PokemonInstance, status: String, attacker: Pokem
 		return msgs
 
 	# Type immunities
-	var types := target.get_types()
+	var types: Array = target.get_types()
 	match status:
 		"burn":     if "Fire"     in types: return msgs
 		"paralyze": if "Electric" in types: return msgs
@@ -1274,7 +1268,7 @@ static func _try_status(target: PokemonInstance, status: String, attacker: Pokem
 	return msgs
 
 static func _change_stat(target: PokemonInstance, stat: String, delta: int) -> String:
-	var actual := target.modify_stat_stage(stat, delta)
+	var actual: int = target.modify_stat_stage(stat, delta)
 	const NAMES := { "atk":"Attaque", "def":"Defense", "sp_atk":"Atq. Spe",
 	                 "sp_def":"Def. Spe", "speed":"Vitesse", "accuracy":"Precision",
 	                 "evasion":"Esquive" }

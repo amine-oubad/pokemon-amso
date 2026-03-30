@@ -3,9 +3,6 @@ class_name AbilityEffects
 ## Fonctions statiques appelees a differents moments du combat.
 ## Les donnees detaillees sont chargees depuis data/abilities.json via GameData.
 
-const MoveEffects = preload("res://scripts/battle/MoveEffects.gd")
-const BattleField = preload("res://scripts/battle/BattleField.gd")
-const BattleCalc = preload("res://scripts/battle/BattleCalc.gd")
 # -- Fallback data (used if abilities.json not loaded yet) -----------------
 
 const ABILITY_NAMES := {
@@ -119,7 +116,7 @@ static func on_switch_in(pkmn, opponent, field: BattleField) -> Array[String]:
 		# --- Intimidate ---
 		"intimidate":
 			if not prevents_stat_drop(opponent, "atk"):
-				var actual := opponent.modify_stat_stage("atk", -1)
+				var actual: int = opponent.modify_stat_stage("atk", -1)
 				if actual != 0:
 					msgs.append("%s intimide %s !\nL'Attaque de %s baisse !" % [
 						pkmn.get_name(), opponent.get_name(), opponent.get_name()])
@@ -181,8 +178,8 @@ static func on_switch_in(pkmn, opponent, field: BattleField) -> Array[String]:
 
 		# --- Download ---
 		"download":
-			var def_val := opponent.get_effective_stat("def")
-			var spdef_val := opponent.get_effective_stat("sp_def")
+			var def_val: int = opponent.get_effective_stat("def")
+			var spdef_val: int = opponent.get_effective_stat("sp_def")
 			if def_val < spdef_val:
 				pkmn.modify_stat_stage("atk", 1)
 				msgs.append("%s : Telechargement booste son Attaque !" % pkmn.get_name())
@@ -331,7 +328,7 @@ static func on_before_hit(
 				result.message = "%s absorbe l'attaque Sol !" % defender.get_name()
 
 		"wonder_guard":
-			var eff := GameData.get_total_effectiveness(move_type, defender.get_types())
+			var eff: float = GameData.get_total_effectiveness(move_type, defender.get_types())
 			if eff <= 1.0:
 				result.blocked = true
 				result.message = "Garde Mystik protege %s !" % defender.get_name()
@@ -391,7 +388,7 @@ static func get_damage_multiplier(
 	# === ATTACKER ABILITIES ===
 
 	# Overgrow/Blaze/Torrent/Swarm — 1.5x when HP < 1/3
-	var low_hp := attacker.current_hp <= int(attacker.max_hp / 3.0)
+	var low_hp: bool = attacker.current_hp <= int(attacker.max_hp / 3.0)
 	match a_ab:
 		"overgrow":  if low_hp and move_type == "Grass": mult *= 1.5
 		"blaze":     if low_hp and move_type == "Fire":  mult *= 1.5
@@ -451,13 +448,13 @@ static func get_damage_multiplier(
 
 	# Tinted Lens — not very effective moves become 2x
 	if a_ab == "tinted_lens":
-		var eff := GameData.get_total_effectiveness(move_type, defender.get_types())
+		var eff: float = GameData.get_total_effectiveness(move_type, defender.get_types())
 		if eff < 1.0:
 			mult *= 2.0
 
 	# Neuroforce — super effective moves get 1.25x
 	if a_ab == "neuroforce":
-		var eff := GameData.get_total_effectiveness(move_type, defender.get_types())
+		var eff: float = GameData.get_total_effectiveness(move_type, defender.get_types())
 		if eff > 1.0:
 			mult *= 1.25
 
@@ -522,7 +519,7 @@ static func get_damage_multiplier(
 
 	# Filter / Solid Rock / Prism Armor — reduce super effective by 25%
 	if d_ab in ["filter", "solid_rock", "prism_armor"]:
-		var eff := GameData.get_total_effectiveness(move_type, defender.get_types())
+		var eff: float = GameData.get_total_effectiveness(move_type, defender.get_types())
 		if eff > 1.0:
 			mult *= 0.75
 
@@ -549,7 +546,7 @@ static func get_damage_multiplier(
 
 # -- After contact --------------------------------------------------------
 
-static func on_after_contact(attacker, defender) -> String:
+static func on_after_contact(attacker, defender, field: BattleField = null) -> String:
 	if attacker.is_fainted():
 		return ""
 	var d_ab: String = defender.ability
@@ -559,21 +556,21 @@ static func on_after_contact(attacker, defender) -> String:
 	match d_ab:
 		"static":
 			if randf() < 0.30 and attacker.status == "":
-				var types := attacker.get_types()
+				var types: Array = attacker.get_types()
 				if "Electric" not in types:
 					attacker.status = "paralyze"
 					return "Statik de %s paralyse %s !" % [defender.get_name(), attacker.get_name()]
 
 		"poison_point":
 			if randf() < 0.30 and attacker.status == "":
-				var types := attacker.get_types()
+				var types: Array = attacker.get_types()
 				if "Poison" not in types and "Steel" not in types:
 					attacker.status = "poison"
 					return "Point Poison de %s empoisonne %s !" % [defender.get_name(), attacker.get_name()]
 
 		"flame_body":
 			if randf() < 0.30 and attacker.status == "":
-				var types := attacker.get_types()
+				var types: Array = attacker.get_types()
 				if "Fire" not in types:
 					attacker.status = "burn"
 					return "Corps Ardent de %s brule %s !" % [defender.get_name(), attacker.get_name()]
@@ -585,7 +582,7 @@ static func on_after_contact(attacker, defender) -> String:
 
 		"effect_spore":
 			if randf() < 0.30 and attacker.status == "":
-				var types := attacker.get_types()
+				var types: Array = attacker.get_types()
 				if "Grass" not in types:
 					var roll := randf()
 					if roll < 0.33:
@@ -650,7 +647,7 @@ static func on_end_of_turn(pkmn, field: BattleField) -> Array[Dictionary]:
 
 	match ab:
 		"speed_boost":
-			var actual := pkmn.modify_stat_stage("speed", 1)
+			var actual: int = pkmn.modify_stat_stage("speed", 1)
 			if actual != 0:
 				effects.append({"message": "%s : Turbo booste sa Vitesse !" % pkmn.get_name()})
 
@@ -837,7 +834,7 @@ static func check_synchronize(pkmn, opponent, status: String) -> String:
 		return ""
 	if opponent.status != "":
 		return ""
-	var types := opponent.get_types()
+	var types: Array = opponent.get_types()
 	match status:
 		"burn":     if "Fire" in types: return ""
 		"paralyze": if "Electric" in types: return ""
@@ -852,7 +849,7 @@ static func check_color_change(defender, move_type: String) -> String:
 		return ""
 	if defender.is_fainted():
 		return ""
-	var current_types := defender.get_types()
+	var current_types: Array = defender.get_types()
 	if current_types.size() == 1 and current_types[0] == move_type:
 		return ""
 	defender.set_bmeta("override_types", [move_type])

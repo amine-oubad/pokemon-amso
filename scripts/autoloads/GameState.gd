@@ -2,7 +2,7 @@ extends Node
 ## Singleton — état dynamique de la partie.
 ## Persisté via SaveManager (Phase 2).
 
-const PokemonInstance = preload("res://scripts/data/PokemonInstance.gd")
+
 # ── Joueur ─────────────────────────────────────────────────────────────────────
 var player_name: String = "RED"
 var money: int = 3000
@@ -117,14 +117,14 @@ func register_caught(pokemon_id: String) -> void:
 
 # ── Équipe ─────────────────────────────────────────────────────────────────────
 
-func get_first_alive() -> PokemonInstance:
-	for pkmn: PokemonInstance in team:
+func get_first_alive() :
+	for pkmn in team:
 		if not pkmn.is_fainted():
 			return pkmn
 	return null
 
 func heal_team() -> void:
-	for pkmn: PokemonInstance in team:
+	for pkmn in team:
 		pkmn.full_heal()
 
 # ── Repousse ─────────────────────────────────────────────────────────────────

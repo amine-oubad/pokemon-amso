@@ -2,11 +2,8 @@ extends CanvasLayer
 ## Fiche resume d'un Pokemon — style moderne avec artwork.
 ## Layer 36. Ouvert depuis PauseMenu ou PCBoxScreen.
 
-const MoveEffects = preload("res://scripts/battle/MoveEffects.gd")
-const MoveInstance = preload("res://scripts/data/MoveInstance.gd")
-const PokemonInstance = preload("res://scripts/data/PokemonInstance.gd")
 var _visible_flag := false
-var _pkmn: PokemonInstance = null
+var _pkmn = null
 var _bg: ColorRect
 
 const C_BG     := Color(0.06, 0.06, 0.14)
@@ -22,7 +19,7 @@ func _ready() -> void:
 	_build_base()
 	_hide()
 
-func show_summary(pkmn: PokemonInstance) -> void:
+func show_summary(pkmn) -> void:
 	_pkmn = pkmn
 	_visible_flag = true
 	_refresh()
@@ -95,9 +92,9 @@ func _refresh() -> void:
 
 	# Status
 	if _pkmn.status != "":
-		var scol: Color = MoveEffects.STATUS_COLOR.get(_pkmn.status, Color.GRAY)
+		var scol: Color = (load("res://scripts/battle/MoveEffects.gd") as GDScript).STATUS_COLOR.get(_pkmn.status, Color.GRAY)
 		_rect(Vector2(72, 130), Vector2(30, 11), scol.darkened(0.3))
-		var sabbr: String = MoveEffects.STATUS_ABBR.get(_pkmn.status, "???")
+		var sabbr: String = (load("res://scripts/battle/MoveEffects.gd") as GDScript).STATUS_ABBR.get(_pkmn.status, "???")
 		_lbl(Vector2(74, 129), sabbr, 5, Color.WHITE)
 
 	# Right panel — Stats
@@ -145,7 +142,7 @@ func _refresh() -> void:
 
 	_lbl(Vector2(120, 132), "CAPACITES", 7, C_GOLD)
 	y = 144
-	for mv: MoveInstance in _pkmn.moves:
+	for mv in _pkmn.moves:
 		var mdata: Dictionary = GameData.moves_data.get(mv.move_id, {})
 		var mname: String = mdata.get("name", mv.move_id)
 		var mtype: String = mdata.get("type", "Normal")

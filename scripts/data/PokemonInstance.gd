@@ -3,9 +3,7 @@ extends RefCounted
 ## Instance d'un Pokemon en equipe ou en combat.
 ## Creer via PokemonInstance.create("025", 5) ou PokemonInstance.from_encounter(data).
 
-const AbilityEffects = preload("res://scripts/battle/AbilityEffects.gd")
-const HeldItemEffects = preload("res://scripts/battle/HeldItemEffects.gd")
-const MoveInstance = preload("res://scripts/data/MoveInstance.gd")
+
 # -- Identite -------------------------------------------------------------
 var pokemon_id: String = ""
 var nickname: String   = ""
@@ -126,8 +124,8 @@ func get_nature_multiplier(stat: String) -> float:
 #  CONSTRUCTEURS
 # =========================================================================
 
-static func create(p_id: String, p_level: int) -> PokemonInstance:
-	var inst := PokemonInstance.new()
+static func create(p_id: String, p_level: int) :
+	var inst = (load("res://scripts/data/PokemonInstance.gd") as GDScript).new()
 	inst.pokemon_id = p_id
 	inst.level      = clampi(p_level, 1, 100)
 	inst._base_data = GameData.pokemon_data.get(p_id, {})
@@ -148,8 +146,8 @@ static func create(p_id: String, p_level: int) -> PokemonInstance:
 
 static func create_with_details(p_id: String, p_level: int, p_nature: String = "",
 		p_ability: String = "", p_held_item: String = "",
-		p_evs: Dictionary = {}, p_moves: Array = []) -> PokemonInstance:
-	var inst := PokemonInstance.create(p_id, p_level)
+		p_evs: Dictionary = {}, p_moves: Array = []) :
+	var inst = (load("res://scripts/data/PokemonInstance.gd") as GDScript).create(p_id, p_level)
 	if p_nature != "":
 		inst.nature = p_nature
 	if p_ability != "":
@@ -165,12 +163,12 @@ static func create_with_details(p_id: String, p_level: int, p_nature: String = "
 			inst.moves.append(MoveInstance.create(mid))
 	return inst
 
-static func from_encounter(enc: Dictionary) -> PokemonInstance:
+static func from_encounter(enc: Dictionary) :
 	var min_lv: int = enc.get("level_min", 2)
 	var max_lv: int = enc.get("level_max", 5)
 	var lvl := randi_range(min_lv, max_lv)
 	var enc_id: String = enc.get("id", "025")
-	return PokemonInstance.create(enc_id, lvl)
+	return (load("res://scripts/data/PokemonInstance.gd") as GDScript).create(enc_id, lvl)
 
 # =========================================================================
 #  XP et Level-up
@@ -370,7 +368,8 @@ func get_effective_stat(stat_name: String) -> int:
 
 	# Held item stat modifiers
 	if held_item != "":
-		result = int(result * HeldItemEffects.get_stat_multiplier(self, stat_name))
+		var _hie: GDScript = load("res://scripts/battle/HeldItemEffects.gd")
+		result = int(result * _hie.get_stat_multiplier(self, stat_name))
 
 	# Paralysis halves Speed (Gen 3)
 	if stat_name == "speed" and status == "paralyze":
@@ -384,10 +383,12 @@ func get_effective_stat(stat_name: String) -> int:
 	return maxi(1, result)
 
 func get_ability_name() -> String:
-	return AbilityEffects.get_ability_name(ability)
+	var _ae: GDScript = load("res://scripts/battle/AbilityEffects.gd")
+	return _ae.get_ability_name(ability)
 
 func get_held_item_name() -> String:
-	return HeldItemEffects.get_item_name(held_item)
+	var _hie2: GDScript = load("res://scripts/battle/HeldItemEffects.gd")
+	return _hie2.get_item_name(held_item)
 
 # =========================================================================
 #  Etat en combat
@@ -415,7 +416,8 @@ func full_heal() -> void:
 
 func modify_stat_stage(stat_name: String, delta: int) -> int:
 	# Check ability prevention for drops
-	if delta < 0 and AbilityEffects.prevents_stat_drop(self, stat_name):
+	var _ae2: GDScript = load("res://scripts/battle/AbilityEffects.gd")
+	if delta < 0 and _ae2.prevents_stat_drop(self, stat_name):
 		return 0
 	var old: int = stat_stages.get(stat_name, 0)
 	stat_stages[stat_name] = clampi(old + delta, -6, 6)
@@ -451,8 +453,8 @@ func to_dict() -> Dictionary:
 		"evs":        evs,
 	}
 
-static func from_dict(d: Dictionary) -> PokemonInstance:
-	var inst := PokemonInstance.new()
+static func from_dict(d: Dictionary) :
+	var inst = (load("res://scripts/data/PokemonInstance.gd") as GDScript).new()
 	inst.pokemon_id = d.get("pokemon_id", "001")
 	inst.level = d.get("level", 1)
 	inst._base_data = GameData.pokemon_data.get(inst.pokemon_id, {})

@@ -2,7 +2,6 @@ extends Node
 ## Sauvegarde et chargement de partie — 3 slots, format JSON.
 ## Usage : SaveManager.save(0)  |  SaveManager.load_slot(0)  |  SaveManager.has_save(0)
 
-const PokemonInstance = preload("res://scripts/data/PokemonInstance.gd")
 const SAVE_DIR  := "user://saves/"
 const SAVE_EXT  := ".json"
 const NUM_SLOTS := 3
@@ -79,10 +78,10 @@ func delete_save(slot: int) -> void:
 
 func _build_save_data() -> Dictionary:
 	var team_data: Array = []
-	for pkmn: PokemonInstance in GameState.team:
+	for pkmn in GameState.team:
 		team_data.append(pkmn.to_dict())
 	var pc_data: Array = []
-	for pkmn: PokemonInstance in GameState.pc_boxes:
+	for pkmn in GameState.pc_boxes:
 		pc_data.append(pkmn.to_dict())
 	return {
 		"version":            2,
@@ -114,11 +113,11 @@ func _apply_save_data(d: Dictionary) -> void:
 	GameState.team.clear()
 	var team_arr: Array = d.get("team", [])
 	for td: Dictionary in team_arr:
-		GameState.team.append(PokemonInstance.from_dict(td))
+		GameState.team.append((load("res://scripts/data/PokemonInstance.gd") as GDScript).from_dict(td))
 	GameState.pc_boxes.clear()
 	var pc_arr: Array = d.get("pc_boxes", [])
 	for pd: Dictionary in pc_arr:
-		GameState.pc_boxes.append(PokemonInstance.from_dict(pd))
+		GameState.pc_boxes.append((load("res://scripts/data/PokemonInstance.gd") as GDScript).from_dict(pd))
 	GameState.repel_steps       = d.get("repel_steps", 0)
 	GameState.return_to_scene = d.get("return_to_scene", "res://scenes/overworld/maps/PalletTown.tscn")
 	var sp: Array = d.get("spawn_position", [0, 0])

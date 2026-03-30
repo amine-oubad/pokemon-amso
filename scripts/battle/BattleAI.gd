@@ -3,10 +3,6 @@ extends Node
 ## IA ennemie avec niveaux de difficulte.
 ## Enfant de BattleScene, accede au contexte via scene.
 
-const HeldItemEffects = preload("res://scripts/battle/HeldItemEffects.gd")
-const BattleField = preload("res://scripts/battle/BattleField.gd")
-const MoveInstance = preload("res://scripts/data/MoveInstance.gd")
-const PokemonInstance = preload("res://scripts/data/PokemonInstance.gd")
 enum Difficulty { EASY, NORMAL, HARD, ELITE }
 
 var scene  # Reference to BattleScene (set externally)
@@ -258,7 +254,7 @@ func should_switch(enemy: PokemonInstance, player: PokemonInstance, team: Array)
 	var dominated := true
 	for mv in enemy.moves:
 		if mv.get_power() > 0:
-			var eff := GameData.get_total_effectiveness(mv.get_type(), player.get_types())
+			var eff: float = GameData.get_total_effectiveness(mv.get_type(), player.get_types())
 			if eff >= 1.0:
 				dominated = false
 				break
@@ -274,7 +270,7 @@ func should_switch(enemy: PokemonInstance, player: PokemonInstance, team: Array)
 		# Check if candidate has super-effective moves
 		for mv in candidate.moves:
 			if mv.get_power() > 0:
-				var eff := GameData.get_total_effectiveness(mv.get_type(), player.get_types())
+				var eff: float = GameData.get_total_effectiveness(mv.get_type(), player.get_types())
 				if eff > 1.0:
 					return i
 	return -1

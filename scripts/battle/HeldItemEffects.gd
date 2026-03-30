@@ -2,7 +2,6 @@ class_name HeldItemEffects
 ## Effets des objets tenus en combat.
 ## Fonctions statiques appelees a differents moments.
 
-const MoveEffects = preload("res://scripts/battle/MoveEffects.gd")
 # -- Donnees des objets tenus --------------------------------------------
 
 const HELD_ITEM_DATA := {
@@ -272,7 +271,7 @@ static func on_end_of_turn(pkmn) -> Array[Dictionary]:
 
 		"flame_orb":
 			if pkmn.status == "":
-				var types := pkmn.get_types()
+				var types: Array = pkmn.get_types()
 				if "Fire" not in types:
 					pkmn.status = "burn"
 					effects.append({"message": "%s est brule par l'Orbe Flamme !" % pkmn.get_name()})

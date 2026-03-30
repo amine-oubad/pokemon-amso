@@ -2,7 +2,6 @@ extends CanvasLayer
 ## Ecran de selection du Pokemon de depart — style moderne.
 ## S'affiche automatiquement si l'equipe du joueur est vide.
 
-const PokemonInstance = preload("res://scripts/data/PokemonInstance.gd")
 signal starter_chosen
 
 const FONT_SIZE := 8
@@ -269,7 +268,7 @@ func _show_confirm() -> void:
 
 func _on_confirm_yes() -> void:
 	var s: Dictionary = STARTERS[_selected]
-	var starter: PokemonInstance = PokemonInstance.create(s.id, 5)
+	var starter = (load("res://scripts/data/PokemonInstance.gd") as GDScript).create(s.id, 5)
 	GameState.team.append(starter)
 	GameState.register_seen(s.id)
 	GameState.register_caught(s.id)

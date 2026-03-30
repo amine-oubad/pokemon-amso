@@ -1,6 +1,5 @@
 class_name MapTransition
 extends Area2D
-const Player = preload("res://scripts/overworld/Player.gd")
 ## Zone de transition entre maps.
 ## Quand le joueur entre dans cette zone, on change de scène.
 ##
@@ -24,7 +23,7 @@ func _ready() -> void:
 func _on_body_entered(body: Node2D) -> void:
 	if _triggered or target_scene.is_empty():
 		return
-	if not body is Player:
+	if not (body.get_script() and body.get_script().get_global_name() == &"Player"):
 		return
 	_triggered = true
 	GameState.pending_spawn_position = spawn_position

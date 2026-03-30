@@ -3,12 +3,6 @@ extends Node
 ## Execution des tours de combat : ordre, attaques, fuite, struggle.
 ## Gen 1-9 compatible. Enfant de BattleScene.
 
-const AbilityEffects = preload("res://scripts/battle/AbilityEffects.gd")
-const HeldItemEffects = preload("res://scripts/battle/HeldItemEffects.gd")
-const MoveEffects = preload("res://scripts/battle/MoveEffects.gd")
-const BattleCalc = preload("res://scripts/battle/BattleCalc.gd")
-const MoveInstance = preload("res://scripts/data/MoveInstance.gd")
-const PokemonInstance = preload("res://scripts/data/PokemonInstance.gd")
 var scene  # Reference to BattleScene
 
 var _enemy_queued_move: MoveInstance = null

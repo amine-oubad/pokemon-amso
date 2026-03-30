@@ -2,7 +2,6 @@ extends CanvasLayer
 ## PC Box moderne — deux panneaux : Equipe (gauche) + Boite PC 5x6 (droite).
 ## Layer 35.
 
-const PokemonInstance = preload("res://scripts/data/PokemonInstance.gd")
 const BOX_COLS  := 5
 const BOX_ROWS  := 6
 const CELL_SIZE := 22
@@ -82,7 +81,7 @@ func _try_move_pokemon() -> void:
 		if GameState.team.size() <= 1:
 			_set_info("Impossible : dernier Pokemon !")
 			return
-		var poke: PokemonInstance = GameState.team[_cursor_team]
+		var poke = GameState.team[_cursor_team]
 		GameState.team.remove_at(_cursor_team)
 		GameState.pc_boxes.append(poke)
 		_cursor_team = clamp(_cursor_team, 0, max(0, GameState.team.size() - 1))
@@ -93,7 +92,7 @@ func _try_move_pokemon() -> void:
 		if GameState.team.size() >= 6:
 			_set_info("Equipe pleine !")
 			return
-		var poke: PokemonInstance = GameState.pc_boxes[_cursor_box]
+		var poke = GameState.pc_boxes[_cursor_box]
 		GameState.pc_boxes.remove_at(_cursor_box)
 		GameState.team.append(poke)
 		_cursor_box = clamp(_cursor_box, 0, max(0, GameState.pc_boxes.size() - 1))
@@ -201,7 +200,7 @@ func _refresh() -> void:
 			if c.name.begins_with("Icon"):
 				c.queue_free()
 		if i < GameState.team.size():
-			var poke: PokemonInstance = GameState.team[i]
+			var poke = GameState.team[i]
 			var pdata: Dictionary = GameData.pokemon_data.get(poke.pokemon_id, {})
 			lbl.text = "Lv%d %s" % [poke.level, pdata.get("name", poke.pokemon_id)]
 			# Mini icon
@@ -221,7 +220,7 @@ func _refresh() -> void:
 		var cell  := _box_cells[idx]
 		var lbl: Label = cell.get_child(0)
 		if idx < GameState.pc_boxes.size():
-			var poke: PokemonInstance = GameState.pc_boxes[idx]
+			var poke = GameState.pc_boxes[idx]
 			var pdata: Dictionary = GameData.pokemon_data.get(poke.pokemon_id, {})
 			lbl.text = pdata.get("name", poke.pokemon_id).substr(0, 5)
 			if _cursor_panel == 1 and idx == _cursor_box:

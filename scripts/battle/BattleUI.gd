@@ -3,12 +3,6 @@ extends Node
 ## Construction et mise a jour de l'interface de combat.
 ## Enfant de BattleScene.
 
-const AbilityEffects = preload("res://scripts/battle/AbilityEffects.gd")
-const HeldItemEffects = preload("res://scripts/battle/HeldItemEffects.gd")
-const MoveEffects = preload("res://scripts/battle/MoveEffects.gd")
-const BattleField = preload("res://scripts/battle/BattleField.gd")
-const MoveInstance = preload("res://scripts/data/MoveInstance.gd")
-const PokemonInstance = preload("res://scripts/data/PokemonInstance.gd")
 var scene  # Reference to BattleScene
 
 # -- Constantes UI (Modern Clean) -----------------------------------------

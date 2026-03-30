@@ -3,11 +3,6 @@ class_name BattleCalc
 ## Integre abilities, held items, natures, ecrans, meteo, terrain.
 ## Toutes les fonctions sont statiques.
 
-const AbilityEffects = preload("res://scripts/battle/AbilityEffects.gd")
-const HeldItemEffects = preload("res://scripts/battle/HeldItemEffects.gd")
-const BattleField = preload("res://scripts/battle/BattleField.gd")
-const MoveInstance = preload("res://scripts/data/MoveInstance.gd")
-const PokemonInstance = preload("res://scripts/data/PokemonInstance.gd")
 # -- Degats ---------------------------------------------------------------
 
 static func calculate_damage(
@@ -115,14 +110,14 @@ static func calculate_damage(
 
 	# Gyro Ball (25 * target_speed / user_speed)
 	if move.move_id == "gyro_ball":
-		var usr_spd := maxi(1, attacker.get_effective_stat("speed"))
-		var tgt_spd := maxi(1, defender.get_effective_stat("speed"))
+		var usr_spd: int = maxi(1, attacker.get_effective_stat("speed"))
+		var tgt_spd: int = maxi(1, defender.get_effective_stat("speed"))
 		power = mini(150, maxi(1, int(25.0 * tgt_spd / usr_spd)))
 
 	# Electro Ball (faster = more powerful)
 	if move.move_id == "electro_ball":
-		var usr_spd := maxi(1, attacker.get_effective_stat("speed"))
-		var tgt_spd := maxi(1, defender.get_effective_stat("speed"))
+		var usr_spd: int = maxi(1, attacker.get_effective_stat("speed"))
+		var tgt_spd: int = maxi(1, defender.get_effective_stat("speed"))
 		var ratio := float(usr_spd) / float(tgt_spd)
 		if ratio >= 4.0: power = 150
 		elif ratio >= 3.0: power = 120
@@ -172,8 +167,8 @@ static func calculate_damage(
 		crit_stage = -99
 
 	var crit_rates := [1.0/24.0, 1.0/8.0, 1.0/2.0, 1.0, 1.0]  # Gen 7+ rates
-	var crit_rate := 0.0 if crit_stage < 0 else crit_rates[mini(crit_stage, 4)]
-	var is_crit := randf() < crit_rate
+	var crit_rate: float = 0.0 if crit_stage < 0 else crit_rates[mini(crit_stage, 4)]
+	var is_crit: bool = randf() < crit_rate
 	if is_crit:
 		base = int(base * 1.5)
 		result.critical = true
@@ -183,7 +178,7 @@ static func calculate_damage(
 		base = int(base * 0.5)
 
 	# -- STAB --
-	var has_stab := move_type in attacker.get_types()
+	var has_stab: bool = move_type in attacker.get_types()
 	var stab_mult := 1.5 if has_stab else 1.0
 	# Adaptability makes STAB 2.0 (handled in ability damage mult as ratio)
 	result.stab = has_stab
@@ -349,7 +344,7 @@ static func accuracy_check(
 # -- Effective speed with ability/weather ---------------------------------
 
 static func get_effective_speed(pkmn: PokemonInstance, field: BattleField = null) -> int:
-	var spd := pkmn.get_effective_stat("speed")
+	var spd: int = pkmn.get_effective_stat("speed")
 	if field != null:
 		spd = int(spd * AbilityEffects.get_speed_multiplier(pkmn, field))
 	# Paralysis halves speed (Gen 7+: 50%)

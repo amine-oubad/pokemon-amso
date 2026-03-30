@@ -2,7 +2,6 @@ extends CanvasLayer
 ## Menu Pause moderne — 4 onglets : Equipe / Sac / Pokedex / Sauver.
 ## Layer 30.
 
-const PokemonInstance = preload("res://scripts/data/PokemonInstance.gd")
 var _visible_flag := false
 var _in_battle    := false
 var _tab_index    := 0
@@ -198,7 +197,7 @@ func _build_team_tab() -> void:
 		return
 	var y := 0
 	for i in GameState.team.size():
-		var poke: PokemonInstance = GameState.team[i]
+		var poke = GameState.team[i]
 		var pdata: Dictionary = GameData.pokemon_data.get(poke.pokemon_id, {})
 		var name_str: String = pdata.get("name", poke.pokemon_id)
 		var hp_str: String   = "%d/%d" % [poke.current_hp, poke.max_hp]
@@ -317,7 +316,7 @@ func _build_save_tab() -> void:
 			_add_line("%sSlot %d — Vide" % [prefix, i + 1], 16 + i * 14, col)
 	var y := 16 + SaveManager.NUM_SLOTS * 14 + 6
 	var team_str := ""
-	for poke: PokemonInstance in GameState.team:
+	for poke in GameState.team:
 		var pdata: Dictionary = GameData.pokemon_data.get(poke.pokemon_id, {})
 		team_str += pdata.get("name", "?") + " Lv%d  " % poke.level
 	if team_str != "":
@@ -345,13 +344,13 @@ func _action_team() -> void:
 	if GameState.team.is_empty(): return
 	if _swap_src >= 0:
 		if _swap_src != _cursor_idx:
-			var tmp: PokemonInstance = GameState.team[_swap_src]
+			var tmp = GameState.team[_swap_src]
 			GameState.team[_swap_src] = GameState.team[_cursor_idx]
 			GameState.team[_cursor_idx] = tmp
 		_swap_src = -1
 		_refresh_content()
 	else:
-		var poke: PokemonInstance = GameState.team[_cursor_idx]
+		var poke = GameState.team[_cursor_idx]
 		PokemonSummary.show_summary(poke)
 
 # ── Sac — utilisation d'items ────────────────────────────────────────────
@@ -385,7 +384,7 @@ func _action_bag() -> void:
 
 func _apply_bag_item() -> void:
 	if _cursor_idx >= GameState.team.size(): return
-	var poke: PokemonInstance = GameState.team[_cursor_idx]
+	var poke = GameState.team[_cursor_idx]
 	var idata: Dictionary = GameData.items_data.get(_bag_selected_item, {})
 	var cat: String = idata.get("category", "")
 	var used := false
@@ -449,7 +448,7 @@ func _build_bag_target_tab() -> void:
 	_add_line("Utiliser %s sur :" % item_name, 0, C_ACCENT)
 	var y := 16
 	for i in GameState.team.size():
-		var poke: PokemonInstance = GameState.team[i]
+		var poke = GameState.team[i]
 		var pdata: Dictionary = GameData.pokemon_data.get(poke.pokemon_id, {})
 		var name_str: String = pdata.get("name", poke.pokemon_id)
 		var hp_str: String = "%d/%d" % [poke.current_hp, poke.max_hp]

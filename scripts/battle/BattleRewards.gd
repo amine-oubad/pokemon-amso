@@ -3,8 +3,6 @@ extends Node
 ## Gestion post-combat : XP, level-up, evolution, move learning, fin.
 ## Enfant de BattleScene.
 
-const AbilityEffects = preload("res://scripts/battle/AbilityEffects.gd")
-const BattleCalc = preload("res://scripts/battle/BattleCalc.gd")
 var scene  # Reference to BattleScene
 
 var _pending_moves: Array = []

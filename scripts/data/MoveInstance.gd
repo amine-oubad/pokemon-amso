@@ -3,6 +3,7 @@ extends RefCounted
 ## Instance d'un move en équipe — conserve les PP courants.
 ## Créer via MoveInstance.create("tackle").
 
+
 var move_id: String = ""
 var current_pp: int = 0
 var max_pp: int = 0
@@ -11,8 +12,8 @@ var _data: Dictionary = {}
 
 # ── Constructeur ───────────────────────────────────────────────────────────────
 
-static func create(p_move_id: String) -> MoveInstance:
-	var inst := MoveInstance.new()
+static func create(p_move_id: String):
+	var inst = (load("res://scripts/data/MoveInstance.gd") as GDScript).new()
 	inst.move_id = p_move_id
 	inst._data = GameData.moves_data.get(p_move_id, {}) as Dictionary
 	if inst._data.is_empty():
@@ -71,8 +72,8 @@ func restore_pp(amount: int = -1) -> void:
 func to_dict() -> Dictionary:
 	return { "move_id": move_id, "current_pp": current_pp, "max_pp": max_pp }
 
-static func from_dict(d: Dictionary) -> MoveInstance:
-	var inst := MoveInstance.create(d.get("move_id", ""))
+static func from_dict(d: Dictionary):
+	var inst = (load("res://scripts/data/MoveInstance.gd") as GDScript).create(d.get("move_id", ""))
 	inst.current_pp = d.get("current_pp", inst.max_pp)
 	inst.max_pp     = d.get("max_pp",     inst.max_pp)
 	return inst

@@ -2,7 +2,6 @@ extends CanvasLayer
 ## HUD overworld moderne — argent, HP du 1er Pokemon, badges.
 ## Layer 5 (derriere tous les menus).
 
-const PokemonInstance = preload("res://scripts/data/PokemonInstance.gd")
 var _money_label: Label
 var _hp_bar:       ColorRect
 var _hp_bar_bg:    ColorRect
@@ -98,7 +97,7 @@ func _refresh() -> void:
 	for c in _pkmn_icon.get_children():
 		c.queue_free()
 	if not GameState.team.is_empty():
-		var poke: PokemonInstance = GameState.team[0]
+		var poke = GameState.team[0]
 		var icon := SpriteLoader.make_sprite(poke.pokemon_id, "front", Vector2(14, 14))
 		_pkmn_icon.add_child(icon)
 
@@ -106,7 +105,7 @@ func _refresh() -> void:
 		_hp_bar.size.x = 0
 		return
 
-	var poke: PokemonInstance = GameState.team[0]
+	var poke = GameState.team[0]
 	var ratio: float = float(poke.current_hp) / float(poke.max_hp) if poke.max_hp > 0 else 0.0
 	_hp_bar.size.x = 86.0 * clamp(ratio, 0.0, 1.0)
 	if ratio > 0.5:
