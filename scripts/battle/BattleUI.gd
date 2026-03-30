@@ -47,6 +47,7 @@ var _weather_label:   Label
 
 func build_ui() -> void:
 	var layer := CanvasLayer.new()
+	layer.layer = 50  # Above all overworld UI autoloads
 	scene.add_child(layer)
 
 	# Background
