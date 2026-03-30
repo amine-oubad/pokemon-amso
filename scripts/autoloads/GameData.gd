@@ -13,6 +13,7 @@ var dialogues_data: Dictionary  = {}
 var shops_data: Dictionary      = {}
 var trainers_data: Dictionary   = {}
 var gyms_data: Dictionary       = {}
+var abilities_data: Dictionary  = {}
 var encounters_data: Dictionary = {}  # { map_id: { zone_id: [ {...}, ... ] } }
 
 func _ready() -> void:
@@ -27,6 +28,7 @@ func _load_all() -> void:
 	shops_data     = _load_json("res://data/shops.json")
 	trainers_data  = _load_json("res://data/trainers.json")
 	gyms_data      = _load_json("res://data/gyms.json")
+	abilities_data = _load_json("res://data/abilities.json")
 	_load_encounters()
 
 	print("[GameData] %d pokémon | %d moves | %d types | %d items | %d dresseurs | %d arènes | %d maps" % [

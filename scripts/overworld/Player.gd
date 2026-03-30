@@ -1,24 +1,24 @@
 class_name Player
 extends CharacterBody2D
-## Joueur overworld — déplacement grille (tile par tile), style Pokémon.
-##
-## Contrôles : ZQSD ou Flèches directionnelles (configurés dans project.godot)
-## Tile size : 16px — doit correspondre à la TileMap de la scène.
+## Joueur overworld -- deplacement grille (tile par tile), style Pokemon.
+## Sprite anime 4 directions x 3 frames.
 
 const TILE_SIZE: int = 16
-const WALK_SPEED: float = 128.0  # px/sec → 1 tile en 0.125s (ajustable)
+const WALK_SPEED: float = 128.0
+const SPRITE_PATH := "res://assets/sprites/characters/player.png"
 
-# ── État de déplacement ────────────────────────────────────────────────────────
 var _moving: bool = false
 var _move_from: Vector2 = Vector2.ZERO
 var _move_to: Vector2 = Vector2.ZERO
-var _move_progress: float = 0.0  # 0.0 → 1.0
+var _move_progress: float = 0.0
 
-# ── Direction courante ─────────────────────────────────────────────────────────
 enum Dir { DOWN = 0, UP = 1, LEFT = 2, RIGHT = 3 }
 var facing: Dir = Dir.DOWN
 
-# ── Vecteurs de direction ──────────────────────────────────────────────────────
+var _sprite: Sprite2D
+var _anim_timer: float = 0.0
+var _walk_frame: int = 0
+
 const DIR_VECTORS: Dictionary = {
 	Dir.DOWN:  Vector2.DOWN,
 	Dir.UP:    Vector2.UP,
@@ -27,14 +27,47 @@ const DIR_VECTORS: Dictionary = {
 }
 
 func _ready() -> void:
-	# Aligner sur la grille au démarrage (important si la position dans l'éditeur n'est pas pile sur un tile)
 	position = position.snapped(Vector2(TILE_SIZE, TILE_SIZE))
 	_move_from = position
 	_move_to = position
+	_setup_sprite()
+
+func _setup_sprite() -> void:
+	# Remove old Polygon2D body if present
+	var old_body = get_node_or_null("Body")
+	if old_body:
+		old_body.queue_free()
+
+	_sprite = Sprite2D.new()
+	_sprite.name = "CharSprite"
+	var tex = load(SPRITE_PATH)
+	if tex:
+		_sprite.texture = tex
+		_sprite.hframes = 3
+		_sprite.vframes = 4
+		_sprite.frame = 0  # down idle
+		_sprite.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+		_sprite.offset = Vector2(0, -4)
+	add_child(_sprite)
+	_update_sprite_frame()
+
+func _update_sprite_frame() -> void:
+	if not _sprite or not _sprite.texture:
+		return
+	# Row = direction (down=0, up=1, left=2, right=3)
+	# Col = frame (0=idle, 1=walk1, 2=walk2)
+	var col := 0 if not _moving else (1 if _walk_frame == 0 else 2)
+	_sprite.frame = int(facing) * 3 + col
 
 func _physics_process(delta: float) -> void:
 	if _moving:
 		_tick_movement(delta)
+		# Walk animation
+		_anim_timer += delta
+		if _anim_timer >= 0.12:
+			_anim_timer = 0.0
+			_walk_frame = (_walk_frame + 1) % 2
+			_update_sprite_frame()
 	else:
 		_poll_input()
 
@@ -57,8 +90,6 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_accept"):
 		_try_interact()
 
-# ── Input ──────────────────────────────────────────────────────────────────────
-
 func _poll_input() -> void:
 	if _is_any_menu_active():
 		return
@@ -67,18 +98,18 @@ func _poll_input() -> void:
 		return
 
 	_update_facing(dir_vec)
+	_update_sprite_frame()
 
-	# Tester la collision AVANT de commencer le mouvement
-	# move_and_collide avec test_only=true ne déplace pas réellement le personnage
 	var collision := move_and_collide(dir_vec * TILE_SIZE, true)
 	if collision != null:
-		return  # Mur ou obstacle — on ne bouge pas
+		return
 
-	# Lancer le déplacement fluide vers la tile suivante
 	_move_from = position
 	_move_to = position + dir_vec * TILE_SIZE
 	_move_progress = 0.0
 	_moving = true
+	_walk_frame = 0
+	_anim_timer = 0.0
 
 func _read_direction() -> Vector2:
 	if Input.is_action_pressed("move_up"):    return Vector2.UP
@@ -93,28 +124,21 @@ func _update_facing(dir_vec: Vector2) -> void:
 	elif dir_vec == Vector2.LEFT:  facing = Dir.LEFT
 	elif dir_vec == Vector2.RIGHT: facing = Dir.RIGHT
 
-# ── Interaction ────────────────────────────────────────────────────────────────
-
 func _try_interact() -> void:
-	# La tile devant le joueur
 	var check_pos := position + DIR_VECTORS[facing] * TILE_SIZE
 	for node in get_tree().get_nodes_in_group("interactable"):
 		if node.position.distance_to(check_pos) < 8.0:
 			node.interact()
 			return
 
-# ── Mouvement ──────────────────────────────────────────────────────────────────
-
 func _tick_movement(delta: float) -> void:
-	# Avancer la progression (0.0 → 1.0) à vitesse constante
 	_move_progress += delta * WALK_SPEED / TILE_SIZE
 
 	if _move_progress >= 1.0:
-		# Arrivé à destination — snapper exactement sur la grille
 		position = _move_to
 		_moving = false
 		_move_progress = 0.0
+		_update_sprite_frame()
 		EventBus.player_stepped.emit(position)
 	else:
-		# Interpolation linéaire entre les deux tiles
 		position = _move_from.lerp(_move_to, _move_progress)

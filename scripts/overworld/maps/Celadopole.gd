@@ -1,112 +1,57 @@
-extends Node2D
-## CÉLADOPOLE — ville du 5e Gym (type Plante). Championne : Erika.
-## Layout 320×240 : grande ville, Centre Pokémon, Pokémart, Arène.
+extends "res://scripts/overworld/MapRenderer.gd"
+## CELADOPOLE — ville du 5e Gym (type Plante). Championne : Erika.
+## Layout 320x240 : grande ville, Centre Pokemon, Pokemart, Arene.
 
-const MAP_W := 320
-const MAP_H := 240
-const TILE  := 16
+func build_map() -> void:
+	MAP_W = 320
+	MAP_H = 240
 
-func _ready() -> void:
-	_build_ground()
-	_build_path()
-	_build_gardens()
-	_build_buildings()
-	_build_borders()
-	_build_npcs()
-	_build_signs()
-	_build_transitions()
-	_spawn_player(Vector2(24.0, 120.0))
-	_connect_signals()
+	# Ground — grass base
+	fill("grass_mid", 0, 0, 20, 15)
 
-func _build_ground() -> void:
-	_rect(Vector2.ZERO, Vector2(MAP_W, MAP_H), Color(0.25, 0.55, 0.22))
+	# Paths
+	path_h(0, 6, 20, 2)           # Est-ouest principal (y=96..128)
+	path_v(9, 0, 2, 15)           # Nord-sud
 
-func _build_path() -> void:
-	_rect(Vector2(0, 104), Vector2(MAP_W, 32), Color(0.55, 0.48, 0.32))
-	_rect(Vector2(144, 0), Vector2(32, MAP_H), Color(0.55, 0.48, 0.32))
+	# Garden area (east side) — flowers
+	fill("grass_flowers", 13, 10, 6, 4)
+	fill("flowers_red", 14, 11, 2, 1)
+	fill("flowers_yellow", 16, 11, 2, 1)
 
-func _build_gardens() -> void:
-	# Jardins décoratifs (thème plante)
-	_rect(Vector2(200, 160), Vector2(104, 64), Color(0.15, 0.45, 0.12))
-	_rect(Vector2(220, 170), Vector2(20, 20), Color(0.85, 0.30, 0.40))  # fleurs
-	_rect(Vector2(260, 180), Vector2(20, 20), Color(0.90, 0.80, 0.20))  # fleurs
+	# Buildings (tile coords)
+	pokecenter(1, 8, 5, 3)        # Centre Pokemon at (16,136) -> tile (1,8)
+	pokemart(1, 12, 5, 2)         # Pokemart at (16,200) -> tile (1,12), small
+	gym_building(12, 0, 7, 4, "grass")  # Arene at (200,8) -> tile (12,0)
 
-func _build_buildings() -> void:
-	_building(Vector2(16.0, 136.0), Vector2(80.0, 48.0), Color(0.85, 0.20, 0.18), "CENTRE\nPOKÉMON")
-	_building(Vector2(16.0, 200.0), Vector2(80.0, 36.0), Color(0.20, 0.35, 0.85), "POKÉMART")
-	_building(Vector2(200.0, 8.0), Vector2(112.0, 56.0), Color(0.20, 0.65, 0.25), "ARÈNE DE\nCÉLADOPOLE")
+	# Tree borders (decorative edges)
+	tree_border(0, 0, 1, 6)       # Bord gauche haut
+	tree_border(0, 14, 1, 1)      # Bord gauche bas
+	tree_border(0, 14, 20, 1)     # Bord bas
+	tree_border(19, 0, 1, 6)      # Bord droit haut
+	tree_border(19, 8, 1, 6)      # Bord droit bas
 
-func _build_borders() -> void:
-	_wall(Vector2(-8.0, MAP_H * 0.5), Vector2(16.0, MAP_H + 16.0))
-	_wall(Vector2(MAP_W + 8.0, MAP_H * 0.5), Vector2(16.0, MAP_H + 16.0))
-	_wall(Vector2(MAP_W * 0.5, -8.0), Vector2(MAP_W + 16.0, 16.0))
-	_wall(Vector2(MAP_W * 0.5, MAP_H + 8.0), Vector2(MAP_W + 16.0, 16.0))
+	# NPCs (pixel positions)
+	add_npc(Vector2(56.0, 184.0), "celadopole_nurse", Color(0.90, 0.70, 0.70), "heal_team")
+	add_npc(Vector2(56.0, 230.0), "", Color(0.30, 0.65, 0.30), "open_shop", "celadopole_shop")
+	add_npc(Vector2(120.0, 200.0), "guide_celadopole", Color(0.40, 0.70, 0.35))
 
-func _build_npcs() -> void:
-	_npc(Vector2(56.0, 184.0), "celadopole_nurse",  "heal_team", "",              Color(0.90, 0.70, 0.70))
-	_npc(Vector2(56.0, 230.0), "", "open_shop", "celadopole_shop",                Color(0.30, 0.65, 0.30))
-	_npc(Vector2(120.0, 200.0), "guide_celadopole",  "",          "",             Color(0.40, 0.70, 0.35))
+	# Signs (pixel positions)
+	add_sign(Vector2(144.0, 200.0), "sign_celadopole_city")
+	add_sign(Vector2(200.0, 68.0), "sign_celadopole_gym")
 
-func _build_signs() -> void:
-	_sign(Vector2(144.0, 200.0), "sign_celadopole_city")
-	_sign(Vector2(200.0, 68.0),  "sign_celadopole_gym")
-
-func _build_transitions() -> void:
-	# Ouest → Route 5
-	_transition(Vector2(-8.0, 120.0), Vector2(24.0, 32.0),
+	# Transitions (pixel positions)
+	# Ouest -> Route 5
+	add_transition(Vector2(-8.0, 120.0), Vector2(24.0, 32.0),
 		"res://scenes/overworld/maps/Route5.tscn", Vector2(464.0, 120.0))
-	# Entrée Arène
-	_transition(Vector2(256.0, 64.0), Vector2(12.0, 8.0),
+	# Entree Arene
+	add_transition(Vector2(256.0, 64.0), Vector2(12.0, 8.0),
 		"res://scenes/overworld/maps/CeladopoleGym.tscn", Vector2(160.0, 208.0))
-	# Est → Route 6
-	_transition(Vector2(MAP_W + 8.0, 120.0), Vector2(24.0, 32.0),
+	# Est -> Route 6
+	add_transition(Vector2(328.0, 120.0), Vector2(24.0, 32.0),
 		"res://scenes/overworld/maps/Route6.tscn", Vector2(16.0, 120.0))
 
-func _spawn_player(default_pos: Vector2) -> void:
-	var scene := preload("res://scenes/overworld/entities/Player.tscn")
-	var player := scene.instantiate()
-	if GameState.pending_spawn_position != Vector2.ZERO:
-		player.position = GameState.pending_spawn_position
-		GameState.pending_spawn_position = Vector2.ZERO
-	else:
-		player.position = default_pos
-	add_child(player)
-	var cam: Camera2D = player.get_node_or_null("Camera2D")
-	if cam:
-		cam.limit_left = 0; cam.limit_top = 0; cam.limit_right = MAP_W; cam.limit_bottom = MAP_H
+	# Border walls
+	add_border_walls()
 
-func _connect_signals() -> void:
-	EventBus.battle_started.connect(_on_battle_started)
-	EventBus.trainer_battle_started.connect(_on_trainer_battle)
-
-func _on_battle_started(enemy_data: Dictionary, is_trainer: bool) -> void:
-	GameState.pending_battle  = { "enemy_data": enemy_data, "is_trainer": is_trainer }
-	GameState.return_to_scene = "res://scenes/overworld/maps/Celadopole.tscn"
-	get_tree().change_scene_to_file("res://scenes/battle/BattleScene.tscn")
-
-func _on_trainer_battle(_trainer_id: String) -> void:
-	GameState.return_to_scene = "res://scenes/overworld/maps/Celadopole.tscn"
-	get_tree().change_scene_to_file("res://scenes/battle/BattleScene.tscn")
-
-func _rect(pos: Vector2, size: Vector2, color: Color) -> void:
-	var r := ColorRect.new(); r.position = pos; r.size = size; r.color = color; add_child(r)
-func _wall(center: Vector2, size: Vector2) -> void:
-	var body := StaticBody2D.new(); body.position = center
-	var shape := CollisionShape2D.new(); var rs := RectangleShape2D.new(); rs.size = size; shape.shape = rs
-	body.add_child(shape); add_child(body)
-func _building(pos: Vector2, size: Vector2, color: Color, label: String) -> void:
-	_rect(pos, size, color); _rect(pos, Vector2(size.x, 8.0), color.darkened(0.35))
-	_rect(pos + Vector2(size.x * 0.5 - 6.0, size.y - 14.0), Vector2(12.0, 14.0), color.lightened(0.25))
-	var lbl := Label.new(); lbl.text = label; lbl.position = pos + Vector2(3.0, size.y * 0.3)
-	lbl.size = Vector2(size.x - 6.0, size.y); lbl.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	lbl.add_theme_font_size_override("font_size", 6); lbl.add_theme_color_override("font_color", Color.WHITE)
-	add_child(lbl); _wall(pos + size * 0.5, size)
-func _npc(pos: Vector2, dialogue_key: String, special_action: String, shop_id: String, color: Color) -> void:
-	var npc := NPC.new(); npc.position = pos; npc.dialogue_key = dialogue_key
-	npc.special_action = special_action; npc.shop_id = shop_id; npc.npc_color = color; add_child(npc)
-func _sign(pos: Vector2, dialogue_key: String) -> void:
-	var s := Sign.new(); s.position = pos; s.dialogue_key = dialogue_key; add_child(s)
-func _transition(center: Vector2, shape_size: Vector2, target: String, spawn: Vector2) -> void:
-	var t := MapTransition.new(); t.position = center; t.target_scene = target; t.spawn_position = spawn
-	var cs := CollisionShape2D.new(); var rs := RectangleShape2D.new(); rs.size = shape_size; cs.shape = rs
-	t.add_child(cs); add_child(t)
+func get_player_spawn() -> Vector2:
+	return Vector2(24.0, 120.0)

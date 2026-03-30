@@ -1,124 +1,48 @@
-extends Node2D
-## AZURIA CITY — ville du troisième Gym (type Eau).
-## Layout 320×240 : Centre Pokémon, Pokémart, Arène, bord du Lac Azur.
+extends "res://scripts/overworld/MapRenderer.gd"
+## AZURIA CITY — ville du troisieme Gym (type Eau).
+## Layout 320x240 : Centre Pokemon, Pokemart, Arene, bord du Lac Azur.
 
-const MAP_W := 320
-const MAP_H := 240
-const TILE  := 16
+func build_map() -> void:
+	MAP_W = 320
+	MAP_H = 240
 
-func _ready() -> void:
-	_build_ground()
-	_build_path()
-	_build_water()
-	_build_buildings()
-	_build_borders()
-	_build_npcs()
-	_build_signs()
-	_build_transitions()
-	_spawn_player(Vector2(24.0, 64.0))
-	_connect_signals()
+	# Ground — grass base
+	fill("grass_mid", 0, 0, 20, 15)
 
-# ── Construction ─────────────────────────────────────────────────────────────
+	# Water zone — east side (Lac Azur)
+	fill("water_edge_top", 14, 0, 1, 15)  # Transition edge
+	fill("water", 15, 0, 5, 15)           # Deep water area
 
-func _build_ground() -> void:
-	_rect(Vector2.ZERO, Vector2(MAP_W, MAP_H), Color(0.22, 0.52, 0.20))
+	# Paths
+	path_h(0, 3, 20, 2)           # Chemin est-ouest
 
-func _build_path() -> void:
-	# Chemin est-ouest
-	_rect(Vector2(0, 48), Vector2(MAP_W, 32), Color(0.60, 0.52, 0.35))
+	# Buildings (tile coords)
+	pokecenter(1, 6, 5, 3)        # Centre Pokemon
+	pokemart(1, 10, 5, 3)         # Pokemart
+	gym_building(7, 0, 6, 4, "water")  # Arene (type Eau)
 
-func _build_water() -> void:
-	# Bord du Lac Azur — côté est de la ville
-	_rect(Vector2(240, 0), Vector2(80, 240), Color(0.15, 0.45, 0.80))
-	_rect(Vector2(224, 0), Vector2(16, 240), Color(0.18, 0.48, 0.75, 0.6))
+	# NPCs (pixel positions)
+	add_npc(Vector2(56.0, 160.0), "azuria_nurse", Color(0.90, 0.70, 0.70), "heal_team")
+	add_npc(Vector2(56.0, 220.0), "", Color(0.30, 0.65, 0.30), "open_shop", "azuria_shop")
+	add_npc(Vector2(200.0, 208.0), "guide_azuria", Color(0.40, 0.60, 0.90))
 
-func _build_buildings() -> void:
-	# Centre Pokémon
-	_building(Vector2(16.0, 96.0), Vector2(80.0, 48.0), Color(0.85, 0.20, 0.18), "CENTRE\nPOKÉMON")
-	# Pokémart
-	_building(Vector2(16.0, 160.0), Vector2(80.0, 48.0), Color(0.20, 0.35, 0.85), "POKÉMART")
-	# Arène (type Eau — bleu turquoise)
-	_building(Vector2(112.0, 4.0), Vector2(112.0, 56.0), Color(0.10, 0.50, 0.75), "ARÈNE\nD'AZURIA")
+	# Signs (pixel positions)
+	add_sign(Vector2(112.0, 208.0), "sign_azuria_city")
+	add_sign(Vector2(112.0, 64.0), "sign_azuria_gym")
 
-func _build_borders() -> void:
-	_wall(Vector2(-8.0, MAP_H * 0.5), Vector2(16.0, MAP_H + 16.0))
-	# Mur est — coupé pour laisser passer vers Route 4
-	_wall(Vector2(MAP_W + 8.0, 48.0), Vector2(16.0, 96.0))        # haut
-	_wall(Vector2(MAP_W + 8.0, 184.0), Vector2(16.0, 112.0))      # bas
-	_wall(Vector2(MAP_W * 0.5, -8.0), Vector2(MAP_W + 16.0, 16.0))
-	_wall(Vector2(MAP_W * 0.5, MAP_H + 8.0), Vector2(MAP_W + 16.0, 16.0))
-
-func _build_npcs() -> void:
-	_npc(Vector2(56.0, 160.0), "azuria_nurse",  "heal_team", "",            Color(0.90, 0.70, 0.70))
-	_npc(Vector2(56.0, 220.0), "", "open_shop", "azuria_shop",              Color(0.30, 0.65, 0.30))
-	_npc(Vector2(200.0, 208.0), "guide_azuria", "",          "",            Color(0.40, 0.60, 0.90))
-
-func _build_signs() -> void:
-	_sign(Vector2(112.0, 208.0), "sign_azuria_city")
-	_sign(Vector2(112.0, 64.0),  "sign_azuria_gym")
-
-func _build_transitions() -> void:
-	# Ouest → Route 3
-	_transition(Vector2(-8.0, 64.0), Vector2(24.0, 32.0),
+	# Transitions (pixel positions)
+	# Ouest -> Route 3
+	add_transition(Vector2(-8.0, 64.0), Vector2(24.0, 32.0),
 		"res://scenes/overworld/maps/Route3.tscn", Vector2(464.0, 64.0))
-	# Entrée Arène
-	_transition(Vector2(168.0, 60.0), Vector2(12.0, 8.0),
+	# Entree Arene
+	add_transition(Vector2(168.0, 60.0), Vector2(12.0, 8.0),
 		"res://scenes/overworld/maps/AzuriaGym.tscn", Vector2(160.0, 208.0))
-	# Est → Route 4
-	_transition(Vector2(MAP_W + 8.0, 120.0), Vector2(24.0, 32.0),
+	# Est -> Route 4
+	add_transition(Vector2(328.0, 120.0), Vector2(24.0, 32.0),
 		"res://scenes/overworld/maps/Route4.tscn", Vector2(16.0, 120.0))
 
-# ── Spawn ─────────────────────────────────────────────────────────────────────
+	# Border walls
+	add_border_walls()
 
-func _spawn_player(default_pos: Vector2) -> void:
-	var scene := preload("res://scenes/overworld/entities/Player.tscn")
-	var player := scene.instantiate()
-	if GameState.pending_spawn_position != Vector2.ZERO:
-		player.position = GameState.pending_spawn_position
-		GameState.pending_spawn_position = Vector2.ZERO
-	else:
-		player.position = default_pos
-	add_child(player)
-	var cam: Camera2D = player.get_node_or_null("Camera2D")
-	if cam:
-		cam.limit_left = 0; cam.limit_top = 0; cam.limit_right = MAP_W; cam.limit_bottom = MAP_H
-
-# ── Signaux ───────────────────────────────────────────────────────────────────
-
-func _connect_signals() -> void:
-	EventBus.battle_started.connect(_on_battle_started)
-	EventBus.trainer_battle_started.connect(_on_trainer_battle)
-
-func _on_battle_started(enemy_data: Dictionary, is_trainer: bool) -> void:
-	GameState.pending_battle  = { "enemy_data": enemy_data, "is_trainer": is_trainer }
-	GameState.return_to_scene = "res://scenes/overworld/maps/AzuriaCity.tscn"
-	get_tree().change_scene_to_file("res://scenes/battle/BattleScene.tscn")
-
-func _on_trainer_battle(_trainer_id: String) -> void:
-	GameState.return_to_scene = "res://scenes/overworld/maps/AzuriaCity.tscn"
-	get_tree().change_scene_to_file("res://scenes/battle/BattleScene.tscn")
-
-# ── Helpers ───────────────────────────────────────────────────────────────────
-
-func _rect(pos: Vector2, size: Vector2, color: Color) -> void:
-	var r := ColorRect.new(); r.position = pos; r.size = size; r.color = color; add_child(r)
-func _wall(center: Vector2, size: Vector2) -> void:
-	var body := StaticBody2D.new(); body.position = center
-	var shape := CollisionShape2D.new(); var rs := RectangleShape2D.new(); rs.size = size; shape.shape = rs
-	body.add_child(shape); add_child(body)
-func _building(pos: Vector2, size: Vector2, color: Color, label: String) -> void:
-	_rect(pos, size, color); _rect(pos, Vector2(size.x, 8.0), color.darkened(0.35))
-	_rect(pos + Vector2(size.x * 0.5 - 6.0, size.y - 14.0), Vector2(12.0, 14.0), color.lightened(0.25))
-	var lbl := Label.new(); lbl.text = label; lbl.position = pos + Vector2(3.0, size.y * 0.3)
-	lbl.size = Vector2(size.x - 6.0, size.y); lbl.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	lbl.add_theme_font_size_override("font_size", 6); lbl.add_theme_color_override("font_color", Color.WHITE)
-	add_child(lbl); _wall(pos + size * 0.5, size)
-func _npc(pos: Vector2, dialogue_key: String, special_action: String, shop_id: String, color: Color) -> void:
-	var npc := NPC.new(); npc.position = pos; npc.dialogue_key = dialogue_key
-	npc.special_action = special_action; npc.shop_id = shop_id; npc.npc_color = color; add_child(npc)
-func _sign(pos: Vector2, dialogue_key: String) -> void:
-	var s := Sign.new(); s.position = pos; s.dialogue_key = dialogue_key; add_child(s)
-func _transition(center: Vector2, shape_size: Vector2, target: String, spawn: Vector2) -> void:
-	var t := MapTransition.new(); t.position = center; t.target_scene = target; t.spawn_position = spawn
-	var cs := CollisionShape2D.new(); var rs := RectangleShape2D.new(); rs.size = shape_size; cs.shape = rs
-	t.add_child(cs); add_child(t)
+func get_player_spawn() -> Vector2:
+	return Vector2(24.0, 64.0)

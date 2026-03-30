@@ -1,110 +1,48 @@
-extends Node2D
-## ROUTE 5 — Route entre Carmin-sur-Mer et Céladopole.
-## Layout 480×240 avec deux zones d'herbe.
+extends "res://scripts/overworld/MapRenderer.gd"
+## ROUTE 5 — Route entre Carmin-sur-Mer et Celadopole.
 
-const MAP_W := 480
-const MAP_H := 240
-const TILE  := 16
+func get_player_spawn() -> Vector2:
+	return Vector2(24, 120)
 
-func _ready() -> void:
-	_build_ground()
-	_build_path()
-	_build_grass()
-	_build_encounter_zones()
-	_build_borders()
-	_build_trainers()
-	_build_signs()
-	_build_transitions()
-	_spawn_player(Vector2(24.0, 120.0))
-	_connect_signals()
+func build_map() -> void:
+	MAP_W = 480; MAP_H = 240
+	var tw := MAP_W / TILE_SIZE  # 30
+	var th := MAP_H / TILE_SIZE  # 15
 
-func _build_ground() -> void:
-	_rect(Vector2.ZERO, Vector2(MAP_W, MAP_H), Color(0.30, 0.55, 0.22))
+	# Ground — grass base
+	fill("grass_light", 0, 0, tw, th)
 
-func _build_path() -> void:
-	_rect(Vector2(0, 104), Vector2(MAP_W, 32), Color(0.56, 0.46, 0.30))
+	# Central horizontal path (y=104..136 -> tiles 6..8, 2 tiles high)
+	path_h(0, 6, tw, 3)
 
-func _build_grass() -> void:
-	_rect(Vector2(48, 0), Vector2(180, 104), Color(0.20, 0.48, 0.14))
-	_rect(Vector2(48, 136), Vector2(180, 104), Color(0.20, 0.48, 0.14))
-	_rect(Vector2(270, 0), Vector2(160, 104), Color(0.17, 0.43, 0.11))
-	_rect(Vector2(270, 136), Vector2(160, 104), Color(0.17, 0.43, 0.11))
-	_grass_label(Vector2(100, 30), "~HERBES~")
-	_grass_label(Vector2(310, 30), "~HERBES~")
+	# Tall grass zones (4 patches on sides of path)
+	# Left patches: px(48,0) 180x104 -> tiles (3,0) 11x6
+	fill("tall_grass", 3, 0, 11, 6)
+	# Left bottom: px(48,136) 180x104 -> tiles (3,9) 11x7
+	fill("tall_grass", 3, 9, 11, 7)
+	# Right patches: px(270,0) 160x104 -> tiles (16,0) 10x6
+	fill("tall_grass", 16, 0, 10, 6)
+	# Right bottom: px(270,136) 160x104 -> tiles (16,9) 10x7
+	fill("tall_grass", 16, 9, 10, 7)
 
-func _build_borders() -> void:
-	_wall(Vector2(-8.0, MAP_H * 0.5), Vector2(16.0, MAP_H + 16.0))
-	_wall(Vector2(MAP_W + 8.0, MAP_H * 0.5), Vector2(16.0, MAP_H + 16.0))
-	_wall(Vector2(MAP_W * 0.5, -8.0), Vector2(MAP_W + 16.0, 16.0))
-	_wall(Vector2(MAP_W * 0.5, MAP_H + 8.0), Vector2(MAP_W + 16.0, 16.0))
+	# Trainers (positions in pixels)
+	add_trainer(Vector2(160, 120), "route5_youngster", Color(0.60, 0.45, 0.25))
+	add_trainer(Vector2(340, 120), "route5_beauty", Color(0.90, 0.45, 0.55))
+	add_trainer(Vector2(240, 120), "rival_route5", Color(0.20, 0.30, 0.80))
 
-func _build_trainers() -> void:
-	_trainer(Vector2(160.0, 120.0), "route5_youngster", Color(0.60, 0.45, 0.25))
-	_trainer(Vector2(340.0, 120.0), "route5_beauty",    Color(0.90, 0.45, 0.55))
-	# Rival Bleu — milieu de Route 5
-	_trainer(Vector2(240.0, 120.0), "rival_route5",     Color(0.20, 0.30, 0.80))
+	# Encounter zones
+	add_encounter_zone(Vector2(138, 120), Vector2(180, 240), "route5", "grass_01", 0.15)
+	add_encounter_zone(Vector2(350, 120), Vector2(160, 240), "route5", "grass_02", 0.15)
 
-func _build_signs() -> void:
-	_sign(Vector2(48.0, 120.0), "sign_route5")
+	# Sign
+	add_sign(Vector2(48, 120), "sign_route5")
 
-func _build_transitions() -> void:
-	# Ouest → Carmin-sur-Mer
-	_transition(Vector2(-8.0, 120.0), Vector2(24.0, 32.0),
-		"res://scenes/overworld/maps/CarminCity.tscn", Vector2(304.0, 112.0))
-	# Est → Céladopole
-	_transition(Vector2(MAP_W + 8.0, 120.0), Vector2(24.0, 32.0),
-		"res://scenes/overworld/maps/Celadopole.tscn", Vector2(16.0, 120.0))
+	# Transitions
+	# West -> CarminCity
+	add_transition(Vector2(-8, 120), Vector2(24, 32),
+		"res://scenes/overworld/maps/CarminCity.tscn", Vector2(304, 112))
+	# East -> Celadopole
+	add_transition(Vector2(488, 120), Vector2(24, 32),
+		"res://scenes/overworld/maps/Celadopole.tscn", Vector2(16, 120))
 
-func _spawn_player(default_pos: Vector2) -> void:
-	var scene := preload("res://scenes/overworld/entities/Player.tscn")
-	var player := scene.instantiate()
-	if GameState.pending_spawn_position != Vector2.ZERO:
-		player.position = GameState.pending_spawn_position
-		GameState.pending_spawn_position = Vector2.ZERO
-	else:
-		player.position = default_pos
-	add_child(player)
-	var cam: Camera2D = player.get_node_or_null("Camera2D")
-	if cam:
-		cam.limit_left = 0; cam.limit_top = 0; cam.limit_right = MAP_W; cam.limit_bottom = MAP_H
-
-func _build_encounter_zones() -> void:
-	_encounter_zone(Vector2(138.0, 120.0), Vector2(180.0, 240.0), "route5", "grass_01", 0.15)
-	_encounter_zone(Vector2(350.0, 120.0), Vector2(160.0, 240.0), "route5", "grass_02", 0.15)
-
-func _connect_signals() -> void:
-	EventBus.battle_started.connect(_on_battle_started)
-	EventBus.trainer_battle_started.connect(_on_trainer_battle)
-
-func _on_battle_started(enemy_data: Dictionary, is_trainer: bool) -> void:
-	GameState.pending_battle   = { "enemy_data": enemy_data, "is_trainer": is_trainer }
-	GameState.return_to_scene  = "res://scenes/overworld/maps/Route5.tscn"
-	get_tree().change_scene_to_file("res://scenes/battle/BattleScene.tscn")
-
-func _on_trainer_battle(_trainer_id: String) -> void:
-	GameState.return_to_scene = "res://scenes/overworld/maps/Route5.tscn"
-	get_tree().change_scene_to_file("res://scenes/battle/BattleScene.tscn")
-
-func _rect(pos: Vector2, size: Vector2, color: Color) -> void:
-	var r := ColorRect.new(); r.position = pos; r.size = size; r.color = color; add_child(r)
-func _wall(center: Vector2, size: Vector2) -> void:
-	var body := StaticBody2D.new(); body.position = center
-	var shape := CollisionShape2D.new(); var rs := RectangleShape2D.new(); rs.size = size; shape.shape = rs
-	body.add_child(shape); add_child(body)
-func _trainer(pos: Vector2, trainer_id: String, color: Color) -> void:
-	var t := Trainer.new(); t.position = pos; t.trainer_id = trainer_id; t.npc_color = color; add_child(t)
-func _sign(pos: Vector2, dialogue_key: String) -> void:
-	var s := Sign.new(); s.position = pos; s.dialogue_key = dialogue_key; add_child(s)
-func _transition(center: Vector2, shape_size: Vector2, target: String, spawn: Vector2) -> void:
-	var t := MapTransition.new(); t.position = center; t.target_scene = target; t.spawn_position = spawn
-	var cs := CollisionShape2D.new(); var rs := RectangleShape2D.new(); rs.size = shape_size; cs.shape = rs
-	t.add_child(cs); add_child(t)
-func _encounter_zone(center: Vector2, shape_size: Vector2, map_id: String, zone_id: String, rate: float) -> void:
-	var zone := WildEncounterZone.new(); zone.position = center; zone.map_id = map_id; zone.zone_id = zone_id; zone.encounter_rate = rate
-	var cs := CollisionShape2D.new(); var rs := RectangleShape2D.new(); rs.size = shape_size; cs.shape = rs
-	zone.add_child(cs); add_child(zone)
-func _grass_label(pos: Vector2, text: String) -> void:
-	var lbl := Label.new(); lbl.text = text; lbl.position = pos
-	lbl.add_theme_font_size_override("font_size", 5)
-	lbl.add_theme_color_override("font_color", Color(0.9, 1.0, 0.8, 0.7))
-	add_child(lbl)
+	add_border_walls()

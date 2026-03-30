@@ -1,0 +1,2901 @@
+{
+  "stench": {
+    "name": "Stench",
+    "name_fr": "Puanteur",
+    "desc": "The stench may cause the target to flinch when the Pokemon deals damage.",
+    "gen": 3,
+    "hooks": [
+      "modify_damage"
+    ]
+  },
+  "drizzle": {
+    "name": "Drizzle",
+    "name_fr": "Crachin",
+    "desc": "The Pokemon summons rain when it enters battle.",
+    "gen": 3,
+    "hooks": [
+      "on_switch_in",
+      "on_weather"
+    ]
+  },
+  "speed_boost": {
+    "name": "Speed Boost",
+    "name_fr": "Turbo",
+    "desc": "The Pokemon's Speed stat is boosted at the end of each turn.",
+    "gen": 3,
+    "hooks": [
+      "on_end_of_turn",
+      "modify_speed"
+    ]
+  },
+  "battle_armor": {
+    "name": "Battle Armor",
+    "name_fr": "Armurbaston",
+    "desc": "Hard armor protects the Pokemon from critical hits.",
+    "gen": 3,
+    "hooks": [
+      "prevent_crit"
+    ]
+  },
+  "sturdy": {
+    "name": "Sturdy",
+    "name_fr": "Fermete",
+    "desc": "The Pokemon cannot be knocked out in one hit from full HP. Also immune to OHKO moves.",
+    "gen": 3,
+    "hooks": [
+      "on_before_hit"
+    ]
+  },
+  "damp": {
+    "name": "Damp",
+    "name_fr": "Moiteur",
+    "desc": "Prevents the use of explosive moves like Self-Destruct by dampening surroundings.",
+    "gen": 3,
+    "hooks": [
+      "on_before_hit"
+    ]
+  },
+  "limber": {
+    "name": "Limber",
+    "name_fr": "Echauffement",
+    "desc": "The Pokemon's limber body prevents it from being paralyzed.",
+    "gen": 3,
+    "hooks": [
+      "prevent_status"
+    ]
+  },
+  "sand_veil": {
+    "name": "Sand Veil",
+    "name_fr": "Voile Sable",
+    "desc": "Boosts the Pokemon's evasiveness in a sandstorm. Immune to sandstorm damage.",
+    "gen": 3,
+    "hooks": [
+      "modify_accuracy",
+      "on_weather"
+    ]
+  },
+  "static": {
+    "name": "Static",
+    "name_fr": "Statik",
+    "desc": "The Pokemon may paralyze an attacker that makes direct contact.",
+    "gen": 3,
+    "hooks": [
+      "on_after_contact"
+    ]
+  },
+  "volt_absorb": {
+    "name": "Volt Absorb",
+    "name_fr": "Absorb Volt",
+    "desc": "Restores HP if hit by an Electric-type move instead of taking damage.",
+    "gen": 3,
+    "hooks": [
+      "on_before_hit"
+    ]
+  },
+  "water_absorb": {
+    "name": "Water Absorb",
+    "name_fr": "Absorb Eau",
+    "desc": "Restores HP if hit by a Water-type move instead of taking damage.",
+    "gen": 3,
+    "hooks": [
+      "on_before_hit"
+    ]
+  },
+  "oblivious": {
+    "name": "Oblivious",
+    "name_fr": "Benêt",
+    "desc": "The Pokemon is oblivious, preventing Attract, Taunt, and Intimidate.",
+    "gen": 3,
+    "hooks": [
+      "prevent_status",
+      "prevent_stat_drop"
+    ]
+  },
+  "cloud_nine": {
+    "name": "Cloud Nine",
+    "name_fr": "Air Lock",
+    "desc": "Eliminates the effects of weather on the battlefield.",
+    "gen": 3,
+    "hooks": [
+      "on_switch_in",
+      "on_weather"
+    ]
+  },
+  "compound_eyes": {
+    "name": "Compound Eyes",
+    "name_fr": "Oeil Compose",
+    "desc": "The Pokemon's compound eyes boost its accuracy by 30%.",
+    "gen": 3,
+    "hooks": [
+      "modify_accuracy"
+    ]
+  },
+  "insomnia": {
+    "name": "Insomnia",
+    "name_fr": "Insomnia",
+    "desc": "The Pokemon's insomnia prevents it from falling asleep.",
+    "gen": 3,
+    "hooks": [
+      "prevent_status"
+    ]
+  },
+  "color_change": {
+    "name": "Color Change",
+    "name_fr": "Cameleon",
+    "desc": "The Pokemon's type changes to the type of the move that hit it.",
+    "gen": 3,
+    "hooks": [
+      "on_before_hit"
+    ]
+  },
+  "immunity": {
+    "name": "Immunity",
+    "name_fr": "Immunite",
+    "desc": "The Pokemon's immune system prevents it from being poisoned.",
+    "gen": 3,
+    "hooks": [
+      "prevent_status"
+    ]
+  },
+  "flash_fire": {
+    "name": "Flash Fire",
+    "name_fr": "Torche",
+    "desc": "Powers up the Pokemon's Fire-type moves if hit by a Fire-type move. Immune to Fire.",
+    "gen": 3,
+    "hooks": [
+      "on_before_hit",
+      "modify_damage"
+    ]
+  },
+  "shield_dust": {
+    "name": "Shield Dust",
+    "name_fr": "Ecran Poudre",
+    "desc": "Blocks the additional effects of moves taken.",
+    "gen": 3,
+    "hooks": [
+      "on_before_hit"
+    ]
+  },
+  "own_tempo": {
+    "name": "Own Tempo",
+    "name_fr": "Tempo Perso",
+    "desc": "The Pokemon cannot become confused. Also prevents Intimidate.",
+    "gen": 3,
+    "hooks": [
+      "prevent_status",
+      "prevent_stat_drop"
+    ]
+  },
+  "suction_cups": {
+    "name": "Suction Cups",
+    "name_fr": "Ventouses",
+    "desc": "The Pokemon uses suction cups to stay in place, preventing forced switching.",
+    "gen": 3,
+    "hooks": [
+      "on_before_hit"
+    ]
+  },
+  "intimidate": {
+    "name": "Intimidate",
+    "name_fr": "Intimidation",
+    "desc": "Lowers the opposing Pokemon's Attack stat when it enters battle.",
+    "gen": 3,
+    "hooks": [
+      "on_switch_in"
+    ]
+  },
+  "shadow_tag": {
+    "name": "Shadow Tag",
+    "name_fr": "Marque Ombre",
+    "desc": "Prevents opposing Pokemon from fleeing or switching out.",
+    "gen": 3,
+    "hooks": [
+      "on_switch_in"
+    ]
+  },
+  "rough_skin": {
+    "name": "Rough Skin",
+    "name_fr": "Peau Dure",
+    "desc": "The Pokemon's rough skin damages attackers that make direct contact.",
+    "gen": 3,
+    "hooks": [
+      "on_after_contact"
+    ]
+  },
+  "wonder_guard": {
+    "name": "Wonder Guard",
+    "name_fr": "Garde Mystik",
+    "desc": "Only super-effective moves can damage this Pokemon.",
+    "gen": 3,
+    "hooks": [
+      "on_before_hit"
+    ]
+  },
+  "levitate": {
+    "name": "Levitate",
+    "name_fr": "Levitation",
+    "desc": "The Pokemon floats, making it immune to Ground-type moves.",
+    "gen": 3,
+    "hooks": [
+      "on_before_hit"
+    ]
+  },
+  "effect_spore": {
+    "name": "Effect Spore",
+    "name_fr": "Pose Spore",
+    "desc": "May inflict poison, paralysis, or sleep on contact.",
+    "gen": 3,
+    "hooks": [
+      "on_after_contact"
+    ]
+  },
+  "synchronize": {
+    "name": "Synchronize",
+    "name_fr": "Synchro",
+    "desc": "Passes poison, paralysis, or burn to the Pokemon that inflicted it.",
+    "gen": 3,
+    "hooks": [
+      "prevent_status"
+    ]
+  },
+  "clear_body": {
+    "name": "Clear Body",
+    "name_fr": "Corps Sain",
+    "desc": "Prevents other Pokemon from lowering its stats.",
+    "gen": 3,
+    "hooks": [
+      "prevent_stat_drop"
+    ]
+  },
+  "natural_cure": {
+    "name": "Natural Cure",
+    "name_fr": "Medic Nature",
+    "desc": "All status conditions are healed when the Pokemon switches out.",
+    "gen": 3,
+    "hooks": [
+      "on_switch_out"
+    ]
+  },
+  "lightning_rod": {
+    "name": "Lightning Rod",
+    "name_fr": "Paratonnerre",
+    "desc": "Draws Electric-type moves to this Pokemon and boosts Sp. Atk. Immune to Electric.",
+    "gen": 3,
+    "hooks": [
+      "on_before_hit",
+      "modify_stat"
+    ]
+  },
+  "serene_grace": {
+    "name": "Serene Grace",
+    "name_fr": "Serenite",
+    "desc": "Doubles the likelihood of additional effects occurring when attacking.",
+    "gen": 3,
+    "hooks": [
+      "modify_damage"
+    ]
+  },
+  "swift_swim": {
+    "name": "Swift Swim",
+    "name_fr": "Glissade",
+    "desc": "Doubles the Pokemon's Speed stat in rain.",
+    "gen": 3,
+    "hooks": [
+      "modify_speed",
+      "on_weather"
+    ]
+  },
+  "chlorophyll": {
+    "name": "Chlorophyll",
+    "name_fr": "Chlorophylle",
+    "desc": "Doubles the Pokemon's Speed stat in harsh sunlight.",
+    "gen": 3,
+    "hooks": [
+      "modify_speed",
+      "on_weather"
+    ]
+  },
+  "illuminate": {
+    "name": "Illuminate",
+    "name_fr": "Lumiattirance",
+    "desc": "Raises the likelihood of meeting wild Pokemon. No battle effect.",
+    "gen": 3,
+    "hooks": []
+  },
+  "trace": {
+    "name": "Trace",
+    "name_fr": "Calque",
+    "desc": "Copies the opposing Pokemon's ability when entering battle.",
+    "gen": 3,
+    "hooks": [
+      "on_switch_in"
+    ]
+  },
+  "huge_power": {
+    "name": "Huge Power",
+    "name_fr": "Enorme Pouvoir",
+    "desc": "Doubles the Pokemon's Attack stat.",
+    "gen": 3,
+    "hooks": [
+      "modify_stat"
+    ]
+  },
+  "poison_point": {
+    "name": "Poison Point",
+    "name_fr": "Point Poison",
+    "desc": "May poison an attacker that makes direct contact.",
+    "gen": 3,
+    "hooks": [
+      "on_after_contact"
+    ]
+  },
+  "inner_focus": {
+    "name": "Inner Focus",
+    "name_fr": "Attention",
+    "desc": "The Pokemon's focus prevents it from flinching. Also prevents Intimidate.",
+    "gen": 3,
+    "hooks": [
+      "prevent_status",
+      "prevent_stat_drop"
+    ]
+  },
+  "magma_armor": {
+    "name": "Magma Armor",
+    "name_fr": "Armumagma",
+    "desc": "The Pokemon's magma armor prevents it from being frozen.",
+    "gen": 3,
+    "hooks": [
+      "prevent_status"
+    ]
+  },
+  "water_veil": {
+    "name": "Water Veil",
+    "name_fr": "Voile Eau",
+    "desc": "The Pokemon's water veil prevents it from being burned.",
+    "gen": 3,
+    "hooks": [
+      "prevent_status"
+    ]
+  },
+  "magnet_pull": {
+    "name": "Magnet Pull",
+    "name_fr": "Magnetpiege",
+    "desc": "Prevents Steel-type Pokemon from escaping.",
+    "gen": 3,
+    "hooks": [
+      "on_switch_in"
+    ]
+  },
+  "soundproof": {
+    "name": "Soundproof",
+    "name_fr": "Anti-Bruit",
+    "desc": "Gives immunity to sound-based moves.",
+    "gen": 3,
+    "hooks": [
+      "on_before_hit"
+    ]
+  },
+  "rain_dish": {
+    "name": "Rain Dish",
+    "name_fr": "Cuvette",
+    "desc": "The Pokemon gradually recovers HP in rain.",
+    "gen": 3,
+    "hooks": [
+      "on_end_of_turn",
+      "on_weather"
+    ]
+  },
+  "sand_stream": {
+    "name": "Sand Stream",
+    "name_fr": "Sable Volant",
+    "desc": "The Pokemon summons a sandstorm when it enters battle.",
+    "gen": 3,
+    "hooks": [
+      "on_switch_in",
+      "on_weather"
+    ]
+  },
+  "pressure": {
+    "name": "Pressure",
+    "name_fr": "Pression",
+    "desc": "Puts pressure on the opposing Pokemon, causing it to use more PP.",
+    "gen": 3,
+    "hooks": [
+      "on_switch_in"
+    ]
+  },
+  "thick_fat": {
+    "name": "Thick Fat",
+    "name_fr": "Isograisse",
+    "desc": "Halves the damage from Fire- and Ice-type moves.",
+    "gen": 3,
+    "hooks": [
+      "modify_damage"
+    ]
+  },
+  "early_bird": {
+    "name": "Early Bird",
+    "name_fr": "Matinal",
+    "desc": "The Pokemon awakens from sleep twice as fast.",
+    "gen": 3,
+    "hooks": [
+      "on_end_of_turn"
+    ]
+  },
+  "flame_body": {
+    "name": "Flame Body",
+    "name_fr": "Corps Ardent",
+    "desc": "May burn an attacker that makes direct contact.",
+    "gen": 3,
+    "hooks": [
+      "on_after_contact"
+    ]
+  },
+  "run_away": {
+    "name": "Run Away",
+    "name_fr": "Fuite",
+    "desc": "Enables a sure getaway from wild Pokemon.",
+    "gen": 3,
+    "hooks": []
+  },
+  "keen_eye": {
+    "name": "Keen Eye",
+    "name_fr": "Regard Vif",
+    "desc": "The Pokemon's keen eyes prevent its accuracy from being lowered.",
+    "gen": 3,
+    "hooks": [
+      "prevent_stat_drop"
+    ]
+  },
+  "hyper_cutter": {
+    "name": "Hyper Cutter",
+    "name_fr": "Hyper Cutter",
+    "desc": "The Pokemon's Attack stat cannot be lowered by other Pokemon.",
+    "gen": 3,
+    "hooks": [
+      "prevent_stat_drop"
+    ]
+  },
+  "pickup": {
+    "name": "Pickup",
+    "name_fr": "Ramassage",
+    "desc": "The Pokemon may pick up items after battle.",
+    "gen": 3,
+    "hooks": [
+      "on_end_of_turn"
+    ]
+  },
+  "truant": {
+    "name": "Truant",
+    "name_fr": "Absenteisme",
+    "desc": "The Pokemon can only attack every other turn.",
+    "gen": 3,
+    "hooks": [
+      "on_end_of_turn"
+    ]
+  },
+  "hustle": {
+    "name": "Hustle",
+    "name_fr": "Agitation",
+    "desc": "Boosts Attack by 50% but lowers accuracy of physical moves by 20%.",
+    "gen": 3,
+    "hooks": [
+      "modify_stat",
+      "modify_accuracy"
+    ]
+  },
+  "cute_charm": {
+    "name": "Cute Charm",
+    "name_fr": "Joli Sourire",
+    "desc": "May infatuate an attacker that makes direct contact.",
+    "gen": 3,
+    "hooks": [
+      "on_after_contact"
+    ]
+  },
+  "plus": {
+    "name": "Plus",
+    "name_fr": "Plus",
+    "desc": "Boosts Sp. Atk if an ally has Plus or Minus.",
+    "gen": 3,
+    "hooks": [
+      "modify_stat"
+    ]
+  },
+  "minus": {
+    "name": "Minus",
+    "name_fr": "Minus",
+    "desc": "Boosts Sp. Atk if an ally has Plus or Minus.",
+    "gen": 3,
+    "hooks": [
+      "modify_stat"
+    ]
+  },
+  "forecast": {
+    "name": "Forecast",
+    "name_fr": "Meteo",
+    "desc": "Changes Castform's type depending on the weather.",
+    "gen": 3,
+    "hooks": [
+      "on_switch_in",
+      "on_weather"
+    ]
+  },
+  "sticky_hold": {
+    "name": "Sticky Hold",
+    "name_fr": "Glu",
+    "desc": "Protects the Pokemon from item theft.",
+    "gen": 3,
+    "hooks": [
+      "on_before_hit"
+    ]
+  },
+  "shed_skin": {
+    "name": "Shed Skin",
+    "name_fr": "Mue",
+    "desc": "The Pokemon may heal its own status conditions at the end of each turn.",
+    "gen": 3,
+    "hooks": [
+      "on_end_of_turn"
+    ]
+  },
+  "guts": {
+    "name": "Guts",
+    "name_fr": "Cran",
+    "desc": "Boosts Attack by 50% when the Pokemon has a status condition.",
+    "gen": 3,
+    "hooks": [
+      "modify_stat"
+    ]
+  },
+  "marvel_scale": {
+    "name": "Marvel Scale",
+    "name_fr": "Ecaille Speciale",
+    "desc": "Boosts Defense by 50% when the Pokemon has a status condition.",
+    "gen": 3,
+    "hooks": [
+      "modify_stat"
+    ]
+  },
+  "liquid_ooze": {
+    "name": "Liquid Ooze",
+    "name_fr": "Suintement",
+    "desc": "Damages attackers who try to drain HP from the Pokemon.",
+    "gen": 3,
+    "hooks": [
+      "on_before_hit"
+    ]
+  },
+  "overgrow": {
+    "name": "Overgrow",
+    "name_fr": "Engrais",
+    "desc": "Powers up Grass-type moves when the Pokemon's HP is low.",
+    "gen": 3,
+    "hooks": [
+      "modify_damage"
+    ]
+  },
+  "blaze": {
+    "name": "Blaze",
+    "name_fr": "Brasier",
+    "desc": "Powers up Fire-type moves when the Pokemon's HP is low.",
+    "gen": 3,
+    "hooks": [
+      "modify_damage"
+    ]
+  },
+  "torrent": {
+    "name": "Torrent",
+    "name_fr": "Torrent",
+    "desc": "Powers up Water-type moves when the Pokemon's HP is low.",
+    "gen": 3,
+    "hooks": [
+      "modify_damage"
+    ]
+  },
+  "swarm": {
+    "name": "Swarm",
+    "name_fr": "Essaim",
+    "desc": "Powers up Bug-type moves when the Pokemon's HP is low.",
+    "gen": 3,
+    "hooks": [
+      "modify_damage"
+    ]
+  },
+  "rock_head": {
+    "name": "Rock Head",
+    "name_fr": "Tete de Roc",
+    "desc": "Protects the Pokemon from recoil damage.",
+    "gen": 3,
+    "hooks": [
+      "modify_damage"
+    ]
+  },
+  "drought": {
+    "name": "Drought",
+    "name_fr": "Secheresse",
+    "desc": "The Pokemon summons harsh sunlight when it enters battle.",
+    "gen": 3,
+    "hooks": [
+      "on_switch_in",
+      "on_weather"
+    ]
+  },
+  "arena_trap": {
+    "name": "Arena Trap",
+    "name_fr": "Piege de Sable",
+    "desc": "Prevents grounded opposing Pokemon from fleeing or switching out.",
+    "gen": 3,
+    "hooks": [
+      "on_switch_in"
+    ]
+  },
+  "vital_spirit": {
+    "name": "Vital Spirit",
+    "name_fr": "Esprit Vital",
+    "desc": "The Pokemon's vital spirit prevents it from falling asleep.",
+    "gen": 3,
+    "hooks": [
+      "prevent_status"
+    ]
+  },
+  "white_smoke": {
+    "name": "White Smoke",
+    "name_fr": "Ecran Fumee",
+    "desc": "Prevents other Pokemon from lowering its stats.",
+    "gen": 3,
+    "hooks": [
+      "prevent_stat_drop"
+    ]
+  },
+  "pure_power": {
+    "name": "Pure Power",
+    "name_fr": "Force Pure",
+    "desc": "Doubles the Pokemon's Attack stat.",
+    "gen": 3,
+    "hooks": [
+      "modify_stat"
+    ]
+  },
+  "shell_armor": {
+    "name": "Shell Armor",
+    "name_fr": "Armure",
+    "desc": "A hard shell protects the Pokemon from critical hits.",
+    "gen": 3,
+    "hooks": [
+      "prevent_crit"
+    ]
+  },
+  "air_lock": {
+    "name": "Air Lock",
+    "name_fr": "Verrou Climatique",
+    "desc": "Eliminates the effects of all weather conditions.",
+    "gen": 3,
+    "hooks": [
+      "on_switch_in",
+      "on_weather"
+    ]
+  },
+  "tangled_feet": {
+    "name": "Tangled Feet",
+    "name_fr": "Pieds Confus",
+    "desc": "Raises evasion when the Pokemon is confused.",
+    "gen": 3,
+    "hooks": [
+      "modify_accuracy"
+    ]
+  },
+  "motor_drive": {
+    "name": "Motor Drive",
+    "name_fr": "Moteur",
+    "desc": "Boosts Speed if hit by an Electric-type move. Immune to Electric.",
+    "gen": 4,
+    "hooks": [
+      "on_before_hit",
+      "modify_speed"
+    ]
+  },
+  "rivalry": {
+    "name": "Rivalry",
+    "name_fr": "Rivalite",
+    "desc": "Deals more damage to Pokemon of the same gender, less to opposite.",
+    "gen": 4,
+    "hooks": [
+      "modify_damage"
+    ]
+  },
+  "steadfast": {
+    "name": "Steadfast",
+    "name_fr": "Impassible",
+    "desc": "Boosts Speed each time the Pokemon flinches.",
+    "gen": 4,
+    "hooks": [
+      "modify_speed"
+    ]
+  },
+  "snow_cloak": {
+    "name": "Snow Cloak",
+    "name_fr": "Rideau Neige",
+    "desc": "Boosts evasion in a hailstorm. Immune to hail damage.",
+    "gen": 3,
+    "hooks": [
+      "modify_accuracy",
+      "on_weather"
+    ]
+  },
+  "gluttony": {
+    "name": "Gluttony",
+    "name_fr": "Gloutonnerie",
+    "desc": "Causes the Pokemon to eat Berries at 50% HP instead of 25%.",
+    "gen": 3,
+    "hooks": [
+      "on_end_of_turn"
+    ]
+  },
+  "anger_point": {
+    "name": "Anger Point",
+    "name_fr": "Colereux",
+    "desc": "Maxes Attack when the Pokemon takes a critical hit.",
+    "gen": 4,
+    "hooks": [
+      "on_before_hit",
+      "modify_stat"
+    ]
+  },
+  "unburden": {
+    "name": "Unburden",
+    "name_fr": "Delestage",
+    "desc": "Doubles Speed when the Pokemon uses or loses its held item.",
+    "gen": 3,
+    "hooks": [
+      "modify_speed"
+    ]
+  },
+  "heatproof": {
+    "name": "Heatproof",
+    "name_fr": "Ignifuge",
+    "desc": "Halves damage from Fire-type moves and burn damage.",
+    "gen": 4,
+    "hooks": [
+      "modify_damage"
+    ]
+  },
+  "simple": {
+    "name": "Simple",
+    "name_fr": "Simple",
+    "desc": "Doubles the effect of stat changes on the Pokemon.",
+    "gen": 4,
+    "hooks": [
+      "modify_stat"
+    ]
+  },
+  "dry_skin": {
+    "name": "Dry Skin",
+    "name_fr": "Peau Seche",
+    "desc": "Recovers HP in rain, loses HP in sun. Absorbs Water moves, weak to Fire.",
+    "gen": 4,
+    "hooks": [
+      "on_before_hit",
+      "on_end_of_turn",
+      "on_weather",
+      "modify_damage"
+    ]
+  },
+  "download": {
+    "name": "Download",
+    "name_fr": "Telechargement",
+    "desc": "Raises Attack or Sp. Atk based on the opponent's lower defensive stat.",
+    "gen": 4,
+    "hooks": [
+      "on_switch_in",
+      "modify_stat"
+    ]
+  },
+  "iron_fist": {
+    "name": "Iron Fist",
+    "name_fr": "Poing de Fer",
+    "desc": "Powers up punching moves by 20%.",
+    "gen": 4,
+    "hooks": [
+      "modify_damage"
+    ]
+  },
+  "poison_heal": {
+    "name": "Poison Heal",
+    "name_fr": "Soin Poison",
+    "desc": "Restores HP when poisoned instead of taking damage.",
+    "gen": 4,
+    "hooks": [
+      "on_end_of_turn"
+    ]
+  },
+  "adaptability": {
+    "name": "Adaptability",
+    "name_fr": "Adaptabilite",
+    "desc": "Powers up moves of the same type as the Pokemon (STAB becomes 2x).",
+    "gen": 4,
+    "hooks": [
+      "modify_damage"
+    ]
+  },
+  "skill_link": {
+    "name": "Skill Link",
+    "name_fr": "Multi-Coups",
+    "desc": "Maximizes the number of hits of multi-hit moves.",
+    "gen": 4,
+    "hooks": [
+      "modify_damage"
+    ]
+  },
+  "hydration": {
+    "name": "Hydration",
+    "name_fr": "Hydratation",
+    "desc": "Heals status conditions in rain at end of turn.",
+    "gen": 4,
+    "hooks": [
+      "on_end_of_turn",
+      "on_weather"
+    ]
+  },
+  "solar_power": {
+    "name": "Solar Power",
+    "name_fr": "Solaire",
+    "desc": "Boosts Sp. Atk in sun but loses HP each turn.",
+    "gen": 4,
+    "hooks": [
+      "modify_stat",
+      "on_end_of_turn",
+      "on_weather"
+    ]
+  },
+  "quick_feet": {
+    "name": "Quick Feet",
+    "name_fr": "Pied Veloce",
+    "desc": "Boosts Speed when the Pokemon has a status condition.",
+    "gen": 4,
+    "hooks": [
+      "modify_speed"
+    ]
+  },
+  "normalize": {
+    "name": "Normalize",
+    "name_fr": "Normalise",
+    "desc": "All of the Pokemon's moves become Normal type and get a power boost.",
+    "gen": 4,
+    "hooks": [
+      "modify_damage"
+    ]
+  },
+  "sniper": {
+    "name": "Sniper",
+    "name_fr": "Sniper",
+    "desc": "Powers up critical hits even further (3x instead of 1.5x).",
+    "gen": 4,
+    "hooks": [
+      "modify_damage"
+    ]
+  },
+  "magic_guard": {
+    "name": "Magic Guard",
+    "name_fr": "Garde Magik",
+    "desc": "The Pokemon only takes damage from direct attacks.",
+    "gen": 4,
+    "hooks": [
+      "on_end_of_turn",
+      "on_weather"
+    ]
+  },
+  "no_guard": {
+    "name": "No Guard",
+    "name_fr": "Annule Garde",
+    "desc": "All moves by and against this Pokemon always hit.",
+    "gen": 4,
+    "hooks": [
+      "modify_accuracy"
+    ]
+  },
+  "stall": {
+    "name": "Stall",
+    "name_fr": "Frein",
+    "desc": "The Pokemon always moves last.",
+    "gen": 4,
+    "hooks": [
+      "modify_speed"
+    ]
+  },
+  "technician": {
+    "name": "Technician",
+    "name_fr": "Technicien",
+    "desc": "Powers up weaker moves (base power 60 or less) by 50%.",
+    "gen": 4,
+    "hooks": [
+      "modify_damage"
+    ]
+  },
+  "leaf_guard": {
+    "name": "Leaf Guard",
+    "name_fr": "Feuil. Garde",
+    "desc": "Prevents status conditions in harsh sunlight.",
+    "gen": 4,
+    "hooks": [
+      "prevent_status",
+      "on_weather"
+    ]
+  },
+  "klutz": {
+    "name": "Klutz",
+    "name_fr": "Maladresse",
+    "desc": "The Pokemon can't use any held items.",
+    "gen": 4,
+    "hooks": []
+  },
+  "mold_breaker": {
+    "name": "Mold Breaker",
+    "name_fr": "Brise Moule",
+    "desc": "Moves can be used on the target regardless of its abilities.",
+    "gen": 4,
+    "hooks": [
+      "on_switch_in",
+      "modify_damage"
+    ]
+  },
+  "super_luck": {
+    "name": "Super Luck",
+    "name_fr": "Chance",
+    "desc": "Heightens the critical-hit ratio of moves.",
+    "gen": 4,
+    "hooks": [
+      "modify_damage"
+    ]
+  },
+  "aftermath": {
+    "name": "Aftermath",
+    "name_fr": "Boom Final",
+    "desc": "Damages the attacker if it knocks out the Pokemon with a contact move.",
+    "gen": 4,
+    "hooks": [
+      "on_after_contact"
+    ]
+  },
+  "anticipation": {
+    "name": "Anticipation",
+    "name_fr": "Anticipation",
+    "desc": "Senses if the opponent has a super-effective or OHKO move.",
+    "gen": 4,
+    "hooks": [
+      "on_switch_in"
+    ]
+  },
+  "forewarn": {
+    "name": "Forewarn",
+    "name_fr": "Prescience",
+    "desc": "Reveals the opposing Pokemon's strongest move on switch-in.",
+    "gen": 4,
+    "hooks": [
+      "on_switch_in"
+    ]
+  },
+  "unaware": {
+    "name": "Unaware",
+    "name_fr": "Inconscient",
+    "desc": "Ignores the opposing Pokemon's stat changes when attacking or defending.",
+    "gen": 4,
+    "hooks": [
+      "modify_stat"
+    ]
+  },
+  "tinted_lens": {
+    "name": "Tinted Lens",
+    "name_fr": "Lentiteintee",
+    "desc": "Doubles the power of not-very-effective moves.",
+    "gen": 4,
+    "hooks": [
+      "modify_damage"
+    ]
+  },
+  "filter": {
+    "name": "Filter",
+    "name_fr": "Filtre",
+    "desc": "Reduces the power of super-effective moves by 25%.",
+    "gen": 4,
+    "hooks": [
+      "modify_damage"
+    ]
+  },
+  "slow_start": {
+    "name": "Slow Start",
+    "name_fr": "Debut Calme",
+    "desc": "Halves Attack and Speed for the first five turns in battle.",
+    "gen": 4,
+    "hooks": [
+      "on_switch_in",
+      "modify_stat",
+      "modify_speed",
+      "on_end_of_turn"
+    ]
+  },
+  "scrappy": {
+    "name": "Scrappy",
+    "name_fr": "Querelleur",
+    "desc": "Normal- and Fighting-type moves can hit Ghost types.",
+    "gen": 4,
+    "hooks": [
+      "modify_damage"
+    ]
+  },
+  "storm_drain": {
+    "name": "Storm Drain",
+    "name_fr": "Paratonnerre",
+    "desc": "Draws Water-type moves and boosts Sp. Atk. Immune to Water.",
+    "gen": 4,
+    "hooks": [
+      "on_before_hit",
+      "modify_stat"
+    ]
+  },
+  "ice_body": {
+    "name": "Ice Body",
+    "name_fr": "Corps Gel",
+    "desc": "The Pokemon gradually recovers HP in hail. Immune to hail damage.",
+    "gen": 4,
+    "hooks": [
+      "on_end_of_turn",
+      "on_weather"
+    ]
+  },
+  "solid_rock": {
+    "name": "Solid Rock",
+    "name_fr": "Roche Solide",
+    "desc": "Reduces the power of super-effective moves by 25%.",
+    "gen": 4,
+    "hooks": [
+      "modify_damage"
+    ]
+  },
+  "snow_warning": {
+    "name": "Snow Warning",
+    "name_fr": "Alerte Neige",
+    "desc": "The Pokemon summons a hailstorm when it enters battle.",
+    "gen": 4,
+    "hooks": [
+      "on_switch_in",
+      "on_weather"
+    ]
+  },
+  "honey_gather": {
+    "name": "Honey Gather",
+    "name_fr": "Cherche Miel",
+    "desc": "The Pokemon may gather Honey after battle.",
+    "gen": 4,
+    "hooks": []
+  },
+  "frisk": {
+    "name": "Frisk",
+    "name_fr": "Fouille",
+    "desc": "Reveals the opposing Pokemon's held item on switch-in.",
+    "gen": 4,
+    "hooks": [
+      "on_switch_in"
+    ]
+  },
+  "reckless": {
+    "name": "Reckless",
+    "name_fr": "Temerite",
+    "desc": "Powers up recoil moves by 20%.",
+    "gen": 4,
+    "hooks": [
+      "modify_damage"
+    ]
+  },
+  "multitype": {
+    "name": "Multitype",
+    "name_fr": "Multi-Type",
+    "desc": "Changes Arceus's type to match the held Plate or Z-Crystal.",
+    "gen": 4,
+    "hooks": [
+      "on_switch_in"
+    ]
+  },
+  "flower_gift": {
+    "name": "Flower Gift",
+    "name_fr": "Don Floral",
+    "desc": "Boosts Attack and Sp. Def of allies in harsh sunlight.",
+    "gen": 4,
+    "hooks": [
+      "modify_stat",
+      "on_weather"
+    ]
+  },
+  "bad_dreams": {
+    "name": "Bad Dreams",
+    "name_fr": "Mauvais Reve",
+    "desc": "Reduces the HP of sleeping opposing Pokemon each turn.",
+    "gen": 4,
+    "hooks": [
+      "on_end_of_turn"
+    ]
+  },
+  "pickpocket": {
+    "name": "Pickpocket",
+    "name_fr": "Pickpocket",
+    "desc": "Steals the attacker's held item on contact.",
+    "gen": 5,
+    "hooks": [
+      "on_after_contact"
+    ]
+  },
+  "sheer_force": {
+    "name": "Sheer Force",
+    "name_fr": "Sans Limite",
+    "desc": "Removes additional effects to increase move power by 30%.",
+    "gen": 5,
+    "hooks": [
+      "modify_damage"
+    ]
+  },
+  "contrary": {
+    "name": "Contrary",
+    "name_fr": "Esprit Contraire",
+    "desc": "Inverts all stat changes: raises become drops and vice versa.",
+    "gen": 5,
+    "hooks": [
+      "modify_stat"
+    ]
+  },
+  "unnerve": {
+    "name": "Unnerve",
+    "name_fr": "Tension",
+    "desc": "Prevents opposing Pokemon from eating Berries.",
+    "gen": 5,
+    "hooks": [
+      "on_switch_in"
+    ]
+  },
+  "defiant": {
+    "name": "Defiant",
+    "name_fr": "Defaitiste",
+    "desc": "Sharply raises Attack when stats are lowered.",
+    "gen": 5,
+    "hooks": [
+      "modify_stat"
+    ]
+  },
+  "defeatist": {
+    "name": "Defeatist",
+    "name_fr": "Deficit",
+    "desc": "Halves Attack and Sp. Atk when HP drops below half.",
+    "gen": 5,
+    "hooks": [
+      "modify_stat"
+    ]
+  },
+  "cursed_body": {
+    "name": "Cursed Body",
+    "name_fr": "Corps Maudit",
+    "desc": "May disable a move used on the Pokemon.",
+    "gen": 5,
+    "hooks": [
+      "on_after_contact"
+    ]
+  },
+  "healer": {
+    "name": "Healer",
+    "name_fr": "Coeur Soin",
+    "desc": "May heal an ally's status condition at end of turn.",
+    "gen": 5,
+    "hooks": [
+      "on_end_of_turn"
+    ]
+  },
+  "friend_guard": {
+    "name": "Friend Guard",
+    "name_fr": "Garde Amie",
+    "desc": "Reduces damage dealt to allies by 25%.",
+    "gen": 5,
+    "hooks": [
+      "modify_damage"
+    ]
+  },
+  "weak_armor": {
+    "name": "Weak Armor",
+    "name_fr": "Armure Fragile",
+    "desc": "Physical attacks lower Defense but sharply raise Speed.",
+    "gen": 5,
+    "hooks": [
+      "on_before_hit",
+      "modify_stat",
+      "modify_speed"
+    ]
+  },
+  "heavy_metal": {
+    "name": "Heavy Metal",
+    "name_fr": "Metal Lourd",
+    "desc": "Doubles the Pokemon's weight.",
+    "gen": 5,
+    "hooks": [
+      "modify_stat"
+    ]
+  },
+  "light_metal": {
+    "name": "Light Metal",
+    "name_fr": "Metal Leger",
+    "desc": "Halves the Pokemon's weight.",
+    "gen": 5,
+    "hooks": [
+      "modify_stat"
+    ]
+  },
+  "multiscale": {
+    "name": "Multiscale",
+    "name_fr": "Multi-Ecaille",
+    "desc": "Reduces damage taken when HP is full by 50%.",
+    "gen": 5,
+    "hooks": [
+      "modify_damage"
+    ]
+  },
+  "toxic_boost": {
+    "name": "Toxic Boost",
+    "name_fr": "Boost Poison",
+    "desc": "Increases the power of physical moves by 50% when poisoned.",
+    "gen": 5,
+    "hooks": [
+      "modify_damage"
+    ]
+  },
+  "flare_boost": {
+    "name": "Flare Boost",
+    "name_fr": "Boost Brulure",
+    "desc": "Increases the power of special moves by 50% when burned.",
+    "gen": 5,
+    "hooks": [
+      "modify_damage"
+    ]
+  },
+  "harvest": {
+    "name": "Harvest",
+    "name_fr": "Recolte",
+    "desc": "May regrow a Berry after consuming one. Always works in sun.",
+    "gen": 5,
+    "hooks": [
+      "on_end_of_turn",
+      "on_weather"
+    ]
+  },
+  "telepathy": {
+    "name": "Telepathy",
+    "name_fr": "Telepathie",
+    "desc": "Anticipates an ally's attack and dodges it.",
+    "gen": 5,
+    "hooks": [
+      "on_before_hit"
+    ]
+  },
+  "moody": {
+    "name": "Moody",
+    "name_fr": "Lunatique",
+    "desc": "Sharply raises one stat and lowers another at end of each turn.",
+    "gen": 5,
+    "hooks": [
+      "on_end_of_turn",
+      "modify_stat"
+    ]
+  },
+  "overcoat": {
+    "name": "Overcoat",
+    "name_fr": "Envelocape",
+    "desc": "Protects from weather damage and powder/spore moves.",
+    "gen": 5,
+    "hooks": [
+      "on_before_hit",
+      "on_weather"
+    ]
+  },
+  "poison_touch": {
+    "name": "Poison Touch",
+    "name_fr": "Toxitouche",
+    "desc": "May poison a target when the Pokemon makes contact.",
+    "gen": 5,
+    "hooks": [
+      "on_after_contact"
+    ]
+  },
+  "regenerator": {
+    "name": "Regenerator",
+    "name_fr": "Regeneration",
+    "desc": "Restores 1/3 of max HP when switching out.",
+    "gen": 5,
+    "hooks": [
+      "on_switch_out"
+    ]
+  },
+  "big_pecks": {
+    "name": "Big Pecks",
+    "name_fr": "Poitrail",
+    "desc": "Prevents the Pokemon's Defense from being lowered.",
+    "gen": 5,
+    "hooks": [
+      "prevent_stat_drop"
+    ]
+  },
+  "sand_rush": {
+    "name": "Sand Rush",
+    "name_fr": "Baigne Sable",
+    "desc": "Doubles Speed in a sandstorm. Immune to sandstorm damage.",
+    "gen": 5,
+    "hooks": [
+      "modify_speed",
+      "on_weather"
+    ]
+  },
+  "wonder_skin": {
+    "name": "Wonder Skin",
+    "name_fr": "Peau Miracle",
+    "desc": "Makes status moves more likely to miss against this Pokemon.",
+    "gen": 5,
+    "hooks": [
+      "modify_accuracy"
+    ]
+  },
+  "analytic": {
+    "name": "Analytic",
+    "name_fr": "Analyste",
+    "desc": "Boosts move power by 30% if the Pokemon moves last.",
+    "gen": 5,
+    "hooks": [
+      "modify_damage"
+    ]
+  },
+  "illusion": {
+    "name": "Illusion",
+    "name_fr": "Illusion",
+    "desc": "Enters battle disguised as the last Pokemon in the party.",
+    "gen": 5,
+    "hooks": [
+      "on_switch_in",
+      "on_before_hit"
+    ]
+  },
+  "imposter": {
+    "name": "Imposter",
+    "name_fr": "Imposteur",
+    "desc": "Transforms into the opposing Pokemon on switch-in.",
+    "gen": 5,
+    "hooks": [
+      "on_switch_in"
+    ]
+  },
+  "infiltrator": {
+    "name": "Infiltrator",
+    "name_fr": "Infiltrateur",
+    "desc": "Passes through the opposing Pokemon's barriers and substitutes.",
+    "gen": 5,
+    "hooks": [
+      "modify_damage"
+    ]
+  },
+  "mummy": {
+    "name": "Mummy",
+    "name_fr": "Momie",
+    "desc": "Contact with the Pokemon changes the attacker's ability to Mummy.",
+    "gen": 5,
+    "hooks": [
+      "on_after_contact"
+    ]
+  },
+  "moxie": {
+    "name": "Moxie",
+    "name_fr": "Impudence",
+    "desc": "Boosts Attack after knocking out any Pokemon.",
+    "gen": 5,
+    "hooks": [
+      "modify_stat"
+    ]
+  },
+  "justified": {
+    "name": "Justified",
+    "name_fr": "Cour Equite",
+    "desc": "Raises Attack when hit by a Dark-type move.",
+    "gen": 5,
+    "hooks": [
+      "on_before_hit",
+      "modify_stat"
+    ]
+  },
+  "rattled": {
+    "name": "Rattled",
+    "name_fr": "Phobique",
+    "desc": "Boosts Speed when hit by Bug-, Dark-, or Ghost-type moves. Also from Intimidate.",
+    "gen": 5,
+    "hooks": [
+      "on_before_hit",
+      "modify_speed"
+    ]
+  },
+  "magic_bounce": {
+    "name": "Magic Bounce",
+    "name_fr": "Miroir Magik",
+    "desc": "Reflects status moves back at the user.",
+    "gen": 5,
+    "hooks": [
+      "on_before_hit"
+    ]
+  },
+  "sap_sipper": {
+    "name": "Sap Sipper",
+    "name_fr": "Herbivore",
+    "desc": "Absorbs Grass-type moves, raising Attack. Immune to Grass.",
+    "gen": 5,
+    "hooks": [
+      "on_before_hit",
+      "modify_stat"
+    ]
+  },
+  "prankster": {
+    "name": "Prankster",
+    "name_fr": "Farceur",
+    "desc": "Gives priority to status moves.",
+    "gen": 5,
+    "hooks": [
+      "modify_speed"
+    ]
+  },
+  "sand_force": {
+    "name": "Sand Force",
+    "name_fr": "Force Sable",
+    "desc": "Boosts Rock-, Ground-, and Steel-type moves by 30% in sandstorm.",
+    "gen": 5,
+    "hooks": [
+      "modify_damage",
+      "on_weather"
+    ]
+  },
+  "iron_barbs": {
+    "name": "Iron Barbs",
+    "name_fr": "Epine de Fer",
+    "desc": "Inflicts damage to the attacker on contact.",
+    "gen": 5,
+    "hooks": [
+      "on_after_contact"
+    ]
+  },
+  "zen_mode": {
+    "name": "Zen Mode",
+    "name_fr": "Mode Transe",
+    "desc": "Changes Darmanitan's form when HP drops below half.",
+    "gen": 5,
+    "hooks": [
+      "on_end_of_turn"
+    ]
+  },
+  "victory_star": {
+    "name": "Victory Star",
+    "name_fr": "Victorieux",
+    "desc": "Boosts the accuracy of all allies by 10%.",
+    "gen": 5,
+    "hooks": [
+      "modify_accuracy"
+    ]
+  },
+  "turboblaze": {
+    "name": "Turboblaze",
+    "name_fr": "Turbo Brasier",
+    "desc": "Moves can be used regardless of the target's abilities.",
+    "gen": 5,
+    "hooks": [
+      "on_switch_in",
+      "modify_damage"
+    ]
+  },
+  "teravolt": {
+    "name": "Teravolt",
+    "name_fr": "Tera Voltage",
+    "desc": "Moves can be used regardless of the target's abilities.",
+    "gen": 5,
+    "hooks": [
+      "on_switch_in",
+      "modify_damage"
+    ]
+  },
+  "aroma_veil": {
+    "name": "Aroma Veil",
+    "name_fr": "Aromavoile",
+    "desc": "Protects the party from moves that limit move choices.",
+    "gen": 6,
+    "hooks": [
+      "prevent_status"
+    ]
+  },
+  "flower_veil": {
+    "name": "Flower Veil",
+    "name_fr": "Flora-Voile",
+    "desc": "Protects Grass-type allies from stat drops and status.",
+    "gen": 6,
+    "hooks": [
+      "prevent_stat_drop",
+      "prevent_status"
+    ]
+  },
+  "cheek_pouch": {
+    "name": "Cheek Pouch",
+    "name_fr": "Bajoues",
+    "desc": "Restores HP when eating a Berry.",
+    "gen": 6,
+    "hooks": [
+      "on_end_of_turn"
+    ]
+  },
+  "protean": {
+    "name": "Protean",
+    "name_fr": "Protean",
+    "desc": "Changes the Pokemon's type to the type of the move it is about to use.",
+    "gen": 6,
+    "hooks": [
+      "modify_damage"
+    ]
+  },
+  "fur_coat": {
+    "name": "Fur Coat",
+    "name_fr": "Toison Epaisse",
+    "desc": "Halves the damage from physical moves.",
+    "gen": 6,
+    "hooks": [
+      "modify_damage"
+    ]
+  },
+  "magician": {
+    "name": "Magician",
+    "name_fr": "Magicien",
+    "desc": "Steals the held item of a Pokemon it hits.",
+    "gen": 6,
+    "hooks": [
+      "modify_damage"
+    ]
+  },
+  "bulletproof": {
+    "name": "Bulletproof",
+    "name_fr": "Pare-Balles",
+    "desc": "Protects the Pokemon from ball and bomb moves.",
+    "gen": 6,
+    "hooks": [
+      "on_before_hit"
+    ]
+  },
+  "competitive": {
+    "name": "Competitive",
+    "name_fr": "Battant",
+    "desc": "Sharply raises Sp. Atk when stats are lowered.",
+    "gen": 6,
+    "hooks": [
+      "modify_stat"
+    ]
+  },
+  "strong_jaw": {
+    "name": "Strong Jaw",
+    "name_fr": "Machoire Forte",
+    "desc": "Powers up biting moves by 50%.",
+    "gen": 6,
+    "hooks": [
+      "modify_damage"
+    ]
+  },
+  "refrigerate": {
+    "name": "Refrigerate",
+    "name_fr": "Peau Gelee",
+    "desc": "Normal-type moves become Ice-type and gain a 20% power boost.",
+    "gen": 6,
+    "hooks": [
+      "modify_damage"
+    ]
+  },
+  "sweet_veil": {
+    "name": "Sweet Veil",
+    "name_fr": "Doux Voile",
+    "desc": "Prevents the Pokemon and its allies from falling asleep.",
+    "gen": 6,
+    "hooks": [
+      "prevent_status"
+    ]
+  },
+  "stance_change": {
+    "name": "Stance Change",
+    "name_fr": "Declic Tactique",
+    "desc": "Changes between Blade Forme and Shield Forme with attacking and King's Shield.",
+    "gen": 6,
+    "hooks": [
+      "on_before_hit"
+    ]
+  },
+  "gale_wings": {
+    "name": "Gale Wings",
+    "name_fr": "Ailes Bourrasque",
+    "desc": "Gives priority to Flying-type moves when HP is full.",
+    "gen": 6,
+    "hooks": [
+      "modify_speed"
+    ]
+  },
+  "mega_launcher": {
+    "name": "Mega Launcher",
+    "name_fr": "Mega Blaster",
+    "desc": "Powers up aura and pulse moves by 50%.",
+    "gen": 6,
+    "hooks": [
+      "modify_damage"
+    ]
+  },
+  "grass_pelt": {
+    "name": "Grass Pelt",
+    "name_fr": "Toison Herbue",
+    "desc": "Boosts Defense on Grassy Terrain.",
+    "gen": 6,
+    "hooks": [
+      "modify_stat",
+      "on_terrain"
+    ]
+  },
+  "symbiosis": {
+    "name": "Symbiosis",
+    "name_fr": "Symbiose",
+    "desc": "Passes its held item to an ally that uses one.",
+    "gen": 6,
+    "hooks": [
+      "on_end_of_turn"
+    ]
+  },
+  "tough_claws": {
+    "name": "Tough Claws",
+    "name_fr": "Griffe Dure",
+    "desc": "Powers up contact moves by 33%.",
+    "gen": 6,
+    "hooks": [
+      "modify_damage"
+    ]
+  },
+  "pixilate": {
+    "name": "Pixilate",
+    "name_fr": "Peau Feerie",
+    "desc": "Normal-type moves become Fairy-type and gain a 20% power boost.",
+    "gen": 6,
+    "hooks": [
+      "modify_damage"
+    ]
+  },
+  "gooey": {
+    "name": "Gooey",
+    "name_fr": "Poisseux",
+    "desc": "Lowers the attacker's Speed when it makes contact.",
+    "gen": 6,
+    "hooks": [
+      "on_after_contact"
+    ]
+  },
+  "aerilate": {
+    "name": "Aerilate",
+    "name_fr": "Peau Celeste",
+    "desc": "Normal-type moves become Flying-type and gain a 20% power boost.",
+    "gen": 6,
+    "hooks": [
+      "modify_damage"
+    ]
+  },
+  "parental_bond": {
+    "name": "Parental Bond",
+    "name_fr": "Amour Filial",
+    "desc": "The Pokemon attacks twice; the second hit deals 25% power.",
+    "gen": 6,
+    "hooks": [
+      "modify_damage"
+    ]
+  },
+  "dark_aura": {
+    "name": "Dark Aura",
+    "name_fr": "Aura Tenebreuse",
+    "desc": "Powers up all Dark-type moves on the field by 33%.",
+    "gen": 6,
+    "hooks": [
+      "on_switch_in",
+      "modify_damage"
+    ]
+  },
+  "fairy_aura": {
+    "name": "Fairy Aura",
+    "name_fr": "Aura Feerie",
+    "desc": "Powers up all Fairy-type moves on the field by 33%.",
+    "gen": 6,
+    "hooks": [
+      "on_switch_in",
+      "modify_damage"
+    ]
+  },
+  "aura_break": {
+    "name": "Aura Break",
+    "name_fr": "Aura Inversee",
+    "desc": "Reverses the effect of all aura abilities, reducing their power.",
+    "gen": 6,
+    "hooks": [
+      "on_switch_in",
+      "modify_damage"
+    ]
+  },
+  "primordial_sea": {
+    "name": "Primordial Sea",
+    "name_fr": "Mer Primaire",
+    "desc": "Creates heavy rain that negates Fire-type attacks.",
+    "gen": 6,
+    "hooks": [
+      "on_switch_in",
+      "on_weather",
+      "modify_damage"
+    ]
+  },
+  "desolate_land": {
+    "name": "Desolate Land",
+    "name_fr": "Terre Finale",
+    "desc": "Creates extremely harsh sunlight that negates Water-type attacks.",
+    "gen": 6,
+    "hooks": [
+      "on_switch_in",
+      "on_weather",
+      "modify_damage"
+    ]
+  },
+  "delta_stream": {
+    "name": "Delta Stream",
+    "name_fr": "Souffle Delta",
+    "desc": "Creates strong winds that weaken super-effective moves against Flying types.",
+    "gen": 6,
+    "hooks": [
+      "on_switch_in",
+      "on_weather",
+      "modify_damage"
+    ]
+  },
+  "stamina": {
+    "name": "Stamina",
+    "name_fr": "Endurance",
+    "desc": "Raises Defense when hit by an attack.",
+    "gen": 7,
+    "hooks": [
+      "on_before_hit",
+      "modify_stat"
+    ]
+  },
+  "wimp_out": {
+    "name": "Wimp Out",
+    "name_fr": "Deguerpissement",
+    "desc": "The Pokemon switches out when its HP drops below half.",
+    "gen": 7,
+    "hooks": [
+      "on_before_hit"
+    ]
+  },
+  "emergency_exit": {
+    "name": "Emergency Exit",
+    "name_fr": "Repli Tactique",
+    "desc": "The Pokemon switches out when its HP drops below half.",
+    "gen": 7,
+    "hooks": [
+      "on_before_hit"
+    ]
+  },
+  "water_compaction": {
+    "name": "Water Compaction",
+    "name_fr": "Sable Humide",
+    "desc": "Sharply raises Defense when hit by a Water-type move.",
+    "gen": 7,
+    "hooks": [
+      "on_before_hit",
+      "modify_stat"
+    ]
+  },
+  "merciless": {
+    "name": "Merciless",
+    "name_fr": "Impitoyable",
+    "desc": "Attacks always land critical hits on poisoned targets.",
+    "gen": 7,
+    "hooks": [
+      "modify_damage"
+    ]
+  },
+  "shields_down": {
+    "name": "Shields Down",
+    "name_fr": "Bouclier-Carene",
+    "desc": "Changes Minior's form when HP drops below half. Immune to status when shielded.",
+    "gen": 7,
+    "hooks": [
+      "on_end_of_turn",
+      "prevent_status"
+    ]
+  },
+  "stakeout": {
+    "name": "Stakeout",
+    "name_fr": "Filature",
+    "desc": "Doubles damage dealt to a target that has just switched in.",
+    "gen": 7,
+    "hooks": [
+      "modify_damage"
+    ]
+  },
+  "water_bubble": {
+    "name": "Water Bubble",
+    "name_fr": "Hydro-Bulle",
+    "desc": "Halves Fire damage taken, doubles Water moves, and prevents burns.",
+    "gen": 7,
+    "hooks": [
+      "modify_damage",
+      "prevent_status"
+    ]
+  },
+  "steelworker": {
+    "name": "Steelworker",
+    "name_fr": "Acierie",
+    "desc": "Powers up Steel-type moves by 50%.",
+    "gen": 7,
+    "hooks": [
+      "modify_damage"
+    ]
+  },
+  "berserk": {
+    "name": "Berserk",
+    "name_fr": "Berserk",
+    "desc": "Boosts Sp. Atk when the Pokemon's HP drops below half.",
+    "gen": 7,
+    "hooks": [
+      "on_before_hit",
+      "modify_stat"
+    ]
+  },
+  "slush_rush": {
+    "name": "Slush Rush",
+    "name_fr": "Chasse-Neige",
+    "desc": "Doubles Speed in hail or snow.",
+    "gen": 7,
+    "hooks": [
+      "modify_speed",
+      "on_weather"
+    ]
+  },
+  "long_reach": {
+    "name": "Long Reach",
+    "name_fr": "Long Bec",
+    "desc": "The Pokemon uses its moves without making contact.",
+    "gen": 7,
+    "hooks": [
+      "modify_damage"
+    ]
+  },
+  "liquid_voice": {
+    "name": "Liquid Voice",
+    "name_fr": "Voix Mouillée",
+    "desc": "All sound-based moves become Water-type.",
+    "gen": 7,
+    "hooks": [
+      "modify_damage"
+    ]
+  },
+  "triage": {
+    "name": "Triage",
+    "name_fr": "Triage",
+    "desc": "Gives priority to healing moves.",
+    "gen": 7,
+    "hooks": [
+      "modify_speed"
+    ]
+  },
+  "galvanize": {
+    "name": "Galvanize",
+    "name_fr": "Peau Electrique",
+    "desc": "Normal-type moves become Electric-type and gain a 20% power boost.",
+    "gen": 7,
+    "hooks": [
+      "modify_damage"
+    ]
+  },
+  "surge_surfer": {
+    "name": "Surge Surfer",
+    "name_fr": "Surf Caudale",
+    "desc": "Doubles Speed on Electric Terrain.",
+    "gen": 7,
+    "hooks": [
+      "modify_speed",
+      "on_terrain"
+    ]
+  },
+  "schooling": {
+    "name": "Schooling",
+    "name_fr": "Banc",
+    "desc": "Forms a school when HP is high enough. Reverts when HP is low.",
+    "gen": 7,
+    "hooks": [
+      "on_switch_in",
+      "on_end_of_turn"
+    ]
+  },
+  "disguise": {
+    "name": "Disguise",
+    "name_fr": "Deguisement",
+    "desc": "Blocks one attack with its disguise, then the disguise breaks.",
+    "gen": 7,
+    "hooks": [
+      "on_before_hit"
+    ]
+  },
+  "battle_bond": {
+    "name": "Battle Bond",
+    "name_fr": "Synergie",
+    "desc": "Transforms into Ash-Greninja after knocking out a Pokemon.",
+    "gen": 7,
+    "hooks": [
+      "modify_stat"
+    ]
+  },
+  "power_construct": {
+    "name": "Power Construct",
+    "name_fr": "Rassemblement",
+    "desc": "Transforms into Complete Forme when HP drops below half.",
+    "gen": 7,
+    "hooks": [
+      "on_end_of_turn"
+    ]
+  },
+  "corrosion": {
+    "name": "Corrosion",
+    "name_fr": "Corrosion",
+    "desc": "Can poison Steel- and Poison-type Pokemon.",
+    "gen": 7,
+    "hooks": [
+      "modify_damage"
+    ]
+  },
+  "comatose": {
+    "name": "Comatose",
+    "name_fr": "Coma",
+    "desc": "The Pokemon is always drowsy, gaining sleep benefits but can still attack.",
+    "gen": 7,
+    "hooks": [
+      "prevent_status",
+      "modify_damage"
+    ]
+  },
+  "queenly_majesty": {
+    "name": "Queenly Majesty",
+    "name_fr": "Prestance Royale",
+    "desc": "Prevents opposing Pokemon from using priority moves.",
+    "gen": 7,
+    "hooks": [
+      "on_before_hit"
+    ]
+  },
+  "innards_out": {
+    "name": "Innards Out",
+    "name_fr": "Expuls'Organes",
+    "desc": "Damages the attacker for the amount of HP lost when knocked out.",
+    "gen": 7,
+    "hooks": [
+      "on_before_hit"
+    ]
+  },
+  "dancer": {
+    "name": "Dancer",
+    "name_fr": "Danseuse",
+    "desc": "Copies any dance move used by another Pokemon.",
+    "gen": 7,
+    "hooks": [
+      "modify_damage"
+    ]
+  },
+  "battery": {
+    "name": "Battery",
+    "name_fr": "Batterie",
+    "desc": "Powers up ally Pokemon's special moves by 30%.",
+    "gen": 7,
+    "hooks": [
+      "modify_damage"
+    ]
+  },
+  "fluffy": {
+    "name": "Fluffy",
+    "name_fr": "Boule de Poils",
+    "desc": "Halves contact move damage but doubles Fire-type damage taken.",
+    "gen": 7,
+    "hooks": [
+      "modify_damage"
+    ]
+  },
+  "dazzling": {
+    "name": "Dazzling",
+    "name_fr": "Corps Coloré",
+    "desc": "Prevents opposing Pokemon from using priority moves.",
+    "gen": 7,
+    "hooks": [
+      "on_before_hit"
+    ]
+  },
+  "soul_heart": {
+    "name": "Soul-Heart",
+    "name_fr": "Animacoeur",
+    "desc": "Boosts Sp. Atk each time a Pokemon faints.",
+    "gen": 7,
+    "hooks": [
+      "modify_stat"
+    ]
+  },
+  "tangling_hair": {
+    "name": "Tangling Hair",
+    "name_fr": "Mèches Rebelles",
+    "desc": "Lowers the attacker's Speed when it makes contact.",
+    "gen": 7,
+    "hooks": [
+      "on_after_contact"
+    ]
+  },
+  "receiver": {
+    "name": "Receiver",
+    "name_fr": "Receveur",
+    "desc": "Inherits the ability of a fallen ally.",
+    "gen": 7,
+    "hooks": [
+      "on_switch_in"
+    ]
+  },
+  "power_of_alchemy": {
+    "name": "Power of Alchemy",
+    "name_fr": "Alchimie",
+    "desc": "Inherits the ability of a fallen ally.",
+    "gen": 7,
+    "hooks": [
+      "on_switch_in"
+    ]
+  },
+  "beast_boost": {
+    "name": "Beast Boost",
+    "name_fr": "Ultra-Boost",
+    "desc": "Boosts the Pokemon's highest stat when it knocks out a Pokemon.",
+    "gen": 7,
+    "hooks": [
+      "modify_stat"
+    ]
+  },
+  "rks_system": {
+    "name": "RKS System",
+    "name_fr": "Système Alpha",
+    "desc": "Changes Silvally's type to match its held Memory item.",
+    "gen": 7,
+    "hooks": [
+      "on_switch_in"
+    ]
+  },
+  "electric_surge": {
+    "name": "Electric Surge",
+    "name_fr": "Créa-Élec",
+    "desc": "Creates Electric Terrain when entering battle.",
+    "gen": 7,
+    "hooks": [
+      "on_switch_in",
+      "on_terrain"
+    ]
+  },
+  "psychic_surge": {
+    "name": "Psychic Surge",
+    "name_fr": "Créa-Psy",
+    "desc": "Creates Psychic Terrain when entering battle.",
+    "gen": 7,
+    "hooks": [
+      "on_switch_in",
+      "on_terrain"
+    ]
+  },
+  "misty_surge": {
+    "name": "Misty Surge",
+    "name_fr": "Créa-Brume",
+    "desc": "Creates Misty Terrain when entering battle.",
+    "gen": 7,
+    "hooks": [
+      "on_switch_in",
+      "on_terrain"
+    ]
+  },
+  "grassy_surge": {
+    "name": "Grassy Surge",
+    "name_fr": "Créa-Herbe",
+    "desc": "Creates Grassy Terrain when entering battle.",
+    "gen": 7,
+    "hooks": [
+      "on_switch_in",
+      "on_terrain"
+    ]
+  },
+  "full_metal_body": {
+    "name": "Full Metal Body",
+    "name_fr": "Métallo-Garde",
+    "desc": "Prevents other Pokemon from lowering its stats.",
+    "gen": 7,
+    "hooks": [
+      "prevent_stat_drop"
+    ]
+  },
+  "shadow_shield": {
+    "name": "Shadow Shield",
+    "name_fr": "Spectro-Bouclier",
+    "desc": "Reduces damage taken when HP is full by 50%.",
+    "gen": 7,
+    "hooks": [
+      "modify_damage"
+    ]
+  },
+  "prism_armor": {
+    "name": "Prism Armor",
+    "name_fr": "Prisme Armure",
+    "desc": "Reduces the power of super-effective moves by 25%.",
+    "gen": 7,
+    "hooks": [
+      "modify_damage"
+    ]
+  },
+  "neuroforce": {
+    "name": "Neuroforce",
+    "name_fr": "Neuro-Force",
+    "desc": "Powers up super-effective moves by 25%.",
+    "gen": 7,
+    "hooks": [
+      "modify_damage"
+    ]
+  },
+  "intrepid_sword": {
+    "name": "Intrepid Sword",
+    "name_fr": "Lame Indomptable",
+    "desc": "Boosts Attack when entering battle.",
+    "gen": 8,
+    "hooks": [
+      "on_switch_in",
+      "modify_stat"
+    ]
+  },
+  "dauntless_shield": {
+    "name": "Dauntless Shield",
+    "name_fr": "Bouclier Ferme",
+    "desc": "Boosts Defense when entering battle.",
+    "gen": 8,
+    "hooks": [
+      "on_switch_in",
+      "modify_stat"
+    ]
+  },
+  "libero": {
+    "name": "Libero",
+    "name_fr": "Libéro",
+    "desc": "Changes the Pokemon's type to the type of the move it is about to use.",
+    "gen": 8,
+    "hooks": [
+      "modify_damage"
+    ]
+  },
+  "ball_fetch": {
+    "name": "Ball Fetch",
+    "name_fr": "Ramasse Ball",
+    "desc": "Retrieves the first Poke Ball that fails to catch a Pokemon.",
+    "gen": 8,
+    "hooks": []
+  },
+  "cotton_down": {
+    "name": "Cotton Down",
+    "name_fr": "Effilochage",
+    "desc": "Lowers the Speed of all other Pokemon when hit by an attack.",
+    "gen": 8,
+    "hooks": [
+      "on_before_hit"
+    ]
+  },
+  "propeller_tail": {
+    "name": "Propeller Tail",
+    "name_fr": "Hélice Caudale",
+    "desc": "Ignores the effects of moves and abilities that draw in moves.",
+    "gen": 8,
+    "hooks": [
+      "modify_damage"
+    ]
+  },
+  "mirror_armor": {
+    "name": "Mirror Armor",
+    "name_fr": "Armure Miroir",
+    "desc": "Bounces back stat-lowering effects to the opponent.",
+    "gen": 8,
+    "hooks": [
+      "prevent_stat_drop"
+    ]
+  },
+  "gulp_missile": {
+    "name": "Gulp Missile",
+    "name_fr": "Eng-Loutissement",
+    "desc": "Catches prey when using Surf or Dive, then spits it at attackers.",
+    "gen": 8,
+    "hooks": [
+      "on_before_hit",
+      "on_after_contact"
+    ]
+  },
+  "stalwart": {
+    "name": "Stalwart",
+    "name_fr": "Nerfs d'Acier",
+    "desc": "Ignores the effects of moves and abilities that draw in moves.",
+    "gen": 8,
+    "hooks": [
+      "modify_damage"
+    ]
+  },
+  "steam_engine": {
+    "name": "Steam Engine",
+    "name_fr": "Machine à Vapeur",
+    "desc": "Drastically boosts Speed when hit by a Fire- or Water-type move.",
+    "gen": 8,
+    "hooks": [
+      "on_before_hit",
+      "modify_speed"
+    ]
+  },
+  "punk_rock": {
+    "name": "Punk Rock",
+    "name_fr": "Punk Rock",
+    "desc": "Boosts sound-based moves by 30% and halves sound damage taken.",
+    "gen": 8,
+    "hooks": [
+      "modify_damage"
+    ]
+  },
+  "sand_spit": {
+    "name": "Sand Spit",
+    "name_fr": "Crache-Sable",
+    "desc": "Summons a sandstorm when hit by an attack.",
+    "gen": 8,
+    "hooks": [
+      "on_before_hit",
+      "on_weather"
+    ]
+  },
+  "ice_scales": {
+    "name": "Ice Scales",
+    "name_fr": "Écailles Glacées",
+    "desc": "Halves the damage from special moves.",
+    "gen": 8,
+    "hooks": [
+      "modify_damage"
+    ]
+  },
+  "ripen": {
+    "name": "Ripen",
+    "name_fr": "Maturité",
+    "desc": "Doubles the effects of Berries.",
+    "gen": 8,
+    "hooks": [
+      "on_end_of_turn"
+    ]
+  },
+  "ice_face": {
+    "name": "Ice Face",
+    "name_fr": "Tête de Gel",
+    "desc": "Blocks one physical attack. The ice reforms in hail.",
+    "gen": 8,
+    "hooks": [
+      "on_before_hit",
+      "on_weather"
+    ]
+  },
+  "power_spot": {
+    "name": "Power Spot",
+    "name_fr": "Cercle d'Énergie",
+    "desc": "Powers up ally Pokemon's moves by 30%.",
+    "gen": 8,
+    "hooks": [
+      "modify_damage"
+    ]
+  },
+  "mimicry": {
+    "name": "Mimicry",
+    "name_fr": "Mimétisme",
+    "desc": "Changes the Pokemon's type based on the active terrain.",
+    "gen": 8,
+    "hooks": [
+      "on_switch_in",
+      "on_terrain"
+    ]
+  },
+  "screen_cleaner": {
+    "name": "Screen Cleaner",
+    "name_fr": "Brise-Écran",
+    "desc": "Removes Light Screen, Reflect, and Aurora Veil on entry.",
+    "gen": 8,
+    "hooks": [
+      "on_switch_in"
+    ]
+  },
+  "steely_spirit": {
+    "name": "Steely Spirit",
+    "name_fr": "Esprit d'Acier",
+    "desc": "Powers up allies' Steel-type moves by 50%.",
+    "gen": 8,
+    "hooks": [
+      "modify_damage"
+    ]
+  },
+  "perish_body": {
+    "name": "Perish Body",
+    "name_fr": "Corps Condamné",
+    "desc": "Both Pokemon get a perish count when hit by a contact move.",
+    "gen": 8,
+    "hooks": [
+      "on_after_contact"
+    ]
+  },
+  "wandering_spirit": {
+    "name": "Wandering Spirit",
+    "name_fr": "Âme Vagabonde",
+    "desc": "Swaps abilities with the attacker on contact.",
+    "gen": 8,
+    "hooks": [
+      "on_after_contact"
+    ]
+  },
+  "gorilla_tactics": {
+    "name": "Gorilla Tactics",
+    "name_fr": "Gorille Tactique",
+    "desc": "Boosts Attack by 50% but can only use the first selected move.",
+    "gen": 8,
+    "hooks": [
+      "modify_stat"
+    ]
+  },
+  "neutralizing_gas": {
+    "name": "Neutralizing Gas",
+    "name_fr": "Gaz Inhibiteur",
+    "desc": "Suppresses the abilities of all other Pokemon while on the field.",
+    "gen": 8,
+    "hooks": [
+      "on_switch_in"
+    ]
+  },
+  "pastel_veil": {
+    "name": "Pastel Veil",
+    "name_fr": "Voile Pastel",
+    "desc": "Prevents the Pokemon and its allies from being poisoned.",
+    "gen": 8,
+    "hooks": [
+      "prevent_status",
+      "on_switch_in"
+    ]
+  },
+  "hunger_switch": {
+    "name": "Hunger Switch",
+    "name_fr": "Déclic Fringale",
+    "desc": "Changes Morpeko's form each turn, altering Aura Wheel's type.",
+    "gen": 8,
+    "hooks": [
+      "on_end_of_turn"
+    ]
+  },
+  "quick_draw": {
+    "name": "Quick Draw",
+    "name_fr": "Tir Vif",
+    "desc": "May enable the Pokemon to act first.",
+    "gen": 8,
+    "hooks": [
+      "modify_speed"
+    ]
+  },
+  "unseen_fist": {
+    "name": "Unseen Fist",
+    "name_fr": "Poing Invisible",
+    "desc": "Contact moves can bypass Protect and similar moves.",
+    "gen": 8,
+    "hooks": [
+      "modify_damage"
+    ]
+  },
+  "curious_medicine": {
+    "name": "Curious Medicine",
+    "name_fr": "Breuvage Suspect",
+    "desc": "Resets allies' stat changes when entering battle.",
+    "gen": 8,
+    "hooks": [
+      "on_switch_in"
+    ]
+  },
+  "transistor": {
+    "name": "Transistor",
+    "name_fr": "Transistor",
+    "desc": "Powers up Electric-type moves by 50%.",
+    "gen": 8,
+    "hooks": [
+      "modify_damage"
+    ]
+  },
+  "dragons_maw": {
+    "name": "Dragon's Maw",
+    "name_fr": "Dent de Dragon",
+    "desc": "Powers up Dragon-type moves by 50%.",
+    "gen": 8,
+    "hooks": [
+      "modify_damage"
+    ]
+  },
+  "chilling_neigh": {
+    "name": "Chilling Neigh",
+    "name_fr": "Blanche Ruade",
+    "desc": "Boosts Attack after knocking out a Pokemon.",
+    "gen": 8,
+    "hooks": [
+      "modify_stat"
+    ]
+  },
+  "grim_neigh": {
+    "name": "Grim Neigh",
+    "name_fr": "Sombre Ruade",
+    "desc": "Boosts Sp. Atk after knocking out a Pokemon.",
+    "gen": 8,
+    "hooks": [
+      "modify_stat"
+    ]
+  },
+  "as_one_ice": {
+    "name": "As One (Ice Rider)",
+    "name_fr": "Unisson (Cavalier du Froid)",
+    "desc": "Combines Unnerve and Chilling Neigh.",
+    "gen": 8,
+    "hooks": [
+      "on_switch_in",
+      "modify_stat"
+    ]
+  },
+  "as_one_shadow": {
+    "name": "As One (Shadow Rider)",
+    "name_fr": "Unisson (Cavalier d'Effroi)",
+    "desc": "Combines Unnerve and Grim Neigh.",
+    "gen": 8,
+    "hooks": [
+      "on_switch_in",
+      "modify_stat"
+    ]
+  },
+  "lingering_aroma": {
+    "name": "Lingering Aroma",
+    "name_fr": "Odeur Tenace",
+    "desc": "Contact with the Pokemon changes the attacker's ability to Lingering Aroma.",
+    "gen": 9,
+    "hooks": [
+      "on_after_contact"
+    ]
+  },
+  "seed_sower": {
+    "name": "Seed Sower",
+    "name_fr": "Semeur de Graines",
+    "desc": "Grassy Terrain is set when the Pokemon is hit by an attack.",
+    "gen": 9,
+    "hooks": [
+      "on_before_hit",
+      "on_terrain"
+    ]
+  },
+  "thermal_exchange": {
+    "name": "Thermal Exchange",
+    "name_fr": "Conversion Thermique",
+    "desc": "Boosts Attack when hit by a Fire-type move. Immune to burn.",
+    "gen": 9,
+    "hooks": [
+      "on_before_hit",
+      "modify_stat",
+      "prevent_status"
+    ]
+  },
+  "anger_shell": {
+    "name": "Anger Shell",
+    "name_fr": "Coque d'Ire",
+    "desc": "When HP drops below half, lowers Def and Sp. Def but raises Atk, Sp. Atk, and Speed.",
+    "gen": 9,
+    "hooks": [
+      "on_before_hit",
+      "modify_stat"
+    ]
+  },
+  "purifying_salt": {
+    "name": "Purifying Salt",
+    "name_fr": "Sel Purificateur",
+    "desc": "Prevents status conditions. Halves Ghost-type damage.",
+    "gen": 9,
+    "hooks": [
+      "prevent_status",
+      "modify_damage"
+    ]
+  },
+  "well_baked_body": {
+    "name": "Well-Baked Body",
+    "name_fr": "Corps Bien Cuit",
+    "desc": "Immune to Fire-type moves and sharply raises Defense when hit by one.",
+    "gen": 9,
+    "hooks": [
+      "on_before_hit",
+      "modify_stat"
+    ]
+  },
+  "wind_rider": {
+    "name": "Wind Rider",
+    "name_fr": "Aérodynamique",
+    "desc": "Boosts Attack when hit by a wind move or Tailwind is active.",
+    "gen": 9,
+    "hooks": [
+      "on_before_hit",
+      "modify_stat"
+    ]
+  },
+  "guard_dog": {
+    "name": "Guard Dog",
+    "name_fr": "Chien de Garde",
+    "desc": "Boosts Attack from Intimidate instead of lowering it. Cannot be forced out.",
+    "gen": 9,
+    "hooks": [
+      "prevent_stat_drop",
+      "modify_stat"
+    ]
+  },
+  "rocky_payload": {
+    "name": "Rocky Payload",
+    "name_fr": "Charge Rocheuse",
+    "desc": "Powers up Rock-type moves by 50%.",
+    "gen": 9,
+    "hooks": [
+      "modify_damage"
+    ]
+  },
+  "wind_power": {
+    "name": "Wind Power",
+    "name_fr": "Énergie Éolienne",
+    "desc": "Becomes charged when hit by a wind move, boosting the next Electric move.",
+    "gen": 9,
+    "hooks": [
+      "on_before_hit",
+      "modify_damage"
+    ]
+  },
+  "zero_to_hero": {
+    "name": "Zero to Hero",
+    "name_fr": "Supermutation",
+    "desc": "Transforms Palafin into Hero Form when switching out.",
+    "gen": 9,
+    "hooks": [
+      "on_switch_out",
+      "on_switch_in"
+    ]
+  },
+  "commander": {
+    "name": "Commander",
+    "name_fr": "Commandant",
+    "desc": "Commands Dondozo when entering battle in a Double Battle.",
+    "gen": 9,
+    "hooks": [
+      "on_switch_in",
+      "modify_stat"
+    ]
+  },
+  "electromorphosis": {
+    "name": "Electromorphosis",
+    "name_fr": "Électromorphose",
+    "desc": "Becomes charged when hit by any attack, boosting the next Electric move.",
+    "gen": 9,
+    "hooks": [
+      "on_before_hit",
+      "modify_damage"
+    ]
+  },
+  "protosynthesis": {
+    "name": "Protosynthesis",
+    "name_fr": "Paléosynthèse",
+    "desc": "Boosts the highest stat in harsh sunlight or with Booster Energy.",
+    "gen": 9,
+    "hooks": [
+      "on_switch_in",
+      "modify_stat",
+      "on_weather"
+    ]
+  },
+  "quark_drive": {
+    "name": "Quark Drive",
+    "name_fr": "Activation Quantique",
+    "desc": "Boosts the highest stat on Electric Terrain or with Booster Energy.",
+    "gen": 9,
+    "hooks": [
+      "on_switch_in",
+      "modify_stat",
+      "on_terrain"
+    ]
+  },
+  "good_as_gold": {
+    "name": "Good as Gold",
+    "name_fr": "Corps en Or",
+    "desc": "Immune to status moves.",
+    "gen": 9,
+    "hooks": [
+      "on_before_hit",
+      "prevent_status"
+    ]
+  },
+  "vessel_of_ruin": {
+    "name": "Vessel of Ruin",
+    "name_fr": "Vase de Ruine",
+    "desc": "Lowers the Sp. Atk of all other Pokemon.",
+    "gen": 9,
+    "hooks": [
+      "on_switch_in",
+      "modify_stat"
+    ]
+  },
+  "sword_of_ruin": {
+    "name": "Sword of Ruin",
+    "name_fr": "Épée de Ruine",
+    "desc": "Lowers the Defense of all other Pokemon.",
+    "gen": 9,
+    "hooks": [
+      "on_switch_in",
+      "modify_stat"
+    ]
+  },
+  "tablets_of_ruin": {
+    "name": "Tablets of Ruin",
+    "name_fr": "Tablettes de Ruine",
+    "desc": "Lowers the Attack of all other Pokemon.",
+    "gen": 9,
+    "hooks": [
+      "on_switch_in",
+      "modify_stat"
+    ]
+  },
+  "beads_of_ruin": {
+    "name": "Beads of Ruin",
+    "name_fr": "Perles de Ruine",
+    "desc": "Lowers the Sp. Def of all other Pokemon.",
+    "gen": 9,
+    "hooks": [
+      "on_switch_in",
+      "modify_stat"
+    ]
+  },
+  "orichalcum_pulse": {
+    "name": "Orichalcum Pulse",
+    "name_fr": "Pouls d'Orichalque",
+    "desc": "Sets harsh sunlight and boosts Attack in sun.",
+    "gen": 9,
+    "hooks": [
+      "on_switch_in",
+      "modify_stat",
+      "on_weather"
+    ]
+  },
+  "hadron_engine": {
+    "name": "Hadron Engine",
+    "name_fr": "Moteur à Hadrons",
+    "desc": "Sets Electric Terrain and boosts Sp. Atk on Electric Terrain.",
+    "gen": 9,
+    "hooks": [
+      "on_switch_in",
+      "modify_stat",
+      "on_terrain"
+    ]
+  },
+  "opportunist": {
+    "name": "Opportunist",
+    "name_fr": "Opportuniste",
+    "desc": "Copies any stat boosts the opponent gains.",
+    "gen": 9,
+    "hooks": [
+      "modify_stat"
+    ]
+  },
+  "cud_chew": {
+    "name": "Cud Chew",
+    "name_fr": "Rumination",
+    "desc": "Eats a Berry again at end of the next turn after first eating it.",
+    "gen": 9,
+    "hooks": [
+      "on_end_of_turn"
+    ]
+  },
+  "sharpness": {
+    "name": "Sharpness",
+    "name_fr": "Lame Aiguisée",
+    "desc": "Powers up slicing moves by 50%.",
+    "gen": 9,
+    "hooks": [
+      "modify_damage"
+    ]
+  },
+  "supreme_overlord": {
+    "name": "Supreme Overlord",
+    "name_fr": "Généralissime",
+    "desc": "Boosts Attack and Sp. Atk by 10% for each fainted party member.",
+    "gen": 9,
+    "hooks": [
+      "on_switch_in",
+      "modify_damage"
+    ]
+  },
+  "costar": {
+    "name": "Costar",
+    "name_fr": "Partenariat",
+    "desc": "Copies ally's stat changes on entry.",
+    "gen": 9,
+    "hooks": [
+      "on_switch_in",
+      "modify_stat"
+    ]
+  },
+  "toxic_debris": {
+    "name": "Toxic Debris",
+    "name_fr": "Débris Toxiques",
+    "desc": "Scatters Toxic Spikes when hit by a physical move.",
+    "gen": 9,
+    "hooks": [
+      "on_before_hit"
+    ]
+  },
+  "armor_tail": {
+    "name": "Armor Tail",
+    "name_fr": "Queue Armurée",
+    "desc": "Prevents opposing Pokemon from using priority moves.",
+    "gen": 9,
+    "hooks": [
+      "on_before_hit"
+    ]
+  },
+  "earth_eater": {
+    "name": "Earth Eater",
+    "name_fr": "Géophagie",
+    "desc": "Recovers HP when hit by a Ground-type move. Immune to Ground.",
+    "gen": 9,
+    "hooks": [
+      "on_before_hit"
+    ]
+  },
+  "mycelium_might": {
+    "name": "Mycelium Might",
+    "name_fr": "Force Fongique",
+    "desc": "Status moves ignore abilities but always move last.",
+    "gen": 9,
+    "hooks": [
+      "modify_speed",
+      "modify_damage"
+    ]
+  },
+  "minds_eye": {
+    "name": "Mind's Eye",
+    "name_fr": "Oeil Mental",
+    "desc": "Ignores evasion changes and can hit Ghost types with Normal/Fighting moves.",
+    "gen": 9,
+    "hooks": [
+      "modify_accuracy",
+      "modify_damage"
+    ]
+  },
+  "supersweet_syrup": {
+    "name": "Supersweet Syrup",
+    "name_fr": "Sirop Doux",
+    "desc": "Lowers the evasion of opposing Pokemon when entering battle.",
+    "gen": 9,
+    "hooks": [
+      "on_switch_in"
+    ]
+  },
+  "hospitality": {
+    "name": "Hospitality",
+    "name_fr": "Hospitalité",
+    "desc": "Restores a small amount of an ally's HP when entering battle.",
+    "gen": 9,
+    "hooks": [
+      "on_switch_in"
+    ]
+  },
+  "toxic_chain": {
+    "name": "Toxic Chain",
+    "name_fr": "Chaîne Toxique",
+    "desc": "May badly poison a target when the Pokemon attacks.",
+    "gen": 9,
+    "hooks": [
+      "modify_damage"
+    ]
+  },
+  "embody_aspect_teal": {
+    "name": "Embody Aspect (Teal Mask)",
+    "name_fr": "Incarnation (Masque Turquoise)",
+    "desc": "Raises Speed when entering battle.",
+    "gen": 9,
+    "hooks": [
+      "on_switch_in",
+      "modify_speed"
+    ]
+  },
+  "embody_aspect_wellspring": {
+    "name": "Embody Aspect (Wellspring Mask)",
+    "name_fr": "Incarnation (Masque du Puits)",
+    "desc": "Raises Sp. Def when entering battle.",
+    "gen": 9,
+    "hooks": [
+      "on_switch_in",
+      "modify_stat"
+    ]
+  },
+  "embody_aspect_hearthflame": {
+    "name": "Embody Aspect (Hearthflame Mask)",
+    "name_fr": "Incarnation (Masque du Fourneau)",
+    "desc": "Raises Attack when entering battle.",
+    "gen": 9,
+    "hooks": [
+      "on_switch_in",
+      "modify_stat"
+    ]
+  },
+  "embody_aspect_cornerstone": {
+    "name": "Embody Aspect (Cornerstone Mask)",
+    "name_fr": "Incarnation (Masque de la Pierre)",
+    "desc": "Raises Defense when entering battle.",
+    "gen": 9,
+    "hooks": [
+      "on_switch_in",
+      "modify_stat"
+    ]
+  },
+  "tera_shift": {
+    "name": "Tera Shift",
+    "name_fr": "Téra-Morphose",
+    "desc": "Changes Terapagos to Terastal Form when entering battle.",
+    "gen": 9,
+    "hooks": [
+      "on_switch_in"
+    ]
+  },
+  "tera_shell": {
+    "name": "Tera Shell",
+    "name_fr": "Téra-Carapace",
+    "desc": "All attacks are not very effective when HP is full.",
+    "gen": 9,
+    "hooks": [
+      "modify_damage"
+    ]
+  },
+  "teraform_zero": {
+    "name": "Teraform Zero",
+    "name_fr": "Téra-Formation Zéro",
+    "desc": "Eliminates all weather and terrain effects.",
+    "gen": 9,
+    "hooks": [
+      "on_switch_in",
+      "on_weather",
+      "on_terrain"
+    ]
+  },
+  "poison_puppeteer": {
+    "name": "Poison Puppeteer",
+    "name_fr": "Empoisonneur Marionnettiste",
+    "desc": "Pecharunt's exclusive ability. Poisoned Pokemon also become confused.",
+    "gen": 9,
+    "hooks": [
+      "modify_damage"
+    ]
+  }
+}

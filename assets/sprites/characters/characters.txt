@@ -1,0 +1,29 @@
+CHARACTER SPRITESHEETS
+Frame size: 16x16
+Layout: 3 columns (idle, walk1, walk2) x 4 rows (down, up, left, right)
+
+  beauty.png
+  bugcatcher.png
+  channeler.png
+  guard.png
+  guide.png
+  hiker.png
+  juggler.png
+  lass.png
+  leader_electric.png
+  leader_fire.png
+  leader_grass.png
+  leader_ground.png
+  leader_poison.png
+  leader_psychic.png
+  leader_rock.png
+  leader_water.png
+  nurse.png
+  player.png
+  prof.png
+  psychic.png
+  rival.png
+  shopkeeper.png
+  swimmer.png
+  tamer.png
+  youngster.png

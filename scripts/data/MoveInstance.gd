@@ -48,6 +48,12 @@ func get_effect() -> String:
 func get_effect_chance() -> int:
 	return _data.get("effect_chance", 0)
 
+func get_flags() -> Array:
+	return _data.get("flags", [])
+
+func has_flag(flag: String) -> bool:
+	return flag in get_flags()
+
 # ── État ──────────────────────────────────────────────────────────────────────
 
 func is_usable() -> bool:
