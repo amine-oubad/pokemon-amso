@@ -187,7 +187,7 @@ func pokecenter(tx: int, ty: int, w_tiles: int = 6, h_tiles: int = 3) -> void:
 	if w_tiles >= 4:
 		put("window", tx + 1, ty + 1)
 		put("window", tx + w_tiles - 2, ty + 1)
-	_add_wall(tx, ty, w_tiles, h_tiles)
+	_add_building_wall(tx, ty, w_tiles, h_tiles)
 
 ## Draw a Pokemart building.
 func pokemart(tx: int, ty: int, w_tiles: int = 6, h_tiles: int = 3) -> void:
@@ -202,7 +202,7 @@ func pokemart(tx: int, ty: int, w_tiles: int = 6, h_tiles: int = 3) -> void:
 	if w_tiles >= 4:
 		put("window", tx + 1, ty + 1)
 		put("window", tx + w_tiles - 2, ty + 1)
-	_add_wall(tx, ty, w_tiles, h_tiles)
+	_add_building_wall(tx, ty, w_tiles, h_tiles)
 
 ## Draw a generic house.
 func house(tx: int, ty: int, w_tiles: int = 3, h_tiles: int = 3, roof := "roof_green", wall := "wall_gray") -> void:
@@ -213,7 +213,7 @@ func house(tx: int, ty: int, w_tiles: int = 3, h_tiles: int = 3, roof := "roof_g
 				put("door", tx + col, ty + row)
 			else:
 				put(wall, tx + col, ty + row)
-	_add_wall(tx, ty, w_tiles, h_tiles)
+	_add_building_wall(tx, ty, w_tiles, h_tiles)
 
 ## Draw a gym building with typed roof/wall.
 func gym_building(tx: int, ty: int, w_tiles: int = 6, h_tiles: int = 4, gym_type: String = "rock") -> void:
@@ -229,7 +229,7 @@ func gym_building(tx: int, ty: int, w_tiles: int = 6, h_tiles: int = 4, gym_type
 	if w_tiles >= 4:
 		put("window", tx + 1, ty + 1)
 		put("window", tx + w_tiles - 2, ty + 1)
-	_add_wall(tx, ty, w_tiles, h_tiles)
+	_add_building_wall(tx, ty, w_tiles, h_tiles)
 
 # ── Nature helpers ───────────────────────────────────────────────
 
@@ -334,6 +334,10 @@ func add_encounter_zone(center: Vector2, shape_size: Vector2, map_id: String,
 	add_child(zone)
 
 func add_transition(center: Vector2, shape_size: Vector2, target: String, spawn: Vector2) -> void:
+	# Record transition rect so border walls leave a gap
+	var half := shape_size / 2.0
+	_transition_rects.append(Rect2(center - half, shape_size))
+
 	var trans_scene := preload("res://scripts/overworld/MapTransition.gd")
 	var trans := Area2D.new()
 	trans.set_script(trans_scene)
@@ -373,6 +377,22 @@ func _add_wall(tx: int, ty: int, tw: int, th: int) -> void:
 	body.add_child(col)
 	add_child(body)
 
+## Building wall with a 1-tile door gap at the bottom center.
+func _add_building_wall(tx: int, ty: int, tw: int, th: int) -> void:
+	var door_x: int = tx + tw / 2
+	# Top part (roof + upper walls) — full width, height = th-1
+	if th > 1:
+		_add_wall(tx, ty, tw, th - 1)
+	# Bottom row: left of door
+	var left_w: int = door_x - tx
+	if left_w > 0:
+		_add_wall(tx, ty + th - 1, left_w, 1)
+	# Bottom row: right of door
+	var right_start: int = door_x + 1
+	var right_w: int = tx + tw - right_start
+	if right_w > 0:
+		_add_wall(right_start, ty + th - 1, right_w, 1)
+
 func add_wall_px(pos: Vector2, size: Vector2) -> void:
 	var body := StaticBody2D.new()
 	body.position = pos + size * 0.5
@@ -385,17 +405,60 @@ func add_wall_px(pos: Vector2, size: Vector2) -> void:
 
 # ── Border walls (screen edges) ─────────────────────────────────
 
+## Stores transition rects so border walls can leave gaps for exits.
+var _transition_rects: Array[Rect2] = []
+
 func add_border_walls() -> void:
-	var tw := MAP_W / TILE_SIZE
-	var th := MAP_H / TILE_SIZE
-	# Top
-	add_wall_px(Vector2(0, -TILE_SIZE), Vector2(MAP_W, TILE_SIZE))
-	# Bottom
-	add_wall_px(Vector2(0, MAP_H), Vector2(MAP_W, TILE_SIZE))
-	# Left
-	add_wall_px(Vector2(-TILE_SIZE, 0), Vector2(TILE_SIZE, MAP_H))
-	# Right
-	add_wall_px(Vector2(MAP_W, 0), Vector2(TILE_SIZE, MAP_H))
+	# Build exclusion zones from registered transitions
+	var top_gaps: Array[Vector2] = []    # [x_start, x_end]
+	var bottom_gaps: Array[Vector2] = []
+	var left_gaps: Array[Vector2] = []   # [y_start, y_end]
+	var right_gaps: Array[Vector2] = []
+
+	for tr in _transition_rects:
+		if tr.position.y < 0:
+			top_gaps.append(Vector2(tr.position.x, tr.end.x))
+		if tr.end.y > MAP_H:
+			bottom_gaps.append(Vector2(tr.position.x, tr.end.x))
+		if tr.position.x < 0:
+			left_gaps.append(Vector2(tr.position.y, tr.end.y))
+		if tr.end.x > MAP_W:
+			right_gaps.append(Vector2(tr.position.y, tr.end.y))
+
+	_add_border_with_gaps_h(Vector2(0, -TILE_SIZE), MAP_W, TILE_SIZE, top_gaps)
+	_add_border_with_gaps_h(Vector2(0, MAP_H), MAP_W, TILE_SIZE, bottom_gaps)
+	_add_border_with_gaps_v(Vector2(-TILE_SIZE, 0), TILE_SIZE, MAP_H, left_gaps)
+	_add_border_with_gaps_v(Vector2(MAP_W, 0), TILE_SIZE, MAP_H, right_gaps)
+
+func _add_border_with_gaps_h(pos: Vector2, width: float, height: float, gaps: Array[Vector2]) -> void:
+	if gaps.is_empty():
+		add_wall_px(pos, Vector2(width, height))
+		return
+	gaps.sort_custom(func(a: Vector2, b: Vector2) -> bool: return a.x < b.x)
+	var x := pos.x
+	for gap in gaps:
+		var gap_start: float = gap.x - TILE_SIZE
+		var gap_end: float = gap.y + TILE_SIZE
+		if gap_start > x:
+			add_wall_px(Vector2(x, pos.y), Vector2(gap_start - x, height))
+		x = gap_end
+	if x < pos.x + width:
+		add_wall_px(Vector2(x, pos.y), Vector2(pos.x + width - x, height))
+
+func _add_border_with_gaps_v(pos: Vector2, width: float, height: float, gaps: Array[Vector2]) -> void:
+	if gaps.is_empty():
+		add_wall_px(pos, Vector2(width, height))
+		return
+	gaps.sort_custom(func(a: Vector2, b: Vector2) -> bool: return a.x < b.x)
+	var y := pos.y
+	for gap in gaps:
+		var gap_start: float = gap.x - TILE_SIZE
+		var gap_end: float = gap.y + TILE_SIZE
+		if gap_start > y:
+			add_wall_px(Vector2(pos.x, y), Vector2(width, gap_start - y))
+		y = gap_end
+	if y < pos.y + height:
+		add_wall_px(Vector2(pos.x, y), Vector2(width, pos.y + height - y))
 
 # ── Player spawn ─────────────────────────────────────────────────
 

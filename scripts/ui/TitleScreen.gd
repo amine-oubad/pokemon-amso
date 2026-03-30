@@ -109,6 +109,9 @@ func _build_ui() -> void:
 
 func _on_new_game() -> void:
 	_hide_title()
+	# Show starter selection if player has no Pokemon
+	if GameState.team.is_empty():
+		StarterSelect.show_selection()
 
 func _on_continue() -> void:
 	# Load the most recent save across all slots

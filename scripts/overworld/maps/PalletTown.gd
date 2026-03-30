@@ -28,8 +28,9 @@ func build_map() -> void:
 	# Tree borders
 	tree_border(0, 0, 1, th)
 	tree_border(tw - 1, 0, 1, th)
-	tree_border(0, 0, tw, 1)
-	fill("grass_light", 9, 0, 2, 1)
+	# Top border with gap at columns 9-10 for Route 1 exit
+	tree_border(0, 0, 9, 1)
+	tree_border(11, 0, tw - 11, 1)
 
 	# Decorative trees
 	tree_2x2(14, 8)

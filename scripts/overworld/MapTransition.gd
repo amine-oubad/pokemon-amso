@@ -18,6 +18,7 @@ var spawn_position: Vector2 = Vector2.ZERO
 var _triggered: bool = false
 
 func _ready() -> void:
+	add_to_group("map_transition")
 	body_entered.connect(_on_body_entered)
 
 func _on_body_entered(body: Node2D) -> void:

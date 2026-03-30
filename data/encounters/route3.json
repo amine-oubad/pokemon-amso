@@ -1,13 +1,13 @@
 {
   "grass_01": [
-    { "id": "019", "level_min": 12, "level_max": 16, "weight": 35 },
-    { "id": "016", "level_min": 12, "level_max": 16, "weight": 35 },
-    { "id": "039", "level_min": 11, "level_max": 15, "weight": 20 },
-    { "id": "054", "level_min": 10, "level_max": 14, "weight": 10 }
+	{ "id": "019", "level_min": 12, "level_max": 16, "weight": 35 },
+	{ "id": "016", "level_min": 12, "level_max": 16, "weight": 35 },
+	{ "id": "039", "level_min": 11, "level_max": 15, "weight": 20 },
+	{ "id": "054", "level_min": 10, "level_max": 14, "weight": 10 }
   ],
   "grass_02": [
-    { "id": "039", "level_min": 13, "level_max": 17, "weight": 40 },
-    { "id": "054", "level_min": 12, "level_max": 16, "weight": 40 },
-    { "id": "025", "level_min": 14, "level_max": 18, "weight": 20 }
+	{ "id": "039", "level_min": 13, "level_max": 17, "weight": 40 },
+	{ "id": "054", "level_min": 12, "level_max": 16, "weight": 40 },
+	{ "id": "025", "level_min": 14, "level_max": 18, "weight": 20 }
   ]
 }

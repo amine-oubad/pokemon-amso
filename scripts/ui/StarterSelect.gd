@@ -104,7 +104,7 @@ func _build_ui() -> void:
 
 	# Controls hint
 	var hint := Label.new()
-	hint.text = "[<] [>] Choisir   [Z] Confirmer"
+	hint.text = "[Q] [D] Choisir   [E] Confirmer"
 	hint.position = Vector2(72, 226)
 	hint.add_theme_font_size_override("font_size", 6)
 	hint.add_theme_color_override("font_color", Color(0.35, 0.35, 0.48))

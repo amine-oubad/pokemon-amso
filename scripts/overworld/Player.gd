@@ -72,10 +72,11 @@ func _physics_process(delta: float) -> void:
 		_poll_input()
 
 func _is_any_menu_active() -> bool:
-	return (PauseMenu.is_active() or DialogueManager.is_active()
+	var result := (PauseMenu.is_active() or DialogueManager.is_active()
 		or ShopMenu.is_active() or PCBoxScreen.is_active()
 		or TitleScreen.is_active() or StarterSelect.is_active()
 		or PokemonSummary.is_active() or GameOverScreen.is_active())
+	return result
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_cancel"):
@@ -126,8 +127,10 @@ func _update_facing(dir_vec: Vector2) -> void:
 
 func _try_interact() -> void:
 	var check_pos: Vector2 = position + DIR_VECTORS[facing] * TILE_SIZE
-	for node in get_tree().get_nodes_in_group("interactable"):
-		if node.position.distance_to(check_pos) < 8.0:
+	var interactables := get_tree().get_nodes_in_group("interactable")
+	for node in interactables:
+		var dist: float = node.position.distance_to(check_pos)
+		if dist < float(TILE_SIZE) * 1.5:
 			node.interact()
 			return
 
@@ -146,20 +149,24 @@ func _tick_movement(delta: float) -> void:
 		position = _move_from.lerp(_move_to, _move_progress)
 
 func _check_area_overlaps() -> void:
-	# Direct position changes bypass Area2D signals — check manually
-	var space := get_world_2d().direct_space_state
-	var query := PhysicsShapeQueryParameters2D.new()
-	var shape := RectangleShape2D.new()
-	shape.size = Vector2(6, 6)
-	query.shape = shape
-	query.transform = Transform2D(0, position)
-	query.collide_with_areas = true
-	query.collide_with_bodies = false
-	var results := space.intersect_shape(query)
-	for r in results:
-		var collider = r.get("collider")
-		if collider is MapTransition:
-			collider._on_body_entered(self)
-			return
-		if collider is WildEncounterZone:
-			collider._player_inside = true
+	# Direct position changes bypass Area2D signals — check manually by distance
+	for node in get_tree().get_nodes_in_group("map_transition"):
+		if node is MapTransition:
+			var col: CollisionShape2D = node.get_child(0) as CollisionShape2D
+			if col and col.shape is RectangleShape2D:
+				var rect: RectangleShape2D = col.shape as RectangleShape2D
+				var half := rect.size / 2.0
+				var local_pos: Vector2 = position - node.position
+				if abs(local_pos.x) < half.x and abs(local_pos.y) < half.y:
+					node._on_body_entered(self)
+					return
+	for node in get_tree().get_nodes_in_group("wild_encounter"):
+		if node is WildEncounterZone:
+			var col: CollisionShape2D = node.get_child(0) as CollisionShape2D
+			if col and col.shape is RectangleShape2D:
+				var rect: RectangleShape2D = col.shape as RectangleShape2D
+				var half := rect.size / 2.0
+				var local_pos: Vector2 = position - node.position
+				if abs(local_pos.x) < half.x and abs(local_pos.y) < half.y:
+					node._player_inside = true
+					return

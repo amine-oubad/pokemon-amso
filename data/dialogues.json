@@ -1,31 +1,31 @@
 {
   "pokecenter_nurse": [
-    "Bienvenue au Centre Pokémon !",
-    "Je vais soigner votre équipe. Un instant...",
+	"Bienvenue au Centre Pokémon !",
+	"Je vais soigner votre équipe. Un instant...",
     "Vos Pokémon sont en pleine forme ! Bonne route !"
   ],
   "guide_pallet": [
-    "Bienvenue à Bourg-Palette !",
-    "La Route 1 mène vers Jadielle au nord.",
+	"Bienvenue à Bourg-Palette !",
+	"La Route 1 mène vers Jadielle au nord.",
     "Méfiez-vous des Pokémon sauvages dans les hautes herbes !"
   ],
   "sign_pallet_town": ["BOURG-PALETTE\nUne ville tranquille nichée dans la nature."],
   "sign_route1_entry": ["ROUTE 1 — Jadielle City ↑"],
 
   "prof_oak_intro": [
-    "Bienvenue dans le monde des Pokémon !",
-    "Je suis le Professeur Chen.",
+	"Bienvenue dans le monde des Pokémon !",
+	"Je suis le Professeur Chen.",
     "Choisis ton premier Pokémon pour commencer ton aventure !"
   ],
   "prof_oak_after": [
-    "Excellent choix !",
-    "Ton aventure commence maintenant !",
+	"Excellent choix !",
+	"Ton aventure commence maintenant !",
     "Rends-toi à Jadielle City au nord pour défier l'Arène !"
   ],
 
   "route1_trainer": [
-    "Hé, toi ! Tu explores la Route 1 ?",
-    "Les hautes herbes abritent des Pokémon sauvages.",
+	"Hé, toi ! Tu explores la Route 1 ?",
+	"Les hautes herbes abritent des Pokémon sauvages.",
     "Entraîne-toi bien avant d'affronter les Arènes !"
   ],
   "route1_youngster_before": ["Tu es un nouveau Dresseur, pas vrai ?", "Montre-moi ce que tu vaux !"],
@@ -36,13 +36,13 @@
   "sign_jadielle": ["JADIELLE CITY\nLa ville de l'Arène Pokémon !"],
 
   "guide_jadielle": [
-    "Bienvenue à Jadielle City !",
-    "L'Arène Pokémon se trouve au nord de la ville.",
+	"Bienvenue à Jadielle City !",
+	"L'Arène Pokémon se trouve au nord de la ville.",
     "La Route 2 part vers l'est, menant à la Forêt de Jade."
   ],
   "jadielle_nurse": [
-    "Bienvenue au Centre Pokémon de Jadielle !",
-    "Je vais soigner vos Pokémon...",
+	"Bienvenue au Centre Pokémon de Jadielle !",
+	"Je vais soigner vos Pokémon...",
     "Voilà, vos Pokémon sont en pleine forme !"
   ],
   "sign_jadielle_city": ["JADIELLE CITY\nLa ville au pied des montagnes."],
@@ -50,21 +50,21 @@
   "sign_route2_entry": ["ROUTE 2 — Forêt de Jade →"],
 
   "gym_guide": [
-    "Bienvenue à l'Arène de Jadielle !",
-    "Le Champion Pierre utilise des Pokémon variés.",
+	"Bienvenue à l'Arène de Jadielle !",
+	"Le Champion Pierre utilise des Pokémon variés.",
     "Bats les Dresseurs de l'Arène avant de le défier !"
   ],
   "gym_trainer_1_before": ["Tu oses défier notre Arène ?", "Je vais te tester !"],
   "gym_trainer_1_after": ["Pas mal du tout...", "Mais Pierre est bien plus fort que moi !"],
   "gym_leader_before": [
-    "Je suis Pierre, Champion de l'Arène de Jadielle !",
-    "Montre-moi la force du lien avec tes Pokémon !",
+	"Je suis Pierre, Champion de l'Arène de Jadielle !",
+	"Montre-moi la force du lien avec tes Pokémon !",
     "En garde !"
   ],
   "gym_leader_after": [
-    "Incroyable... Tu as gagné !",
-    "En récompense, voici le Badge Roche !",
-    "Ce badge te permet d'utiliser la CS Coupe hors combat.",
+	"Incroyable... Tu as gagné !",
+	"En récompense, voici le Badge Roche !",
+	"Ce badge te permet d'utiliser la CS Coupe hors combat.",
     "Continue ton voyage, Dresseur !"
   ],
 
@@ -88,32 +88,32 @@
   "sign_forest_north": ["FORÊT DE JADE\n↑ Argenta City"],
 
   "rival_before": [
-    "Tiens, tiens... On se retrouve !",
-    "Je suis Bleu, et je serai le meilleur Dresseur !",
+	"Tiens, tiens... On se retrouve !",
+	"Je suis Bleu, et je serai le meilleur Dresseur !",
     "Voyons si tu es à la hauteur !"
   ],
   "rival_after": [
-    "Grr... Tu as eu de la chance !",
-    "La prochaine fois, je ne perdrai pas !",
+	"Grr... Tu as eu de la chance !",
+	"La prochaine fois, je ne perdrai pas !",
     "On se reverra, compte là-dessus !"
   ],
 
   "guide_argenta": [
-    "Bienvenue à Argenta City !",
-    "L'Arène d'Argenta est spécialisée dans le type Roche.",
+	"Bienvenue à Argenta City !",
+	"L'Arène d'Argenta est spécialisée dans le type Roche.",
     "La Championne Flora est une experte !"
   ],
   "argenta_nurse": [
-    "Bienvenue au Centre Pokémon d'Argenta !",
-    "Je vais soigner vos Pokémon...",
+	"Bienvenue au Centre Pokémon d'Argenta !",
+	"Je vais soigner vos Pokémon...",
     "Voilà, vos Pokémon sont en pleine forme !"
   ],
   "sign_argenta_city": ["ARGENTA CITY\nLa ville de pierre."],
   "sign_argenta_gym": ["ARÈNE D'ARGENTA\nChampionne : Flora — Type Roche"],
 
   "argenta_gym_guide": [
-    "Bienvenue à l'Arène d'Argenta !",
-    "Flora utilise des Pokémon de type Roche.",
+	"Bienvenue à l'Arène d'Argenta !",
+	"Flora utilise des Pokémon de type Roche.",
     "Les attaques Eau, Plante et Combat sont efficaces !"
   ],
   "argenta_t1_before": ["Les Racaillou sont mes partenaires !", "Tu ne passeras pas !"],
@@ -121,13 +121,13 @@
   "argenta_t2_before": ["J'ai exploré les grottes pour trouver ces Pokémon !", "En garde !"],
   "argenta_t2_after": ["Impressionnant...", "Mais Flora est bien plus forte que nous !"],
   "flora_before": [
-    "Je suis Flora, Championne de l'Arène d'Argenta !",
-    "Les Pokémon Roche sont solides comme la montagne !",
+	"Je suis Flora, Championne de l'Arène d'Argenta !",
+	"Les Pokémon Roche sont solides comme la montagne !",
     "Montre-moi ta détermination !"
   ],
   "flora_after": [
-    "Tu as brisé ma défense de roche...",
-    "Voici le Badge Cascade ! Tu l'as bien mérité !",
+	"Tu as brisé ma défense de roche...",
+	"Voici le Badge Cascade ! Tu l'as bien mérité !",
     "Ce badge prouve ta force. Continue ton voyage !"
   ],
 
@@ -139,13 +139,13 @@
   "sign_lake": ["LAC AZUR\nDes Pokémon Eau reposent dans ces eaux calmes."],
 
   "guide_azuria": [
-    "Bienvenue à Azuria City !",
-    "Le Lac Azur borde notre ville à l'est.",
+	"Bienvenue à Azuria City !",
+	"Le Lac Azur borde notre ville à l'est.",
     "L'Arène d'Azuria est spécialisée dans le type Eau — préparez-vous !"
   ],
   "azuria_nurse": [
-    "Bienvenue au Centre Pokémon d'Azuria !",
-    "Je vais soigner vos Pokémon...",
+	"Bienvenue au Centre Pokémon d'Azuria !",
+	"Je vais soigner vos Pokémon...",
     "Voilà, vos Pokémon sont en pleine forme !"
   ],
   "sign_azuria_city": ["AZURIA CITY\nLa ville aux eaux turquoise."],
@@ -156,14 +156,14 @@
   "azuria_t2_before": ["Je nage avec mes Pokémon chaque matin !", "Tu ne peux pas battre un nageur comme moi !"],
   "azuria_t2_after": ["C'est impossible...", "Ondine va te montrer la vraie puissance de l'eau !"],
   "ondine_before": [
-    "Je suis Ondine, Championne de l'Arène d'Azuria !",
-    "Mes Pokémon Eau sont fluides et imprévisibles.",
+	"Je suis Ondine, Championne de l'Arène d'Azuria !",
+	"Mes Pokémon Eau sont fluides et imprévisibles.",
     "Laisse-toi emporter par le courant... de ma victoire !"
   ],
   "ondine_after": [
-    "Tu as dompté mes vagues...",
-    "Voici le Badge Vague en témoignage de ta victoire !",
-    "Ce badge te permettra d'utiliser la CS Surf hors combat.",
+	"Tu as dompté mes vagues...",
+	"Voici le Badge Vague en témoignage de ta victoire !",
+	"Ce badge te permettra d'utiliser la CS Surf hors combat.",
     "Continue ton voyage, Dresseur. L'aventure est encore longue !"
   ],
 
@@ -174,24 +174,24 @@
   "sign_route4": ["ROUTE 4\n← Azuria City   Carmin-sur-Mer ↓"],
 
   "rival_carmin_before": [
-    "Tiens, tiens... encore toi !",
-    "J'ai pas mal progressé depuis la dernière fois.",
+	"Tiens, tiens... encore toi !",
+	"J'ai pas mal progressé depuis la dernière fois.",
     "Mon Kadabra va te surprendre !"
   ],
   "rival_carmin_after": [
-    "Encore... Mais comment tu fais ?!",
-    "Hmph, la prochaine fois je serai prêt !",
+	"Encore... Mais comment tu fais ?!",
+	"Hmph, la prochaine fois je serai prêt !",
     "On se reverra à Céladopole !"
   ],
 
   "guide_carmin": [
-    "Bienvenue à Carmin-sur-Mer !",
-    "Le port abrite le S.S. Anne et l'Arène de Major Bob.",
+	"Bienvenue à Carmin-sur-Mer !",
+	"Le port abrite le S.S. Anne et l'Arène de Major Bob.",
     "Ses Pokémon Électrique sont foudroyants !"
   ],
   "carmin_nurse": [
-    "Bienvenue au Centre Pokémon de Carmin !",
-    "Je vais soigner vos Pokémon...",
+	"Bienvenue au Centre Pokémon de Carmin !",
+	"Je vais soigner vos Pokémon...",
     "Voilà, vos Pokémon sont en pleine forme !"
   ],
   "sign_carmin_city": ["CARMIN-SUR-MER\nLe port aux éclairs."],
@@ -201,14 +201,14 @@
   "carmin_t2_before": ["J'ai navigué sur toutes les mers !", "Mes Pokémon sont chargés à bloc !"],
   "carmin_t2_after": ["Tonnerre...", "Tu as de l'énergie à revendre, Dresseur !"],
   "bob_before": [
-    "Je suis Major Bob, le Champion Électrique !",
-    "L'électricité est ma force !",
+	"Je suis Major Bob, le Champion Électrique !",
+	"L'électricité est ma force !",
     "Prépare-toi à un choc !"
   ],
   "bob_after": [
-    "Tu m'as mis à terre, soldat...",
-    "Voici le Badge Foudre ! Tu l'as bien mérité !",
-    "Ce badge te permet d'utiliser la CS Vol hors combat.",
+	"Tu m'as mis à terre, soldat...",
+	"Voici le Badge Foudre ! Tu l'as bien mérité !",
+	"Ce badge te permet d'utiliser la CS Vol hors combat.",
     "Continue ta route vers Céladopole !"
   ],
 
@@ -219,24 +219,24 @@
   "sign_route5": ["ROUTE 5\n↓ Carmin-sur-Mer   Céladopole ↑"],
 
   "rival_route5_before": [
-    "On dirait que le destin nous réunit encore !",
-    "Mon Alakazam est maintenant au top !",
+	"On dirait que le destin nous réunit encore !",
+	"Mon Alakazam est maintenant au top !",
     "Cette fois, c'est moi qui gagne !"
   ],
   "rival_route5_after": [
-    "Non, pas encore !",
-    "Grr... Je vais m'entraîner encore plus dur !",
+	"Non, pas encore !",
+	"Grr... Je vais m'entraîner encore plus dur !",
     "Safrania sera le théâtre de ma revanche !"
   ],
 
   "guide_celadopole": [
-    "Bienvenue à Céladopole !",
-    "C'est la plus grande ville de la région !",
+	"Bienvenue à Céladopole !",
+	"C'est la plus grande ville de la région !",
     "L'Arène de Céladopole est spécialisée dans le type Plante."
   ],
   "celadopole_nurse": [
-    "Bienvenue au Centre Pokémon de Céladopole !",
-    "Je vais soigner vos Pokémon...",
+	"Bienvenue au Centre Pokémon de Céladopole !",
+	"Je vais soigner vos Pokémon...",
     "Voilà, vos Pokémon sont en pleine forme !"
   ],
   "sign_celadopole_city": ["CÉLADOPOLE\nLa cité arc-en-ciel."],
@@ -246,14 +246,14 @@
   "celadopole_t2_before": ["Le parfum de mes Pokémon endort les adversaires !", "Tu vas succomber !"],
   "celadopole_t2_after": ["Comment...", "Erika est la reine des plantes, attention !"],
   "erika_before": [
-    "Je suis Erika, Championne de Céladopole.",
-    "Les Pokémon Plante sont gracieux et puissants.",
+	"Je suis Erika, Championne de Céladopole.",
+	"Les Pokémon Plante sont gracieux et puissants.",
     "Laisse-moi te montrer leur beauté en combat !"
   ],
   "erika_after": [
-    "Tes Pokémon ont fané mes fleurs...",
-    "Voici le Badge Prisme, il est à toi !",
-    "Ce badge te permet d'utiliser la CS Force hors combat.",
+	"Tes Pokémon ont fané mes fleurs...",
+	"Voici le Badge Prisme, il est à toi !",
+	"Ce badge te permet d'utiliser la CS Force hors combat.",
     "La Route 6 mène à Safrania. Bonne chance, Dresseur !"
   ],
 
@@ -264,24 +264,24 @@
   "sign_route6": ["ROUTE 6\n← Céladopole   Safrania →"],
 
   "rival_safrania_before": [
-    "Encore toi... Cette fois je suis vraiment prêt !",
-    "Mon équipe est à son meilleur niveau !",
+	"Encore toi... Cette fois je suis vraiment prêt !",
+	"Mon équipe est à son meilleur niveau !",
     "Dernier round avant Morgane — en garde !"
   ],
   "rival_safrania_after": [
-    "Comment c'est possible...?!",
-    "Tu es vraiment le meilleur Dresseur que je connaisse.",
+	"Comment c'est possible...?!",
+	"Tu es vraiment le meilleur Dresseur que je connaisse.",
     "Bats Morgane pour moi aussi !"
   ],
 
   "guide_safrania": [
-    "Bienvenue à Safrania !",
-    "C'est la ville de la psyché et du mystère.",
+	"Bienvenue à Safrania !",
+	"C'est la ville de la psyché et du mystère.",
     "L'Arène de Morgane est réputée pour ses Pokémon Psy !"
   ],
   "safrania_nurse": [
-    "Bienvenue au Centre Pokémon de Safrania !",
-    "Je vais soigner vos Pokémon...",
+	"Bienvenue au Centre Pokémon de Safrania !",
+	"Je vais soigner vos Pokémon...",
     "Voilà, vos Pokémon sont en pleine forme !"
   ],
   "sign_safrania_city": ["SAFRANIA\nLa ville mystique."],
@@ -291,14 +291,14 @@
   "safrania_t2_before": ["La télékinésie est mon arme secrète !", "Prêt pour un combat mental ?"],
   "safrania_t2_after": ["Comment as-tu résisté...", "Morgane va te montrer le vrai pouvoir psy !"],
   "morgane_before": [
-    "Je suis Morgane, Championne de Safrania.",
-    "J'ai vu ta venue dans mes visions...",
+	"Je suis Morgane, Championne de Safrania.",
+	"J'ai vu ta venue dans mes visions...",
     "Mais le destin reste à écrire. En garde !"
   ],
   "morgane_after": [
-    "Tu as brisé mes prédictions...",
-    "Voici le Badge Marais en récompense !",
-    "Tu as prouvé que la volonté surpasse la psyché.",
+	"Tu as brisé mes prédictions...",
+	"Voici le Badge Marais en récompense !",
+	"Tu as prouvé que la volonté surpasse la psyché.",
     "Ton voyage est loin d'être terminé, Dresseur !"
   ],
 
@@ -310,13 +310,13 @@
   "route7_tamer_before": ["Mes Pokémon de Feu sont\nindomptables !"],
   "route7_tamer_after": ["Hmm, tu es plus fort\nque mes flammes."],
   "rival_fuchsia_before": [
-    "Tiens, tiens... encore toi !",
-    "J'ai capturé plein de nouveaux\nPokémon depuis la dernière fois.",
+	"Tiens, tiens... encore toi !",
+	"J'ai capturé plein de nouveaux\nPokémon depuis la dernière fois.",
     "Cette fois, je vais gagner !"
   ],
   "rival_fuchsia_after": [
-    "QUOI ?! Impossible !",
-    "Bon... je reconnais que tu\nes devenu fort.",
+	"QUOI ?! Impossible !",
+	"Bon... je reconnais que tu\nes devenu fort.",
     "Mais la prochaine fois\nne sera pas pareil !"
   ],
 
@@ -329,13 +329,13 @@
   "fuchsia_t2_before": ["Mes poisons sont mortels !\nEs-tu prêt ?"],
   "fuchsia_t2_after": ["Ton antidote... c'est ta force."],
   "koga_before": [
-    "Je suis Koga, maître ninja !",
-    "Le Poison est une arme\nsilencieuse et mortelle.",
+	"Je suis Koga, maître ninja !",
+	"Le Poison est une arme\nsilencieuse et mortelle.",
     "Voyons si tu peux résister\nà mes toxines !"
   ],
   "koga_after": [
-    "Impressionnant... Tu as survécu\nà mon arsenal empoisonné.",
-    "Prends le Badge Âme !",
+	"Impressionnant... Tu as survécu\nà mon arsenal empoisonné.",
+	"Prends le Badge Âme !",
     "Le poison n'a pu t'atteindre,\nmais continue à te méfier."
   ],
 
@@ -356,15 +356,15 @@
   "cramoisile_t2_before": ["Le Feu purifie tout !"],
   "cramoisile_t2_after": ["Tu as éteint mes flammes..."],
   "blaine_before": [
-    "Bienvenue dans mon volcan !",
-    "Je suis Blaine, le maître\ndu Feu ardent !",
-    "Mes Pokémon brûlent d'une\npassion dévorante !",
+	"Bienvenue dans mon volcan !",
+	"Je suis Blaine, le maître\ndu Feu ardent !",
+	"Mes Pokémon brûlent d'une\npassion dévorante !",
     "Voyons si tu résistes\nà la chaleur !"
   ],
   "blaine_after": [
-    "Tu as éteint mes flammes !",
-    "Voici le Badge Volcan !",
-    "Tu as les 8 badges...",
+	"Tu as éteint mes flammes !",
+	"Voici le Badge Volcan !",
+	"Tu as les 8 badges...",
     "Le Plateau Indigo t'attend,\nDresseur !"
   ],
 
@@ -375,62 +375,62 @@
   "indigo_gate_blocked": ["Il te faut 8 badges pour\nentrer dans la Ligue Pokémon."],
 
   "lorelei_before": [
-    "Bienvenue au Conseil des 4.",
-    "Je suis Lorelei, spécialiste\ndes Pokémon de Glace.",
+	"Bienvenue au Conseil des 4.",
+	"Je suis Lorelei, spécialiste\ndes Pokémon de Glace.",
     "Voyons si tu résistes\nau froid !"
   ],
   "lorelei_after": [
-    "Impressionnant... Tu m'as vaincue.",
+	"Impressionnant... Tu m'as vaincue.",
     "Continue, le prochain membre\nt'attend."
   ],
   "bruno_before": [
-    "Je suis Bruno !",
-    "Mes Pokémon Combat sont\ndes machines de guerre !",
+	"Je suis Bruno !",
+	"Mes Pokémon Combat sont\ndes machines de guerre !",
     "Prépare-toi au combat !"
   ],
   "bruno_after": [
-    "Ta force est incroyable...",
+	"Ta force est incroyable...",
     "Avance, mais sache que\nle pire est à venir."
   ],
   "agatha_before": [
-    "Hé hé hé...",
-    "Je suis Agatha, la maîtresse\ndes Pokémon Spectre.",
+	"Hé hé hé...",
+	"Je suis Agatha, la maîtresse\ndes Pokémon Spectre.",
     "Les ombres vont t'engloutir !"
   ],
   "agatha_after": [
-    "Les ombres s'inclinent\ndevant toi...",
+	"Les ombres s'inclinent\ndevant toi...",
     "Peter t'attend. Il est\nle plus puissant d'entre nous."
   ],
   "peter_before": [
-    "Je suis Peter, le dernier\nmembre du Conseil des 4.",
-    "Mes Pokémon draconiques\nsont légendaires !",
+	"Je suis Peter, le dernier\nmembre du Conseil des 4.",
+	"Mes Pokémon draconiques\nsont légendaires !",
     "Montre-moi ta puissance !"
   ],
   "peter_after": [
-    "Incroyable... Tu as vaincu\nle Conseil des 4 !",
-    "Mais il reste le Champion...",
+	"Incroyable... Tu as vaincu\nle Conseil des 4 !",
+	"Mais il reste le Champion...",
     "Va le défier dans la salle\ndu trône !"
   ],
   "rival_champion_before": [
-    "...Tiens, tiens.",
-    "Tu es arrivé jusqu'ici...",
-    "Je suis le Champion de la\nLigue Pokémon !",
-    "Bleu ! Ton Rival !",
+	"...Tiens, tiens.",
+	"Tu es arrivé jusqu'ici...",
+	"Je suis le Champion de la\nLigue Pokémon !",
+	"Bleu ! Ton Rival !",
     "Cette fois, c'est le combat\nfinal entre nous !"
   ],
   "rival_champion_after": [
-    "Non... C'est impossible...",
-    "J'étais le Champion...",
-    "Et tu m'as battu...",
-    "Félicitations... Tu es le\nnouveau Champion Pokémon !",
+	"Non... C'est impossible...",
+	"J'étais le Champion...",
+	"Et tu m'as battu...",
+	"Félicitations... Tu es le\nnouveau Champion Pokémon !",
     "..."
   ],
 
   "league_victory": [
-    "FÉLICITATIONS !",
-    "Tu as vaincu le Conseil\ndes 4 et le Champion !",
-    "Tu es le nouveau CHAMPION\nde la Ligue Pokémon !",
-    "Ton nom est gravé dans\nle Hall of Fame !",
+	"FÉLICITATIONS !",
+	"Tu as vaincu le Conseil\ndes 4 et le Champion !",
+	"Tu es le nouveau CHAMPION\nde la Ligue Pokémon !",
+	"Ton nom est gravé dans\nle Hall of Fame !",
     "Merci d'avoir joué à\nPokémon AMSO !"
   ]
 }

@@ -13,6 +13,7 @@ extends Area2D
 var _player_inside: bool = false
 
 func _ready() -> void:
+	add_to_group("wild_encounter")
 	# Détecter entrée / sortie du joueur dans la zone
 	body_entered.connect(_on_body_entered)
 	body_exited.connect(_on_body_exited)
