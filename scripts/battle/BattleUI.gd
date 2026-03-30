@@ -250,12 +250,19 @@ func _refresh_pokemon_sprites() -> void:
 	_enemy_sprite_node = SpriteLoader.make_sprite(scene.enemy_pkmn.pokemon_id, "front", Vector2(80, 80))
 	_enemy_sprite_node.position = Vector2(4, 4)
 	_enemy_sprite_container.add_child(_enemy_sprite_node)
+	# Forcer la taille — le layout system de Control peut collapser le TextureRect
+	if _enemy_sprite_node is Control:
+		_enemy_sprite_node.set_anchors_preset(Control.PRESET_TOP_LEFT)
+		_enemy_sprite_node.size = Vector2(80, 80)
 
 	if _player_sprite_node != null:
 		_player_sprite_node.queue_free()
 	_player_sprite_node = SpriteLoader.make_sprite(scene.player_pkmn.pokemon_id, "back", Vector2(80, 80))
 	_player_sprite_node.position = Vector2(6, -4)
 	_player_sprite_container.add_child(_player_sprite_node)
+	if _player_sprite_node is Control:
+		_player_sprite_node.set_anchors_preset(Control.PRESET_TOP_LEFT)
+		_player_sprite_node.size = Vector2(80, 80)
 
 # =========================================================================
 #  Menus dynamiques

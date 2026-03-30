@@ -11,7 +11,7 @@ func _ready() -> void:
 func _build_visual() -> void:
 	var shape := CollisionShape2D.new()
 	var rs := RectangleShape2D.new()
-	rs.size = Vector2(12.0, 14.0)
+	rs.size = Vector2(14.0, 14.0)
 	shape.shape = rs
 	add_child(shape)
 

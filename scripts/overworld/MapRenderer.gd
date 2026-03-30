@@ -384,14 +384,18 @@ func add_hm_block(pos: Vector2, hm_id: String, block_key: String,
 
 # ── Collision wall (invisible StaticBody2D) ──────────────────────
 
+## Crée un mur de collision par-tile (1 CollisionShape2D 16x16 par tile).
+## Permet au joueur de glisser le long des coins contrairement à un gros rectangle.
 func _add_wall(tx: int, ty: int, tw: int, th: int) -> void:
 	var body := StaticBody2D.new()
-	body.position = Vector2((tx + tw * 0.5) * TILE_SIZE, (ty + th * 0.5) * TILE_SIZE)
-	var col := CollisionShape2D.new()
-	var rect := RectangleShape2D.new()
-	rect.size = Vector2(tw * TILE_SIZE, th * TILE_SIZE)
-	col.shape = rect
-	body.add_child(col)
+	for row in th:
+		for col in tw:
+			var cs := CollisionShape2D.new()
+			var rect := RectangleShape2D.new()
+			rect.size = Vector2(TILE_SIZE, TILE_SIZE)
+			cs.shape = rect
+			cs.position = Vector2((tx + col + 0.5) * TILE_SIZE, (ty + row + 0.5) * TILE_SIZE)
+			body.add_child(cs)
 	add_child(body)
 
 ## Building wall with a 1-tile door gap at the bottom center.
