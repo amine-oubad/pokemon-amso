@@ -27,6 +27,9 @@ func _create_tilemap() -> TileMapLayer:
 	var atlas := TileSetAtlasSource.new()
 	atlas.texture = load("res://assets/tilesets/grass.png")
 	atlas.texture_region_size = Vector2i(TILE, TILE)
+	# Créer toutes les tiles utilisées dans l'atlas
+	for coord in [GRASS, GRASS2, GRASS3, PATH, TREE, ROCK]:
+		atlas.create_tile(coord)
 	ts.add_source(atlas, 0)
 	var tm := TileMapLayer.new()
 	tm.tile_set = ts
