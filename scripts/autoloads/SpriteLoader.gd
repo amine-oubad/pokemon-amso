@@ -39,15 +39,22 @@ func make_sprite(pokemon_id: String, folder: String, size: Vector2) -> Control:
 	if tex != null:
 		var tr := TextureRect.new()
 		tr.texture = tex
-		tr.expand_mode = TextureRect.EXPAND_FIT_WIDTH_PROPORTIONAL
+		tr.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 		tr.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		tr.custom_minimum_size = size
 		tr.size = size
 		tr.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 		return tr
-	# Fallback — carré coloré
+	# Fallback — carré coloré avec "?" text
 	var fb := ColorRect.new()
 	fb.size = size
-	fb.color = Color(0.5, 0.5, 0.5, 0.4)
+	fb.custom_minimum_size = size
+	fb.color = Color(0.3, 0.3, 0.4, 0.6)
+	var lbl := Label.new()
+	lbl.text = "?" + pokemon_id
+	lbl.position = Vector2(2, 2)
+	lbl.add_theme_font_size_override("font_size", 7)
+	fb.add_child(lbl)
 	return fb
 
 ## Précharge tous les sprites en arrière-plan (optionnel)

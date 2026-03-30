@@ -88,19 +88,25 @@ func _refresh() -> void:
 		_lbl(Vector2(tx + 2, 115), t.to_upper(), 5, Color.WHITE)
 		tx += 46
 
+	# Ability
+	if _pkmn.ability != "":
+		var ab_name: String = AbilityEffects.get_ability_name(_pkmn.ability)
+		_lbl(Vector2(10, 128), "Talent:", 5, C_TEXT2)
+		_lbl(Vector2(42, 128), ab_name, 5, C_ACCENT)
+
 	# HP bar
-	_lbl(Vector2(10, 130), "PV", 6, C_TEXT2)
+	_lbl(Vector2(10, 138), "PV", 6, C_TEXT2)
 	var hp_ratio: float = float(_pkmn.current_hp) / float(_pkmn.max_hp) if _pkmn.max_hp > 0 else 0.0
-	_rect(Vector2(26, 134), Vector2(76, 5), Color(0.08, 0.08, 0.14))
-	_rect(Vector2(26, 134), Vector2(76.0 * hp_ratio, 5), _hp_col(hp_ratio))
-	_lbl(Vector2(26, 140), "%d / %d" % [_pkmn.current_hp, _pkmn.max_hp], 6, C_TEXT)
+	_rect(Vector2(26, 142), Vector2(76, 5), Color(0.08, 0.08, 0.14))
+	_rect(Vector2(26, 142), Vector2(76.0 * hp_ratio, 5), _hp_col(hp_ratio))
+	_lbl(Vector2(26, 148), "%d / %d" % [_pkmn.current_hp, _pkmn.max_hp], 6, C_TEXT)
 
 	# Status
 	if _pkmn.status != "":
-		var scol: Color = (load("res://scripts/battle/MoveEffects.gd") as GDScript).STATUS_COLOR.get(_pkmn.status, Color.GRAY)
-		_rect(Vector2(72, 130), Vector2(30, 11), scol.darkened(0.3))
-		var sabbr: String = (load("res://scripts/battle/MoveEffects.gd") as GDScript).STATUS_ABBR.get(_pkmn.status, "???")
-		_lbl(Vector2(74, 129), sabbr, 5, Color.WHITE)
+		var scol: Color = MoveEffects.STATUS_COLOR.get(_pkmn.status, Color.GRAY)
+		_rect(Vector2(72, 138), Vector2(30, 11), scol.darkened(0.3))
+		var sabbr: String = MoveEffects.STATUS_ABBR.get(_pkmn.status, "???")
+		_lbl(Vector2(74, 137), sabbr, 5, Color.WHITE)
 
 	# Right panel — Stats
 	_rect(Vector2(114, 6), Vector2(202, 90), C_PANEL)
