@@ -245,24 +245,23 @@ func _hp_color(r: float) -> Color:
 	return Color(0.95, 0.22, 0.15)
 
 func _refresh_pokemon_sprites() -> void:
+	# Utilise Sprite2D (Node2D) au lieu de TextureRect (Control)
+	# pour éviter les problèmes de layout dans le CanvasLayer
+	var layer_node: Node = _enemy_sprite_container.get_parent()
+
 	if _enemy_sprite_node != null:
 		_enemy_sprite_node.queue_free()
-	_enemy_sprite_node = SpriteLoader.make_sprite(scene.enemy_pkmn.pokemon_id, "front", Vector2(80, 80))
-	_enemy_sprite_node.position = Vector2(4, 4)
-	_enemy_sprite_container.add_child(_enemy_sprite_node)
-	# Forcer la taille — le layout system de Control peut collapser le TextureRect
-	if _enemy_sprite_node is Control:
-		_enemy_sprite_node.set_anchors_preset(Control.PRESET_TOP_LEFT)
-		_enemy_sprite_node.size = Vector2(80, 80)
+	_enemy_sprite_node = SpriteLoader.make_sprite2d(scene.enemy_pkmn.pokemon_id, "front", 80.0)
+	_enemy_sprite_node.position = Vector2(12, 8)  # Absolu sur le CanvasLayer
+	layer_node.add_child(_enemy_sprite_node)
+	print("[BattleUI] Enemy sprite: ", scene.enemy_pkmn.pokemon_id, " type=", _enemy_sprite_node.get_class(), " pos=", _enemy_sprite_node.position)
 
 	if _player_sprite_node != null:
 		_player_sprite_node.queue_free()
-	_player_sprite_node = SpriteLoader.make_sprite(scene.player_pkmn.pokemon_id, "back", Vector2(80, 80))
-	_player_sprite_node.position = Vector2(6, -4)
-	_player_sprite_container.add_child(_player_sprite_node)
-	if _player_sprite_node is Control:
-		_player_sprite_node.set_anchors_preset(Control.PRESET_TOP_LEFT)
-		_player_sprite_node.size = Vector2(80, 80)
+	_player_sprite_node = SpriteLoader.make_sprite2d(scene.player_pkmn.pokemon_id, "back", 80.0)
+	_player_sprite_node.position = Vector2(226, 64)  # Absolu sur le CanvasLayer
+	layer_node.add_child(_player_sprite_node)
+	print("[BattleUI] Player sprite: ", scene.player_pkmn.pokemon_id, " type=", _player_sprite_node.get_class(), " pos=", _player_sprite_node.position)
 
 # =========================================================================
 #  Menus dynamiques

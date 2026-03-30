@@ -388,6 +388,7 @@ func add_hm_block(pos: Vector2, hm_id: String, block_key: String,
 ## Permet au joueur de glisser le long des coins contrairement à un gros rectangle.
 func _add_wall(tx: int, ty: int, tw: int, th: int) -> void:
 	var body := StaticBody2D.new()
+	var count := 0
 	for row in th:
 		for col in tw:
 			var cs := CollisionShape2D.new()
@@ -396,6 +397,9 @@ func _add_wall(tx: int, ty: int, tw: int, th: int) -> void:
 			cs.shape = rect
 			cs.position = Vector2((tx + col + 0.5) * TILE_SIZE, (ty + row + 0.5) * TILE_SIZE)
 			body.add_child(cs)
+			count += 1
+	if count > 0:
+		print("[MapRenderer] _add_wall(%d,%d,%d,%d) → %d colliders" % [tx, ty, tw, th, count])
 	add_child(body)
 
 ## Building wall with a 1-tile door gap at the bottom center.

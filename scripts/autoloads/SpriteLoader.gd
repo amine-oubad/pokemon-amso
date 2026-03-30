@@ -57,6 +57,34 @@ func make_sprite(pokemon_id: String, folder: String, size: Vector2) -> Control:
 	fb.add_child(lbl)
 	return fb
 
+## Crée un Sprite2D (Node2D) au lieu d'un TextureRect (Control).
+## Plus fiable dans un CanvasLayer car pas affecté par le layout system.
+func make_sprite2d(pokemon_id: String, folder: String, target_size: float) -> Node2D:
+	var tex := _load_sprite(folder, pokemon_id)
+	if tex != null:
+		var spr := Sprite2D.new()
+		spr.texture = tex
+		spr.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+		# Mettre à l'échelle pour atteindre target_size
+		var tex_size: float = max(tex.get_width(), tex.get_height())
+		if tex_size > 0:
+			var sc: float = target_size / tex_size
+			spr.scale = Vector2(sc, sc)
+		spr.centered = false
+		return spr
+	# Fallback — carré coloré avec ID
+	var node := Node2D.new()
+	var cr := ColorRect.new()
+	cr.size = Vector2(target_size, target_size)
+	cr.color = Color(0.8, 0.2, 0.2, 0.7)
+	node.add_child(cr)
+	var lbl := Label.new()
+	lbl.text = "?" + pokemon_id
+	lbl.position = Vector2(4, 4)
+	lbl.add_theme_font_size_override("font_size", 8)
+	node.add_child(lbl)
+	return node
+
 ## Précharge tous les sprites en arrière-plan (optionnel)
 func preload_all() -> void:
 	for sid: String in GameData.pokemon_data.keys():
