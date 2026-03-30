@@ -206,19 +206,77 @@ func _handle_initial_switch_in() -> void:
 	# Abilities like Intimidate, Drizzle, etc. trigger here
 	pass  # Will be called from _input when transitioning from INTRO
 
+var _action_cursor: int = 0
+var _move_cursor: int = 0
+
 func _input(event: InputEvent) -> void:
-	if not event.is_action_pressed("ui_accept"):
+	if _animating:
 		return
+
 	match _state:
 		State.INTRO:
-			# Trigger switch-in abilities before first turn
-			_trigger_switch_in_abilities()
-		State.CHOOSE_MOVE:  set_state(State.PLAYER_CHOOSE)
-		State.CHOOSE_ITEM:  set_state(State.PLAYER_CHOOSE)
-		State.CHOOSE_POKEMON:
-			if not _forced_switch:
-				_baton_pass_stages = {}
+			if event.is_action_pressed("ui_accept"):
+				_trigger_switch_in_abilities()
+
+		State.PLAYER_CHOOSE:
+			if event.is_action_pressed("move_up"):
+				_action_cursor = max(0, _action_cursor - 1)
+				_highlight_action()
+			elif event.is_action_pressed("move_down"):
+				_action_cursor = min(3, _action_cursor + 1)
+				_highlight_action()
+			elif event.is_action_pressed("ui_accept"):
+				match _action_cursor:
+					0: _on_attack()
+					1: _on_bag()
+					2: _on_switch_btn()
+					3: _on_flee()
+
+		State.CHOOSE_MOVE:
+			if event.is_action_pressed("move_left"):
+				_move_cursor = max(0, _move_cursor - 1)
+				_highlight_move()
+			elif event.is_action_pressed("move_right"):
+				_move_cursor = min(player_pkmn.moves.size() - 1, _move_cursor + 1)
+				_highlight_move()
+			elif event.is_action_pressed("move_up"):
+				_move_cursor = max(0, _move_cursor - 2)
+				_highlight_move()
+			elif event.is_action_pressed("move_down"):
+				_move_cursor = min(player_pkmn.moves.size() - 1, _move_cursor + 2)
+				_highlight_move()
+			elif event.is_action_pressed("ui_accept"):
+				_on_move(_move_cursor)
+			elif event.is_action_pressed("ui_cancel"):
 				set_state(State.PLAYER_CHOOSE)
+
+		State.CHOOSE_ITEM:
+			if event.is_action_pressed("ui_cancel"):
+				set_state(State.PLAYER_CHOOSE)
+
+		State.CHOOSE_POKEMON:
+			if event.is_action_pressed("ui_cancel"):
+				if not _forced_switch:
+					_baton_pass_stages = {}
+					set_state(State.PLAYER_CHOOSE)
+
+func _highlight_action() -> void:
+	var labels := ["ATTAQUER", "SAC", "SWITCH", "FUIR"]
+	for i in range(ui.action_menu.get_child_count()):
+		var btn = ui.action_menu.get_child(i)
+		if btn is Button:
+			if i == _action_cursor:
+				btn.add_theme_color_override("font_color", Color(1, 0.9, 0.2))
+			else:
+				btn.remove_theme_color_override("font_color")
+
+func _highlight_move() -> void:
+	for i in range(ui._move_buttons.size()):
+		var btn: Button = ui._move_buttons[i]
+		if i == _move_cursor:
+			btn.add_theme_color_override("font_color", Color(1, 0.9, 0.2))
+		else:
+			btn.remove_theme_color_override("font_color")
 
 func _trigger_switch_in_abilities() -> void:
 	_animating = true
