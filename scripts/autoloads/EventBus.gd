@@ -20,6 +20,11 @@ signal badge_earned(badge_id: String)
 signal menu_opened(menu_id: String)
 signal menu_closed(menu_id: String)
 
+# ── Cinematiques ──────────────────────────────────────────────────────────────
+signal cinematic_started(cinematic_id: String)
+signal cinematic_finished(cinematic_id: String)
+signal mega_evolution_triggered(pokemon_id: String, mega_form: String)
+
 # ── Sauvegarde ─────────────────────────────────────────────────────────────────
 signal save_requested()
 signal load_requested(slot: int)
