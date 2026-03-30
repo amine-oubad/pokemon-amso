@@ -14,7 +14,7 @@ const C_TEXT  := Color(0.90, 0.90, 0.95)
 const C_TEXT2 := Color(0.50, 0.50, 0.62)
 
 func _ready() -> void:
-	layer = 38
+	layer = 55  # Above BattleUI (50)
 	_build_ui()
 	_hide()
 

@@ -207,5 +207,6 @@ func finish() -> void:
 				await DialogueManager.dialogue_finished
 
 	GameState.pending_battle = {}
+	scene._restore_overworld_ui()
 	EventBus.battle_ended.emit(result)
 	scene.get_tree().change_scene_to_file(GameState.return_to_scene)
