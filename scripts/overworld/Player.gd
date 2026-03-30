@@ -140,5 +140,26 @@ func _tick_movement(delta: float) -> void:
 		_move_progress = 0.0
 		_update_sprite_frame()
 		EventBus.player_stepped.emit(position)
+		# Manual overlap check — direct position changes bypass Area2D signals
+		_check_area_overlaps()
 	else:
 		position = _move_from.lerp(_move_to, _move_progress)
+
+func _check_area_overlaps() -> void:
+	# Direct position changes bypass Area2D signals — check manually
+	var space := get_world_2d().direct_space_state
+	var query := PhysicsShapeQueryParameters2D.new()
+	var shape := RectangleShape2D.new()
+	shape.size = Vector2(6, 6)
+	query.shape = shape
+	query.transform = Transform2D(0, position)
+	query.collide_with_areas = true
+	query.collide_with_bodies = false
+	var results := space.intersect_shape(query)
+	for r in results:
+		var collider = r.get("collider")
+		if collider is MapTransition:
+			collider._on_body_entered(self)
+			return
+		if collider is WildEncounterZone:
+			collider._player_inside = true
