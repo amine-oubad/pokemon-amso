@@ -115,13 +115,18 @@ func show_menu() -> void:
 	_cursor_idx   = 0
 	_scroll_offset = 0
 	_swap_src     = -1
-	_bg.show()
+	_set_all_visible(true)
 	_refresh_tabs()
 	_refresh_content()
 
 func hide_menu() -> void:
 	_visible_flag = false
-	_bg.hide()
+	_set_all_visible(false)
+
+func _set_all_visible(vis: bool) -> void:
+	for child in get_children():
+		if child is CanvasItem:
+			child.visible = vis
 
 func is_active() -> bool:
 	return _visible_flag

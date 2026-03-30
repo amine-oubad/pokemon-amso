@@ -35,12 +35,17 @@ func open_pc() -> void:
 	_cursor_team  = 0
 	_cursor_box   = 0
 	_visible_flag = true
-	_bg.show()
+	_set_all_visible(true)
 	_refresh()
 
 func hide_pc() -> void:
 	_visible_flag = false
-	_bg.hide()
+	_set_all_visible(false)
+
+func _set_all_visible(vis: bool) -> void:
+	for child in get_children():
+		if child is CanvasItem:
+			child.visible = vis
 
 func is_active() -> bool:
 	return _visible_flag

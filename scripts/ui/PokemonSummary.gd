@@ -23,11 +23,16 @@ func show_summary(pkmn) -> void:
 	_pkmn = pkmn
 	_visible_flag = true
 	_refresh()
-	_bg.show()
+	_set_all_visible(true)
 
 func _hide() -> void:
 	_visible_flag = false
-	_bg.hide()
+	_set_all_visible(false)
+
+func _set_all_visible(vis: bool) -> void:
+	for child in get_children():
+		if child is CanvasItem:
+			child.visible = vis
 
 func is_active() -> bool:
 	return _visible_flag

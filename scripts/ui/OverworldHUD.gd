@@ -131,13 +131,16 @@ func _process(_delta: float) -> void:
 		_refresh()
 
 func _on_battle_started(_enemy_data: Dictionary, _is_trainer: bool) -> void:
-	_panel.hide()
-	_panel_border.hide()
+	_set_all_visible(false)
 
 func _on_battle_ended(_result: String) -> void:
-	_panel.show()
-	_panel_border.show()
+	_set_all_visible(true)
 	mark_dirty()
+
+func _set_all_visible(vis: bool) -> void:
+	for child in get_children():
+		if child is CanvasItem:
+			child.visible = vis
 
 func _on_badge_earned(_badge_id: String) -> void:
 	mark_dirty()
