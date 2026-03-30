@@ -117,7 +117,7 @@ func _load_battle() -> void:
 
 	GameState.register_seen(enemy_pkmn.pokemon_id)
 
-	var leader := GameState.get_first_alive()
+	var leader = GameState.get_first_alive()
 	if leader:
 		player_pkmn = leader
 		_active_idx = GameState.team.find(leader)
@@ -319,7 +319,7 @@ func _on_item_used(item_id: String) -> void:
 			ui.msg("%s lance une %s !" % [GameState.player_name, idata.get("name", item_id)])
 			await get_tree().create_timer(0.8).timeout
 			for i in range(3):
-				ui.msg("La Ball tremble" + "." * (i + 1))
+				ui.msg("La Ball tremble" + ".".repeat(i + 1))
 				await get_tree().create_timer(0.5).timeout
 			var caught := BattleCalc.try_catch(enemy_pkmn, bonus)
 			if caught:
