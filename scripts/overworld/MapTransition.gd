@@ -28,4 +28,4 @@ func _on_body_entered(body: Node2D) -> void:
 		return
 	_triggered = true
 	GameState.pending_spawn_position = spawn_position
-	get_tree().change_scene_to_file(target_scene)
+	get_tree().call_deferred("change_scene_to_file", target_scene)

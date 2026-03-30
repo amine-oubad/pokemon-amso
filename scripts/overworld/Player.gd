@@ -162,11 +162,9 @@ func _check_area_overlaps() -> void:
 					return
 	for node in get_tree().get_nodes_in_group("wild_encounter"):
 		if node is WildEncounterZone:
-			var col: CollisionShape2D = node.get_child(0) as CollisionShape2D
-			if col and col.shape is RectangleShape2D:
-				var rect: RectangleShape2D = col.shape as RectangleShape2D
-				var half := rect.size / 2.0
+			var col_node: CollisionShape2D = node.get_child(0) as CollisionShape2D
+			if col_node and col_node.shape is RectangleShape2D:
+				var rect2: RectangleShape2D = col_node.shape as RectangleShape2D
+				var half := rect2.size / 2.0
 				var local_pos: Vector2 = position - node.position
-				if abs(local_pos.x) < half.x and abs(local_pos.y) < half.y:
-					node._player_inside = true
-					return
+				node._player_inside = abs(local_pos.x) < half.x and abs(local_pos.y) < half.y

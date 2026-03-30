@@ -9370,5 +9370,137 @@
     "flags": [
       "powder"
     ]
+  },
+  "growl": {
+    "name": "Growl",
+    "type": "Normal",
+    "category": "status",
+    "power": 0,
+    "accuracy": 100,
+    "pp": 40,
+    "effect": "lower_atk",
+    "effect_chance": 100,
+    "target": "enemy",
+    "description": "Lowers the target Attack by 1 stage."
+  },
+  "tail_whip": {
+    "name": "Tail Whip",
+    "type": "Normal",
+    "category": "status",
+    "power": 0,
+    "accuracy": 100,
+    "pp": 30,
+    "effect": "lower_def",
+    "effect_chance": 100,
+    "target": "enemy",
+    "description": "Lowers the target Defense by 1 stage."
+  },
+  "leer": {
+    "name": "Leer",
+    "type": "Normal",
+    "category": "status",
+    "power": 0,
+    "accuracy": 100,
+    "pp": 30,
+    "effect": "lower_def",
+    "effect_chance": 100,
+    "target": "enemy",
+    "description": "Lowers the target Defense by 1 stage."
+  },
+  "harden": {
+    "name": "Harden",
+    "type": "Normal",
+    "category": "status",
+    "power": 0,
+    "accuracy": 100,
+    "pp": 30,
+    "effect": "raise_def",
+    "effect_chance": 100,
+    "target": "self",
+    "description": "Raises the user Defense by 1 stage."
+  },
+  "withdraw": {
+    "name": "Withdraw",
+    "type": "Water",
+    "category": "status",
+    "power": 0,
+    "accuracy": 100,
+    "pp": 40,
+    "effect": "raise_def",
+    "effect_chance": 100,
+    "target": "self",
+    "description": "Raises the user Defense by 1 stage."
+  },
+  "bubble": {
+    "name": "Bubble",
+    "type": "Water",
+    "category": "special",
+    "power": 40,
+    "accuracy": 100,
+    "pp": 30,
+    "effect": "lower_speed",
+    "effect_chance": 10,
+    "target": "enemy",
+    "description": "May lower the target Speed."
+  },
+  "splash": {
+    "name": "Splash",
+    "type": "Normal",
+    "category": "status",
+    "power": 0,
+    "accuracy": 100,
+    "pp": 40,
+    "effect": "none",
+    "effect_chance": 0,
+    "target": "self",
+    "description": "Nothing happens."
+  },
+  "clamp": {
+    "name": "Clamp",
+    "type": "Water",
+    "category": "physical",
+    "power": 35,
+    "accuracy": 85,
+    "pp": 15,
+    "effect": "trap",
+    "effect_chance": 100,
+    "target": "enemy",
+    "description": "Traps the target for 4-5 turns."
+  },
+  "spike_cannon": {
+    "name": "Spike Cannon",
+    "type": "Normal",
+    "category": "physical",
+    "power": 20,
+    "accuracy": 100,
+    "pp": 15,
+    "effect": "multi_hit",
+    "effect_chance": 100,
+    "target": "enemy",
+    "description": "Hits 2-5 times in one turn."
+  },
+  "psybeam": {
+    "name": "Psybeam",
+    "type": "Psychic",
+    "category": "special",
+    "power": 65,
+    "accuracy": 100,
+    "pp": 20,
+    "effect": "confuse",
+    "effect_chance": 10,
+    "target": "enemy",
+    "description": "May confuse the target."
+  },
+  "slash_x": {
+    "name": "Slash",
+    "type": "Normal",
+    "category": "physical",
+    "power": 70,
+    "accuracy": 100,
+    "pp": 20,
+    "effect": "high_crit",
+    "effect_chance": 100,
+    "target": "enemy",
+    "description": "High critical-hit ratio."
   }
 }

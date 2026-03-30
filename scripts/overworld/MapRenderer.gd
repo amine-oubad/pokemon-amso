@@ -105,12 +105,12 @@ func _on_battle_started(enemy_data: Dictionary, is_trainer: bool) -> void:
 		return  # Trainer battles handled via _on_trainer_battle_started
 	GameState.pending_battle = {"enemy_data": enemy_data, "is_trainer": false}
 	GameState.return_to_scene = scene_file_path
-	get_tree().change_scene_to_file("res://scenes/battle/BattleScene.tscn")
+	get_tree().call_deferred("change_scene_to_file", "res://scenes/battle/BattleScene.tscn")
 
 func _on_trainer_battle_started(_trainer_id: String) -> void:
 	# pending_battle already set by Trainer.gd
 	GameState.return_to_scene = scene_file_path
-	get_tree().change_scene_to_file("res://scenes/battle/BattleScene.tscn")
+	get_tree().call_deferred("change_scene_to_file", "res://scenes/battle/BattleScene.tscn")
 
 # ── TileSet setup ────────────────────────────────────────────────
 
