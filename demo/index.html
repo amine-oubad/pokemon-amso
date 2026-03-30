@@ -158,6 +158,8 @@ function initAssets() {
   loadJSON(base + 'data/pokemon.json', d => { pokemonData = d; });
   loadJSON(base + 'data/moves.json', d => { movesData = d; });
   loadJSON(base + 'data/type_chart.json', d => { typeChart = d; });
+  // Scenario data (extra, doesn't block loading)
+  fetch(base + 'data/scenario.json').then(r => r.json()).then(d => { scenarioData = d; }).catch(() => {});
 }
 
 // ============================================================
@@ -310,21 +312,31 @@ function updateStarterSelect(dt) {
     if (isRight()) starterCursor = (starterCursor + 1) % 3;
     if (isConfirm()) {
       starterConfirmed = true;
-      starterTextTarget = 'Prof. Chen: Excellent choix! ' + starters[starterCursor].name + ' sera ton partenaire!';
+      starterTextTarget = 'Prof. Chen : Excellent choix ! ' + starters[starterCursor].name + ' sera ton partenaire ! Bonne chance !';
       starterText = '';
       starterTextTimer = 0;
       // Create player's starter pokemon
       initPlayerStarter(starters[starterCursor].id);
+      // Set scenario flags
+      setFlag('intro_done');
+      setFlag('starter_chosen');
+      setFlag('rival_battle_1_done'); // simplified for demo — rival battle happens off-screen
     }
   } else {
     starterTextTimer += dt;
     const charIdx = Math.floor(starterTextTimer / 0.03);
     starterText = starterTextTarget.substring(0, Math.min(charIdx, starterTextTarget.length));
-    if (starterText.length >= starterTextTarget.length && isConfirm()) {
-      starterFadeOut += dt * 3;
-      if (starterFadeOut >= 1) {
-        gameState = 'OVERWORLD';
-        initOverworld();
+    if (starterText.length >= starterTextTarget.length) {
+      if (starterFadeOut > 0) {
+        // Already fading out — keep going
+        starterFadeOut += dt * 3;
+        if (starterFadeOut >= 1) {
+          gameState = 'OVERWORLD';
+          initOverworld();
+        }
+      } else if (isConfirm()) {
+        // Start fade on confirm press
+        starterFadeOut = 0.01;
       }
     }
   }
@@ -402,6 +414,80 @@ function drawStarterSelect(dt) {
 // ============================================================
 let playerTeam = [];
 let playerMoney = 3000;
+
+// ============================================================
+// === SCENARIO / STORY FLAGS ===
+// ============================================================
+let scenarioData = null;
+const storyFlags = {
+  intro_done: false,
+  starter_chosen: false,
+  rival_battle_1_done: false,
+  parcel_obtained: false,
+  parcel_delivered: false,
+  pokedex_obtained: false,
+  pokeballs_obtained: false,
+  viridian_forest_cleared: false,
+  badge_roche_obtained: false
+};
+
+function setFlag(flag) { storyFlags[flag] = true; }
+function hasFlag(flag) { return !!storyFlags[flag]; }
+
+// Get NPC dialogue based on story progression
+function getScenarioDialogue(npcId) {
+  if (!scenarioData) return null;
+  const npc = scenarioData.npcs[npcId];
+  if (!npc || !npc.dialogues) return null;
+  const d = npc.dialogues;
+
+  switch (npcId) {
+    case 'prof_chen':
+      if (hasFlag('pokedex_obtained')) return d.after_pokedex;
+      if (hasFlag('parcel_obtained') && !hasFlag('parcel_delivered')) return d.parcel_delivered; // deliver scene
+      if (hasFlag('rival_battle_1_done') && !hasFlag('parcel_obtained')) return d.waiting_parcel;
+      if (hasFlag('starter_chosen') && !hasFlag('rival_battle_1_done')) return d.after_starter_before_rival;
+      return d.before_starter;
+
+    case 'rival':
+      if (hasFlag('rival_battle_1_done')) return d.viridian_city || d.after_battle_1_win;
+      if (hasFlag('starter_chosen')) return d.before_battle_1;
+      return null;
+
+    case 'nurse':
+      return d.default;
+
+    case 'shopkeeper':
+      if (hasFlag('parcel_delivered')) return d.after_parcel;
+      if (hasFlag('parcel_obtained')) return d.has_parcel;
+      if (hasFlag('rival_battle_1_done') && !hasFlag('parcel_obtained')) return d.before_parcel;
+      return d.after_parcel;
+
+    case 'guide_viridian':
+      return d.default;
+
+    case 'old_man_viridian':
+      return hasFlag('pokedex_obtained') ? d.after_pokedex : d.before_pokedex;
+
+    case 'pierre':
+      return hasFlag('badge_roche_obtained') ? d.after_battle : d.before_battle;
+
+    default:
+      // Trainers with before/after battle
+      if (npc.dialogues.before_battle) {
+        return null; // Handled by trainer system
+      }
+      return d.default || null;
+  }
+}
+
+// Get trainer dialogue from scenario
+function getTrainerDialogue(npcId, defeated) {
+  if (!scenarioData) return null;
+  const npc = scenarioData.npcs[npcId];
+  if (!npc || !npc.dialogues) return null;
+  return defeated ? npc.dialogues.after_battle : npc.dialogues.before_battle;
+}
 
 function initPlayerStarter(pokemonId) {
   const pkmn = createPokemon(pokemonId, 5);
@@ -599,13 +685,14 @@ const maps = [
     bgType: 'grass',
     encounters: null,
     npcs: [
-      { sprite: 'ow_nurse', x: 3, y: 3, dir: 0, name: 'Infirmiere',
-        dialogue: ['Bienvenue au Centre Pokemon!','Tes Pokemon sont en pleine forme!'] },
-      { sprite: 'ow_shopkeeper', x: 15, y: 3, dir: 0, name: 'Vendeur',
-        dialogue: ['Bienvenue au PokeMart!','Nous avons des Pokeballs en stock!'] },
-      { sprite: 'ow_prof_oak', x: 3, y: 12, dir: 0, name: 'Prof. Chen',
-        dialogue: ['Ah, jeune dresseur!','Le monde des Pokemon est vaste!','Explore la Route 1 au nord!'],
-        dynamic: true }
+      { sprite: 'ow_nurse', x: 3, y: 3, dir: 0, name: 'Infirmiere', scenarioId: 'nurse',
+        dialogue: ['Bienvenue au Centre Pokemon!','Je vais soigner vos Pokemon.','...','Vos Pokemon sont en pleine forme!'] },
+      { sprite: 'ow_shopkeeper', x: 15, y: 3, dir: 0, name: 'Vendeur', scenarioId: 'shopkeeper',
+        dialogue: ['Bienvenue a la Boutique Pokemon!','Nous avons des Potions et des Poke Balls!'] },
+      { sprite: 'ow_prof_oak', x: 3, y: 12, dir: 0, name: 'Prof. Chen', scenarioId: 'prof_chen',
+        dialogue: ['Ah, jeune dresseur!','Le monde des Pokemon est vaste!','Explore la Route 1 au nord!'] },
+      { sprite: 'ow_rival', x: 5, y: 12, dir: 2, name: 'Regis', scenarioId: 'rival',
+        dialogue: ['Regis : Salut! On se reverra sur la route!'] }
     ],
     trainers: [],
     exits: [
@@ -625,20 +712,21 @@ const maps = [
     ],
     npcs: [],
     trainers: [
-      { sprite: 'ow_youngster', x: 8, y: 8, dir: 0, name: 'Gamin Thomas', sight: 3, defeated: false,
-        dialogue: ['He! Tu es dresseur?', 'Montre-moi ce que tu vaux!'],
-        afterDialogue: ['Tu es fort!', 'Je dois m\'entrainer plus!'],
+      { sprite: 'ow_youngster', x: 8, y: 8, dir: 0, name: 'Gamin Marc', sight: 3, defeated: false,
+        scenarioId: 'youngster_route1',
+        dialogue: ['Gamin Marc : He toi ! Tu es dresseur ?', 'Montre-moi ce que tu vaux !'],
+        afterDialogue: ['Gamin Marc : Wow, t\'es fort !', 'Je m\'entrainerai plus dur !'],
         team: [
-          { id: '019', level: 5 },
-          { id: '016', level: 5 }
+          { id: '019', level: 4 },
+          { id: '016', level: 4 }
         ]
       },
-      { sprite: 'ow_lass', x: 12, y: 16, dir: 2, name: 'Fillette Marie', sight: 3, defeated: false,
-        dialogue: ['Mes Pokemon sont adorables!', 'Et forts aussi!'],
-        afterDialogue: ['Oh non! Mes pauvres Pokemon!'],
+      { sprite: 'ow_lass', x: 12, y: 16, dir: 2, name: 'Fillette Lea', sight: 3, defeated: false,
+        scenarioId: 'lass_route1',
+        dialogue: ['Fillette Lea : Mon Roucool est trop mignon !', 'Tu veux le voir combattre ?'],
+        afterDialogue: ['Fillette Lea : Oh non, mon Roucool !', 'Bon, il est quand meme mignon...'],
         team: [
-          { id: '010', level: 5 },
-          { id: '016', level: 6 }
+          { id: '016', level: 5 }
         ]
       }
     ],
@@ -661,18 +749,20 @@ const maps = [
     ],
     npcs: [],
     trainers: [
-      { sprite: 'ow_bug_catcher', x: 6, y: 8, dir: 3, name: 'Chasseur Leo', sight: 3, defeated: false,
-        dialogue: ['Les insectes sont les meilleurs!'],
-        afterDialogue: ['Mes insectes...'],
+      { sprite: 'ow_bug_catcher', x: 6, y: 8, dir: 3, name: 'Chasseur Luc', sight: 3, defeated: false,
+        scenarioId: 'bug_catcher_1',
+        dialogue: ['Chasseur Luc : Les Pokemon Insecte sont les meilleurs !', 'Je vais te le prouver !'],
+        afterDialogue: ['Chasseur Luc : Les insectes reviendront plus forts !'],
         team: [
           { id: '010', level: 4 },
           { id: '010', level: 4 },
           { id: '013', level: 5 }
         ]
       },
-      { sprite: 'ow_bug_catcher', x: 14, y: 14, dir: 1, name: 'Chasseur Marc', sight: 3, defeated: false,
-        dialogue: ['Mon Coconfort est invincible!'],
-        afterDialogue: ['Impossible!'],
+      { sprite: 'ow_bug_catcher', x: 14, y: 14, dir: 1, name: 'Chasseur Paul', sight: 3, defeated: false,
+        scenarioId: 'bug_catcher_2',
+        dialogue: ['Chasseur Paul : Tu traverses MA foret ?', 'Prepare-toi au combat !'],
+        afterDialogue: ['Chasseur Paul : Pas mal... mais mon Coconfort evolue bientot !'],
         team: [
           { id: '013', level: 5 },
           { id: '014', level: 6 }
@@ -902,7 +992,41 @@ function interactFacing() {
       else if (player.dir === 1) npc.dir = 2;
       else if (player.dir === 2) npc.dir = 1;
       else npc.dir = 0;
-      startDialogue(npc.dialogue);
+
+      // Get scenario dialogue if available
+      let lines = null;
+      if (npc.scenarioId) {
+        lines = getScenarioDialogue(npc.scenarioId);
+      }
+      if (!lines) lines = npc.dialogue;
+
+      // Special callback based on scenario
+      let callback = null;
+      if (npc.scenarioId === 'prof_chen') {
+        if (hasFlag('parcel_obtained') && !hasFlag('parcel_delivered')) {
+          callback = () => {
+            setFlag('parcel_delivered');
+            setFlag('pokedex_obtained');
+            setFlag('pokeballs_obtained');
+          };
+        }
+      }
+      if (npc.scenarioId === 'shopkeeper') {
+        if (hasFlag('rival_battle_1_done') && !hasFlag('parcel_obtained')) {
+          callback = () => { setFlag('parcel_obtained'); };
+        }
+      }
+      if (npc.scenarioId === 'nurse') {
+        callback = () => {
+          // Heal team
+          for (const p of playerTeam) {
+            p.hp = p.maxHp;
+            if (p.moves) p.moves.forEach(m => { m.pp = m.maxPp; });
+          }
+        };
+      }
+
+      startDialogue(lines, callback);
       return true;
     }
   }
@@ -913,10 +1037,21 @@ function interactFacing() {
       else if (t.dir === 1) t.dir = 2;
       else if (t.dir === 2) t.dir = 1;
       else t.dir = 0;
+
+      // Get trainer dialogue from scenario
+      let beforeLines = t.dialogue;
+      let afterLines = t.afterDialogue;
+      if (t.scenarioId) {
+        const sb = getTrainerDialogue(t.scenarioId, false);
+        const sa = getTrainerDialogue(t.scenarioId, true);
+        if (sb) beforeLines = sb;
+        if (sa) afterLines = sa;
+      }
+
       if (t.defeated) {
-        startDialogue(t.afterDialogue);
+        startDialogue(afterLines);
       } else {
-        startDialogue(t.dialogue, () => { startTrainerBattle(t); });
+        startDialogue(beforeLines, () => { startTrainerBattle(t); });
       }
       return true;
     }
@@ -953,6 +1088,10 @@ function updateOverworld(dt) {
     battleTransTimer += dt;
     if (battleTransTimer >= 1.2) {
       battleTransActive = false;
+      if (pendingBattle) {
+        initBattle(pendingBattle.enemy, pendingBattle.isTrainer, pendingBattle.trainerData, pendingBattle.introMsg);
+        pendingBattle = null;
+      }
       gameState = 'BATTLE';
     }
     return;
@@ -1372,20 +1511,34 @@ function startWildBattle() {
   const level = chosen.minLv + Math.floor(Math.random() * (chosen.maxLv - chosen.minLv + 1));
   const wildPkmn = createPokemon(chosen.id, level);
 
-  initBattle(wildPkmn, false, null);
+  // Show "Un X sauvage apparait!" dialogue before battle
+  const wildName = wildPkmn.name;
+  battleTransActive = true;
+  battleTransTimer = 0;
+  pendingBattle = { enemy: wildPkmn, isTrainer: false, trainerData: null, introMsg: 'Un ' + wildName + ' sauvage apparait !' };
 }
+
+let pendingBattle = null;
 
 function startTrainerBattle(trainer) {
   const team = trainer.team.map(t => createPokemon(t.id, t.level));
-  initBattle(team[0], true, { trainer: trainer, team: team, currentIdx: 0 });
+  const trainerName = trainer.name || 'Dresseur';
+  battleTransActive = true;
+  battleTransTimer = 0;
+  pendingBattle = {
+    enemy: team[0],
+    isTrainer: true,
+    trainerData: { trainer: trainer, team: team, currentIdx: 0 },
+    introMsg: trainerName + ' veut se battre !'
+  };
 }
 
-function initBattle(enemy, isTrainer, trainerData) {
+function initBattle(enemy, isTrainer, trainerData, introMsg) {
   const playerPkmn = playerTeam[0];
   // Restore a bit of HP for demo playability
   if (playerPkmn.hp <= 0) {
     playerPkmn.hp = playerPkmn.maxHp;
-    playerPkmn.moves.forEach(m => m.pp = m.maxPp);
+    playerPkmn.moves.forEach(m => { m.pp = m.maxPp; });
   }
   battle = {
     player: playerPkmn,
@@ -1427,6 +1580,7 @@ function initBattle(enemy, isTrainer, trainerData) {
     expGained: 0,
     expBarDisplay: playerPkmn.exp,
     bgType: currentMap ? currentMap.bgType : 'grass',
+    introMsg: introMsg || ('Un ' + enemy.name + ' sauvage apparait !'),
     // Screen effects
     screenShake: 0,
     flashColor: null,
@@ -1435,8 +1589,7 @@ function initBattle(enemy, isTrainer, trainerData) {
     koTarget: null,
     koTimer: 0
   };
-  battleTransActive = true;
-  battleTransTimer = 0;
+  // Don't re-trigger transition — it's already running from startWildBattle/startTrainerBattle
 }
 
 function showBattleMessage(msgs, callback) {
@@ -1522,15 +1675,15 @@ function updateBattleIntro(dt) {
   }
   if (battle.playerSlideX >= battle.playerTargetX && battle.enemySlideX <= battle.enemyTargetX) {
     const name = battle.enemy.name;
-    if (battle.isTrainer) {
-      showBattleMessage(battle.trainerData.trainer.name + ' envoie ' + name + '!', () => {
+    showBattleMessage(battle.introMsg, () => {
+      if (battle.isTrainer) {
+        showBattleMessage(battle.trainerData.trainer.name + ' envoie ' + name + ' !', () => {
+          battle.state = 'ACTION';
+        });
+      } else {
         battle.state = 'ACTION';
-      });
-    } else {
-      showBattleMessage('Un ' + name + ' sauvage apparait!', () => {
-        battle.state = 'ACTION';
-      });
-    }
+      }
+    });
   }
 }
 

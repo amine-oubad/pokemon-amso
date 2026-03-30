@@ -1,0 +1,428 @@
+{
+  "meta": {
+    "version": "0.1",
+    "description": "Scenario Pokemon AMSO — Acte 1 (Bourg Palette → Arene d'Argenta)",
+    "based_on": "Pokemon Rouge Feu — debut jusqu'a Badge Roche"
+  },
+
+  "flags": {
+    "intro_done": false,
+    "starter_chosen": false,
+    "rival_battle_1_done": false,
+    "parcel_obtained": false,
+    "parcel_delivered": false,
+    "pokedex_obtained": false,
+    "pokeballs_obtained": false,
+    "viridian_forest_cleared": false,
+    "badge_roche_obtained": false
+  },
+
+  "chapters": [
+    {
+      "id": "ch0_intro",
+      "title": "Le debut de l'aventure",
+      "description": "Le joueur choisit son starter chez le Prof. Chen",
+      "trigger": "game_start",
+      "sets_flag": "intro_done"
+    },
+    {
+      "id": "ch1_starter",
+      "title": "Choix du partenaire",
+      "description": "Prof. Chen offre un Pokemon au joueur. Le Rival choisit le type avantageux.",
+      "trigger": "starter_select_screen",
+      "sets_flag": "starter_chosen"
+    },
+    {
+      "id": "ch2_rival_battle_1",
+      "title": "Premier combat rival",
+      "description": "Le Rival defie le joueur juste apres le choix du starter.",
+      "trigger": "after_starter_chosen",
+      "location": "labo_chen",
+      "sets_flag": "rival_battle_1_done",
+      "rival_pokemon": "type_advantage_starter"
+    },
+    {
+      "id": "ch3_parcel",
+      "title": "La commission du Prof.",
+      "description": "Le Prof. Chen demande de recuperer un colis a la Boutique de Jadielle.",
+      "trigger": "after_rival_battle_1",
+      "sets_flag": "parcel_obtained",
+      "objective": "Aller a Jadielle chercher le Colis Prof."
+    },
+    {
+      "id": "ch4_pokedex",
+      "title": "Le Pokedex",
+      "description": "Apres livraison du colis, le Prof. Chen donne le Pokedex et 5 Pokeballs.",
+      "trigger": "parcel_delivered",
+      "sets_flag": "pokedex_obtained",
+      "also_sets": "pokeballs_obtained"
+    },
+    {
+      "id": "ch5_route1",
+      "title": "Route 1 — Premiers combats",
+      "description": "Le joueur traverse la Route 1 vers Jadielle, rencontres sauvages et dresseurs.",
+      "trigger": "after_pokedex",
+      "location": "route_1"
+    },
+    {
+      "id": "ch6_viridian_forest",
+      "title": "La Foret de Jade",
+      "description": "Traverser la foret remplie de dresseurs insectes et de Pokemon sauvages.",
+      "trigger": "reach_viridian_forest",
+      "sets_flag": "viridian_forest_cleared"
+    },
+    {
+      "id": "ch7_argenta",
+      "title": "Argenta — Arene Roche",
+      "description": "Premiere arene : Pierre, specialiste Roche. Racaillou Lv12 + Onix Lv14.",
+      "trigger": "reach_argenta",
+      "sets_flag": "badge_roche_obtained",
+      "boss": "pierre"
+    }
+  ],
+
+  "npcs": {
+    "prof_chen": {
+      "name": "Prof. Chen",
+      "sprite": "prof_oak",
+      "dialogues": {
+        "before_starter": [
+          "Prof. Chen : Bienvenue dans le monde des Pokemon !",
+          "Je suis le Prof. Chen, specialiste Pokemon.",
+          "Choisis ton premier partenaire sur la table !"
+        ],
+        "after_starter_before_rival": [
+          "Prof. Chen : Excellent choix !",
+          "Mais attends... Mon petit-fils veut aussi un Pokemon !",
+          "Hehe, il semble vouloir te defier !"
+        ],
+        "after_rival_battle_1": [
+          "Prof. Chen : Bien joue !",
+          "J'ai une faveur a te demander...",
+          "Peux-tu aller a la Boutique Pokemon de Jadielle ?",
+          "J'attends un colis important. Merci !"
+        ],
+        "waiting_parcel": [
+          "Prof. Chen : Le colis est a la Boutique de Jadielle.",
+          "Traverse la Route 1 vers le nord !"
+        ],
+        "parcel_delivered": [
+          "Prof. Chen : Ah, mon colis ! Merci beaucoup !",
+          "En remerciement, je t'offre ceci...",
+          "Tu as recu le POKEDEX !",
+          "Et voici 5 POKE BALLS !",
+          "Remplis le Pokedex en capturant des Pokemon !",
+          "Bonne chance dans ton aventure !"
+        ],
+        "after_pokedex": [
+          "Prof. Chen : Remplis le Pokedex !",
+          "Pars explorer le monde des Pokemon !"
+        ]
+      }
+    },
+    "rival": {
+      "name": "Regis",
+      "sprite": "rival",
+      "dialogues": {
+        "before_battle_1": [
+          "Regis : He ! Tu as choisi un Pokemon ?",
+          "Moi aussi ! Et le mien est plus fort !",
+          "Je te defie en combat !"
+        ],
+        "after_battle_1_win": [
+          "Regis : ... Pas mal.",
+          "Mais la prochaine fois je ne perdrai pas !",
+          "A plus, nul !"
+        ],
+        "after_battle_1_lose": [
+          "Regis : Hahaha ! C'etait trop facile !",
+          "Entraine-toi et reviens me defier !"
+        ],
+        "viridian_city": [
+          "Regis : Tiens, tu es la aussi ?",
+          "J'ai deja capture plein de Pokemon !",
+          "Allez, degage de mon chemin !"
+        ]
+      }
+    },
+    "nurse": {
+      "name": "Infirmiere",
+      "sprite": "nurse",
+      "dialogues": {
+        "default": [
+          "Infirmiere : Bienvenue au Centre Pokemon !",
+          "Je vais soigner vos Pokemon.",
+          "...",
+          "Vos Pokemon sont en pleine forme !",
+          "Bonne chance !"
+        ]
+      }
+    },
+    "shopkeeper": {
+      "name": "Vendeur",
+      "sprite": "shopkeeper",
+      "dialogues": {
+        "before_parcel": [
+          "Vendeur : Bienvenue a la Boutique Pokemon !",
+          "Oh, tu es le protege du Prof. Chen ?",
+          "J'ai un COLIS pour lui. Tiens !",
+          "Tu as recu le COLIS PROF. CHEN !"
+        ],
+        "has_parcel": [
+          "Vendeur : N'oublie pas d'apporter le colis au Prof. Chen !"
+        ],
+        "after_parcel": [
+          "Vendeur : Bienvenue ! Que puis-je faire pour vous ?",
+          "Nous avons des Potions et des Poke Balls !"
+        ]
+      }
+    },
+    "youngster_route1": {
+      "name": "Gamin Marc",
+      "sprite": "youngster",
+      "dialogues": {
+        "before_battle": [
+          "Gamin Marc : He toi ! Tu es dresseur ?",
+          "Montre-moi ce que tu vaux !"
+        ],
+        "after_battle": [
+          "Gamin Marc : Wow, t'es fort !",
+          "Je m'entrainerai plus dur la prochaine fois !"
+        ]
+      },
+      "trainer": {
+        "team": [
+          {"id": "019", "level": 4},
+          {"id": "016", "level": 4}
+        ],
+        "reward": 120
+      }
+    },
+    "lass_route1": {
+      "name": "Fillette Lea",
+      "sprite": "lass",
+      "dialogues": {
+        "before_battle": [
+          "Fillette Lea : Mon Roucool est trop mignon !",
+          "Tu veux le voir combattre ?"
+        ],
+        "after_battle": [
+          "Fillette Lea : Oh non, mon Roucool !",
+          "Bon, il est quand meme mignon..."
+        ]
+      },
+      "trainer": {
+        "team": [
+          {"id": "016", "level": 5}
+        ],
+        "reward": 100
+      }
+    },
+    "bug_catcher_1": {
+      "name": "Chasseur Luc",
+      "sprite": "bug_catcher",
+      "dialogues": {
+        "before_battle": [
+          "Chasseur Luc : Les Pokemon Insecte sont les meilleurs !",
+          "Je vais te le prouver !"
+        ],
+        "after_battle": [
+          "Chasseur Luc : Les insectes reviendront plus forts !"
+        ]
+      },
+      "trainer": {
+        "team": [
+          {"id": "010", "level": 4},
+          {"id": "010", "level": 4},
+          {"id": "013", "level": 5}
+        ],
+        "reward": 80
+      }
+    },
+    "bug_catcher_2": {
+      "name": "Chasseur Paul",
+      "sprite": "bug_catcher",
+      "dialogues": {
+        "before_battle": [
+          "Chasseur Paul : Tu traverses MA foret ?",
+          "Prepare-toi au combat !"
+        ],
+        "after_battle": [
+          "Chasseur Paul : Pas mal... mais mon Coconfort evolue bientot !"
+        ]
+      },
+      "trainer": {
+        "team": [
+          {"id": "013", "level": 5},
+          {"id": "014", "level": 6}
+        ],
+        "reward": 100
+      }
+    },
+    "guide_viridian": {
+      "name": "Guide",
+      "sprite": "shopkeeper",
+      "dialogues": {
+        "default": [
+          "Guide : Bienvenue a Jadielle !",
+          "L'Arene est fermee pour le moment.",
+          "Tu devrais aller vers le nord, a travers la Foret de Jade."
+        ]
+      }
+    },
+    "old_man_viridian": {
+      "name": "Vieil homme",
+      "sprite": "prof_oak",
+      "dialogues": {
+        "before_pokedex": [
+          "Vieil homme : Hmmm... J'ai pas encore bu mon cafe.",
+          "Reviens plus tard, je te montrerai comment capturer des Pokemon !"
+        ],
+        "after_pokedex": [
+          "Vieil homme : Ah, tu as un Pokedex !",
+          "Regarde bien, je vais te montrer comment capturer un Pokemon !",
+          "... (demonstration) ...",
+          "Et voila ! C'est facile, non ?"
+        ]
+      }
+    },
+    "pierre": {
+      "name": "Pierre",
+      "sprite": "gym_leader_pierre",
+      "dialogues": {
+        "before_battle": [
+          "Pierre : Je suis Pierre, le Champion d'Argenta !",
+          "Je me specialise dans les Pokemon de type Roche.",
+          "Voyons si tu es a la hauteur !"
+        ],
+        "after_battle": [
+          "Pierre : ... Impressionnant.",
+          "Tu as bien merite le Badge Roche !",
+          "Tu as obtenu le BADGE ROCHE !",
+          "Avec ce badge, tes Pokemon seront plus forts.",
+          "Tiens, prends aussi cette CT. C'est Eboulement !",
+          "Bonne continuation, dresseur !"
+        ]
+      },
+      "trainer": {
+        "team": [
+          {"id": "074", "level": 12},
+          {"id": "095", "level": 14}
+        ],
+        "reward": 1400
+      }
+    }
+  },
+
+  "wild_encounters": {
+    "route_1": {
+      "dialogue_before": "Un %NAME% sauvage apparait !",
+      "grass": [
+        {"id": "019", "name": "Rattata", "level_min": 3, "level_max": 5, "weight": 40},
+        {"id": "016", "name": "Roucool", "level_min": 3, "level_max": 5, "weight": 40},
+        {"id": "010", "name": "Chenipan", "level_min": 3, "level_max": 4, "weight": 20}
+      ]
+    },
+    "viridian_forest": {
+      "dialogue_before": "Un %NAME% sauvage apparait !",
+      "grass": [
+        {"id": "010", "name": "Chenipan", "level_min": 3, "level_max": 5, "weight": 30},
+        {"id": "013", "name": "Aspicot", "level_min": 3, "level_max": 5, "weight": 30},
+        {"id": "014", "name": "Coconfort", "level_min": 4, "level_max": 5, "weight": 20},
+        {"id": "025", "name": "Pikachu", "level_min": 4, "level_max": 6, "weight": 5},
+        {"id": "011", "name": "Chrysacier", "level_min": 4, "level_max": 5, "weight": 15}
+      ]
+    },
+    "route_2": {
+      "dialogue_before": "Un %NAME% sauvage apparait !",
+      "grass": [
+        {"id": "019", "name": "Rattata", "level_min": 4, "level_max": 6, "weight": 35},
+        {"id": "016", "name": "Roucool", "level_min": 4, "level_max": 6, "weight": 35},
+        {"id": "032", "name": "Nidoran M", "level_min": 4, "level_max": 6, "weight": 15},
+        {"id": "010", "name": "Chenipan", "level_min": 3, "level_max": 5, "weight": 15}
+      ]
+    }
+  },
+
+  "locations": {
+    "bourg_palette": {
+      "name": "Bourg Palette",
+      "description": "Un petit village paisible. Le labo du Prof. Chen s'y trouve.",
+      "tileset": "grass",
+      "music": "pallet_town",
+      "npcs": ["prof_chen", "nurse", "rival"],
+      "exits": {
+        "north": "route_1"
+      }
+    },
+    "route_1": {
+      "name": "Route 1",
+      "description": "Une route herbeuse entre Bourg Palette et Jadielle.",
+      "tileset": "grass",
+      "music": "route_1",
+      "wild_zone": "route_1",
+      "npcs": ["youngster_route1", "lass_route1"],
+      "exits": {
+        "south": "bourg_palette",
+        "north": "viridian_city"
+      }
+    },
+    "viridian_city": {
+      "name": "Jadielle",
+      "description": "Une ville verte et paisible. La Boutique Pokemon a un colis pour le Prof.",
+      "tileset": "grass",
+      "music": "viridian_city",
+      "npcs": ["shopkeeper", "guide_viridian", "old_man_viridian", "nurse"],
+      "exits": {
+        "south": "route_1",
+        "north": "viridian_forest"
+      }
+    },
+    "viridian_forest": {
+      "name": "Foret de Jade",
+      "description": "Une foret dense et sombre. Repaire des dresseurs d'insectes.",
+      "tileset": "forest",
+      "music": "viridian_forest",
+      "wild_zone": "viridian_forest",
+      "npcs": ["bug_catcher_1", "bug_catcher_2"],
+      "exits": {
+        "south": "viridian_city",
+        "north": "route_2"
+      }
+    },
+    "route_2": {
+      "name": "Route 2",
+      "description": "Une courte route menant a Argenta.",
+      "tileset": "grass",
+      "music": "route_2",
+      "wild_zone": "route_2",
+      "exits": {
+        "south": "viridian_forest",
+        "north": "argenta_city"
+      }
+    },
+    "argenta_city": {
+      "name": "Argenta",
+      "description": "La ville du Badge Roche. L'arene de Pierre est ici.",
+      "tileset": "city",
+      "music": "pewter_city",
+      "npcs": ["pierre", "nurse"],
+      "exits": {
+        "south": "route_2"
+      }
+    }
+  },
+
+  "progression": [
+    {"step": 1, "action": "intro_dialogue", "flag_required": null, "flag_set": "intro_done"},
+    {"step": 2, "action": "choose_starter", "flag_required": "intro_done", "flag_set": "starter_chosen"},
+    {"step": 3, "action": "rival_battle_1", "flag_required": "starter_chosen", "flag_set": "rival_battle_1_done"},
+    {"step": 4, "action": "chen_asks_parcel", "flag_required": "rival_battle_1_done", "flag_set": null},
+    {"step": 5, "action": "get_parcel_viridian", "flag_required": "rival_battle_1_done", "flag_set": "parcel_obtained"},
+    {"step": 6, "action": "deliver_parcel", "flag_required": "parcel_obtained", "flag_set": "parcel_delivered"},
+    {"step": 7, "action": "receive_pokedex", "flag_required": "parcel_delivered", "flag_set": "pokedex_obtained"},
+    {"step": 8, "action": "traverse_route1", "flag_required": "pokedex_obtained", "flag_set": null},
+    {"step": 9, "action": "traverse_viridian_forest", "flag_required": "pokedex_obtained", "flag_set": "viridian_forest_cleared"},
+    {"step": 10, "action": "battle_pierre", "flag_required": "viridian_forest_cleared", "flag_set": "badge_roche_obtained"}
+  ]
+}
