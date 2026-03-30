@@ -2,411 +2,682 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<title>Pokemon AMSO — Demo Tilemap</title>
+<title>Pokemon AMSO — Demo Showcase</title>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body { background: #080818; color: #ebebf5; font-family: 'Courier New', monospace; }
 
-.tabs { display: flex; justify-content: center; gap: 4px; padding: 12px; }
-.tabs button { background: #1a1e38; border: 1px solid #383f6e; color: #ebebf5; padding: 8px 16px; cursor: pointer; font-family: inherit; font-size: 13px; }
+.tabs { display: flex; justify-content: center; gap: 4px; padding: 12px; flex-wrap: wrap; }
+.tabs button { background: #1a1e38; border: 1px solid #383f6e; color: #ebebf5; padding: 8px 14px; cursor: pointer; font-family: inherit; font-size: 12px; }
 .tabs button:hover, .tabs button.active { background: #252a48; border-color: #4d8cf2; color: #4d8cf2; }
 
-.screen {
-  width: 640px; height: 480px;
-  margin: 0 auto;
-  position: relative;
-  image-rendering: pixelated;
-  border: 2px solid #383f6e;
-  overflow: hidden;
-  display: none;
-}
+.screen { width: 640px; height: 480px; margin: 0 auto; position: relative; image-rendering: pixelated; border: 2px solid #383f6e; overflow: hidden; display: none; }
 .screen.active { display: block; }
 canvas { image-rendering: pixelated; }
 
-/* Title */
-#title-screen { background: #0f0f24; }
-#title-screen .accent { position: absolute; top: 0; width: 100%; height: 4px; background: #4d8cf2; }
-#title-screen .accent-b { position: absolute; bottom: 0; width: 100%; height: 4px; background: #4d8cf2; }
-#title-screen .mascot { display: block; margin: 40px auto 0; width: 144px; }
-#title-screen h1 { text-align: center; color: #f5cc38; font-size: 28px; margin-top: 14px; letter-spacing: 3px; }
-#title-screen .sub { text-align: center; color: #808098; font-size: 13px; margin-top: 4px; }
-#title-screen .sep { width: 320px; height: 1px; background: #363858; margin: 20px auto; }
-#title-screen .btn { display: block; width: 280px; margin: 10px auto; padding: 12px; text-align: center; background: #1a1e38; border: 1px solid #383f6e; color: #ebebf5; font-size: 15px; font-family: inherit; cursor: pointer; }
-#title-screen .btn:hover { background: #252a48; border-color: #4d8cf2; color: #4d8cf2; }
-#title-screen .credits { text-align: center; color: #606078; font-size: 11px; position: absolute; bottom: 14px; width: 100%; }
-
-/* Battle */
-#battle-screen { background: linear-gradient(180deg, #1a1e34 0%, #242840 60%, #121628 60.5%, #0d0d1c 100%); }
-.battle-field { padding: 20px; display: flex; justify-content: space-between; align-items: flex-end; height: 300px; }
-.poke-slot { text-align: center; }
-.poke-slot img { width: 96px; image-rendering: pixelated; }
-.poke-slot .name { color: #ebebf5; font-size: 14px; margin-top: 4px; }
-.poke-slot .hp-bar { width: 96px; height: 6px; background: #1a1a2e; margin: 4px auto; border-radius: 2px; overflow: hidden; }
-.poke-slot .hp-fill { height: 100%; background: #34d058; transition: width 0.5s; }
-.battle-log { background: #0d0d1c; border-top: 2px solid #383f6e; padding: 12px; color: #a0a0c0; font-size: 13px; height: 100px; }
-.moves-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; padding: 12px; }
-.move-btn { background: #1a1e38; border: 1px solid #383f6e; color: #ebebf5; padding: 8px; font-family: inherit; font-size: 12px; cursor: pointer; }
-.move-btn:hover { border-color: #4d8cf2; color: #4d8cf2; }
-
-/* Info bar */
 .info { text-align: center; color: #606078; font-size: 11px; padding: 8px; }
+
+/* Battle UI */
+.battle-field { position: relative; height: 280px; }
+.battle-bg { width: 640px; height: 280px; image-rendering: pixelated; position: absolute; top: 0; left: 0; }
+.poke-slot { position: absolute; text-align: center; }
+.poke-slot.player { bottom: 10px; left: 40px; }
+.poke-slot.enemy { top: 20px; right: 40px; }
+.poke-slot img { width: 96px; image-rendering: pixelated; filter: drop-shadow(2px 2px 2px rgba(0,0,0,0.5)); }
+.hp-box { background: #1a1e38ee; border: 1px solid #383f6e; padding: 6px 10px; border-radius: 4px; margin-top: 4px; }
+.hp-box .name { font-size: 13px; }
+.hp-box .lvl { color: #808098; font-size: 11px; }
+.hp-bar { width: 120px; height: 6px; background: #1a1a2e; margin: 4px 0; border-radius: 2px; overflow: hidden; }
+.hp-fill { height: 100%; background: #34d058; transition: width 0.5s; border-radius: 2px; }
+.hp-fill.yellow { background: #ebba34; }
+.hp-fill.red { background: #e53935; }
+.battle-log { background: #0d0d1cee; border-top: 2px solid #383f6e; padding: 12px 16px; color: #c0c0d8; font-size: 13px; height: 80px; display: flex; align-items: center; }
+.moves-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; padding: 10px 16px; background: #0d0d1c; }
+.move-btn { background: #1a1e38; border: 1px solid #383f6e; color: #ebebf5; padding: 10px; font-family: inherit; font-size: 12px; cursor: pointer; text-align: left; }
+.move-btn:hover { border-color: #4d8cf2; color: #4d8cf2; background: #1e2448; }
+.move-btn .type-badge { display: inline-block; padding: 1px 6px; font-size: 9px; border-radius: 2px; margin-left: 6px; }
+
+/* Overworld */
+#overworld-screen { cursor: none; }
+
+/* Gallery screens */
+.gallery-scroll { overflow-y: auto; height: 480px; padding: 16px; }
+.gallery-scroll h2 { text-align: center; color: #f5cc38; font-size: 18px; margin-bottom: 12px; }
+.gallery-scroll h3 { color: #4d8cf2; font-size: 14px; margin: 16px 0 8px; border-bottom: 1px solid #2a2f4a; padding-bottom: 4px; }
+.gallery-row { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-bottom: 12px; }
+.gallery-item { background: #1a1e38; border: 1px solid #2a2f4a; padding: 8px; text-align: center; }
+.gallery-item img { image-rendering: pixelated; display: block; margin: 0 auto; }
+.gallery-item .label { color: #808098; font-size: 10px; margin-top: 4px; }
 </style>
 </head>
 <body>
 
 <div class="tabs">
-  <button class="active" onclick="showScreen('title-screen',this)">Titre</button>
-  <button onclick="showScreen('overworld-screen',this)">Overworld</button>
-  <button onclick="showScreen('battle-screen',this)">Combat</button>
-  <button onclick="showScreen('starters-screen',this)">Starters</button>
-  <button onclick="showScreen('sprites-screen',this)">Sprites</button>
+  <button class="active" onclick="showScreen('title')">Titre</button>
+  <button onclick="showScreen('overworld')">Overworld</button>
+  <button onclick="showScreen('battle')">Combat</button>
+  <button onclick="showScreen('starters')">Starters</button>
+  <button onclick="showScreen('tilesets')">Tilesets</button>
+  <button onclick="showScreen('sprites')">Sprites</button>
+  <button onclick="showScreen('backgrounds')">Fonds Combat</button>
+  <button onclick="showScreen('cinematics')">Cinematiques</button>
 </div>
 
-<!-- TITLE -->
-<div id="title-screen" class="screen active">
-  <div class="accent"></div>
-  <img class="mascot" src="../assets/sprites/pokemon/artwork/025.png" alt="Pikachu">
-  <h1>POKEMON AMSO</h1>
-  <p class="sub">Fan-game Godot 4 — Tilemap Edition</p>
-  <div class="sep"></div>
-  <button class="btn">NOUVELLE PARTIE</button>
-  <button class="btn">CONTINUER</button>
-  <div class="accent-b"></div>
-  <div class="credits">amine-oubad/pokemon-amso</div>
+<!-- ============================================================ -->
+<!-- TITLE SCREEN -->
+<!-- ============================================================ -->
+<div id="title" class="screen active" style="background:#0a0a1a;">
+  <canvas id="title-canvas" width="640" height="480"></canvas>
 </div>
 
-<!-- OVERWORLD (Canvas rendered) -->
-<div id="overworld-screen" class="screen">
-  <canvas id="overworld-canvas" width="640" height="480"></canvas>
+<!-- ============================================================ -->
+<!-- OVERWORLD (interactive) -->
+<!-- ============================================================ -->
+<div id="overworld" class="screen">
+  <canvas id="ow-canvas" width="640" height="480"></canvas>
 </div>
 
+<!-- ============================================================ -->
 <!-- BATTLE -->
-<div id="battle-screen" class="screen">
+<!-- ============================================================ -->
+<div id="battle" class="screen" style="background:#0d0d1c;">
   <div class="battle-field">
-    <div class="poke-slot" id="player-poke">
-      <img src="../assets/sprites/pokemon/back/006.png" alt="Charizard">
-      <div class="name">DRACAUFEU Lv.36</div>
-      <div class="hp-bar"><div class="hp-fill" style="width:75%"></div></div>
+    <img class="battle-bg" id="battle-bg-img" src="../assets/sprites/battle/backgrounds/grass.png">
+    <div class="poke-slot player">
+      <img src="../assets/sprites/pokemon/back/006.png" alt="Dracaufeu" id="player-poke-img">
+      <div class="hp-box">
+        <span class="name">DRACAUFEU</span> <span class="lvl">Lv.36</span>
+        <div class="hp-bar"><div class="hp-fill" id="player-hp" style="width:100%"></div></div>
+        <span style="font-size:10px;color:#808098;"><span id="player-hp-text">108</span>/108 PV</span>
+      </div>
     </div>
-    <div class="poke-slot" id="enemy-poke">
-      <img src="../assets/sprites/pokemon/front/009.png" alt="Blastoise">
-      <div class="name">TORTANK Lv.34</div>
-      <div class="hp-bar"><div class="hp-fill" style="width:100%"></div></div>
+    <div class="poke-slot enemy">
+      <img src="../assets/sprites/pokemon/front/009.png" alt="Tortank" id="enemy-poke-img">
+      <div class="hp-box">
+        <span class="name">TORTANK</span> <span class="lvl">Lv.34</span>
+        <div class="hp-bar"><div class="hp-fill" id="enemy-hp" style="width:100%"></div></div>
+        <span style="font-size:10px;color:#808098;"><span id="enemy-hp-text">120</span>/120 PV</span>
+      </div>
     </div>
   </div>
   <div class="battle-log" id="battle-log">Que doit faire DRACAUFEU ?</div>
-  <div class="moves-grid">
-    <button class="move-btn" onclick="doMove('Lance-Flammes',65)">Lance-Flammes</button>
-    <button class="move-btn" onclick="doMove('Tranche',50)">Tranche</button>
-    <button class="move-btn" onclick="doMove('Dracosouffle',40)">Dracosouffle</button>
-    <button class="move-btn" onclick="doMove('Seisme',55)">Seisme</button>
+  <div class="moves-grid" id="moves-grid">
+    <button class="move-btn" onclick="doMove('Lance-Flammes','Fire',65)">Lance-Flammes <span class="type-badge" style="background:#c44a10;">Feu</span></button>
+    <button class="move-btn" onclick="doMove('Seisme','Ground',55)">Seisme <span class="type-badge" style="background:#a68c21;">Sol</span></button>
+    <button class="move-btn" onclick="doMove('Dracosouffle','Dragon',40)">Dracosouffle <span class="type-badge" style="background:#6c3bd4;">Dragon</span></button>
+    <button class="move-btn" onclick="doMove('Tranche','Normal',50)">Tranche <span class="type-badge" style="background:#8c8c7a;">Normal</span></button>
   </div>
 </div>
 
+<!-- ============================================================ -->
 <!-- STARTERS -->
-<div id="starters-screen" class="screen" style="background:#0f0f24;">
-  <div style="position:absolute;top:0;width:100%;height:4px;background:#4d8cf2;"></div>
-  <h2 style="text-align:center;color:#f5cc38;font-size:20px;padding-top:18px;">Choisis ton starter !</h2>
-  <div style="display:flex;justify-content:center;gap:20px;margin-top:40px;">
-    <div style="width:180px;background:#1a1e38;border:2px solid #383f6e;text-align:center;padding:16px;cursor:pointer;" onmouseover="this.style.borderColor='#4d8cf2'" onmouseout="this.style.borderColor='#383f6e'">
-      <img src="../assets/sprites/pokemon/artwork/001.png" style="width:120px;">
-      <div style="color:#ebebf5;font-size:15px;margin-top:8px;">Bulbizarre</div>
-      <div style="display:inline-block;padding:2px 12px;margin-top:6px;font-size:11px;color:white;background:#2a8a2a;">Plante</div>
+<!-- ============================================================ -->
+<div id="starters" class="screen" style="background:#0f0f24;">
+  <div style="position:absolute;top:0;width:100%;height:3px;background:linear-gradient(90deg,#e53935,#f5cc38,#4d8cf2);"></div>
+  <h2 style="text-align:center;color:#f5cc38;font-size:22px;padding-top:24px;">Choisis ton Pokemon !</h2>
+  <p style="text-align:center;color:#808098;font-size:12px;margin-top:4px;">Le Prof. Chen te laisse choisir un partenaire</p>
+  <div style="display:flex;justify-content:center;gap:24px;margin-top:36px;">
+    <div class="starter-card" onclick="selectStarter(this,'Bulbizarre','Plante/Poison')" style="width:170px;background:#1a1e38;border:2px solid #383f6e;text-align:center;padding:20px 12px;cursor:pointer;transition:all 0.2s;">
+      <img src="../assets/sprites/pokemon/artwork/001.png" style="width:110px;image-rendering:pixelated;">
+      <div style="color:#ebebf5;font-size:16px;margin-top:10px;">Bulbizarre</div>
+      <div style="display:inline-block;padding:2px 12px;margin-top:6px;font-size:10px;color:white;background:#2a8a2a;border-radius:2px;">Plante</div>
+      <div style="display:inline-block;padding:2px 12px;margin-top:4px;font-size:10px;color:white;background:#8a2a8a;border-radius:2px;">Poison</div>
     </div>
-    <div style="width:180px;background:#1a1e38;border:2px solid #383f6e;text-align:center;padding:16px;cursor:pointer;" onmouseover="this.style.borderColor='#4d8cf2'" onmouseout="this.style.borderColor='#383f6e'">
-      <img src="../assets/sprites/pokemon/artwork/004.png" style="width:120px;">
-      <div style="color:#ebebf5;font-size:15px;margin-top:8px;">Salameche</div>
-      <div style="display:inline-block;padding:2px 12px;margin-top:6px;font-size:11px;color:white;background:#c44a10;">Feu</div>
+    <div class="starter-card" onclick="selectStarter(this,'Salameche','Feu')" style="width:170px;background:#1a1e38;border:2px solid #383f6e;text-align:center;padding:20px 12px;cursor:pointer;transition:all 0.2s;">
+      <img src="../assets/sprites/pokemon/artwork/004.png" style="width:110px;image-rendering:pixelated;">
+      <div style="color:#ebebf5;font-size:16px;margin-top:10px;">Salameche</div>
+      <div style="display:inline-block;padding:2px 12px;margin-top:6px;font-size:10px;color:white;background:#c44a10;border-radius:2px;">Feu</div>
     </div>
-    <div style="width:180px;background:#1a1e38;border:2px solid #383f6e;text-align:center;padding:16px;cursor:pointer;" onmouseover="this.style.borderColor='#4d8cf2'" onmouseout="this.style.borderColor='#383f6e'">
-      <img src="../assets/sprites/pokemon/artwork/007.png" style="width:120px;">
-      <div style="color:#ebebf5;font-size:15px;margin-top:8px;">Carapuce</div>
-      <div style="display:inline-block;padding:2px 12px;margin-top:6px;font-size:11px;color:white;background:#3070d0;">Eau</div>
+    <div class="starter-card" onclick="selectStarter(this,'Carapuce','Eau')" style="width:170px;background:#1a1e38;border:2px solid #383f6e;text-align:center;padding:20px 12px;cursor:pointer;transition:all 0.2s;">
+      <img src="../assets/sprites/pokemon/artwork/007.png" style="width:110px;image-rendering:pixelated;">
+      <div style="color:#ebebf5;font-size:16px;margin-top:10px;">Carapuce</div>
+      <div style="display:inline-block;padding:2px 12px;margin-top:6px;font-size:10px;color:white;background:#3070d0;border-radius:2px;">Eau</div>
+    </div>
+  </div>
+  <div id="starter-msg" style="text-align:center;margin-top:30px;color:#f5cc38;font-size:14px;min-height:20px;"></div>
+</div>
+
+<!-- ============================================================ -->
+<!-- TILESETS GALLERY -->
+<!-- ============================================================ -->
+<div id="tilesets" class="screen">
+  <div class="gallery-scroll">
+    <h2>Tilesets Biomes (256x256, 16x16/tile)</h2>
+    <div class="gallery-row" id="tileset-gallery"></div>
+    <h3>Legacy Tileset (gen precedente)</h3>
+    <div style="text-align:center;">
+      <img src="../assets/tiles/tileset.png" style="width:512px;image-rendering:pixelated;border:1px solid #2a2f4a;">
     </div>
   </div>
 </div>
 
-<!-- SPRITES SHOWCASE -->
-<div id="sprites-screen" class="screen" style="background:#0f0f24;overflow-y:auto;">
-  <h2 style="text-align:center;color:#f5cc38;font-size:18px;padding:16px 0 8px;">Tileset & Sprites</h2>
-  <div style="text-align:center;margin-bottom:16px;">
-    <p style="color:#808098;font-size:12px;margin-bottom:8px;">Tileset Atlas (16x16 tiles, pixel art GBC)</p>
-    <img src="../assets/tiles/tileset.png" style="width:512px;image-rendering:pixelated;border:1px solid #383f6e;">
-  </div>
-  <div style="text-align:center;">
-    <p style="color:#808098;font-size:12px;margin-bottom:8px;">Character Spritesheets (16x16, 4 dirs x 3 frames)</p>
-    <div id="char-gallery" style="display:flex;flex-wrap:wrap;justify-content:center;gap:12px;padding:8px;"></div>
+<!-- ============================================================ -->
+<!-- SPRITES GALLERY -->
+<!-- ============================================================ -->
+<div id="sprites" class="screen">
+  <div class="gallery-scroll">
+    <h2>Spritesheets Personnages</h2>
+    <h3>Overworld (48x128, 16x32/frame, 3 cols x 4 dirs)</h3>
+    <div class="gallery-row" id="ow-sprite-gallery"></div>
+    <h3>Legacy Characters (48x64, 16x16/frame)</h3>
+    <div class="gallery-row" id="legacy-sprite-gallery"></div>
   </div>
 </div>
 
-<div class="info">Pokemon AMSO — Tilemap + Sprites pixel art GBC — Godot 4</div>
+<!-- ============================================================ -->
+<!-- BATTLE BACKGROUNDS GALLERY -->
+<!-- ============================================================ -->
+<div id="backgrounds" class="screen">
+  <div class="gallery-scroll">
+    <h2>Fonds de Combat (320x140)</h2>
+    <div id="bg-gallery"></div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- CINEMATICS GALLERY -->
+<!-- ============================================================ -->
+<div id="cinematics" class="screen">
+  <div class="gallery-scroll">
+    <h2>Assets Cinematiques (320x240)</h2>
+    <h3>Transitions de Combat</h3>
+    <div class="gallery-row" id="trans-gallery"></div>
+    <h3>Intros Champions d'Arene</h3>
+    <div class="gallery-row" id="gym-gallery"></div>
+    <h3>Intro Story</h3>
+    <div class="gallery-row" id="story-gallery"></div>
+    <h3>Mega Evolution — Dracaufeu X</h3>
+    <div class="gallery-row" id="mega-gallery"></div>
+  </div>
+</div>
+
+<div class="info">Pokemon AMSO — Demo v0.13 — 722 moves | 310 abilities | 151 Pokemon | 48 assets | Godot 4.2</div>
 
 <script>
-// Tab switching
+// ============================================================
+//  TAB SWITCHING
+// ============================================================
 function showScreen(id, btn) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.querySelectorAll('.tabs button').forEach(b => b.classList.remove('active'));
   document.getElementById(id).classList.add('active');
   if (btn) btn.classList.add('active');
-  if (id === 'overworld-screen') renderOverworld();
+  else document.querySelectorAll('.tabs button').forEach(b => { if (b.textContent.toLowerCase().includes(id.substring(0,4))) b.classList.add('active'); });
+  if (id === 'overworld') initOverworld();
 }
 
-// Battle simulation
-let enemyHP = 100;
-function doMove(name, dmg) {
-  enemyHP = Math.max(0, enemyHP - dmg);
-  document.querySelector('#enemy-poke .hp-fill').style.width = enemyHP + '%';
-  const log = document.getElementById('battle-log');
-  if (enemyHP <= 0) {
-    log.textContent = 'TORTANK est K.O. ! Vous avez gagne !';
-    document.querySelector('#enemy-poke .hp-fill').style.background = '#c44';
-  } else {
-    log.textContent = `DRACAUFEU utilise ${name} ! (-${dmg} PV)`;
-    if (enemyHP < 25) document.querySelector('#enemy-poke .hp-fill').style.background = '#e53';
-    else if (enemyHP < 50) document.querySelector('#enemy-poke .hp-fill').style.background = '#eb4';
+// ============================================================
+//  TITLE SCREEN (animated)
+// ============================================================
+const titleCanvas = document.getElementById('title-canvas');
+const titleCtx = titleCanvas.getContext('2d');
+titleCtx.imageSmoothingEnabled = false;
+
+const mascotImg = new Image(); mascotImg.src = '../assets/sprites/pokemon/artwork/025.png';
+const introImg = new Image(); introImg.src = '../assets/cinematics/story/intro_01.png';
+let titleTime = 0;
+let stars = [];
+for (let i = 0; i < 60; i++) stars.push({x: Math.random()*640, y: Math.random()*300, s: Math.random()*2+0.5, b: Math.random()});
+
+function renderTitle() {
+  titleTime += 0.016;
+  const ctx = titleCtx;
+
+  // Background
+  const grd = ctx.createLinearGradient(0, 0, 0, 480);
+  grd.addColorStop(0, '#050510');
+  grd.addColorStop(0.6, '#0a0a24');
+  grd.addColorStop(1, '#101030');
+  ctx.fillStyle = grd;
+  ctx.fillRect(0, 0, 640, 480);
+
+  // Stars
+  stars.forEach(s => {
+    const alpha = 0.3 + 0.7 * Math.abs(Math.sin(titleTime * s.s + s.b * 6));
+    ctx.fillStyle = `rgba(255,255,255,${alpha})`;
+    ctx.fillRect(s.x, s.y, s.s > 1.2 ? 2 : 1, s.s > 1.2 ? 2 : 1);
+  });
+
+  // Top accent line
+  ctx.fillStyle = '#4d8cf2';
+  ctx.fillRect(0, 0, 640, 3);
+
+  // Mascot (floating)
+  if (mascotImg.complete) {
+    const floatY = Math.sin(titleTime * 1.5) * 6;
+    ctx.drawImage(mascotImg, 268, 50 + floatY, 104, 104);
   }
+
+  // Title text
+  ctx.fillStyle = '#f5cc38';
+  ctx.font = 'bold 36px Courier New';
+  ctx.textAlign = 'center';
+  ctx.fillText('POKEMON AMSO', 320, 195);
+
+  // Subtitle
+  ctx.fillStyle = '#808098';
+  ctx.font = '13px Courier New';
+  ctx.fillText('Fan-game Godot 4.2 — Gen 1-9 Battle Engine', 320, 218);
+
+  // Separator
+  ctx.fillStyle = '#2a2f4a';
+  ctx.fillRect(160, 238, 320, 1);
+
+  // Stats
+  ctx.fillStyle = '#4d8cf2';
+  ctx.font = '12px Courier New';
+  const stats = ['722 Moves', '310 Abilities', '151 Pokemon', '25 Natures', '48 Assets'];
+  stats.forEach((s, i) => {
+    ctx.fillText(s, 120 + i * 110, 260);
+  });
+
+  // Menu buttons
+  const blink = Math.sin(titleTime * 3) > 0;
+  ['NOUVELLE PARTIE', 'CONTINUER', 'OPTIONS'].forEach((label, i) => {
+    const by = 290 + i * 44;
+    ctx.fillStyle = '#1a1e38';
+    ctx.fillRect(180, by, 280, 36);
+    ctx.strokeStyle = i === 0 && blink ? '#4d8cf2' : '#383f6e';
+    ctx.lineWidth = 1;
+    ctx.strokeRect(180, by, 280, 36);
+    ctx.fillStyle = i === 0 ? '#ebebf5' : '#808098';
+    ctx.font = '15px Courier New';
+    ctx.fillText(label, 320, by + 23);
+  });
+
+  // Bottom accent
+  ctx.fillStyle = '#4d8cf2';
+  ctx.fillRect(0, 477, 640, 3);
+
+  // Credits
+  ctx.fillStyle = '#505068';
+  ctx.font = '10px Courier New';
+  ctx.fillText('amine-oubad/pokemon-amso', 320, 468);
+
+  requestAnimationFrame(renderTitle);
 }
+renderTitle();
 
-// Character sprite gallery
-const chars = ['player','nurse','shopkeeper','prof','guide','youngster','lass','bugcatcher',
-  'hiker','beauty','psychic','swimmer','rival','leader_rock','leader_water','leader_electric',
-  'leader_grass','leader_psychic','leader_poison','leader_fire','guard'];
-const gallery = document.getElementById('char-gallery');
-chars.forEach(c => {
-  const div = document.createElement('div');
-  div.style.cssText = 'text-align:center;background:#1a1e38;padding:8px;border:1px solid #383f6e;';
-  div.innerHTML = `<img src="../assets/sprites/characters/${c}.png" style="width:96px;image-rendering:pixelated;"><div style="color:#808098;font-size:10px;margin-top:4px;">${c}</div>`;
-  gallery.appendChild(div);
-});
+// ============================================================
+//  OVERWORLD (canvas with new tilesets + sprites)
+// ============================================================
+const owCanvas = document.getElementById('ow-canvas');
+const owCtx = owCanvas.getContext('2d');
+owCtx.imageSmoothingEnabled = false;
 
-// Overworld canvas renderer — renders Pallet Town using actual tileset
-const TILE = 16;
-const SCALE = 2;
-const tilesetImg = new Image();
-tilesetImg.src = '../assets/tiles/tileset.png';
-const playerImg = new Image();
-playerImg.src = '../assets/sprites/characters/player.png';
-const nurseImg = new Image();
-nurseImg.src = '../assets/sprites/characters/nurse.png';
-const shopImg = new Image();
-shopImg.src = '../assets/sprites/characters/shopkeeper.png';
-const profImg = new Image();
-profImg.src = '../assets/sprites/characters/prof.png';
-const guideImg = new Image();
-guideImg.src = '../assets/sprites/characters/guide.png';
+const TILE = 16, SCALE = 2;
+const grassTileset = new Image(); grassTileset.src = '../assets/tilesets/grass.png';
+const owPlayer = new Image(); owPlayer.src = '../assets/sprites/overworld/player.png';
+const owRival = new Image(); owRival.src = '../assets/sprites/overworld/rival.png';
+const owNurse = new Image(); owNurse.src = '../assets/sprites/overworld/nurse.png';
+const owProf = new Image(); owProf.src = '../assets/sprites/overworld/prof_oak.png';
+const owShop = new Image(); owShop.src = '../assets/sprites/overworld/shopkeeper.png';
+const owYoungster = new Image(); owYoungster.src = '../assets/sprites/overworld/youngster.png';
 
-// Tile coords in atlas
-const T = {
-  grass_light:[0,0], grass_mid:[1,0], grass_dark:[2,0], grass_flowers:[3,0],
-  tall_grass:[4,0], dirt_path:[5,0], sand:[6,0], water:[7,0],
-  dirt_edge_top:[0,1], dirt_edge_bottom:[1,1], dirt_edge_left:[2,1], dirt_edge_right:[3,1],
-  dirt_corner_tl:[4,1], dirt_corner_tr:[5,1], dirt_corner_bl:[6,1], dirt_corner_br:[7,1],
-  tree_tl:[0,2], tree_tr:[1,2], tree_bl:[2,2], tree_br:[3,2],
-  tree_trunk:[4,2], tree_full:[5,2], rock:[6,2],
-  flowers_red:[7,2], flowers_blue:[8,2], flowers_yellow:[9,2],
-  fence_h:[10,2], sign:[13,2],
-  wall_gray:[0,3], wall_red:[1,3], wall_blue:[2,3],
-  roof_red:[3,3], roof_blue:[4,3], roof_green:[5,3],
-  door:[6,3], window:[7,3],
-  pokecenter_cross:[8,3], pokemart_p:[9,3],
-};
+let px = 10, py = 10, pDir = 0, pFrame = 0, pMoving = false, pTarget = null;
+let owActive = false, owAnimT = 0;
 
-let playerX = 10, playerY = 13, playerDir = 0, playerFrame = 0;
-let animTimer = 0, isMoving = false, moveTarget = null;
-let moveProgress = 0;
+// Map: 20x15 tiles (col,row indices into grass tileset)
+// Row 0: ground variants (0-3), path (4-6), path edges...
+// Row 1: water, tall grass...
+// Row 2-3: trees, rocks, flowers, fences...
+// Row 4-5: buildings...
+function tileUV(col, row) { return {u: col*16, v: row*16}; }
 
-// Map data for Pallet Town (20x15 tiles)
-function buildPalletTown() {
-  const map = [];
-  for (let y = 0; y < 15; y++) {
-    map[y] = [];
-    for (let x = 0; x < 20; x++) {
-      map[y][x] = 'grass_light';
-    }
-  }
-  // Flowers
-  for (let y = 8; y < 11; y++)
-    for (let x = 8; x < 12; x++)
-      map[y][x] = 'grass_flowers';
+const MAP = [];
+for (let y = 0; y < 15; y++) { MAP[y] = []; for (let x = 0; x < 20; x++) MAP[y][x] = [0, 0]; } // default grass
 
-  // Vertical path center
-  for (let y = 0; y < 15; y++) {
-    map[y][9] = 'dirt_path';
-    map[y][10] = 'dirt_path';
-  }
-  // Horizontal paths
-  for (let x = 1; x < 10; x++) { map[4][x] = 'dirt_path'; map[5][x] = 'dirt_path'; }
-  for (let x = 10; x < 19; x++) { map[4][x] = 'dirt_path'; map[5][x] = 'dirt_path'; }
-  for (let x = 1; x < 5; x++) { map[8][x] = 'dirt_path'; map[9][x] = 'dirt_path'; }
+// Build a simple town
+function buildMap() {
+  // Base: alternate grass
+  for (let y = 0; y < 15; y++)
+    for (let x = 0; x < 20; x++)
+      MAP[y][x] = [(x+y)%3 === 0 ? 1 : 0, 0]; // grass variants
 
-  // Tree borders
-  for (let y = 0; y < 15; y++) { map[y][0] = 'tree_full'; map[y][19] = 'tree_full'; }
-  for (let x = 0; x < 20; x++) map[0][x] = 'tree_full';
-  map[0][9] = 'grass_light'; map[0][10] = 'grass_light';
+  // Paths
+  for (let y = 0; y < 15; y++) { MAP[y][9] = [4, 0]; MAP[y][10] = [5, 0]; }
+  for (let x = 2; x < 9; x++) { MAP[4][x] = [4, 0]; MAP[5][x] = [5, 0]; }
+  for (let x = 11; x < 18; x++) { MAP[4][x] = [4, 0]; MAP[5][x] = [5, 0]; }
+  for (let x = 2; x < 8; x++) { MAP[9][x] = [4, 0]; }
 
-  // Decorative trees
-  map[8][14] = 'tree_tl'; map[8][15] = 'tree_tr';
-  map[9][14] = 'tree_bl'; map[9][15] = 'tree_br';
-  map[12][4] = 'tree_tl'; map[12][5] = 'tree_tr';
-  map[13][4] = 'tree_bl'; map[13][5] = 'tree_br';
+  // Water (row 1, col 0-1)
+  for (let x = 14; x < 18; x++) for (let y = 9; y < 12; y++) MAP[y][x] = [0, 1];
 
-  // Fences
-  for (let x = 6; x < 10; x++) map[11][x] = 'fence_h';
+  // Tall grass (row 1, col 4-5)
+  for (let x = 12; x < 14; x++) for (let y = 7; y < 10; y++) MAP[y][x] = [4, 1];
 
-  return map;
+  // Trees (border)
+  for (let x = 0; x < 20; x++) MAP[0][x] = [0, 2]; // tree top
+  for (let y = 0; y < 15; y++) { MAP[y][0] = [0, 2]; MAP[y][19] = [0, 2]; }
+  MAP[0][9] = [4, 0]; MAP[0][10] = [5, 0]; // path opening
+
+  // Flowers (row 2, col 7-9 in tileset)
+  for (let x = 6; x < 9; x++) MAP[12][x] = [7 + (x%3), 2];
+
+  // Trees in map
+  MAP[7][3] = [0, 2]; MAP[7][4] = [1, 2];
+  MAP[8][3] = [2, 2]; MAP[8][4] = [3, 2];
+  MAP[11][16] = [0, 2]; MAP[11][17] = [1, 2];
+  MAP[12][16] = [2, 2]; MAP[12][17] = [3, 2];
+
+  // Fences (row 2, col 10)
+  for (let x = 5; x < 9; x++) MAP[11][x] = [10, 2];
+
+  // Sign (row 1, col 14)
+  MAP[13][8] = [14, 1];
 }
+buildMap();
 
-// Buildings overlay (drawn on top of map tiles)
-const buildings = [
-  // Pokemon Center: tx=1, ty=1, 6 wide, 3 tall
-  {type:'pokecenter', tx:1, ty:1, w:6, h:3},
-  // Pokemart: tx=13, ty=1, 6 wide, 3 tall
-  {type:'pokemart', tx:13, ty:1, w:6, h:3},
-  // House: tx=1, ty=6, 3 wide, 3 tall
-  {type:'house', tx:1, ty:6, w:3, h:3},
+// Buildings (drawn over map)
+const OW_BUILDINGS = [
+  {tx:2, ty:1, w:5, h:3, type:'pokecenter'},
+  {tx:13, ty:1, w:5, h:3, type:'pokemart'},
+  {tx:2, ty:6, w:3, h:3, type:'house'},
 ];
 
-const npcs = [
-  {x:4.5, y:5.5, img:'nurse', name:'Infirmiere'},
-  {x:15.5, y:5.5, img:'shop', name:'Vendeur'},
-  {x:3.5, y:10, img:'prof', name:'Prof. Chen'},
-  {x:15, y:10, img:'guide', name:'Guide'},
+const OW_NPCS = [
+  {x:5, y:5.5, img: owNurse, dir:0},
+  {x:15, y:5.5, img: owShop, dir:0},
+  {x:4, y:10, img: owProf, dir:0},
+  {x:12, y:12, img: owYoungster, dir:2},
+  {x:16, y:6, img: owRival, dir:3},
 ];
 
-const mapData = buildPalletTown();
-
-function drawTile(ctx, tileName, dx, dy) {
-  const coords = T[tileName];
-  if (!coords) return;
-  ctx.drawImage(tilesetImg, coords[0]*TILE, coords[1]*TILE, TILE, TILE,
-    dx*TILE*SCALE, dy*TILE*SCALE, TILE*SCALE, TILE*SCALE);
+function drawOWTile(ctx, su, sv, dx, dy) {
+  if (!grassTileset.complete) return;
+  ctx.drawImage(grassTileset, su, sv, 16, 16, dx*TILE*SCALE, dy*TILE*SCALE, TILE*SCALE, TILE*SCALE);
 }
 
-function drawBuilding(ctx, b) {
+function drawOWSprite(ctx, img, wx, wy, dir, frame) {
+  if (!img || !img.complete) return;
+  const fw = img.width / 3;   // 16
+  const fh = img.height / 4;  // 32
+  const sx = frame * fw;
+  const sy = dir * fh;
+  ctx.drawImage(img, sx, sy, fw, fh,
+    wx*TILE*SCALE - fw*SCALE/2, wy*TILE*SCALE - fh*SCALE + TILE*SCALE,
+    fw*SCALE, fh*SCALE);
+}
+
+function drawOWBuilding(ctx, b) {
   for (let row = 0; row < b.h; row++) {
     for (let col = 0; col < b.w; col++) {
-      let tile;
+      let su, sv;
       if (row === 0) {
-        if (b.type === 'pokecenter') tile = (col === b.w/2|0) ? 'pokecenter_cross' : 'roof_red';
-        else if (b.type === 'pokemart') tile = (col === b.w/2|0) ? 'pokemart_p' : 'roof_blue';
-        else tile = 'roof_green';
-      } else if (row === b.h-1 && col === (b.w/2|0)) {
-        tile = 'door';
+        // Roof row (tileset row 4, offset 0 = pokecenter roof, offset 32 = pokemart roof)
+        if (b.type === 'pokecenter') { su = (col === Math.floor(b.w/2) ? 8 : 0) * 16; sv = 4*16; }
+        else if (b.type === 'pokemart') { su = (col === Math.floor(b.w/2) ? 9 : 2) * 16; sv = 4*16; }
+        else { su = 0; sv = 4*16; }
+      } else if (row === b.h-1 && col === Math.floor(b.w/2)) {
+        // Door
+        su = 6*16; sv = 4*16;
       } else {
-        if (row === 1 && (col === 1 || col === b.w-2)) tile = 'window';
-        else if (b.type === 'pokecenter') tile = 'wall_red';
-        else if (b.type === 'pokemart') tile = 'wall_blue';
-        else tile = 'wall_gray';
+        // Wall
+        su = 1*16; sv = 4*16 + 16;
       }
-      drawTile(ctx, tile, b.tx+col, b.ty+row);
+      drawOWTile(ctx, su, sv, b.tx+col, b.ty+row);
     }
   }
-}
-
-function drawCharSprite(ctx, img, px, py, dir, frame) {
-  if (!img.complete) return;
-  const fw = img.width / 3;
-  const fh = img.height / 4;
-  ctx.drawImage(img, frame*fw, dir*fh, fw, fh,
-    px*TILE*SCALE - TILE*SCALE/2, py*TILE*SCALE - TILE*SCALE + 4,
-    TILE*SCALE, TILE*SCALE);
 }
 
 function renderOverworld() {
-  const canvas = document.getElementById('overworld-canvas');
-  const ctx = canvas.getContext('2d');
-  ctx.imageSmoothingEnabled = false;
-
-  if (!tilesetImg.complete) {
-    tilesetImg.onload = () => renderOverworld();
-    return;
-  }
-
-  // Clear
+  const ctx = owCtx;
   ctx.fillStyle = '#080818';
   ctx.fillRect(0, 0, 640, 480);
 
-  // Draw map tiles
+  if (!grassTileset.complete) return;
+
+  // Draw map
   for (let y = 0; y < 15; y++) {
     for (let x = 0; x < 20; x++) {
-      drawTile(ctx, mapData[y][x], x, y);
+      const [tc, tr] = MAP[y][x];
+      drawOWTile(ctx, tc*16, tr*16, x, y);
     }
   }
 
-  // Draw buildings
-  buildings.forEach(b => drawBuilding(ctx, b));
+  // Buildings
+  OW_BUILDINGS.forEach(b => drawOWBuilding(ctx, b));
 
-  // Draw NPCs
-  const npcImgs = [nurseImg, shopImg, profImg, guideImg];
-  npcs.forEach((npc, i) => {
-    drawCharSprite(ctx, npcImgs[i], npc.x, npc.y, 0, 0);
+  // NPCs
+  OW_NPCS.forEach(npc => {
+    drawOWSprite(ctx, npc.img, npc.x, npc.y, npc.dir, 0);
   });
 
-  // Draw player
-  drawCharSprite(ctx, playerImg, playerX, playerY, playerDir, playerFrame);
+  // Player
+  drawOWSprite(ctx, owPlayer, px, py, pDir, pFrame);
 
-  // Sign
-  drawTile(ctx, 'sign', 7, 13);
-  drawTile(ctx, 'sign', 8, 2);
-
-  // Labels
+  // Location label
+  ctx.fillStyle = '#00000088';
+  ctx.fillRect(0, 460, 640, 20);
   ctx.fillStyle = '#f5cc38';
   ctx.font = '14px Courier New';
   ctx.textAlign = 'center';
-  ctx.fillText('BOURG PALETTE', 320, 470);
+  ctx.fillText('BOURG PALETTE — Fleches/ZQSD pour se deplacer', 320, 474);
 }
 
-// Keyboard movement
+function initOverworld() {
+  owActive = true;
+  renderOverworld();
+}
+
+// Keyboard
 document.addEventListener('keydown', (e) => {
-  if (document.querySelector('#overworld-screen.active') === null) return;
-  if (isMoving) return;
+  if (!document.getElementById('overworld').classList.contains('active')) return;
+  if (pMoving) return;
 
   let dx = 0, dy = 0;
-  if (e.key === 'ArrowUp' || e.key === 'z' || e.key === 'w') { dy = -1; playerDir = 1; }
-  else if (e.key === 'ArrowDown' || e.key === 's') { dy = 1; playerDir = 0; }
-  else if (e.key === 'ArrowLeft' || e.key === 'a' || e.key === 'q') { dx = -1; playerDir = 2; }
-  else if (e.key === 'ArrowRight' || e.key === 'd') { dx = 1; playerDir = 3; }
+  if (e.key === 'ArrowUp' || e.key === 'z' || e.key === 'w') { dy = -1; pDir = 3; }
+  else if (e.key === 'ArrowDown' || e.key === 's') { dy = 1; pDir = 0; }
+  else if (e.key === 'ArrowLeft' || e.key === 'a' || e.key === 'q') { dx = -1; pDir = 1; }
+  else if (e.key === 'ArrowRight' || e.key === 'd') { dx = 1; pDir = 2; }
   else return;
+  e.preventDefault();
 
-  const nx = playerX + dx, ny = playerY + dy;
+  const nx = px + dx, ny = py + dy;
   if (nx < 1 || nx > 18 || ny < 1 || ny > 14) return;
-  // Simple collision with trees/buildings
-  const tile = mapData[ny] && mapData[ny][nx];
-  if (tile === 'tree_full' || tile === 'tree_tl' || tile === 'tree_tr' || tile === 'tree_bl' || tile === 'tree_br') return;
+  // Collision with trees
+  const [tc, tr] = MAP[ny][nx];
+  if (tr === 2 && tc <= 5) return; // tree tiles
   // Building collision
-  for (const b of buildings) {
+  for (const b of OW_BUILDINGS) {
     if (nx >= b.tx && nx < b.tx+b.w && ny >= b.ty && ny < b.ty+b.h) {
-      // Allow door tile
-      if (ny === b.ty+b.h-1 && nx === b.tx+(b.w/2|0)) continue;
+      if (ny === b.ty+b.h-1 && nx === b.tx+Math.floor(b.w/2)) continue;
       return;
     }
   }
+  // Water collision
+  if (tr === 1 && tc <= 1) return;
 
-  moveTarget = {x: nx, y: ny};
-  isMoving = true;
-  playerFrame = 0;
-  animTimer = 0;
+  pTarget = {x: nx, y: ny};
+  pMoving = true;
+  pFrame = 0;
+  owAnimT = 0;
 });
 
-// Animation loop
-function gameLoop() {
-  if (isMoving && moveTarget) {
-    moveProgress += 0.08;
-    animTimer += 0.08;
-    if (animTimer > 0.2) { animTimer = 0; playerFrame = playerFrame === 1 ? 2 : 1; }
-    if (moveProgress >= 1) {
-      playerX = moveTarget.x;
-      playerY = moveTarget.y;
-      isMoving = false;
-      moveProgress = 0;
-      playerFrame = 0;
-      moveTarget = null;
+let owMoveProgress = 0;
+function owLoop() {
+  if (pMoving && pTarget) {
+    owMoveProgress += 0.1;
+    owAnimT += 0.1;
+    if (owAnimT > 0.25) { owAnimT = 0; pFrame = pFrame === 1 ? 2 : 1; }
+    if (owMoveProgress >= 1) {
+      px = pTarget.x; py = pTarget.y;
+      pMoving = false; owMoveProgress = 0; pFrame = 0; pTarget = null;
     }
   }
-  if (document.querySelector('#overworld-screen.active')) renderOverworld();
-  requestAnimationFrame(gameLoop);
+  if (document.getElementById('overworld').classList.contains('active')) renderOverworld();
+  requestAnimationFrame(owLoop);
 }
-requestAnimationFrame(gameLoop);
+requestAnimationFrame(owLoop);
+
+// ============================================================
+//  BATTLE SYSTEM
+// ============================================================
+let playerHP = 108, playerMaxHP = 108, enemyHP = 120, enemyMaxHP = 120;
+let battleOver = false;
+
+const TYPE_COLORS = {Fire:'#c44a10',Water:'#3070d0',Grass:'#2a8a2a',Electric:'#c4a810',
+  Psychic:'#c44080',Ground:'#a68c21',Dragon:'#6c3bd4',Normal:'#8c8c7a',Fighting:'#a03020',
+  Ice:'#5cc4d4',Rock:'#a09040',Bug:'#90a820',Poison:'#8a2a8a',Ghost:'#5c4080',
+  Dark:'#5c4030',Steel:'#9898b0',Fairy:'#d48ca0',Flying:'#7898d0'};
+
+function updateHPBar(id, current, max) {
+  const pct = Math.max(0, current / max * 100);
+  const el = document.getElementById(id);
+  el.style.width = pct + '%';
+  el.className = 'hp-fill' + (pct < 20 ? ' red' : pct < 50 ? ' yellow' : '');
+}
+
+function doMove(name, type, dmg) {
+  if (battleOver) return;
+  const log = document.getElementById('battle-log');
+
+  // Random variance
+  const actualDmg = Math.floor(dmg * (0.85 + Math.random() * 0.15));
+  enemyHP = Math.max(0, enemyHP - actualDmg);
+  updateHPBar('enemy-hp', enemyHP, enemyMaxHP);
+  document.getElementById('enemy-hp-text').textContent = enemyHP;
+
+  // Flash effect on enemy sprite
+  const enemyImg = document.getElementById('enemy-poke-img');
+  enemyImg.style.filter = 'brightness(3)';
+  setTimeout(() => { enemyImg.style.filter = 'drop-shadow(2px 2px 2px rgba(0,0,0,0.5))'; }, 150);
+
+  if (enemyHP <= 0) {
+    log.textContent = `DRACAUFEU utilise ${name} ! (-${actualDmg} PV) — TORTANK est K.O. ! Victoire !`;
+    battleOver = true;
+    enemyImg.style.opacity = '0.3';
+    enemyImg.style.transform = 'translateY(20px)';
+    enemyImg.style.transition = 'all 0.5s';
+    return;
+  }
+
+  // Enemy counter-attack
+  const enemyMoves = [
+    {name:'Hydrocanon', dmg:45}, {name:'Surf', dmg:35}, {name:'Morsure', dmg:25}, {name:'Abri', dmg:0}
+  ];
+  const em = enemyMoves[Math.floor(Math.random() * enemyMoves.length)];
+  const eDmg = Math.floor(em.dmg * (0.85 + Math.random() * 0.15));
+  playerHP = Math.max(0, playerHP - eDmg);
+  updateHPBar('player-hp', playerHP, playerMaxHP);
+  document.getElementById('player-hp-text').textContent = playerHP;
+
+  if (eDmg > 0) {
+    const playerImg = document.getElementById('player-poke-img');
+    setTimeout(() => {
+      playerImg.style.filter = 'brightness(3)';
+      setTimeout(() => { playerImg.style.filter = 'drop-shadow(2px 2px 2px rgba(0,0,0,0.5))'; }, 150);
+    }, 400);
+  }
+
+  if (playerHP <= 0) {
+    log.textContent = `TORTANK utilise ${em.name} ! (-${eDmg} PV) — DRACAUFEU est K.O. ! Defaite...`;
+    battleOver = true;
+    return;
+  }
+
+  log.textContent = `DRACAUFEU utilise ${name} ! (-${actualDmg})  |  TORTANK utilise ${em.name} !` + (eDmg > 0 ? ` (-${eDmg})` : ' (rate !)');
+}
+
+// Battle background selector
+const bgSelect = ['grass','cave','water','indoor','snow','sand','volcano','forest'];
+let bgIdx = 0;
+document.getElementById('battle-bg-img').addEventListener('click', () => {
+  bgIdx = (bgIdx + 1) % bgSelect.length;
+  document.getElementById('battle-bg-img').src = `../assets/sprites/battle/backgrounds/${bgSelect[bgIdx]}.png`;
+});
+
+// ============================================================
+//  STARTER SELECT
+// ============================================================
+function selectStarter(el, name, type) {
+  document.querySelectorAll('.starter-card').forEach(c => { c.style.borderColor = '#383f6e'; c.style.transform = ''; });
+  el.style.borderColor = '#f5cc38';
+  el.style.transform = 'scale(1.05)';
+  document.getElementById('starter-msg').textContent = `Tu as choisi ${name} (${type}) ! Bonne chance, Dresseur !`;
+}
+
+// ============================================================
+//  POPULATE GALLERIES
+// ============================================================
+// Tilesets
+const biomes = ['grass','forest','city','cave','snow','beach'];
+const tileGallery = document.getElementById('tileset-gallery');
+biomes.forEach(b => {
+  const div = document.createElement('div');
+  div.className = 'gallery-item';
+  div.innerHTML = `<img src="../assets/tilesets/${b}.png" style="width:192px;"><div class="label">${b}.png (256x256)</div>`;
+  tileGallery.appendChild(div);
+});
+
+// Overworld sprites
+const owSprites = ['player','rival','nurse','shopkeeper','youngster','lass','bug_catcher','gym_leader_pierre','gym_leader_flora','prof_oak'];
+const owGallery = document.getElementById('ow-sprite-gallery');
+owSprites.forEach(s => {
+  const div = document.createElement('div');
+  div.className = 'gallery-item';
+  div.innerHTML = `<img src="../assets/sprites/overworld/${s}.png" style="width:96px;height:256px;"><div class="label">${s}</div>`;
+  owGallery.appendChild(div);
+});
+
+// Legacy sprites
+const legacySprites = ['player','rival','nurse','shopkeeper','prof','youngster','lass','bugcatcher','hiker','beauty','psychic','swimmer','leader_rock','leader_water','leader_electric','leader_grass'];
+const legacyGallery = document.getElementById('legacy-sprite-gallery');
+legacySprites.forEach(s => {
+  const div = document.createElement('div');
+  div.className = 'gallery-item';
+  div.innerHTML = `<img src="../assets/sprites/characters/${s}.png" style="width:96px;"><div class="label">${s}</div>`;
+  legacyGallery.appendChild(div);
+});
+
+// Battle backgrounds
+const bgNames = ['grass','cave','water','indoor','snow','sand','volcano','forest'];
+const bgGallery = document.getElementById('bg-gallery');
+bgNames.forEach(b => {
+  const div = document.createElement('div');
+  div.className = 'gallery-item';
+  div.style.cssText = 'width:100%;margin-bottom:8px;';
+  div.innerHTML = `<img src="../assets/sprites/battle/backgrounds/${b}.png" style="width:640px;height:280px;"><div class="label">${b}.png (320x140)</div>`;
+  bgGallery.appendChild(div);
+});
+
+// Transitions
+const transNames = ['wild_encounter_01','trainer_encounter_01','gym_encounter_01'];
+const transGallery = document.getElementById('trans-gallery');
+transNames.forEach(t => {
+  const div = document.createElement('div');
+  div.className = 'gallery-item';
+  div.innerHTML = `<img src="../assets/cinematics/transitions/${t}.png" style="width:192px;"><div class="label">${t}</div>`;
+  transGallery.appendChild(div);
+});
+
+// Gym intros
+const gymLeaders = ['pierre','flora','ondine','major_bob','erika','koga','auguste','giovanni'];
+const gymGallery = document.getElementById('gym-gallery');
+gymLeaders.forEach(l => {
+  const div = document.createElement('div');
+  div.className = 'gallery-item';
+  div.innerHTML = `<img src="../assets/cinematics/gym_intros/${l}_intro.png" style="width:160px;"><div class="label">${l}</div>`;
+  gymGallery.appendChild(div);
+});
+
+// Story
+const storyGallery = document.getElementById('story-gallery');
+for (let i = 1; i <= 5; i++) {
+  const div = document.createElement('div');
+  div.className = 'gallery-item';
+  div.innerHTML = `<img src="../assets/cinematics/story/intro_${String(i).padStart(2,'0')}.png" style="width:192px;"><div class="label">intro_${String(i).padStart(2,'0')}</div>`;
+  storyGallery.appendChild(div);
+}
+
+// Mega evolution
+const megaGallery = document.getElementById('mega-gallery');
+for (let i = 1; i <= 8; i++) {
+  const div = document.createElement('div');
+  div.className = 'gallery-item';
+  div.innerHTML = `<img src="../assets/cinematics/mega_evolutions/006_mega_x_${String(i).padStart(2,'0')}.png" style="width:128px;"><div class="label">Frame ${i}/8</div>`;
+  megaGallery.appendChild(div);
+}
 </script>
 </body>
 </html>
