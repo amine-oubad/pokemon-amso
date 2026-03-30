@@ -601,7 +601,7 @@ func _enemy_baton_pass() -> void:
 	if not scene._is_trainer_battle: return
 	var next_idx := _find_next_alive_trainer_pkmn()
 	if next_idx >= 0:
-		var old_stages := scene.enemy_pkmn.stat_stages.duplicate()
+		var old_stages: Dictionary = scene.enemy_pkmn.stat_stages.duplicate()
 		scene._trainer_team_idx = next_idx
 		scene.enemy_pkmn = scene._trainer_team[next_idx]
 		for k in old_stages:

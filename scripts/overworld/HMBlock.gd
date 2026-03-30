@@ -22,7 +22,7 @@ func _build_visual() -> void:
 	add_child(shape)
 
 	# Use tileset sprite
-	var tex = load("res://assets/tiles/tileset.png")
+	var tex: Texture2D = load("res://assets/tiles/tileset.png")
 	if tex:
 		var spr := Sprite2D.new()
 		spr.texture = tex

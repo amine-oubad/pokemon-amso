@@ -34,13 +34,13 @@ func _ready() -> void:
 
 func _setup_sprite() -> void:
 	# Remove old Polygon2D body if present
-	var old_body = get_node_or_null("Body")
+	var old_body: Node = get_node_or_null("Body")
 	if old_body:
 		old_body.queue_free()
 
 	_sprite = Sprite2D.new()
 	_sprite.name = "CharSprite"
-	var tex = load(SPRITE_PATH)
+	var tex: Texture2D = load(SPRITE_PATH)
 	if tex:
 		_sprite.texture = tex
 		_sprite.hframes = 3
@@ -125,7 +125,7 @@ func _update_facing(dir_vec: Vector2) -> void:
 	elif dir_vec == Vector2.RIGHT: facing = Dir.RIGHT
 
 func _try_interact() -> void:
-	var check_pos := position + DIR_VECTORS[facing] * TILE_SIZE
+	var check_pos: Vector2 = position + DIR_VECTORS[facing] * TILE_SIZE
 	for node in get_tree().get_nodes_in_group("interactable"):
 		if node.position.distance_to(check_pos) < 8.0:
 			node.interact()

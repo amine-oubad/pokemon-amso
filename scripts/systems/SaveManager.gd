@@ -42,7 +42,7 @@ func load_slot(slot: int) -> bool:
 	if json.parse(text) != OK:
 		push_error("[SaveManager] Parsing impossible — slot %d" % slot)
 		return false
-	_apply_save_data(json.data)
+	_apply_save_data(json.data as Dictionary)
 	print("[SaveManager] Chargement ← slot %d" % slot)
 	return true
 
@@ -59,11 +59,13 @@ func get_save_info(slot: int) -> Dictionary:
 		return {}
 	file.close()
 	var d: Dictionary = json.data
+	var badges_arr: Array = d.get("badges", [])
+	var team_arr: Array = d.get("team", [])
 	return {
 		"player_name": d.get("player_name", "?"),
-		"badges":      d.get("badges", []).size(),
+		"badges":      badges_arr.size(),
 		"timestamp":   d.get("timestamp", 0),
-		"team_size":   d.get("team", []).size(),
+		"team_size":   team_arr.size(),
 	}
 
 func delete_save(slot: int) -> void:
@@ -76,10 +78,10 @@ func delete_save(slot: int) -> void:
 
 func _build_save_data() -> Dictionary:
 	var team_data: Array = []
-	for pkmn in GameState.team:
+	for pkmn: PokemonInstance in GameState.team:
 		team_data.append(pkmn.to_dict())
 	var pc_data: Array = []
-	for pkmn in GameState.pc_boxes:
+	for pkmn: PokemonInstance in GameState.pc_boxes:
 		pc_data.append(pkmn.to_dict())
 	return {
 		"version":            2,
@@ -109,16 +111,18 @@ func _apply_save_data(d: Dictionary) -> void:
 	GameState.pokedex_seen      = d.get("pokedex_seen",      [])
 	GameState.pokedex_caught    = d.get("pokedex_caught",    [])
 	GameState.team.clear()
-	for td in d.get("team", []):
+	var team_arr: Array = d.get("team", [])
+	for td: Dictionary in team_arr:
 		GameState.team.append(PokemonInstance.from_dict(td))
 	GameState.pc_boxes.clear()
-	for pd in d.get("pc_boxes", []):
+	var pc_arr: Array = d.get("pc_boxes", [])
+	for pd: Dictionary in pc_arr:
 		GameState.pc_boxes.append(PokemonInstance.from_dict(pd))
 	GameState.repel_steps       = d.get("repel_steps", 0)
 	GameState.return_to_scene = d.get("return_to_scene", "res://scenes/overworld/maps/PalletTown.tscn")
 	var sp: Array = d.get("spawn_position", [0, 0])
 	if sp.size() >= 2:
-		GameState.pending_spawn_position = Vector2(sp[0], sp[1])
+		GameState.pending_spawn_position = Vector2(float(sp[0]), float(sp[1]))
 	else:
 		GameState.pending_spawn_position = Vector2.ZERO
 

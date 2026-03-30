@@ -188,7 +188,7 @@ func apply_entry_hazards(side: String, pkmn) -> Array[String]:
 	return msgs
 
 func clear_hazards(side: String) -> String:
-	var had := hazards[side]["stealth_rock"] or hazards[side]["spikes"] > 0 or hazards[side]["toxic_spikes"] > 0 or hazards[side]["sticky_web"]
+	var had: bool = hazards[side]["stealth_rock"] or hazards[side]["spikes"] > 0 or hazards[side]["toxic_spikes"] > 0 or hazards[side]["sticky_web"]
 	hazards[side] = {"stealth_rock": false, "spikes": 0, "toxic_spikes": 0, "sticky_web": false}
 	if had:
 		return "Les hazards sont dissipes !"

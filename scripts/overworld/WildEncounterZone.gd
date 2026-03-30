@@ -39,7 +39,7 @@ func _on_player_stepped(_world_pos: Vector2) -> void:
 	_trigger_encounter()
 
 func _trigger_encounter() -> void:
-	var enemy_data := GameData.pick_encounter(map_id, zone_id)
+	var enemy_data: Dictionary = GameData.pick_encounter(map_id, zone_id)
 	if enemy_data.is_empty():
 		push_warning("[WildEncounterZone] Aucune donnée pour %s / %s" % [map_id, zone_id])
 		return

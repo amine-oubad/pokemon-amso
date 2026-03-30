@@ -489,10 +489,10 @@ static func apply_move_effect(
 				msgs.append(_change_stat(defender, "evasion", -1))
 		"court_change":
 			if field != null:
-				var tmp_p := field.hazards["player"].duplicate()
+				var tmp_p: Dictionary = field.hazards["player"].duplicate()
 				field.hazards["player"] = field.hazards["enemy"].duplicate()
 				field.hazards["enemy"] = tmp_p
-				var tmp_sp := field.screens["player"].duplicate()
+				var tmp_sp: Dictionary = field.screens["player"].duplicate()
 				field.screens["player"] = field.screens["enemy"].duplicate()
 				field.screens["enemy"] = tmp_sp
 				msgs.append("Les pieges sont echanges !")
@@ -730,7 +730,7 @@ static func apply_move_effect(
 		#  ITEM MANIPULATION
 		# =============================================================
 		"trick":
-			var temp := attacker.held_item
+			var temp: String = attacker.held_item
 			attacker.held_item = defender.held_item
 			defender.held_item = temp
 			msgs.append("%s echange son objet avec %s !" % [attacker.get_name(), defender.get_name()])
@@ -812,7 +812,7 @@ static func apply_move_effect(
 		#  ABILITY / TYPE MANIPULATION
 		# =============================================================
 		"skill_swap":
-			var temp := attacker.ability
+			var temp: String = attacker.ability
 			attacker.ability = defender.ability
 			defender.ability = temp
 			msgs.append("%s echange son talent avec %s !" % [attacker.get_name(), defender.get_name()])
@@ -918,7 +918,7 @@ static func apply_move_effect(
 				msgs.append("%s recupere des PV !" % attacker.get_name())
 
 		"power_trick":
-			var tmp := attacker.stats["atk"]
+			var tmp: int = attacker.stats["atk"]
 			attacker.stats["atk"] = attacker.stats["def"]
 			attacker.stats["def"] = tmp
 			msgs.append("%s echange Attaque et Defense !" % attacker.get_name())

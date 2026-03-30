@@ -263,7 +263,7 @@ func _on_move(idx: int) -> void:
 func _on_item_used(item_id: String) -> void:
 	if _animating: return
 	ui.item_menu.visible = false
-	var idata := GameData.items_data.get(item_id, {})
+	var idata: Dictionary = GameData.items_data.get(item_id, {})
 	GameState.remove_item(item_id)
 	_last_attacker = "player"
 	_animating = true

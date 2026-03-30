@@ -116,7 +116,7 @@ func _on_continue() -> void:
 	var best_time := 0
 	for i in SaveManager.NUM_SLOTS:
 		if SaveManager.has_save(i):
-			var info := SaveManager.get_save_info(i)
+			var info: Dictionary = SaveManager.get_save_info(i)
 			var t: int = info.get("timestamp", 0)
 			if t > best_time:
 				best_time = t

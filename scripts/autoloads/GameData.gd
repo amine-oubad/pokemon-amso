@@ -61,7 +61,7 @@ func get_type_effectiveness(attacking: String, defending: String) -> float:
 ## Efficacité totale contre un Pokémon à double type.
 func get_total_effectiveness(attacking: String, defending_types: Array) -> float:
 	var total := 1.0
-	for def_type in defending_types:
+	for def_type: String in defending_types:
 		total *= get_type_effectiveness(attacking, def_type)
 	return total
 
@@ -72,11 +72,11 @@ func pick_encounter(map_id: String, zone_id: String) -> Dictionary:
 	if zone.is_empty():
 		return {}
 	var total := 0
-	for entry in zone:
+	for entry: Dictionary in zone:
 		total += entry.get("weight", 10)
 	var roll := randi() % total
 	var cumul := 0
-	for entry in zone:
+	for entry: Dictionary in zone:
 		cumul += entry.get("weight", 10)
 		if roll < cumul:
 			return entry
@@ -97,4 +97,4 @@ func _load_json(path: String) -> Dictionary:
 			path, json.get_error_line(), json.get_error_message()
 		])
 		return {}
-	return json.data
+	return json.data as Dictionary

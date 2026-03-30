@@ -158,13 +158,16 @@ static func create_with_details(p_id: String, p_level: int, p_nature: String = "
 	inst._calculate_stats()
 	if not p_moves.is_empty():
 		inst.moves.clear()
-		for mid in p_moves:
+		for mid: String in p_moves:
 			inst.moves.append(MoveInstance.create(mid))
 	return inst
 
 static func from_encounter(enc: Dictionary) -> PokemonInstance:
-	var lvl := randi_range(enc.get("level_min", 2), enc.get("level_max", 5))
-	return PokemonInstance.create(enc.get("id", "025"), lvl)
+	var min_lv: int = enc.get("level_min", 2)
+	var max_lv: int = enc.get("level_max", 5)
+	var lvl := randi_range(min_lv, max_lv)
+	var enc_id: String = enc.get("id", "025")
+	return PokemonInstance.create(enc_id, lvl)
 
 # =========================================================================
 #  XP et Level-up
@@ -195,14 +198,14 @@ func _do_level_up(result: Dictionary) -> void:
 	_calculate_stats()
 	current_hp += max_hp - old_max_hp
 	var levelup: Array = _base_data.get("levelup_moves", [])
-	for entry in levelup:
+	for entry: Dictionary in levelup:
 		if entry.get("level", 99) == level:
 			var move_id: String = entry.get("move", "")
 			if move_id != "" and not _has_move(move_id):
 				result.new_moves.append(move_id)
 
 func _has_move(move_id: String) -> bool:
-	for mv in moves:
+	for mv: MoveInstance in moves:
 		if mv.move_id == move_id:
 			return true
 	return false
@@ -224,7 +227,7 @@ func learn_move(move_id: String, replace_idx: int = -1) -> bool:
 
 func check_evolution() -> String:
 	var evolutions: Array = _base_data.get("evolutions", [])
-	for evo in evolutions:
+	for evo: Dictionary in evolutions:
 		if evo.get("method", "") == "level" and level >= evo.get("level", 999):
 			var target_id: String = evo.get("into", "")
 			if target_id != "" and GameData.pokemon_data.has(target_id):
@@ -240,7 +243,7 @@ func evolve(target_id: String) -> void:
 		nickname = _base_data.get("name", target_id)
 	_calculate_stats()
 	var levelup: Array = _base_data.get("levelup_moves", [])
-	for entry in levelup:
+	for entry: Dictionary in levelup:
 		if entry.get("level", 99) <= level:
 			var move_id: String = entry.get("move", "")
 			if move_id != "" and not _has_move(move_id) and moves.size() < 4:
@@ -252,7 +255,7 @@ func evolve(target_id: String) -> void:
 
 func _generate_ivs() -> void:
 	if ivs.is_empty():
-		for s in ["hp", "atk", "def", "sp_atk", "sp_def", "speed"]:
+		for s: String in ["hp", "atk", "def", "sp_atk", "sp_def", "speed"]:
 			ivs[s] = randi_range(0, 31)
 
 func _generate_nature() -> void:
@@ -272,7 +275,7 @@ func _calculate_stats() -> void:
 		current_hp = max_hp
 
 	# Other stats = floor((floor((2*Base + IV + floor(EV/4)) * Level / 100) + 5) * Nature)
-	for s in ["atk", "def", "sp_atk", "sp_def", "speed"]:
+	for s: String in ["atk", "def", "sp_atk", "sp_def", "speed"]:
 		var iv: int = ivs.get(s, 15)
 		var ev: int = evs.get(s, 0)
 		var raw := int((2 * base.get(s, 50) + iv + int(ev / 4.0)) * level / 100.0) + 5
@@ -285,7 +288,7 @@ func _calculate_stats() -> void:
 func _learn_levelup_moves() -> void:
 	var levelup: Array = _base_data.get("levelup_moves", [])
 	var learnable: Array = []
-	for entry in levelup:
+	for entry: Dictionary in levelup:
 		if entry.get("level", 99) <= level:
 			learnable.append(entry.get("move", ""))
 	var start := max(0, learnable.size() - 4)
@@ -302,8 +305,8 @@ const MAX_SINGLE_EV := 252
 
 func add_evs(stat: String, amount: int) -> int:
 	var total := 0
-	for s in evs:
-		total += evs[s]
+	for s: String in evs:
+		total += int(evs[s])
 	var remaining := MAX_TOTAL_EVS - total
 	var stat_remaining := MAX_SINGLE_EV - evs.get(stat, 0)
 	var actual := mini(amount, mini(remaining, stat_remaining))
@@ -314,8 +317,8 @@ func add_evs(stat: String, amount: int) -> int:
 ## Applique les EVs gagnes apres avoir battu un Pokemon.
 func gain_evs_from(fainted_pkmn: PokemonInstance) -> void:
 	var ev_yield: Dictionary = fainted_pkmn._base_data.get("ev_yield", {})
-	for stat in ev_yield:
-		add_evs(stat, ev_yield[stat])
+	for stat: String in ev_yield:
+		add_evs(stat, int(ev_yield[stat]))
 
 # =========================================================================
 #  Accesseurs
@@ -404,7 +407,7 @@ func full_heal() -> void:
 	current_hp = max_hp
 	status = ""
 	status_turns = 0
-	for mv in moves:
+	for mv: MoveInstance in moves:
 		mv.restore_pp()
 
 func modify_stat_stage(stat_name: String, delta: int) -> int:
@@ -416,7 +419,7 @@ func modify_stat_stage(stat_name: String, delta: int) -> int:
 	return stat_stages[stat_name] - old
 
 func reset_stat_stages() -> void:
-	for k in stat_stages:
+	for k: String in stat_stages:
 		stat_stages[k] = 0
 
 func clear_battle_meta() -> void:
@@ -427,8 +430,8 @@ func clear_battle_meta() -> void:
 # =========================================================================
 
 func to_dict() -> Dictionary:
-	var move_dicts := []
-	for mv in moves:
+	var move_dicts: Array = []
+	for mv: MoveInstance in moves:
 		move_dicts.append(mv.to_dict())
 	return {
 		"pokemon_id": pokemon_id,
@@ -476,7 +479,8 @@ static func from_dict(d: Dictionary) -> PokemonInstance:
 	inst.status = d.get("status", "")
 
 	inst.moves.clear()
-	for md in d.get("moves", []):
+	var saved_moves: Array = d.get("moves", [])
+	for md: Dictionary in saved_moves:
 		inst.moves.append(MoveInstance.from_dict(md))
 
 	# If no moves loaded, learn default

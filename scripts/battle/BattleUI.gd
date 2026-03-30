@@ -268,7 +268,7 @@ func populate_item_menu() -> void:
 	var found := false
 	for item_id in GameState.bag:
 		if GameState.bag[item_id] <= 0: continue
-		var idata := GameData.items_data.get(item_id, {})
+		var idata: Dictionary = GameData.items_data.get(item_id, {})
 		if idata.is_empty(): continue
 		var cat: String = idata.get("category", "")
 		if cat not in ["heal", "ball", "status_cure", "revive"]: continue

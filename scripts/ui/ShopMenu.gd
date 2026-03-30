@@ -126,7 +126,7 @@ func _populate_rows() -> void:
 	_item_rows.clear()
 
 	for i in _items.size():
-		var item = _items[i]
+		var item: Dictionary = _items[i]
 
 		var row := ColorRect.new()
 		row.position = Vector2(4, 24 + i * ROW_H)
@@ -160,7 +160,7 @@ func _refresh() -> void:
 func _try_buy() -> void:
 	if _selected >= _items.size():
 		return
-	var item   = _items[_selected]
+	var item: Dictionary = _items[_selected]
 	var price: int = item["data"].get("price", 0)
 	if GameState.money < price:
 		_show_status("Pas assez d'argent !", Color(0.9, 0.3, 0.3))

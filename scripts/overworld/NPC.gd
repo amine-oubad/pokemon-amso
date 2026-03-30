@@ -40,7 +40,7 @@ func _build_visual() -> void:
 	# Sprite
 	var sid := _resolve_sprite_id()
 	var tex_path := CHAR_DIR + sid + ".png"
-	var tex = load(tex_path) if ResourceLoader.exists(tex_path) else null
+	var tex: Texture2D = load(tex_path) if ResourceLoader.exists(tex_path) else null
 	if tex:
 		var spr := Sprite2D.new()
 		spr.texture = tex

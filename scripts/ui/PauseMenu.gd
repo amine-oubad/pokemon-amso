@@ -255,7 +255,7 @@ func _build_bag_tab() -> void:
 	if GameState.bag.is_empty():
 		_add_line("Sac vide.", 0, C_TEXT2)
 		return
-	var keys := GameState.bag.keys()
+	var keys: Array = GameState.bag.keys()
 	var y := 0
 	for i in keys.size():
 		var item_id: String   = keys[i]
@@ -277,9 +277,9 @@ func _build_bag_tab() -> void:
 # ── Pokedex ──────────────────────────────────────────────────────────────────
 
 func _build_pokedex_tab() -> void:
-	var seen := GameState.pokedex_seen.duplicate()
+	var seen: Array = GameState.pokedex_seen.duplicate()
 	seen.sort()
-	var caught := GameState.pokedex_caught
+	var caught: Array = GameState.pokedex_caught
 	_add_line("Vus: %d  Captures: %d" % [seen.size(), caught.size()], 0, C_ACCENT)
 	if seen.is_empty():
 		_add_line("Aucun Pokemon vu.", 16, C_TEXT2)
@@ -307,7 +307,7 @@ func _build_save_tab() -> void:
 		var prefix := "> " if i == _cursor_idx else "  "
 		var col := C_ACCENT if i == _cursor_idx else C_TEXT2
 		if SaveManager.has_save(i):
-			var info := SaveManager.get_save_info(i)
+			var info: Dictionary = SaveManager.get_save_info(i)
 			_add_line("%sSlot %d — %s  Badges:%d  Equipe:%d" % [
 				prefix, i + 1, info.get("player_name", "?"),
 				info.get("badges", 0), info.get("team_size", 0)
@@ -316,7 +316,7 @@ func _build_save_tab() -> void:
 			_add_line("%sSlot %d — Vide" % [prefix, i + 1], 16 + i * 14, col)
 	var y := 16 + SaveManager.NUM_SLOTS * 14 + 6
 	var team_str := ""
-	for poke in GameState.team:
+	for poke: PokemonInstance in GameState.team:
 		var pdata: Dictionary = GameData.pokemon_data.get(poke.pokemon_id, {})
 		team_str += pdata.get("name", "?") + " Lv%d  " % poke.level
 	if team_str != "":
@@ -344,7 +344,7 @@ func _action_team() -> void:
 	if GameState.team.is_empty(): return
 	if _swap_src >= 0:
 		if _swap_src != _cursor_idx:
-			var tmp = GameState.team[_swap_src]
+			var tmp: PokemonInstance = GameState.team[_swap_src]
 			GameState.team[_swap_src] = GameState.team[_cursor_idx]
 			GameState.team[_cursor_idx] = tmp
 		_swap_src = -1
@@ -356,7 +356,7 @@ func _action_team() -> void:
 # ── Sac — utilisation d'items ────────────────────────────────────────────
 
 func _action_bag() -> void:
-	var keys := GameState.bag.keys()
+	var keys: Array = GameState.bag.keys()
 	if _cursor_idx >= keys.size(): return
 	var item_id: String = keys[_cursor_idx]
 	var idata: Dictionary = GameData.items_data.get(item_id, {})
@@ -404,7 +404,7 @@ func _apply_bag_item() -> void:
 				else:
 					msg = "PV deja au max !"
 			else:
-				var healed := poke.heal(idata.get("heal_amount", 20))
+				var healed: int = poke.heal(idata.get("heal_amount", 20))
 				var cures: Array = idata.get("cures", [])
 				if not cures.is_empty() and poke.status in cures:
 					poke.status = ""

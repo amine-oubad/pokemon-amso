@@ -88,7 +88,7 @@ func _build_ui() -> void:
 
 	# Starter cards
 	for i in range(STARTERS.size()):
-		var s := STARTERS[i]
+		var s: Dictionary = STARTERS[i]
 		var card_x := 8 + i * 104
 		var card := _build_card(Vector2(card_x, 46), s, i)
 		add_child(card)
@@ -246,7 +246,7 @@ func _refresh() -> void:
 			bg.color = C_PANEL
 			border.color = C_BORDER
 
-	var s := STARTERS[_selected]
+	var s: Dictionary = STARTERS[_selected]
 	var pdata: Dictionary = GameData.pokemon_data.get(s.id, {})
 	var base: Dictionary = pdata.get("base_stats", {})
 	_desc_label.text = "%s — PV:%d ATK:%d DEF:%d SP.ATK:%d SP.DEF:%d VIT:%d" % [
@@ -267,8 +267,8 @@ func _show_confirm() -> void:
 	_confirm_yes.grab_focus()
 
 func _on_confirm_yes() -> void:
-	var s := STARTERS[_selected]
-	var starter := PokemonInstance.create(s.id, 5)
+	var s: Dictionary = STARTERS[_selected]
+	var starter: PokemonInstance = PokemonInstance.create(s.id, 5)
 	GameState.team.append(starter)
 	GameState.register_seen(s.id)
 	GameState.register_caught(s.id)

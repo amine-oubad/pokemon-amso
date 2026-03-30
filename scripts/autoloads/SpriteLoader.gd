@@ -52,6 +52,6 @@ func make_sprite(pokemon_id: String, folder: String, size: Vector2) -> Control:
 
 ## Précharge tous les sprites en arrière-plan (optionnel)
 func preload_all() -> void:
-	for sid in GameData.pokemon_data.keys():
+	for sid: String in GameData.pokemon_data.keys():
 		_load_sprite("front", sid)
 		_load_sprite("back", sid)

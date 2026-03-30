@@ -86,8 +86,8 @@ var _overlay: TileMapLayer   # for trees / decorations above player
 var _tileset: TileSet
 var _player_node: CharacterBody2D
 
-var MAP_W := 320
-var MAP_H := 240
+var MAP_W: int = 320
+var MAP_H: int = 240
 
 func _ready() -> void:
 	_setup_tileset()
@@ -146,7 +146,7 @@ func get_player_spawn() -> Vector2:
 ## Fill a rectangular area with a tile type (in tile coords).
 func fill(tile_name: String, tx: int, ty: int, tw: int, th: int, overlay := false) -> void:
 	var coords: Vector2i = T.get(tile_name, Vector2i(0, 0))
-	var layer := _overlay if overlay else _tilemap
+	var layer: TileMapLayer = _overlay if overlay else _tilemap
 	for row in th:
 		for col in tw:
 			layer.set_cell(Vector2i(tx + col, ty + row), 0, coords)
@@ -154,15 +154,15 @@ func fill(tile_name: String, tx: int, ty: int, tw: int, th: int, overlay := fals
 ## Place a single tile at tile coords.
 func put(tile_name: String, tx: int, ty: int, overlay := false) -> void:
 	var coords: Vector2i = T.get(tile_name, Vector2i(0, 0))
-	var layer := _overlay if overlay else _tilemap
+	var layer: TileMapLayer = _overlay if overlay else _tilemap
 	layer.set_cell(Vector2i(tx, ty), 0, coords)
 
 ## Fill area using pixel coords (auto-converts to tile coords).
 func fill_px(tile_name: String, px: float, py: float, pw: float, ph: float, overlay := false) -> void:
 	var tx := int(px) / TILE_SIZE
 	var ty := int(py) / TILE_SIZE
-	var tw := max(1, int(pw) / TILE_SIZE)
-	var th := max(1, int(ph) / TILE_SIZE)
+	var tw: int = max(1, int(pw) / TILE_SIZE)
+	var th: int = max(1, int(ph) / TILE_SIZE)
 	fill(tile_name, tx, ty, tw, th, overlay)
 
 ## Place single tile using pixel coords.

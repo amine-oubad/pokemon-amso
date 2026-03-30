@@ -171,7 +171,7 @@ static func on_switch_in(pkmn, opponent, field: BattleField) -> Array[String]:
 		# --- Trace ---
 		"trace":
 			if opponent.ability != "" and opponent.ability != "trace":
-				var old_ab := opponent.ability
+				var old_ab: String = opponent.ability
 				pkmn.ability = opponent.ability
 				msgs.append("%s copie %s de %s !" % [
 					pkmn.get_name(), get_ability_name(old_ab), opponent.get_name()])
@@ -409,7 +409,7 @@ static func get_damage_multiplier(
 
 	# Technician — moves with base power <= 60 get 1.5x
 	if a_ab == "technician":
-		var mdata := GameData.moves_data.get(move_id, {})
+		var mdata: Dictionary = GameData.moves_data.get(move_id, {})
 		if mdata.get("power", 0) > 0 and mdata.get("power", 0) <= 60:
 			mult *= 1.5
 
@@ -417,7 +417,7 @@ static func get_damage_multiplier(
 
 	# Sheer Force — 1.3x but removes secondary effects
 	if a_ab == "sheer_force":
-		var mdata := GameData.moves_data.get(move_id, {})
+		var mdata: Dictionary = GameData.moves_data.get(move_id, {})
 		var eff_chance: int = mdata.get("effect_chance", 0)
 		if eff_chance > 0 and eff_chance < 100:
 			mult *= 1.3
@@ -605,7 +605,7 @@ static func on_after_contact(attacker, defender) -> String:
 			return "Duvet de Coton de %s ralentit %s !" % [defender.get_name(), attacker.get_name()]
 
 		"wandering_spirit":
-			var temp := attacker.ability
+			var temp: String = attacker.ability
 			attacker.ability = defender.ability
 			defender.ability = temp
 			return "%s et %s echangent leurs talents !" % [defender.get_name(), attacker.get_name()]

@@ -128,7 +128,7 @@ func _score_status_move(
 			else:
 				score = 2.0  # Already boosted enough
 		"dragon_dance", "bulk_up", "calm_mind":
-			var avg_stage := (enemy.stat_stages.get("atk", 0) + enemy.stat_stages.get("speed", 0)) / 2.0
+			var avg_stage: float = (enemy.stat_stages.get("atk", 0) + enemy.stat_stages.get("speed", 0)) / 2.0
 			if avg_stage < 2:
 				score = 40.0  # Very valuable early
 			else:

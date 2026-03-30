@@ -94,7 +94,8 @@ func _refresh() -> void:
 	if _pkmn.status != "":
 		var scol: Color = MoveEffects.STATUS_COLOR.get(_pkmn.status, Color.GRAY)
 		_rect(Vector2(72, 130), Vector2(30, 11), scol.darkened(0.3))
-		_lbl(Vector2(74, 129), MoveEffects.STATUS_ABBR.get(_pkmn.status, "???"), 5, Color.WHITE)
+		var sabbr: String = MoveEffects.STATUS_ABBR.get(_pkmn.status, "???")
+		_lbl(Vector2(74, 129), sabbr, 5, Color.WHITE)
 
 	# Right panel — Stats
 	_rect(Vector2(114, 6), Vector2(202, 90), C_PANEL)

@@ -117,13 +117,13 @@ func register_caught(pokemon_id: String) -> void:
 # ── Équipe ─────────────────────────────────────────────────────────────────────
 
 func get_first_alive() -> PokemonInstance:
-	for pkmn in team:
+	for pkmn: PokemonInstance in team:
 		if not pkmn.is_fainted():
 			return pkmn
 	return null
 
 func heal_team() -> void:
-	for pkmn in team:
+	for pkmn: PokemonInstance in team:
 		pkmn.full_heal()
 
 # ── Repousse ─────────────────────────────────────────────────────────────────
