@@ -47,10 +47,12 @@ var _weather_label:   Label
 
 func build_ui() -> void:
 	var layer := CanvasLayer.new()
-	layer.layer = 50  # Above all overworld UI autoloads
+	layer.layer = 10
 	scene.add_child(layer)
 
-	# Background
+	# Full-screen opaque background — ensures nothing bleeds through
+	_add_rect(layer, Vector2.ZERO, Vector2(320, 240), Color.BLACK)
+	# Battle zone backgrounds
 	_add_rect(layer, Vector2.ZERO, Vector2(320, 120), Color(0.10, 0.12, 0.20))
 	_add_rect(layer, Vector2(0, 120), Vector2(320, 60), Color(0.14, 0.16, 0.26))
 	_add_rect(layer, Vector2(0, 180), Vector2(320, 60), C_DARK)

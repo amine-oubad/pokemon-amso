@@ -46,16 +46,17 @@ var _is_gym_leader: bool     = false
 # =========================================================================
 
 func _ready() -> void:
-	# Hide all overworld autoload UIs during battle
+	# Hide overworld autoload UIs during battle (save their state)
+	_hidden_autoloads = []
 	for autoload_name in ["OverworldHUD", "PauseMenu", "PCBoxScreen", "PokemonSummary",
 			"ShopMenu", "StarterSelect", "TitleScreen", "GameOverScreen", "DialogueManager"]:
 		var node = get_tree().root.get_node_or_null(autoload_name)
-		if node and node is CanvasLayer:
+		if node and node is CanvasLayer and node.visible:
+			_hidden_autoloads.append(autoload_name)
 			node.visible = false
 
 	# Create field state
 	field = BattleField.new()
-
 
 	# Create AI
 	ai = BattleAI.new()
@@ -134,12 +135,14 @@ func _load_battle() -> void:
 		GameState.team.append(player_pkmn)
 		_active_idx = 0
 
+var _hidden_autoloads: Array = []
+
 func _restore_overworld_ui() -> void:
-	for autoload_name in ["OverworldHUD", "PauseMenu", "PCBoxScreen", "PokemonSummary",
-			"ShopMenu", "StarterSelect", "TitleScreen", "GameOverScreen", "DialogueManager"]:
+	for autoload_name in _hidden_autoloads:
 		var node = get_tree().root.get_node_or_null(autoload_name)
 		if node and node is CanvasLayer:
 			node.visible = true
+	_hidden_autoloads.clear()
 
 func _configure_ai_difficulty() -> void:
 	if _is_gym_leader:
