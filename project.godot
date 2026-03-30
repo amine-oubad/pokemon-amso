@@ -25,6 +25,9 @@ TitleScreen="*res://scripts/ui/TitleScreen.gd"
 GameOverScreen="*res://scripts/ui/GameOverScreen.gd"
 PokemonSummary="*res://scripts/ui/PokemonSummary.gd"
 SpriteLoader="*res://scripts/autoloads/SpriteLoader.gd"
+OverworldTileManager="*res://scripts/overworld/tilemap/OverworldTileManager.gd"
+BattleVFX="*res://scripts/battle/vfx/BattleVFX.gd"
+CinematicPlayer="*res://scripts/cinematic/CinematicPlayer.gd"
 
 [display]
 
