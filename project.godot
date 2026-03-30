@@ -14,9 +14,6 @@ config/name="Pokemon AMSO"
 run/main_scene="res://scenes/test/TestMap.tscn"
 config/features=PackedStringArray("4.6", "GL Compatibility")
 
-[autoload]
-
-
 [display]
 
 window/size/viewport_width=320
