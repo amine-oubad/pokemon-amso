@@ -13,8 +13,8 @@ var _pending_evolution: String = ""
 # =========================================================================
 
 func award_xp() -> void:
-	var player := scene.player_pkmn
-	var enemy := scene.enemy_pkmn
+	var player = scene.player_pkmn
+	var enemy = scene.enemy_pkmn
 
 	var xp := BattleCalc.calculate_exp_gain(enemy, player.level)
 	scene.ui.msg("%s est K.O. !\n%s gagne %d EXP !" % [enemy.get_name(), player.get_name(), xp])
@@ -85,7 +85,7 @@ func on_skip_learn(new_move_id: String) -> void:
 func on_replace_move(idx: int, new_move_id: String) -> void:
 	scene.ui.hide_cancel_learn_btn()
 	scene.ui.move_menu.visible = false
-	var old_name := scene.player_pkmn.moves[idx].get_name()
+	var old_name: String = scene.player_pkmn.moves[idx].get_name()
 	var mdata: Dictionary = GameData.moves_data.get(new_move_id, {})
 	var new_name: String = mdata.get("name", new_move_id)
 	scene.player_pkmn.learn_move(new_move_id, idx)
@@ -104,7 +104,7 @@ func on_replace_move(idx: int, new_move_id: String) -> void:
 func show_evolution() -> void:
 	var target_id := _pending_evolution
 	_pending_evolution = ""
-	var old_name := scene.player_pkmn.get_name()
+	var old_name: String = scene.player_pkmn.get_name()
 	var target_data: Dictionary = GameData.pokemon_data.get(target_id, {})
 	var new_name: String = target_data.get("name", target_id)
 

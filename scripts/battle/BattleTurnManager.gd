@@ -17,8 +17,8 @@ var _enemy_charging_move: MoveInstance = null
 
 func resolve_turn_order(selected_move: MoveInstance) -> void:
 	_turn_phase = 0
-	var enemy := scene.enemy_pkmn
-	var player := scene.player_pkmn
+	var enemy = scene.enemy_pkmn
+	var player = scene.player_pkmn
 
 	var usable: Array = enemy.moves.filter(func(m: MoveInstance) -> bool: return m.is_usable())
 	if usable.is_empty():
@@ -242,7 +242,7 @@ func _execute_attack(attacker: PokemonInstance, defender: PokemonInstance, move:
 	var total_damage := 0
 	for hit_i in range(calc.hits):
 		var surv := BattleCalc.check_survival(defender, calc.damage)
-		var actual_dmg := surv.final_damage if surv.survived else calc.damage
+		var actual_dmg: int = surv.final_damage if surv.survived else calc.damage
 		defender.take_damage(actual_dmg)
 		total_damage += actual_dmg
 		scene.ui.refresh()
@@ -369,8 +369,8 @@ func do_player_move() -> void:
 	if scene._animating: return
 	scene._animating = true
 	scene._last_attacker = "player"
-	var player := scene.player_pkmn
-	var move := scene._selected_move
+	var player = scene.player_pkmn
+	var move = scene._selected_move
 
 	var pivot := await _execute_attack(player, scene.enemy_pkmn, move, "player")
 
@@ -395,8 +395,8 @@ func do_enemy_move() -> void:
 	if scene._animating: return
 	scene._animating = true
 	scene._last_attacker = "enemy"
-	var player := scene.player_pkmn
-	var enemy := scene.enemy_pkmn
+	var player = scene.player_pkmn
+	var enemy = scene.enemy_pkmn
 
 	var usable: Array = enemy.moves.filter(func(m: MoveInstance) -> bool: return m.is_usable())
 	if usable.is_empty():
@@ -432,8 +432,8 @@ func do_enemy_move() -> void:
 # =========================================================================
 
 func check_end() -> void:
-	var player := scene.player_pkmn
-	var enemy := scene.enemy_pkmn
+	var player = scene.player_pkmn
+	var enemy = scene.enemy_pkmn
 
 	if enemy.is_fainted():
 		_reset_protect_flags()
@@ -465,27 +465,27 @@ func check_end() -> void:
 		_enemy_goes_first = false
 
 		# End of full turn: weather, screens, terrain, trick room, tailwind
-		var weather_msg := scene.field.tick_weather()
+		var weather_msg = scene.field.tick_weather()
 		if weather_msg != "":
 			scene.ui.msg(weather_msg)
 			await scene.get_tree().create_timer(1.0).timeout
 
-		var screen_msgs := scene.field.tick_screens()
+		var screen_msgs = scene.field.tick_screens()
 		for sm in screen_msgs:
 			scene.ui.msg(sm)
 			await scene.get_tree().create_timer(1.0).timeout
 
-		var terrain_msg := scene.field.tick_terrain()
+		var terrain_msg = scene.field.tick_terrain()
 		if terrain_msg != "":
 			scene.ui.msg(terrain_msg)
 			await scene.get_tree().create_timer(1.0).timeout
 
-		var tr_msg := scene.field.tick_trick_room()
+		var tr_msg = scene.field.tick_trick_room()
 		if tr_msg != "":
 			scene.ui.msg(tr_msg)
 			await scene.get_tree().create_timer(1.0).timeout
 
-		var tw_msgs := scene.field.tick_tailwind()
+		var tw_msgs = scene.field.tick_tailwind()
 		for tm in tw_msgs:
 			scene.ui.msg(tm)
 			await scene.get_tree().create_timer(1.0).timeout
@@ -502,7 +502,7 @@ func _apply_eot(pkmn: PokemonInstance) -> void:
 		await scene.get_tree().create_timer(1.2).timeout
 
 func _handle_player_ko() -> void:
-	var next := GameState.get_first_alive()
+	var next = GameState.get_first_alive()
 	if next:
 		scene.ui.msg("%s est K.O. !\nChoisissez un remplacant !" % scene.player_pkmn.get_name())
 		await scene.get_tree().create_timer(1.5).timeout
