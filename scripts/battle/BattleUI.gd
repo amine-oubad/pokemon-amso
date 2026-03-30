@@ -159,8 +159,8 @@ func msg(text: String) -> void:
 	_msg_label.text = text
 
 func refresh() -> void:
-	var enemy := scene.enemy_pkmn
-	var player := scene.player_pkmn
+	var enemy = scene.enemy_pkmn
+	var player = scene.player_pkmn
 
 	# Enemy
 	_enemy_name.text  = enemy.get_name().to_upper()
@@ -218,7 +218,7 @@ func _set_status_tag(lbl: Label, status: String) -> void:
 	lbl.visible = true
 
 func refresh_move_buttons() -> void:
-	var player := scene.player_pkmn
+	var player = scene.player_pkmn
 	for i in range(4):
 		var btn: Button = _move_buttons[i]
 		if i < player.moves.size():
@@ -277,7 +277,7 @@ func populate_item_menu() -> void:
 			"%s   x%d" % [idata.get("name", item_id), GameState.bag[item_id]])
 		var disable := false
 		if cat == "heal":
-			var hp_full := scene.player_pkmn.current_hp >= scene.player_pkmn.max_hp
+			var hp_full: bool = scene.player_pkmn.current_hp >= scene.player_pkmn.max_hp
 			var has_curable_status := false
 			var cures: Array = idata.get("cures", [])
 			if not cures.is_empty() and scene.player_pkmn.status in cures:
@@ -286,7 +286,7 @@ func populate_item_menu() -> void:
 		if cat == "ball" and scene._is_trainer_battle:
 			disable = true
 		btn.disabled = disable
-		var id := item_id
+		var id: String = item_id
 		btn.pressed.connect(func(): scene._on_item_used(id))
 		y += 20
 	if not found:
@@ -302,7 +302,7 @@ func populate_pkmn_menu() -> void:
 	var y := 16
 	for i in range(GameState.team.size()):
 		var pk: PokemonInstance = GameState.team[i]
-		var is_active := i == scene._active_idx
+		var is_active: bool = i == scene._active_idx
 		var is_faint  := pk.is_fainted()
 		var bg := _add_rect(pkmn_menu, Vector2(2, y), Vector2(200, 28),
 			Color(0.22, 0.26, 0.40) if is_active else (Color(0.12, 0.12, 0.18) if is_faint else C_PANEL))
