@@ -2,682 +2,1410 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<title>Pokemon AMSO — Demo Showcase</title>
+<title>Pokemon AMSO</title>
 <style>
-* { margin: 0; padding: 0; box-sizing: border-box; }
-body { background: #080818; color: #ebebf5; font-family: 'Courier New', monospace; }
-
-.tabs { display: flex; justify-content: center; gap: 4px; padding: 12px; flex-wrap: wrap; }
-.tabs button { background: #1a1e38; border: 1px solid #383f6e; color: #ebebf5; padding: 8px 14px; cursor: pointer; font-family: inherit; font-size: 12px; }
-.tabs button:hover, .tabs button.active { background: #252a48; border-color: #4d8cf2; color: #4d8cf2; }
-
-.screen { width: 640px; height: 480px; margin: 0 auto; position: relative; image-rendering: pixelated; border: 2px solid #383f6e; overflow: hidden; display: none; }
-.screen.active { display: block; }
-canvas { image-rendering: pixelated; }
-
-.info { text-align: center; color: #606078; font-size: 11px; padding: 8px; }
-
-/* Battle UI */
-.battle-field { position: relative; height: 280px; }
-.battle-bg { width: 640px; height: 280px; image-rendering: pixelated; position: absolute; top: 0; left: 0; }
-.poke-slot { position: absolute; text-align: center; }
-.poke-slot.player { bottom: 10px; left: 40px; }
-.poke-slot.enemy { top: 20px; right: 40px; }
-.poke-slot img { width: 96px; image-rendering: pixelated; filter: drop-shadow(2px 2px 2px rgba(0,0,0,0.5)); }
-.hp-box { background: #1a1e38ee; border: 1px solid #383f6e; padding: 6px 10px; border-radius: 4px; margin-top: 4px; }
-.hp-box .name { font-size: 13px; }
-.hp-box .lvl { color: #808098; font-size: 11px; }
-.hp-bar { width: 120px; height: 6px; background: #1a1a2e; margin: 4px 0; border-radius: 2px; overflow: hidden; }
-.hp-fill { height: 100%; background: #34d058; transition: width 0.5s; border-radius: 2px; }
-.hp-fill.yellow { background: #ebba34; }
-.hp-fill.red { background: #e53935; }
-.battle-log { background: #0d0d1cee; border-top: 2px solid #383f6e; padding: 12px 16px; color: #c0c0d8; font-size: 13px; height: 80px; display: flex; align-items: center; }
-.moves-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; padding: 10px 16px; background: #0d0d1c; }
-.move-btn { background: #1a1e38; border: 1px solid #383f6e; color: #ebebf5; padding: 10px; font-family: inherit; font-size: 12px; cursor: pointer; text-align: left; }
-.move-btn:hover { border-color: #4d8cf2; color: #4d8cf2; background: #1e2448; }
-.move-btn .type-badge { display: inline-block; padding: 1px 6px; font-size: 9px; border-radius: 2px; margin-left: 6px; }
-
-/* Overworld */
-#overworld-screen { cursor: none; }
-
-/* Gallery screens */
-.gallery-scroll { overflow-y: auto; height: 480px; padding: 16px; }
-.gallery-scroll h2 { text-align: center; color: #f5cc38; font-size: 18px; margin-bottom: 12px; }
-.gallery-scroll h3 { color: #4d8cf2; font-size: 14px; margin: 16px 0 8px; border-bottom: 1px solid #2a2f4a; padding-bottom: 4px; }
-.gallery-row { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-bottom: 12px; }
-.gallery-item { background: #1a1e38; border: 1px solid #2a2f4a; padding: 8px; text-align: center; }
-.gallery-item img { image-rendering: pixelated; display: block; margin: 0 auto; }
-.gallery-item .label { color: #808098; font-size: 10px; margin-top: 4px; }
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#080810;display:flex;justify-content:center;align-items:center;min-height:100vh;overflow:hidden}
+canvas{image-rendering:pixelated;image-rendering:crisp-edges;cursor:none}
 </style>
 </head>
 <body>
-
-<div class="tabs">
-  <button class="active" onclick="showScreen('title')">Titre</button>
-  <button onclick="showScreen('overworld')">Overworld</button>
-  <button onclick="showScreen('battle')">Combat</button>
-  <button onclick="showScreen('starters')">Starters</button>
-  <button onclick="showScreen('tilesets')">Tilesets</button>
-  <button onclick="showScreen('sprites')">Sprites</button>
-  <button onclick="showScreen('backgrounds')">Fonds Combat</button>
-  <button onclick="showScreen('cinematics')">Cinematiques</button>
-</div>
-
-<!-- ============================================================ -->
-<!-- TITLE SCREEN -->
-<!-- ============================================================ -->
-<div id="title" class="screen active" style="background:#0a0a1a;">
-  <canvas id="title-canvas" width="640" height="480"></canvas>
-</div>
-
-<!-- ============================================================ -->
-<!-- OVERWORLD (interactive) -->
-<!-- ============================================================ -->
-<div id="overworld" class="screen">
-  <canvas id="ow-canvas" width="640" height="480"></canvas>
-</div>
-
-<!-- ============================================================ -->
-<!-- BATTLE -->
-<!-- ============================================================ -->
-<div id="battle" class="screen" style="background:#0d0d1c;">
-  <div class="battle-field">
-    <img class="battle-bg" id="battle-bg-img" src="../assets/sprites/battle/backgrounds/grass.png">
-    <div class="poke-slot player">
-      <img src="../assets/sprites/pokemon/back/006.png" alt="Dracaufeu" id="player-poke-img">
-      <div class="hp-box">
-        <span class="name">DRACAUFEU</span> <span class="lvl">Lv.36</span>
-        <div class="hp-bar"><div class="hp-fill" id="player-hp" style="width:100%"></div></div>
-        <span style="font-size:10px;color:#808098;"><span id="player-hp-text">108</span>/108 PV</span>
-      </div>
-    </div>
-    <div class="poke-slot enemy">
-      <img src="../assets/sprites/pokemon/front/009.png" alt="Tortank" id="enemy-poke-img">
-      <div class="hp-box">
-        <span class="name">TORTANK</span> <span class="lvl">Lv.34</span>
-        <div class="hp-bar"><div class="hp-fill" id="enemy-hp" style="width:100%"></div></div>
-        <span style="font-size:10px;color:#808098;"><span id="enemy-hp-text">120</span>/120 PV</span>
-      </div>
-    </div>
-  </div>
-  <div class="battle-log" id="battle-log">Que doit faire DRACAUFEU ?</div>
-  <div class="moves-grid" id="moves-grid">
-    <button class="move-btn" onclick="doMove('Lance-Flammes','Fire',65)">Lance-Flammes <span class="type-badge" style="background:#c44a10;">Feu</span></button>
-    <button class="move-btn" onclick="doMove('Seisme','Ground',55)">Seisme <span class="type-badge" style="background:#a68c21;">Sol</span></button>
-    <button class="move-btn" onclick="doMove('Dracosouffle','Dragon',40)">Dracosouffle <span class="type-badge" style="background:#6c3bd4;">Dragon</span></button>
-    <button class="move-btn" onclick="doMove('Tranche','Normal',50)">Tranche <span class="type-badge" style="background:#8c8c7a;">Normal</span></button>
-  </div>
-</div>
-
-<!-- ============================================================ -->
-<!-- STARTERS -->
-<!-- ============================================================ -->
-<div id="starters" class="screen" style="background:#0f0f24;">
-  <div style="position:absolute;top:0;width:100%;height:3px;background:linear-gradient(90deg,#e53935,#f5cc38,#4d8cf2);"></div>
-  <h2 style="text-align:center;color:#f5cc38;font-size:22px;padding-top:24px;">Choisis ton Pokemon !</h2>
-  <p style="text-align:center;color:#808098;font-size:12px;margin-top:4px;">Le Prof. Chen te laisse choisir un partenaire</p>
-  <div style="display:flex;justify-content:center;gap:24px;margin-top:36px;">
-    <div class="starter-card" onclick="selectStarter(this,'Bulbizarre','Plante/Poison')" style="width:170px;background:#1a1e38;border:2px solid #383f6e;text-align:center;padding:20px 12px;cursor:pointer;transition:all 0.2s;">
-      <img src="../assets/sprites/pokemon/artwork/001.png" style="width:110px;image-rendering:pixelated;">
-      <div style="color:#ebebf5;font-size:16px;margin-top:10px;">Bulbizarre</div>
-      <div style="display:inline-block;padding:2px 12px;margin-top:6px;font-size:10px;color:white;background:#2a8a2a;border-radius:2px;">Plante</div>
-      <div style="display:inline-block;padding:2px 12px;margin-top:4px;font-size:10px;color:white;background:#8a2a8a;border-radius:2px;">Poison</div>
-    </div>
-    <div class="starter-card" onclick="selectStarter(this,'Salameche','Feu')" style="width:170px;background:#1a1e38;border:2px solid #383f6e;text-align:center;padding:20px 12px;cursor:pointer;transition:all 0.2s;">
-      <img src="../assets/sprites/pokemon/artwork/004.png" style="width:110px;image-rendering:pixelated;">
-      <div style="color:#ebebf5;font-size:16px;margin-top:10px;">Salameche</div>
-      <div style="display:inline-block;padding:2px 12px;margin-top:6px;font-size:10px;color:white;background:#c44a10;border-radius:2px;">Feu</div>
-    </div>
-    <div class="starter-card" onclick="selectStarter(this,'Carapuce','Eau')" style="width:170px;background:#1a1e38;border:2px solid #383f6e;text-align:center;padding:20px 12px;cursor:pointer;transition:all 0.2s;">
-      <img src="../assets/sprites/pokemon/artwork/007.png" style="width:110px;image-rendering:pixelated;">
-      <div style="color:#ebebf5;font-size:16px;margin-top:10px;">Carapuce</div>
-      <div style="display:inline-block;padding:2px 12px;margin-top:6px;font-size:10px;color:white;background:#3070d0;border-radius:2px;">Eau</div>
-    </div>
-  </div>
-  <div id="starter-msg" style="text-align:center;margin-top:30px;color:#f5cc38;font-size:14px;min-height:20px;"></div>
-</div>
-
-<!-- ============================================================ -->
-<!-- TILESETS GALLERY -->
-<!-- ============================================================ -->
-<div id="tilesets" class="screen">
-  <div class="gallery-scroll">
-    <h2>Tilesets Biomes (256x256, 16x16/tile)</h2>
-    <div class="gallery-row" id="tileset-gallery"></div>
-    <h3>Legacy Tileset (gen precedente)</h3>
-    <div style="text-align:center;">
-      <img src="../assets/tiles/tileset.png" style="width:512px;image-rendering:pixelated;border:1px solid #2a2f4a;">
-    </div>
-  </div>
-</div>
-
-<!-- ============================================================ -->
-<!-- SPRITES GALLERY -->
-<!-- ============================================================ -->
-<div id="sprites" class="screen">
-  <div class="gallery-scroll">
-    <h2>Spritesheets Personnages</h2>
-    <h3>Overworld (48x128, 16x32/frame, 3 cols x 4 dirs)</h3>
-    <div class="gallery-row" id="ow-sprite-gallery"></div>
-    <h3>Legacy Characters (48x64, 16x16/frame)</h3>
-    <div class="gallery-row" id="legacy-sprite-gallery"></div>
-  </div>
-</div>
-
-<!-- ============================================================ -->
-<!-- BATTLE BACKGROUNDS GALLERY -->
-<!-- ============================================================ -->
-<div id="backgrounds" class="screen">
-  <div class="gallery-scroll">
-    <h2>Fonds de Combat (320x140)</h2>
-    <div id="bg-gallery"></div>
-  </div>
-</div>
-
-<!-- ============================================================ -->
-<!-- CINEMATICS GALLERY -->
-<!-- ============================================================ -->
-<div id="cinematics" class="screen">
-  <div class="gallery-scroll">
-    <h2>Assets Cinematiques (320x240)</h2>
-    <h3>Transitions de Combat</h3>
-    <div class="gallery-row" id="trans-gallery"></div>
-    <h3>Intros Champions d'Arene</h3>
-    <div class="gallery-row" id="gym-gallery"></div>
-    <h3>Intro Story</h3>
-    <div class="gallery-row" id="story-gallery"></div>
-    <h3>Mega Evolution — Dracaufeu X</h3>
-    <div class="gallery-row" id="mega-gallery"></div>
-  </div>
-</div>
-
-<div class="info">Pokemon AMSO — Demo v0.13 — 722 moves | 310 abilities | 151 Pokemon | 48 assets | Godot 4.2</div>
-
+<canvas id="game" width="640" height="480"></canvas>
 <script>
 // ============================================================
-//  TAB SWITCHING
+//  POKEMON AMSO — Interactive Demo
+//  Single-canvas game: Title → Overworld → Battle
+//  Style: Pokemon Unbound / Radical Red (GBA-era)
 // ============================================================
-function showScreen(id, btn) {
-  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-  document.querySelectorAll('.tabs button').forEach(b => b.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-  if (btn) btn.classList.add('active');
-  else document.querySelectorAll('.tabs button').forEach(b => { if (b.textContent.toLowerCase().includes(id.substring(0,4))) b.classList.add('active'); });
-  if (id === 'overworld') initOverworld();
+'use strict';
+
+const cvs = document.getElementById('game');
+const ctx = cvs.getContext('2d');
+ctx.imageSmoothingEnabled = false;
+
+// ── CONSTANTS ──────────────────────────────────────────────
+const W = 640, H = 480, LW = 320, LH = 240;
+const T = 16, S = 2, TS = T * S; // tile, scale, tileScaled
+const COLS = 20, ROWS = 15;
+const MOVE_SPEED = 2.5; // px per frame (logical)
+const ENCOUNTER_RATE = 0.14;
+
+// UI Palette
+const C = {
+  bg:'#1E2438', panel:'#292E47', border:'#475273', text:'#EBEBF5',
+  text2:'#808098', gold:'#F5CC38', blue:'#4D8CF2', dark:'#0D0D1C',
+  hpGreen:'#34D058', hpYellow:'#EBBA34', hpRed:'#E53935',
+};
+const TYPE_CLR = {
+  Normal:'#A8A878',Fire:'#F08030',Water:'#6890F0',Grass:'#78C850',
+  Electric:'#F8D030',Ice:'#98D8D8',Fighting:'#C03028',Poison:'#A040A0',
+  Ground:'#E0C068',Flying:'#A890F0',Psychic:'#F85888',Bug:'#A8B820',
+  Rock:'#B8A038',Ghost:'#705898',Dragon:'#7038F8',Dark:'#705848',
+  Steel:'#B8B8D0',Fairy:'#EE99AC',
+};
+
+// Tile indices in legacy tileset (col, row)
+const TI = {
+  gl:[0,0],gm:[1,0],gd:[2,0],gf:[3,0],tg:[4,0],dp:[5,0],sand:[6,0],
+  water:[7,0],we:[8,0],wd:[9,0],
+  det:[0,1],deb:[1,1],del:[2,1],der:[3,1],
+  dctl:[4,1],dctr:[5,1],dcbl:[6,1],dcbr:[7,1],
+  cliff:[8,1],clifft:[9,1],bridge:[10,1],stairs:[11,1],bdark:[12,1],
+  ttl:[0,2],ttr:[1,2],tbl:[2,2],tbr:[3,2],ttrunk:[4,2],tfull:[5,2],
+  rock:[6,2],fred:[7,2],fblue:[8,2],fyel:[9,2],
+  fenceh:[10,2],fencev:[11,2],fencepost:[12,2],sign:[13,2],
+  wgray:[0,3],wred:[1,3],wblue:[2,3],
+  rred:[3,3],rblue:[4,3],rgreen:[5,3],
+  door:[6,3],window:[7,3],pccross:[8,3],pmp:[9,3],
+  gymfloor:[10,3],gymwall:[11,3],badge:[12,3],
+  bblack:[15,0],
+};
+
+// ── STATE MACHINE ──────────────────────────────────────────
+let STATE = 'LOADING';
+let prevTime = 0, dt = 0, gameTime = 0;
+
+// ── ASSETS ─────────────────────────────────────────────────
+const imgs = {}, jsons = {};
+let loadProgress = 0, loadTotal = 0, loadDone = 0;
+
+function loadImg(key, path) {
+  loadTotal++;
+  return new Promise(r => {
+    const img = new Image();
+    img.onload = () => { imgs[key] = img; loadDone++; r(); };
+    img.onerror = () => { loadDone++; r(); };
+    img.src = path;
+  });
+}
+function loadJSON(key, path) {
+  loadTotal++;
+  return fetch(path).then(r => r.json()).then(d => { jsons[key] = d; loadDone++; }).catch(() => { loadDone++; });
 }
 
-// ============================================================
-//  TITLE SCREEN (animated)
-// ============================================================
-const titleCanvas = document.getElementById('title-canvas');
-const titleCtx = titleCanvas.getContext('2d');
-titleCtx.imageSmoothingEnabled = false;
+async function loadAll() {
+  const promises = [
+    // Tilesets
+    loadImg('tiles', '../assets/tiles/tileset.png'),
+    loadImg('ts_grass', '../assets/tilesets/grass.png'),
+    loadImg('ts_forest', '../assets/tilesets/forest.png'),
+    // Characters
+    loadImg('spr_player', '../assets/sprites/overworld/player.png'),
+    loadImg('spr_rival', '../assets/sprites/overworld/rival.png'),
+    loadImg('spr_youngster', '../assets/sprites/overworld/youngster.png'),
+    loadImg('spr_lass', '../assets/sprites/overworld/lass.png'),
+    loadImg('spr_bug', '../assets/sprites/overworld/bug_catcher.png'),
+    loadImg('spr_prof', '../assets/sprites/overworld/prof_oak.png'),
+    loadImg('spr_nurse', '../assets/sprites/overworld/nurse.png'),
+    loadImg('spr_shop', '../assets/sprites/overworld/shopkeeper.png'),
+    // Battle BGs
+    loadImg('bg_grass', '../assets/sprites/battle/backgrounds/grass.png'),
+    loadImg('bg_forest', '../assets/sprites/battle/backgrounds/forest.png'),
+    loadImg('bg_cave', '../assets/sprites/battle/backgrounds/cave.png'),
+    // Pokemon sprites (starters + wild encounters + trainer mons)
+    ...['001','002','004','005','007','008','010','011','013','014','016','017','019','020','025','041'].flatMap(id => [
+      loadImg('pf_'+id, `../assets/sprites/pokemon/front/${id}.png`),
+      loadImg('pb_'+id, `../assets/sprites/pokemon/back/${id}.png`),
+    ]),
+    // Artwork for starters
+    loadImg('art_001', '../assets/sprites/pokemon/artwork/001.png'),
+    loadImg('art_004', '../assets/sprites/pokemon/artwork/004.png'),
+    loadImg('art_007', '../assets/sprites/pokemon/artwork/007.png'),
+    loadImg('art_025', '../assets/sprites/pokemon/artwork/025.png'),
+    // Data
+    loadJSON('pokemon', '../data/pokemon.json'),
+    loadJSON('moves', '../data/moves.json'),
+    loadJSON('types', '../data/type_chart.json'),
+  ];
+  await Promise.all(promises);
+}
 
-const mascotImg = new Image(); mascotImg.src = '../assets/sprites/pokemon/artwork/025.png';
-const introImg = new Image(); introImg.src = '../assets/cinematics/story/intro_01.png';
-let titleTime = 0;
-let stars = [];
-for (let i = 0; i < 60; i++) stars.push({x: Math.random()*640, y: Math.random()*300, s: Math.random()*2+0.5, b: Math.random()});
+// ── INPUT ──────────────────────────────────────────────────
+const keys = {}, justPressed = {};
+document.addEventListener('keydown', e => {
+  if (!keys[e.code]) justPressed[e.code] = true;
+  keys[e.code] = true;
+  e.preventDefault();
+});
+document.addEventListener('keyup', e => { keys[e.code] = false; });
+function kHeld(k) { return !!keys[k]; }
+function kPress(k) { return !!justPressed[k]; }
+function kUp() { return kHeld('ArrowUp')||kHeld('KeyW')||kHeld('KeyZ'); }
+function kDown() { return kHeld('ArrowDown')||kHeld('KeyS'); }
+function kLeft() { return kHeld('ArrowLeft')||kHeld('KeyA')||kHeld('KeyQ'); }
+function kRight() { return kHeld('ArrowRight')||kHeld('KeyD'); }
+function kConfirm() { return kPress('Enter')||kPress('Space'); }
+function kCancel() { return kPress('Escape')||kPress('KeyX'); }
+function clearInput() { for (const k in justPressed) delete justPressed[k]; }
 
-function renderTitle() {
-  titleTime += 0.016;
-  const ctx = titleCtx;
+// ── DRAW HELPERS ───────────────────────────────────────────
+function drawTile(tileImg, col, row, dx, dy) {
+  if (!tileImg) return;
+  ctx.drawImage(tileImg, col*T, row*T, T, T, dx*S, dy*S, TS, TS);
+}
+function drawRect(x, y, w, h, color) {
+  ctx.fillStyle = color;
+  ctx.fillRect(x, y, w, h);
+}
+function drawRoundRect(x, y, w, h, r, fill, stroke) {
+  ctx.beginPath();
+  ctx.moveTo(x+r,y); ctx.lineTo(x+w-r,y); ctx.quadraticCurveTo(x+w,y,x+w,y+r);
+  ctx.lineTo(x+w,y+h-r); ctx.quadraticCurveTo(x+w,y+h,x+w-r,y+h);
+  ctx.lineTo(x+r,y+h); ctx.quadraticCurveTo(x,y+h,x,y+h-r);
+  ctx.lineTo(x,y+r); ctx.quadraticCurveTo(x,y,x+r,y);
+  ctx.closePath();
+  if (fill) { ctx.fillStyle = fill; ctx.fill(); }
+  if (stroke) { ctx.strokeStyle = stroke; ctx.lineWidth = 1; ctx.stroke(); }
+}
+function drawText(text, x, y, color, size, align) {
+  ctx.fillStyle = color || C.text;
+  ctx.font = (size||14)+'px "Courier New",monospace';
+  ctx.textAlign = align || 'left';
+  ctx.fillText(text, x, y);
+}
 
-  // Background
-  const grd = ctx.createLinearGradient(0, 0, 0, 480);
-  grd.addColorStop(0, '#050510');
-  grd.addColorStop(0.6, '#0a0a24');
-  grd.addColorStop(1, '#101030');
-  ctx.fillStyle = grd;
-  ctx.fillRect(0, 0, 640, 480);
+// ── SPRITE SYSTEM ──────────────────────────────────────────
+// Overworld sprites: 48x128 = 3 cols x 4 rows, 16x32 per frame
+// Dirs: 0=down, 1=left, 2=right, 3=up
+function drawSprite(img, x, y, dir, frame) {
+  if (!img) return;
+  const fw = 16, fh = 32;
+  ctx.drawImage(img, frame*fw, dir*fh, fw, fh,
+    Math.round(x*S - fw*S/2), Math.round(y*S - fh*S + T*S),
+    fw*S, fh*S);
+}
 
+// ── TYPEWRITER TEXT ────────────────────────────────────────
+let twText = '', twShown = 0, twSpeed = 25, twDone = false, twCallback = null;
+function twStart(text, cb) {
+  twText = text; twShown = 0; twDone = false; twCallback = cb || null;
+}
+function twUpdate() {
+  if (twDone) return;
+  twShown += dt * 1000 / twSpeed;
+  if (twShown >= twText.length) { twShown = twText.length; twDone = true; }
+}
+function twSkip() {
+  if (!twDone) { twShown = twText.length; twDone = true; }
+  else if (twCallback) { const cb = twCallback; twCallback = null; cb(); }
+}
+function twDraw(x, y, maxW) {
+  const shown = twText.substring(0, Math.floor(twShown));
+  // Word wrap
+  const words = shown.split(' ');
+  let line = '', ly = y;
+  ctx.fillStyle = C.text;
+  ctx.font = '14px "Courier New",monospace';
+  ctx.textAlign = 'left';
+  for (const w of words) {
+    const test = line + (line ? ' ' : '') + w;
+    if (ctx.measureText(test).width > maxW && line) {
+      ctx.fillText(line, x, ly);
+      line = w; ly += 18;
+    } else { line = test; }
+  }
+  if (line) ctx.fillText(line, x, ly);
+  // Blink indicator
+  if (twDone && Math.sin(gameTime*6) > 0) {
+    ctx.fillText('\u25BC', x + maxW - 12, ly);
+  }
+}
+
+// ── TRANSITION OVERLAY ─────────────────────────────────────
+let transAlpha = 0, transTarget = 0, transSpeed = 3, transCb = null;
+let battleTransActive = false, battleTransPhase = 0, battleTransT = 0;
+
+function fadeOut(speed, cb) { transTarget = 1; transSpeed = speed||3; transCb = cb; }
+function fadeIn(speed, cb) { transTarget = 0; transSpeed = speed||3; transCb = cb; }
+
+function updateTransition() {
+  if (battleTransActive) {
+    battleTransT += dt;
+    if (battleTransPhase === 0 && battleTransT > 0.6) { // flashes done
+      battleTransPhase = 1; battleTransT = 0;
+    }
+    if (battleTransPhase === 1 && battleTransT > 0.5) { // stripes done
+      battleTransActive = false;
+      if (transCb) { const cb = transCb; transCb = null; cb(); }
+    }
+    return;
+  }
+  if (Math.abs(transAlpha - transTarget) > 0.01) {
+    transAlpha += (transTarget - transAlpha) * Math.min(1, dt * transSpeed * 4);
+    if (Math.abs(transAlpha - transTarget) < 0.02) {
+      transAlpha = transTarget;
+      if (transCb) { const cb = transCb; transCb = null; cb(); }
+    }
+  }
+}
+function drawTransition() {
+  if (battleTransActive) {
+    if (battleTransPhase === 0) {
+      // 3 white flashes
+      const flashIdx = Math.floor(battleTransT / 0.2);
+      if (flashIdx < 3 && (battleTransT % 0.2) < 0.1) {
+        drawRect(0, 0, W, H, 'rgba(255,255,255,0.7)');
+      }
+    } else {
+      // Horizontal stripe wipe
+      const progress = Math.min(1, battleTransT / 0.5);
+      const stripeH = 32;
+      for (let i = 0; i < H / stripeH; i++) {
+        const fromLeft = i % 2 === 0;
+        const sw = W * progress;
+        const sx = fromLeft ? 0 : W - sw;
+        drawRect(sx, i * stripeH, sw, stripeH, '#000');
+      }
+    }
+    return;
+  }
+  if (transAlpha > 0.01) {
+    drawRect(0, 0, W, H, `rgba(0,0,0,${transAlpha})`);
+  }
+}
+
+function startBattleTransition(cb) {
+  battleTransActive = true; battleTransPhase = 0; battleTransT = 0; transCb = cb;
+}
+
+// ================================================================
+//  TITLE SCREEN
+// ================================================================
+let titleSel = 0;
+const stars = Array.from({length:60}, () => ({x:Math.random()*W,y:Math.random()*H*0.65,s:Math.random()*2+0.5,b:Math.random()}));
+
+function updateTitle() {
+  if (kPress('ArrowDown')||kPress('KeyS')) titleSel = Math.min(2, titleSel+1);
+  if (kPress('ArrowUp')||kPress('KeyW')||kPress('KeyZ')) titleSel = Math.max(0, titleSel-1);
+  if (kConfirm() && titleSel === 0) {
+    STATE = 'STARTER_SELECT';
+  }
+}
+function drawTitle() {
+  // BG gradient
+  const grd = ctx.createLinearGradient(0,0,0,H);
+  grd.addColorStop(0,'#050510'); grd.addColorStop(0.6,'#0a0a24'); grd.addColorStop(1,'#101030');
+  drawRect(0,0,W,H,grd);
   // Stars
   stars.forEach(s => {
-    const alpha = 0.3 + 0.7 * Math.abs(Math.sin(titleTime * s.s + s.b * 6));
-    ctx.fillStyle = `rgba(255,255,255,${alpha})`;
-    ctx.fillRect(s.x, s.y, s.s > 1.2 ? 2 : 1, s.s > 1.2 ? 2 : 1);
+    const a = 0.3+0.7*Math.abs(Math.sin(gameTime*s.s+s.b*6));
+    ctx.fillStyle = `rgba(255,255,255,${a})`;
+    ctx.fillRect(s.x,s.y,s.s>1.2?2:1,s.s>1.2?2:1);
   });
-
-  // Top accent line
-  ctx.fillStyle = '#4d8cf2';
-  ctx.fillRect(0, 0, 640, 3);
-
-  // Mascot (floating)
-  if (mascotImg.complete) {
-    const floatY = Math.sin(titleTime * 1.5) * 6;
-    ctx.drawImage(mascotImg, 268, 50 + floatY, 104, 104);
+  // Accent
+  drawRect(0,0,W,3,C.blue);
+  // Mascot
+  const mascot = imgs.art_025;
+  if (mascot) {
+    const fy = Math.sin(gameTime*1.5)*6;
+    ctx.drawImage(mascot, W/2-52, 50+fy, 104, 104);
   }
-
-  // Title text
-  ctx.fillStyle = '#f5cc38';
-  ctx.font = 'bold 36px Courier New';
-  ctx.textAlign = 'center';
-  ctx.fillText('POKEMON AMSO', 320, 195);
-
-  // Subtitle
-  ctx.fillStyle = '#808098';
-  ctx.font = '13px Courier New';
-  ctx.fillText('Fan-game Godot 4.2 — Gen 1-9 Battle Engine', 320, 218);
-
-  // Separator
-  ctx.fillStyle = '#2a2f4a';
-  ctx.fillRect(160, 238, 320, 1);
-
+  // Title
+  drawText('POKEMON AMSO', W/2, 195, C.gold, 36, 'center');
+  drawText('Fan-game Godot 4.2 \u2014 Gen 1-9 Battle Engine', W/2, 218, C.text2, 13, 'center');
+  drawRect(160,235,320,1,'#2a2f4a');
   // Stats
-  ctx.fillStyle = '#4d8cf2';
-  ctx.font = '12px Courier New';
-  const stats = ['722 Moves', '310 Abilities', '151 Pokemon', '25 Natures', '48 Assets'];
-  stats.forEach((s, i) => {
-    ctx.fillText(s, 120 + i * 110, 260);
+  drawText('722 Moves', 70, 258, C.blue, 12, 'left');
+  drawText('310 Abilities', 190, 258, C.blue, 12, 'left');
+  drawText('151 Pokemon', 330, 258, C.blue, 12, 'left');
+  drawText('48 Assets', 470, 258, C.blue, 12, 'left');
+  // Menu
+  const labels = ['NOUVELLE PARTIE','CONTINUER','OPTIONS'];
+  labels.forEach((l,i) => {
+    const by = 285+i*44;
+    const sel = i===titleSel;
+    drawRoundRect(180,by,280,36, 4, sel?'#252a48':C.bg, sel?C.blue:C.border);
+    drawText(l, W/2, by+23, sel?C.text:C.text2, 15, 'center');
+    if (sel && Math.sin(gameTime*4)>0) drawText('\u25B6', 190, by+23, C.gold, 14, 'left');
   });
-
-  // Menu buttons
-  const blink = Math.sin(titleTime * 3) > 0;
-  ['NOUVELLE PARTIE', 'CONTINUER', 'OPTIONS'].forEach((label, i) => {
-    const by = 290 + i * 44;
-    ctx.fillStyle = '#1a1e38';
-    ctx.fillRect(180, by, 280, 36);
-    ctx.strokeStyle = i === 0 && blink ? '#4d8cf2' : '#383f6e';
-    ctx.lineWidth = 1;
-    ctx.strokeRect(180, by, 280, 36);
-    ctx.fillStyle = i === 0 ? '#ebebf5' : '#808098';
-    ctx.font = '15px Courier New';
-    ctx.fillText(label, 320, by + 23);
-  });
-
-  // Bottom accent
-  ctx.fillStyle = '#4d8cf2';
-  ctx.fillRect(0, 477, 640, 3);
-
-  // Credits
-  ctx.fillStyle = '#505068';
-  ctx.font = '10px Courier New';
-  ctx.fillText('amine-oubad/pokemon-amso', 320, 468);
-
-  requestAnimationFrame(renderTitle);
+  drawRect(0,H-3,W,3,C.blue);
+  drawText('amine-oubad/pokemon-amso', W/2, H-10, '#505068', 10, 'center');
 }
-renderTitle();
 
-// ============================================================
-//  OVERWORLD (canvas with new tilesets + sprites)
-// ============================================================
-const owCanvas = document.getElementById('ow-canvas');
-const owCtx = owCanvas.getContext('2d');
-owCtx.imageSmoothingEnabled = false;
-
-const TILE = 16, SCALE = 2;
-const grassTileset = new Image(); grassTileset.src = '../assets/tilesets/grass.png';
-const owPlayer = new Image(); owPlayer.src = '../assets/sprites/overworld/player.png';
-const owRival = new Image(); owRival.src = '../assets/sprites/overworld/rival.png';
-const owNurse = new Image(); owNurse.src = '../assets/sprites/overworld/nurse.png';
-const owProf = new Image(); owProf.src = '../assets/sprites/overworld/prof_oak.png';
-const owShop = new Image(); owShop.src = '../assets/sprites/overworld/shopkeeper.png';
-const owYoungster = new Image(); owYoungster.src = '../assets/sprites/overworld/youngster.png';
-
-let px = 10, py = 10, pDir = 0, pFrame = 0, pMoving = false, pTarget = null;
-let owActive = false, owAnimT = 0;
-
-// Map: 20x15 tiles (col,row indices into grass tileset)
-// Row 0: ground variants (0-3), path (4-6), path edges...
-// Row 1: water, tall grass...
-// Row 2-3: trees, rocks, flowers, fences...
-// Row 4-5: buildings...
-function tileUV(col, row) { return {u: col*16, v: row*16}; }
-
-const MAP = [];
-for (let y = 0; y < 15; y++) { MAP[y] = []; for (let x = 0; x < 20; x++) MAP[y][x] = [0, 0]; } // default grass
-
-// Build a simple town
-function buildMap() {
-  // Base: alternate grass
-  for (let y = 0; y < 15; y++)
-    for (let x = 0; x < 20; x++)
-      MAP[y][x] = [(x+y)%3 === 0 ? 1 : 0, 0]; // grass variants
-
-  // Paths
-  for (let y = 0; y < 15; y++) { MAP[y][9] = [4, 0]; MAP[y][10] = [5, 0]; }
-  for (let x = 2; x < 9; x++) { MAP[4][x] = [4, 0]; MAP[5][x] = [5, 0]; }
-  for (let x = 11; x < 18; x++) { MAP[4][x] = [4, 0]; MAP[5][x] = [5, 0]; }
-  for (let x = 2; x < 8; x++) { MAP[9][x] = [4, 0]; }
-
-  // Water (row 1, col 0-1)
-  for (let x = 14; x < 18; x++) for (let y = 9; y < 12; y++) MAP[y][x] = [0, 1];
-
-  // Tall grass (row 1, col 4-5)
-  for (let x = 12; x < 14; x++) for (let y = 7; y < 10; y++) MAP[y][x] = [4, 1];
-
-  // Trees (border)
-  for (let x = 0; x < 20; x++) MAP[0][x] = [0, 2]; // tree top
-  for (let y = 0; y < 15; y++) { MAP[y][0] = [0, 2]; MAP[y][19] = [0, 2]; }
-  MAP[0][9] = [4, 0]; MAP[0][10] = [5, 0]; // path opening
-
-  // Flowers (row 2, col 7-9 in tileset)
-  for (let x = 6; x < 9; x++) MAP[12][x] = [7 + (x%3), 2];
-
-  // Trees in map
-  MAP[7][3] = [0, 2]; MAP[7][4] = [1, 2];
-  MAP[8][3] = [2, 2]; MAP[8][4] = [3, 2];
-  MAP[11][16] = [0, 2]; MAP[11][17] = [1, 2];
-  MAP[12][16] = [2, 2]; MAP[12][17] = [3, 2];
-
-  // Fences (row 2, col 10)
-  for (let x = 5; x < 9; x++) MAP[11][x] = [10, 2];
-
-  // Sign (row 1, col 14)
-  MAP[13][8] = [14, 1];
-}
-buildMap();
-
-// Buildings (drawn over map)
-const OW_BUILDINGS = [
-  {tx:2, ty:1, w:5, h:3, type:'pokecenter'},
-  {tx:13, ty:1, w:5, h:3, type:'pokemart'},
-  {tx:2, ty:6, w:3, h:3, type:'house'},
+// ================================================================
+//  STARTER SELECT
+// ================================================================
+let starterSel = 1, starterChosen = null;
+const STARTERS = [
+  {id:'001',name:'Bulbizarre',types:['Grass','Poison']},
+  {id:'004',name:'Salameche',types:['Fire']},
+  {id:'007',name:'Carapuce',types:['Water']},
 ];
 
-const OW_NPCS = [
-  {x:5, y:5.5, img: owNurse, dir:0},
-  {x:15, y:5.5, img: owShop, dir:0},
-  {x:4, y:10, img: owProf, dir:0},
-  {x:12, y:12, img: owYoungster, dir:2},
-  {x:16, y:6, img: owRival, dir:3},
+function updateStarterSelect() {
+  if (kPress('ArrowLeft')||kPress('KeyA')||kPress('KeyQ')) starterSel = Math.max(0,starterSel-1);
+  if (kPress('ArrowRight')||kPress('KeyD')) starterSel = Math.min(2,starterSel+1);
+  if (kConfirm()) {
+    starterChosen = STARTERS[starterSel];
+    initPlayerTeam();
+    fadeOut(4, () => { initOverworld(); STATE = 'OVERWORLD'; fadeIn(3); });
+  }
+  if (kCancel()) STATE = 'TITLE';
+}
+function drawStarterSelect() {
+  drawRect(0,0,W,H,'#0f0f24');
+  // Top accent
+  const grd = ctx.createLinearGradient(0,0,W,0);
+  grd.addColorStop(0,'#e53935'); grd.addColorStop(0.5,'#f5cc38'); grd.addColorStop(1,'#4d8cf2');
+  drawRect(0,0,W,3,grd);
+  drawText('Choisis ton Pokemon !', W/2, 50, C.gold, 24, 'center');
+  drawText('Le Prof. Chen te propose 3 partenaires', W/2, 72, C.text2, 12, 'center');
+  // Cards
+  STARTERS.forEach((s,i) => {
+    const cx = 110+i*175, cy = 120;
+    const sel = i===starterSel;
+    const scale = sel ? 1.05 : 1;
+    const w = 140*scale, h = 220*scale;
+    drawRoundRect(cx-w/2, cy, w, h, 6, sel?'#252a48':C.bg, sel?C.gold:C.border);
+    const art = imgs['art_'+s.id];
+    if (art) {
+      const iw = 100*scale, ih = 100*scale;
+      ctx.drawImage(art, cx-iw/2, cy+15, iw, ih);
+    }
+    drawText(s.name, cx, cy+130*scale, C.text, 16, 'center');
+    s.types.forEach((t,ti) => {
+      const tw = 50, tx = cx - (s.types.length*55)/2 + ti*55;
+      drawRoundRect(tx, cy+142*scale, tw, 18, 3, TYPE_CLR[t]||'#888');
+      drawText(t, tx+tw/2, cy+155*scale, '#fff', 10, 'center');
+    });
+    if (sel) {
+      drawText('\u25B2', cx, cy-8, C.gold, 16, 'center');
+    }
+  });
+  drawText('\u2190 \u2192 pour choisir, Entree pour confirmer', W/2, H-30, C.text2, 12, 'center');
+}
+
+// ================================================================
+//  PLAYER TEAM
+// ================================================================
+let playerTeam = [];
+
+function initPlayerTeam() {
+  if (!starterChosen) return;
+  const pkData = jsons.pokemon[starterChosen.id];
+  if (!pkData) return;
+  playerTeam = [createBattlePokemon(starterChosen.id, 5)];
+}
+
+function createBattlePokemon(id, level) {
+  const data = jsons.pokemon[id];
+  if (!data) return null;
+  const ivs = {};
+  for (const s of ['hp','atk','def','sp_atk','sp_def','speed']) ivs[s] = Math.floor(Math.random()*32);
+  const stats = {};
+  const bs = data.base_stats;
+  stats.hp = Math.floor((2*bs.hp+ivs.hp)*level/100) + level + 10;
+  for (const s of ['atk','def','sp_atk','sp_def','speed']) {
+    stats[s] = Math.floor((2*bs[s]+ivs[s])*level/100) + 5;
+  }
+  // Get last 4 moves at or below level
+  const learnable = (data.levelup_moves||[]).filter(m => m.level <= level);
+  const moveIds = learnable.slice(-4).map(m => m.move);
+  const moves = moveIds.map(mid => {
+    const md = jsons.moves[mid] || {};
+    return {id:mid, name:md.name||mid, type:md.type||'Normal', category:md.category||'physical',
+            power:md.power||0, accuracy:md.accuracy||100, pp:md.pp||10, maxPp:md.pp||10};
+  });
+  return {
+    id, name:data.name, types:data.types||['Normal'], level,
+    stats, maxHp:stats.hp, hp:stats.hp, moves, alive:true,
+    xp:0, xpNext: Math.floor(Math.pow(level+1,3)*0.8),
+  };
+}
+
+// ================================================================
+//  OVERWORLD
+// ================================================================
+let currentMap = 0;
+let player = {x:0, y:0, dir:0, frame:0, moving:false, tx:0, ty:0, animT:0, stepCount:0};
+let npcs = [];
+let mapTiles = [], mapCollision = [], mapAbove = [];
+let locationBanner = '', bannerT = 0;
+let dialogActive = false, dialogText = '', dialogCb = null;
+let defeatedTrainers = {};
+
+const MAPS = [
+  // 0: Bourg Palette
+  {name:'Bourg Palette', bg:'grass', encounterRate:0,
+   exits:[{edge:'north', cols:[9,10], target:1, spawnX:9.5, spawnY:13, spawnDir:3}],
+   encounters:[], trainers:[]},
+  // 1: Route 1
+  {name:'Route 1', bg:'grass', encounterRate:0.14,
+   exits:[
+     {edge:'south', cols:[9,10], target:0, spawnX:9.5, spawnY:1, spawnDir:0},
+     {edge:'north', cols:[9,10], target:2, spawnX:9.5, spawnY:13, spawnDir:3},
+   ],
+   encounters:[
+     {id:'016',name:'Pidgey',minLv:2,maxLv:5,weight:50},
+     {id:'019',name:'Rattata',minLv:2,maxLv:4,weight:50},
+   ],
+   trainers:[
+     {x:5, y:7, dir:2, sprite:'spr_youngster', name:'Gamin Thomas', sight:3,
+      team:[{id:'019',lv:4},{id:'016',lv:4}], reward:80, defeated:false,
+      dialogue:'He ! Tu es dresseur ? Viens te battre !'},
+     {x:14, y:10, dir:1, sprite:'spr_lass', name:'Fillette Clara', sight:3,
+      team:[{id:'016',lv:5}], reward:100, defeated:false,
+      dialogue:'Mon Roucool est le plus fort !'},
+   ]},
+  // 2: Foret de Jade
+  {name:'Foret de Jade', bg:'forest', encounterRate:0.18,
+   exits:[
+     {edge:'south', cols:[9,10], target:1, spawnX:9.5, spawnY:1, spawnDir:0},
+   ],
+   encounters:[
+     {id:'010',name:'Chenipan',minLv:3,maxLv:5,weight:40},
+     {id:'013',name:'Aspicot',minLv:3,maxLv:5,weight:40},
+     {id:'025',name:'Pikachu',minLv:4,maxLv:6,weight:8},
+     {id:'016',name:'Pidgey',minLv:4,maxLv:6,weight:12},
+   ],
+   trainers:[
+     {x:6, y:5, dir:2, sprite:'spr_bug', name:'Chasseur Max', sight:3,
+      team:[{id:'010',lv:4},{id:'010',lv:5}], reward:60,
+      dialogue:'Les insectes sont les meilleurs Pokemon !'},
+     {x:13, y:9, dir:1, sprite:'spr_bug', name:'Chasseur Paul', sight:3,
+      team:[{id:'013',lv:5},{id:'014',lv:5}], reward:80,
+      dialogue:'Regarde mes Aspicot !'},
+   ]},
 ];
 
-function drawOWTile(ctx, su, sv, dx, dy) {
-  if (!grassTileset.complete) return;
-  ctx.drawImage(grassTileset, su, sv, 16, 16, dx*TILE*SCALE, dy*TILE*SCALE, TILE*SCALE, TILE*SCALE);
-}
+function buildMapTiles(mapIdx) {
+  const G = TI.gl, GM = TI.gm, GD = TI.gd, GF = TI.gf;
+  const DP = TI.dp, TG = TI.tg, WA = TI.water;
+  const TF = TI.tfull, TTL = TI.ttl, TTR = TI.ttr, TBL = TI.tbl, TBR = TI.tbr;
+  const RK = TI.rock, FH = TI.fenceh, SN = TI.sign;
+  const tiles = [], coll = [], above = [];
+  for (let y = 0; y < ROWS; y++) {
+    tiles[y] = []; coll[y] = []; above[y] = [];
+    for (let x = 0; x < COLS; x++) {
+      tiles[y][x] = (x+y)%3===0 ? GM : (x+y)%5===0 ? GD : G;
+      coll[y][x] = 0; // 0=walkable, 1=wall, 2=tallGrass, 3=water, 4=exit
+      above[y][x] = null;
+    }
+  }
 
-function drawOWSprite(ctx, img, wx, wy, dir, frame) {
-  if (!img || !img.complete) return;
-  const fw = img.width / 3;   // 16
-  const fh = img.height / 4;  // 32
-  const sx = frame * fw;
-  const sy = dir * fh;
-  ctx.drawImage(img, sx, sy, fw, fh,
-    wx*TILE*SCALE - fw*SCALE/2, wy*TILE*SCALE - fh*SCALE + TILE*SCALE,
-    fw*SCALE, fh*SCALE);
-}
-
-function drawOWBuilding(ctx, b) {
-  for (let row = 0; row < b.h; row++) {
-    for (let col = 0; col < b.w; col++) {
-      let su, sv;
-      if (row === 0) {
-        // Roof row (tileset row 4, offset 0 = pokecenter roof, offset 32 = pokemart roof)
-        if (b.type === 'pokecenter') { su = (col === Math.floor(b.w/2) ? 8 : 0) * 16; sv = 4*16; }
-        else if (b.type === 'pokemart') { su = (col === Math.floor(b.w/2) ? 9 : 2) * 16; sv = 4*16; }
-        else { su = 0; sv = 4*16; }
-      } else if (row === b.h-1 && col === Math.floor(b.w/2)) {
-        // Door
-        su = 6*16; sv = 4*16;
-      } else {
-        // Wall
-        su = 1*16; sv = 4*16 + 16;
+  if (mapIdx === 0) { // Bourg Palette
+    // Tree border
+    for (let x=0;x<COLS;x++) { tiles[0][x]=TF; coll[0][x]=1; }
+    for (let y=0;y<ROWS;y++) { tiles[y][0]=TF; coll[y][0]=1; tiles[y][COLS-1]=TF; coll[y][COLS-1]=1; }
+    // North exit
+    tiles[0][9]=DP; coll[0][9]=4; tiles[0][10]=DP; coll[0][10]=4;
+    // Paths
+    for (let y=1;y<ROWS;y++) { tiles[y][9]=DP; tiles[y][10]=DP; }
+    for (let x=2;x<9;x++) { tiles[4][x]=DP; tiles[5][x]=DP; }
+    for (let x=11;x<18;x++) { tiles[4][x]=DP; tiles[5][x]=DP; }
+    for (let x=2;x<7;x++) { tiles[9][x]=DP; }
+    // Pokecenter
+    const pcx=2, pcy=1;
+    for (let r=0;r<3;r++) for (let c=0;c<5;c++) {
+      if (r===0) tiles[pcy+r][pcx+c]=TI.rred;
+      else if (r===2&&c===2) tiles[pcy+r][pcx+c]=TI.door;
+      else if (r===1&&(c===1||c===3)) tiles[pcy+r][pcx+c]=TI.window;
+      else tiles[pcy+r][pcx+c]=TI.wred;
+      if (!(r===2&&c===2)) coll[pcy+r][pcx+c]=1;
+    }
+    tiles[pcy][pcx+2]=TI.pccross;
+    // Pokemart
+    const pmx=13, pmy=1;
+    for (let r=0;r<3;r++) for (let c=0;c<5;c++) {
+      if (r===0) tiles[pmy+r][pmx+c]=TI.rblue;
+      else if (r===2&&c===2) tiles[pmy+r][pmx+c]=TI.door;
+      else if (r===1&&(c===1||c===3)) tiles[pmy+r][pmx+c]=TI.window;
+      else tiles[pmy+r][pmx+c]=TI.wblue;
+      if (!(r===2&&c===2)) coll[pmy+r][pmx+c]=1;
+    }
+    tiles[pmy][pmx+2]=TI.pmp;
+    // House (Prof Lab)
+    const hx=3, hy=7;
+    for (let r=0;r<3;r++) for (let c=0;c<4;c++) {
+      if (r===0) tiles[hy+r][hx+c]=TI.rgreen;
+      else if (r===2&&c===2) tiles[hy+r][hx+c]=TI.door;
+      else if (r===1&&(c===1||c===3)) tiles[hy+r][hx+c]=TI.window;
+      else tiles[hy+r][hx+c]=TI.wgray;
+      if (!(r===2&&c===2)) coll[hy+r][hx+c]=1;
+    }
+    // Decorative trees
+    tiles[7][14]=TTL; tiles[7][15]=TTR; above[7][14]=TTL; above[7][15]=TTR;
+    tiles[8][14]=TBL; tiles[8][15]=TBR; coll[7][14]=1; coll[7][15]=1; coll[8][14]=1; coll[8][15]=1;
+    tiles[11][3]=TTL; tiles[11][4]=TTR; above[11][3]=TTL; above[11][4]=TTR;
+    tiles[12][3]=TBL; tiles[12][4]=TBR; coll[11][3]=1; coll[11][4]=1; coll[12][3]=1; coll[12][4]=1;
+    // Flowers
+    tiles[12][7]=TI.fred; tiles[12][8]=TI.fblue; tiles[12][9]=TI.fyel;
+    tiles[13][7]=TI.fyel; tiles[13][8]=TI.fred; tiles[13][9]=TI.fblue;
+    // Sign
+    tiles[13][8]=SN; coll[13][8]=1;
+    // Fence
+    for (let x=6;x<9;x++) { tiles[11][x]=FH; coll[11][x]=1; }
+    // Water
+    for (let x=14;x<18;x++) for (let y=10;y<13;y++) { tiles[y][x]=WA; coll[y][x]=3; }
+  }
+  else if (mapIdx === 1) { // Route 1
+    // Tree borders
+    for (let x=0;x<COLS;x++) { tiles[0][x]=TF; coll[0][x]=1; tiles[ROWS-1][x]=TF; coll[ROWS-1][x]=1; }
+    for (let y=0;y<ROWS;y++) { tiles[y][0]=TF; coll[y][0]=1; tiles[y][COLS-1]=TF; coll[y][COLS-1]=1; }
+    // Exits
+    tiles[0][9]=DP; coll[0][9]=4; tiles[0][10]=DP; coll[0][10]=4;
+    tiles[ROWS-1][9]=DP; coll[ROWS-1][9]=4; tiles[ROWS-1][10]=DP; coll[ROWS-1][10]=4;
+    // Main path
+    for (let y=1;y<ROWS-1;y++) { tiles[y][9]=DP; tiles[y][10]=DP; }
+    for (let x=3;x<9;x++) tiles[7][x]=DP;
+    // Tall grass patches
+    for (let x=2;x<6;x++) for (let y=2;y<5;y++) { tiles[y][x]=TG; coll[y][x]=2; }
+    for (let x=13;x<17;x++) for (let y=4;y<7;y++) { tiles[y][x]=TG; coll[y][x]=2; }
+    for (let x=3;x<7;x++) for (let y=10;y<13;y++) { tiles[y][x]=TG; coll[y][x]=2; }
+    // Rocks and trees
+    tiles[3][8]=RK; coll[3][8]=1;
+    tiles[9][15]=TTL; tiles[9][16]=TTR; coll[9][15]=1; coll[9][16]=1;
+    tiles[10][15]=TBL; tiles[10][16]=TBR; coll[10][15]=1; coll[10][16]=1;
+    above[9][15]=TTL; above[9][16]=TTR;
+    tiles[3][12]=RK; coll[3][12]=1;
+    tiles[6][17]=TTL; tiles[6][18]=TTR; coll[6][17]=1; coll[6][18]=1;
+    tiles[7][17]=TBL; tiles[7][18]=TBR; coll[7][17]=1; coll[7][18]=1;
+    // Fences
+    for (let x=11;x<14;x++) { tiles[8][x]=FH; coll[8][x]=1; }
+    // Sign
+    tiles[13][8]=SN; coll[13][8]=1;
+  }
+  else if (mapIdx === 2) { // Forest
+    // Dense tree border
+    for (let x=0;x<COLS;x++) { tiles[0][x]=TF; coll[0][x]=1; tiles[ROWS-1][x]=TF; coll[ROWS-1][x]=1; }
+    for (let y=0;y<ROWS;y++) { tiles[y][0]=TF; coll[y][0]=1; tiles[y][1]=TF; coll[y][1]=1; tiles[y][COLS-1]=TF; coll[y][COLS-1]=1; tiles[y][COLS-2]=TF; coll[y][COLS-2]=1; }
+    // Dark ground base
+    for (let y=1;y<ROWS-1;y++) for (let x=2;x<COLS-2;x++) tiles[y][x]=GD;
+    // Exit south
+    tiles[ROWS-1][9]=DP; coll[ROWS-1][9]=4; tiles[ROWS-1][10]=DP; coll[ROWS-1][10]=4;
+    // Path through forest
+    for (let y=1;y<ROWS-1;y++) { tiles[y][9]=DP; tiles[y][10]=DP; }
+    // Lots of tall grass
+    for (let x=3;x<8;x++) for (let y=2;y<6;y++) { tiles[y][x]=TG; coll[y][x]=2; }
+    for (let x=12;x<17;x++) for (let y=3;y<7;y++) { tiles[y][x]=TG; coll[y][x]=2; }
+    for (let x=4;x<9;x++) for (let y=8;y<12;y++) { tiles[y][x]=TG; coll[y][x]=2; }
+    for (let x=11;x<16;x++) for (let y=9;y<13;y++) { tiles[y][x]=TG; coll[y][x]=2; }
+    // Trees inside forest
+    const treePairs = [[3,7],[5,3],[15,5],[16,10],[4,12],[14,2]];
+    treePairs.forEach(([tx,ty]) => {
+      if (tx<COLS-1 && ty<ROWS-1) {
+        tiles[ty][tx]=TTL; tiles[ty][tx+1]=TTR; coll[ty][tx]=1; coll[ty][tx+1]=1;
+        if (ty+1<ROWS) { tiles[ty+1][tx]=TBL; tiles[ty+1][tx+1]=TBR; coll[ty+1][tx]=1; coll[ty+1][tx+1]=1; }
+        above[ty][tx]=TTL; above[ty][tx+1]=TTR;
       }
-      drawOWTile(ctx, su, sv, b.tx+col, b.ty+row);
-    }
+    });
+    tiles[6][8]=RK; coll[6][8]=1;
+    tiles[11][11]=RK; coll[11][11]=1;
   }
-}
-
-function renderOverworld() {
-  const ctx = owCtx;
-  ctx.fillStyle = '#080818';
-  ctx.fillRect(0, 0, 640, 480);
-
-  if (!grassTileset.complete) return;
-
-  // Draw map
-  for (let y = 0; y < 15; y++) {
-    for (let x = 0; x < 20; x++) {
-      const [tc, tr] = MAP[y][x];
-      drawOWTile(ctx, tc*16, tr*16, x, y);
-    }
-  }
-
-  // Buildings
-  OW_BUILDINGS.forEach(b => drawOWBuilding(ctx, b));
-
-  // NPCs
-  OW_NPCS.forEach(npc => {
-    drawOWSprite(ctx, npc.img, npc.x, npc.y, npc.dir, 0);
-  });
-
-  // Player
-  drawOWSprite(ctx, owPlayer, px, py, pDir, pFrame);
-
-  // Location label
-  ctx.fillStyle = '#00000088';
-  ctx.fillRect(0, 460, 640, 20);
-  ctx.fillStyle = '#f5cc38';
-  ctx.font = '14px Courier New';
-  ctx.textAlign = 'center';
-  ctx.fillText('BOURG PALETTE — Fleches/ZQSD pour se deplacer', 320, 474);
+  return {tiles, coll, above};
 }
 
 function initOverworld() {
-  owActive = true;
-  renderOverworld();
+  currentMap = 0;
+  loadMap(0, 9.5, 12, 0);
 }
 
-// Keyboard
-document.addEventListener('keydown', (e) => {
-  if (!document.getElementById('overworld').classList.contains('active')) return;
-  if (pMoving) return;
+function loadMap(idx, px, py, dir) {
+  currentMap = idx;
+  const m = buildMapTiles(idx);
+  mapTiles = m.tiles; mapCollision = m.coll; mapAbove = m.above;
+  player.x = px * T; player.y = py * T;
+  player.dir = dir; player.moving = false; player.frame = 0;
+  // Init NPCs
+  npcs = [];
+  const mapDef = MAPS[idx];
+  // Prof + Rival in Pallet
+  if (idx === 0) {
+    npcs.push({x:5*T, y:10*T, dir:0, frame:0, sprite:'spr_prof', name:'Prof. Chen',
+      moving:false, patrol:false, animT:0,
+      dialogue:'Bienvenue dans le monde des Pokemon !\nPars a l\'aventure sur la Route 1 au nord !'});
+    npcs.push({x:15*T, y:6*T, dir:1, frame:0, sprite:'spr_rival', name:'Rival',
+      moving:false, patrol:true, animT:0, patrolT:0,
+      dialogue:'Hmpf... Je serai le maitre Pokemon, pas toi !'});
+    npcs.push({x:4*T, y:4*T, dir:0, frame:0, sprite:'spr_nurse', name:'Infirmiere',
+      moving:false, patrol:false, animT:0,
+      dialogue:'Bienvenue au Centre Pokemon !\nVos Pokemon sont en pleine forme !'});
+  }
+  // Trainer NPCs
+  if (mapDef.trainers) {
+    mapDef.trainers.forEach((tr, ti) => {
+      const tKey = `${idx}_${ti}`;
+      if (defeatedTrainers[tKey]) return;
+      npcs.push({x:tr.x*T, y:tr.y*T, dir:tr.dir, frame:0, sprite:tr.sprite,
+        name:tr.name, moving:false, patrol:false, animT:0,
+        isTrainer:true, trainerIdx:ti, sight:tr.sight,
+        team:tr.team, reward:tr.reward, dialogue:tr.dialogue});
+    });
+  }
+  // Banner
+  locationBanner = mapDef.name; bannerT = 0;
+}
 
-  let dx = 0, dy = 0;
-  if (e.key === 'ArrowUp' || e.key === 'z' || e.key === 'w') { dy = -1; pDir = 3; }
-  else if (e.key === 'ArrowDown' || e.key === 's') { dy = 1; pDir = 0; }
-  else if (e.key === 'ArrowLeft' || e.key === 'a' || e.key === 'q') { dx = -1; pDir = 1; }
-  else if (e.key === 'ArrowRight' || e.key === 'd') { dx = 1; pDir = 2; }
-  else return;
-  e.preventDefault();
+function updateOverworld() {
+  if (dialogActive) {
+    twUpdate();
+    if (kConfirm()) twSkip();
+    if (twDone && !twCallback) {
+      if (kConfirm()) { dialogActive = false; if (dialogCb) { const cb=dialogCb; dialogCb=null; cb(); } }
+    }
+    return;
+  }
+  // Banner timer
+  if (bannerT < 4) bannerT += dt;
 
-  const nx = px + dx, ny = py + dy;
-  if (nx < 1 || nx > 18 || ny < 1 || ny > 14) return;
-  // Collision with trees
-  const [tc, tr] = MAP[ny][nx];
-  if (tr === 2 && tc <= 5) return; // tree tiles
-  // Building collision
-  for (const b of OW_BUILDINGS) {
-    if (nx >= b.tx && nx < b.tx+b.w && ny >= b.ty && ny < b.ty+b.h) {
-      if (ny === b.ty+b.h-1 && nx === b.tx+Math.floor(b.w/2)) continue;
+  // Player movement
+  if (!player.moving) {
+    let dx=0, dy=0;
+    if (kUp()) { dy=-1; player.dir=3; }
+    else if (kDown()) { dy=1; player.dir=0; }
+    else if (kLeft()) { dx=-1; player.dir=1; }
+    else if (kRight()) { dx=1; player.dir=2; }
+
+    if (dx!==0 || dy!==0) {
+      const ntx = Math.round(player.x/T) + dx;
+      const nty = Math.round(player.y/T) + dy;
+      if (ntx >= 0 && ntx < COLS && nty >= 0 && nty < ROWS) {
+        const c = mapCollision[nty]?.[ntx];
+        if (c === 0 || c === 2 || c === 4) {
+          // Check NPC collision
+          const npcBlock = npcs.some(n => Math.round(n.x/T)===ntx && Math.round(n.y/T)===nty);
+          if (!npcBlock) {
+            player.tx = ntx * T; player.ty = nty * T;
+            player.moving = true; player.animT = 0;
+          }
+        }
+      }
+    }
+
+    // Interaction (confirm facing NPC)
+    if (kConfirm()) {
+      const fx = Math.round(player.x/T) + [0,-1,1,0][player.dir];
+      const fy = Math.round(player.y/T) + [1,0,0,-1][player.dir];
+      const npc = npcs.find(n => Math.round(n.x/T)===fx && Math.round(n.y/T)===fy);
+      if (npc && npc.dialogue) {
+        // Face player
+        npc.dir = [3,2,1,0][player.dir];
+        startDialog(npc.dialogue, npc.isTrainer ? () => startTrainerBattle(npc) : null);
+      }
+    }
+  } else {
+    // Sub-tile movement
+    const speed = MOVE_SPEED;
+    const dxr = player.tx - player.x, dyr = player.ty - player.y;
+    const dist = Math.sqrt(dxr*dxr + dyr*dyr);
+    if (dist < speed) {
+      player.x = player.tx; player.y = player.ty;
+      player.moving = false; player.frame = 0;
+      player.stepCount++;
+      onStepComplete();
+    } else {
+      player.x += (dxr/dist) * speed;
+      player.y += (dyr/dist) * speed;
+      player.animT += dt;
+      if (player.animT > 0.15) { player.animT = 0; player.frame = player.frame===1?2:1; }
+    }
+  }
+
+  // NPC patrol
+  npcs.forEach(n => {
+    if (!n.patrol || n.moving) return;
+    n.patrolT = (n.patrolT||0) + dt;
+    if (n.patrolT > 1.5 + Math.random()*2) {
+      n.patrolT = 0;
+      const dirs = [[0,1],[1,0],[2,0],[3,-1]]; // dir, dy or dx  (simplified)
+      const d = Math.floor(Math.random()*4);
+      const ddx = [0,-1,1,0][d], ddy = [1,0,0,-1][d];
+      const ntx = Math.round(n.x/T)+ddx, nty = Math.round(n.y/T)+ddy;
+      n.dir = d;
+      if (ntx>0 && ntx<COLS-1 && nty>0 && nty<ROWS-1 && mapCollision[nty]?.[ntx]===0) {
+        n.moving = true; n.ntx = ntx*T; n.nty = nty*T; n.animT = 0;
+      }
+    }
+  });
+  npcs.forEach(n => {
+    if (!n.moving) return;
+    const dxr = n.ntx-n.x, dyr = n.nty-n.y;
+    const dist = Math.sqrt(dxr*dxr+dyr*dyr);
+    if (dist < 1.5) { n.x=n.ntx; n.y=n.nty; n.moving=false; n.frame=0; }
+    else {
+      n.x += (dxr/dist)*1.5; n.y += (dyr/dist)*1.5;
+      n.animT += dt;
+      if (n.animT > 0.15) { n.animT=0; n.frame = n.frame===1?2:1; }
+    }
+  });
+
+  // Trainer line of sight
+  npcs.forEach(n => {
+    if (!n.isTrainer || dialogActive) return;
+    const px = Math.round(player.x/T), py = Math.round(player.y/T);
+    const nx = Math.round(n.x/T), ny = Math.round(n.y/T);
+    let inSight = false;
+    if (n.dir===0 && nx===px && py>ny && py<=ny+n.sight) inSight=true;
+    if (n.dir===3 && nx===px && py<ny && py>=ny-n.sight) inSight=true;
+    if (n.dir===1 && ny===py && px<nx && px>=nx-n.sight) inSight=true;
+    if (n.dir===2 && ny===py && px>nx && px<=nx+n.sight) inSight=true;
+    if (inSight && !player.moving) {
+      // Face player
+      n.dir = px<nx?1:px>nx?2:py<ny?3:0;
+      startDialog(n.dialogue, () => startTrainerBattle(n));
+    }
+  });
+}
+
+function onStepComplete() {
+  const tx = Math.round(player.x/T), ty = Math.round(player.y/T);
+  const c = mapCollision[ty]?.[tx];
+  // Tall grass encounter
+  if (c === 2) {
+    const mapDef = MAPS[currentMap];
+    if (mapDef.encounterRate > 0 && Math.random() < mapDef.encounterRate) {
+      triggerWildEncounter();
       return;
     }
   }
-  // Water collision
-  if (tr === 1 && tc <= 1) return;
-
-  pTarget = {x: nx, y: ny};
-  pMoving = true;
-  pFrame = 0;
-  owAnimT = 0;
-});
-
-let owMoveProgress = 0;
-function owLoop() {
-  if (pMoving && pTarget) {
-    owMoveProgress += 0.1;
-    owAnimT += 0.1;
-    if (owAnimT > 0.25) { owAnimT = 0; pFrame = pFrame === 1 ? 2 : 1; }
-    if (owMoveProgress >= 1) {
-      px = pTarget.x; py = pTarget.y;
-      pMoving = false; owMoveProgress = 0; pFrame = 0; pTarget = null;
+  // Exit
+  if (c === 4) {
+    const mapDef = MAPS[currentMap];
+    const exit = mapDef.exits.find(e => {
+      if (e.edge==='north' && ty===0 && e.cols.includes(tx)) return true;
+      if (e.edge==='south' && ty===ROWS-1 && e.cols.includes(tx)) return true;
+      return false;
+    });
+    if (exit) {
+      fadeOut(4, () => {
+        loadMap(exit.target, exit.spawnX, exit.spawnY, exit.spawnDir);
+        fadeIn(3);
+      });
     }
   }
-  if (document.getElementById('overworld').classList.contains('active')) renderOverworld();
-  requestAnimationFrame(owLoop);
 }
-requestAnimationFrame(owLoop);
 
-// ============================================================
+function triggerWildEncounter() {
+  const mapDef = MAPS[currentMap];
+  const table = mapDef.encounters;
+  const totalW = table.reduce((s,e) => s+e.weight, 0);
+  let roll = Math.random()*totalW, pick = table[0];
+  for (const e of table) { roll -= e.weight; if (roll <= 0) { pick = e; break; } }
+  const lv = pick.minLv + Math.floor(Math.random()*(pick.maxLv-pick.minLv+1));
+  const wildPkmn = createBattlePokemon(pick.id, lv);
+  startBattle(wildPkmn, null);
+}
+
+function startTrainerBattle(npc) {
+  const team = npc.team.map(t => createBattlePokemon(t.id, t.lv));
+  startBattle(team[0], {name:npc.name, team, reward:npc.reward, npcIdx: npcs.indexOf(npc),
+    mapIdx:currentMap, trainerIdx:npc.trainerIdx});
+}
+
+function startDialog(text, cb) {
+  dialogActive = true; dialogCb = cb;
+  twStart(text);
+}
+
+function drawOverworld() {
+  drawRect(0, 0, W, H, '#080810');
+  // Sky parallax (simple color)
+  const mapDef = MAPS[currentMap];
+  const skyColor = mapDef.bg==='forest' ? '#1a3a1a' : '#4a7aca';
+  drawRect(0, 0, W, H, skyColor);
+
+  // Draw tiles
+  const ts = imgs.tiles;
+  for (let y=0;y<ROWS;y++) {
+    for (let x=0;x<COLS;x++) {
+      const t = mapTiles[y][x];
+      drawTile(ts, t[0], t[1], x*T, y*T);
+      // Water shimmer
+      if (t === TI.water && Math.sin(gameTime*3+x*2+y*3) > 0.5) {
+        ctx.fillStyle = 'rgba(255,255,255,0.12)';
+        ctx.fillRect(x*TS, y*TS, TS, TS);
+      }
+      // Tall grass sway
+      if (mapCollision[y][x]===2) {
+        const sway = Math.sin(gameTime*2+x+y*1.5)*0.5;
+        if (sway > 0.3) {
+          ctx.fillStyle = 'rgba(30,80,20,0.15)';
+          ctx.fillRect(x*TS, y*TS, TS, TS);
+        }
+      }
+    }
+  }
+
+  // Collect entities for depth sort
+  const entities = [];
+  entities.push({y:player.y+T, type:'player'});
+  npcs.forEach((n,i) => entities.push({y:n.y+T, type:'npc', idx:i}));
+  entities.sort((a,b) => a.y-b.y);
+
+  entities.forEach(e => {
+    if (e.type==='player') {
+      drawSprite(imgs.spr_player, player.x, player.y, player.dir, player.frame);
+    } else {
+      const n = npcs[e.idx];
+      drawSprite(imgs[n.sprite], n.x, n.y, n.dir, n.frame);
+      // Trainer ! indicator
+      if (n.isTrainer) {
+        const nx = n.x*S - 4, ny = n.y*S - 38;
+        drawText('!', nx+8, ny, '#FF3333', 16, 'center');
+      }
+    }
+  });
+
+  // Above layer (tree tops)
+  for (let y=0;y<ROWS;y++) for (let x=0;x<COLS;x++) {
+    if (mapAbove[y][x]) drawTile(ts, mapAbove[y][x][0], mapAbove[y][x][1], x*T, y*T);
+  }
+
+  // Location banner
+  if (bannerT < 3.5) {
+    const alpha = bannerT < 0.5 ? bannerT/0.5 : bannerT > 3 ? 1-(bannerT-3)/0.5 : 1;
+    ctx.globalAlpha = Math.max(0, alpha);
+    drawRoundRect(W/2-120, 8, 240, 28, 6, 'rgba(13,13,28,0.85)', C.border);
+    drawText(locationBanner, W/2, 28, C.gold, 16, 'center');
+    ctx.globalAlpha = 1;
+  }
+
+  // Dialogue
+  if (dialogActive) {
+    drawRoundRect(12, H-80, W-24, 68, 8, 'rgba(13,13,28,0.92)', C.border);
+    twDraw(24, H-56, W-48);
+  }
+}
+
+// ================================================================
 //  BATTLE SYSTEM
-// ============================================================
-let playerHP = 108, playerMaxHP = 108, enemyHP = 120, enemyMaxHP = 120;
-let battleOver = false;
+// ================================================================
+let battle = null;
 
-const TYPE_COLORS = {Fire:'#c44a10',Water:'#3070d0',Grass:'#2a8a2a',Electric:'#c4a810',
-  Psychic:'#c44080',Ground:'#a68c21',Dragon:'#6c3bd4',Normal:'#8c8c7a',Fighting:'#a03020',
-  Ice:'#5cc4d4',Rock:'#a09040',Bug:'#90a820',Poison:'#8a2a8a',Ghost:'#5c4080',
-  Dark:'#5c4030',Steel:'#9898b0',Fairy:'#d48ca0',Flying:'#7898d0'};
+function startBattle(enemyPkmn, trainerInfo) {
+  const playerPkmn = playerTeam.find(p => p.alive);
+  if (!playerPkmn) return;
 
-function updateHPBar(id, current, max) {
-  const pct = Math.max(0, current / max * 100);
-  const el = document.getElementById(id);
-  el.style.width = pct + '%';
-  el.className = 'hp-fill' + (pct < 20 ? ' red' : pct < 50 ? ' yellow' : '');
+  battle = {
+    player: {...playerPkmn, dispHp: playerPkmn.hp},
+    enemy: {...enemyPkmn, dispHp: enemyPkmn.hp},
+    trainer: trainerInfo,
+    trainerTeamIdx: 0,
+    state: 'TRANSITION', // TRANSITION -> INTRO -> MENU -> MOVE_SELECT -> ANIMATE -> MESSAGE -> VICTORY/DEFEAT
+    menuSel: 0, moveSel: 0,
+    animQueue: [], animT: 0,
+    messages: [], msgIdx: 0,
+    bg: MAPS[currentMap].bg,
+    introT: 0, introPhase: 0,
+    shakeT: 0, shakeIntensity: 0,
+    flashT: 0, flashColor: '',
+    victoryT: 0,
+  };
+
+  startBattleTransition(() => {
+    STATE = 'BATTLE';
+    battle.state = 'INTRO';
+    battle.introT = 0;
+  });
 }
 
-function doMove(name, type, dmg) {
-  if (battleOver) return;
-  const log = document.getElementById('battle-log');
+function updateBattle() {
+  if (!battle) return;
+  const b = battle;
 
-  // Random variance
-  const actualDmg = Math.floor(dmg * (0.85 + Math.random() * 0.15));
-  enemyHP = Math.max(0, enemyHP - actualDmg);
-  updateHPBar('enemy-hp', enemyHP, enemyMaxHP);
-  document.getElementById('enemy-hp-text').textContent = enemyHP;
+  // Smooth HP display
+  b.player.dispHp += (b.player.hp - b.player.dispHp) * Math.min(1, dt*4);
+  b.enemy.dispHp += (b.enemy.hp - b.enemy.dispHp) * Math.min(1, dt*4);
 
-  // Flash effect on enemy sprite
-  const enemyImg = document.getElementById('enemy-poke-img');
-  enemyImg.style.filter = 'brightness(3)';
-  setTimeout(() => { enemyImg.style.filter = 'drop-shadow(2px 2px 2px rgba(0,0,0,0.5))'; }, 150);
+  // Shake decay
+  if (b.shakeT > 0) b.shakeT -= dt;
+  if (b.flashT > 0) b.flashT -= dt;
 
-  if (enemyHP <= 0) {
-    log.textContent = `DRACAUFEU utilise ${name} ! (-${actualDmg} PV) — TORTANK est K.O. ! Victoire !`;
-    battleOver = true;
-    enemyImg.style.opacity = '0.3';
-    enemyImg.style.transform = 'translateY(20px)';
-    enemyImg.style.transition = 'all 0.5s';
+  switch (b.state) {
+    case 'INTRO':
+      b.introT += dt;
+      if (b.introT > 1.5) {
+        const name = b.enemy.name;
+        const msg = b.trainer ? `${b.trainer.name} envoie ${name} !` : `Un ${name} sauvage apparait !`;
+        b.messages = [msg]; b.msgIdx = 0;
+        twStart(msg, () => { b.state = 'MENU'; b.menuSel = 0; });
+        b.state = 'MESSAGE';
+      }
+      break;
+
+    case 'MESSAGE':
+      twUpdate();
+      if (kConfirm()) twSkip();
+      break;
+
+    case 'MENU':
+      if (kPress('ArrowRight')||kPress('KeyD')) b.menuSel = b.menuSel%2===0 ? b.menuSel+1 : b.menuSel;
+      if (kPress('ArrowLeft')||kPress('KeyA')||kPress('KeyQ')) b.menuSel = b.menuSel%2===1 ? b.menuSel-1 : b.menuSel;
+      if (kPress('ArrowDown')||kPress('KeyS')) b.menuSel = b.menuSel<2 ? b.menuSel+2 : b.menuSel;
+      if (kPress('ArrowUp')||kPress('KeyW')||kPress('KeyZ')) b.menuSel = b.menuSel>=2 ? b.menuSel-2 : b.menuSel;
+      if (kConfirm()) {
+        if (b.menuSel === 0) { b.state = 'MOVE_SELECT'; b.moveSel = 0; }
+        else if (b.menuSel === 3 && !b.trainer) { tryRun(); }
+        else { twStart('Pas disponible dans la demo.', () => { b.state = 'MENU'; }); b.state = 'MESSAGE'; }
+      }
+      break;
+
+    case 'MOVE_SELECT':
+      if (kPress('ArrowRight')||kPress('KeyD')) b.moveSel = b.moveSel%2===0 ? Math.min(b.moveSel+1, b.player.moves.length-1) : b.moveSel;
+      if (kPress('ArrowLeft')||kPress('KeyA')||kPress('KeyQ')) b.moveSel = b.moveSel%2===1 ? b.moveSel-1 : b.moveSel;
+      if (kPress('ArrowDown')||kPress('KeyS')) b.moveSel = b.moveSel<2 ? Math.min(b.moveSel+2, b.player.moves.length-1) : b.moveSel;
+      if (kPress('ArrowUp')||kPress('KeyW')||kPress('KeyZ')) b.moveSel = b.moveSel>=2 ? b.moveSel-2 : b.moveSel;
+      if (kCancel()) { b.state = 'MENU'; }
+      if (kConfirm()) {
+        const playerMove = b.player.moves[b.moveSel];
+        if (playerMove.pp <= 0) { /* skip */ break; }
+        playerMove.pp--;
+        const enemyMove = pickEnemyMove();
+        executeTurn(playerMove, enemyMove);
+      }
+      break;
+
+    case 'ANIMATE':
+      b.animT += dt;
+      if (b.animQueue.length > 0) {
+        const step = b.animQueue[0];
+        if (b.animT >= step.duration) {
+          if (step.onEnd) step.onEnd();
+          b.animQueue.shift();
+          b.animT = 0;
+        }
+      } else {
+        // Check for KO
+        if (b.enemy.hp <= 0) { handleEnemyKO(); }
+        else if (b.player.hp <= 0) { handlePlayerKO(); }
+        else { b.state = 'MENU'; b.menuSel = 0; }
+      }
+      break;
+
+    case 'VICTORY':
+      b.victoryT += dt;
+      if (b.victoryT > 1.5 && kConfirm()) endBattle(true);
+      break;
+
+    case 'DEFEAT':
+      b.victoryT += dt;
+      if (b.victoryT > 1.5 && kConfirm()) endBattle(false);
+      break;
+  }
+}
+
+function calcDamage(attacker, defender, move) {
+  if (move.power === 0) return 0;
+  const isPhys = move.category === 'physical';
+  const atk = isPhys ? attacker.stats.atk : attacker.stats.sp_atk;
+  const def = isPhys ? defender.stats.def : defender.stats.sp_def;
+  let dmg = Math.floor(((2*attacker.level/5+2) * move.power * atk/def) / 50) + 2;
+  // STAB
+  if (attacker.types.includes(move.type)) dmg = Math.floor(dmg * 1.5);
+  // Type effectiveness
+  const eff = getTypeEff(move.type, defender.types);
+  dmg = Math.floor(dmg * eff);
+  // Crit
+  const crit = Math.random() < 1/16;
+  if (crit) dmg = Math.floor(dmg * 1.5);
+  // Random
+  dmg = Math.floor(dmg * (0.85 + Math.random()*0.15));
+  return {dmg: Math.max(1, dmg), eff, crit};
+}
+
+function getTypeEff(atkType, defTypes) {
+  const chart = jsons.types;
+  if (!chart || !chart[atkType]) return 1;
+  let mult = 1;
+  for (const dt of defTypes) { mult *= (chart[atkType][dt] ?? 1); }
+  return mult;
+}
+
+function pickEnemyMove() {
+  const b = battle;
+  const moves = b.enemy.moves.filter(m => m.pp > 0);
+  if (moves.length === 0) return {id:'struggle',name:'Lutte',type:'Normal',category:'physical',power:50,accuracy:100,pp:1,maxPp:1};
+  // Score-based AI
+  let best = moves[0], bestScore = -999;
+  moves.forEach(m => {
+    let score = m.power * getTypeEff(m.type, b.player.types);
+    if (b.enemy.types.includes(m.type)) score *= 1.5;
+    score += Math.random() * 15;
+    if (score > bestScore) { bestScore = score; best = m; }
+  });
+  // 30% random pick for wild, 15% for trainer
+  if (Math.random() < (b.trainer ? 0.15 : 0.3)) best = moves[Math.floor(Math.random()*moves.length)];
+  best.pp--;
+  return best;
+}
+
+function executeTurn(playerMove, enemyMove) {
+  const b = battle;
+  b.state = 'ANIMATE';
+  b.animQueue = [];
+  b.animT = 0;
+
+  // Speed comparison
+  const playerFirst = b.player.stats.speed >= b.enemy.stats.speed;
+  const first = playerFirst ? {attacker:b.player, defender:b.enemy, move:playerMove, side:'player'}
+                            : {attacker:b.enemy, defender:b.player, move:enemyMove, side:'enemy'};
+  const second = playerFirst ? {attacker:b.enemy, defender:b.player, move:enemyMove, side:'enemy'}
+                             : {attacker:b.player, defender:b.enemy, move:playerMove, side:'player'};
+
+  addAttackAnims(first);
+  // Check if defender fainted before second attack
+  b.animQueue.push({duration:0.01, onEnd:() => {
+    if (second.defender.hp > 0 && second.attacker.hp > 0) {
+      addAttackAnims(second);
+    }
+  }});
+}
+
+function addAttackAnims(turn) {
+  const b = battle;
+  const {attacker, defender, move, side} = turn;
+  const typeClr = TYPE_CLR[move.type] || '#888';
+
+  // Message
+  b.animQueue.push({duration:0.8, onEnd:() => {}});
+  b.messages.push(`${attacker.name} utilise ${move.name} !`);
+
+  if (move.power === 0) {
+    // Status move placeholder
+    b.animQueue.push({duration:0.5, onEnd:() => {
+      b.messages.push('Mais rien ne se passe...');
+    }});
     return;
   }
 
-  // Enemy counter-attack
-  const enemyMoves = [
-    {name:'Hydrocanon', dmg:45}, {name:'Surf', dmg:35}, {name:'Morsure', dmg:25}, {name:'Abri', dmg:0}
-  ];
-  const em = enemyMoves[Math.floor(Math.random() * enemyMoves.length)];
-  const eDmg = Math.floor(em.dmg * (0.85 + Math.random() * 0.15));
-  playerHP = Math.max(0, playerHP - eDmg);
-  updateHPBar('player-hp', playerHP, playerMaxHP);
-  document.getElementById('player-hp-text').textContent = playerHP;
+  // Calculate damage
+  const result = calcDamage(attacker, defender, move);
 
-  if (eDmg > 0) {
-    const playerImg = document.getElementById('player-poke-img');
-    setTimeout(() => {
-      playerImg.style.filter = 'brightness(3)';
-      setTimeout(() => { playerImg.style.filter = 'drop-shadow(2px 2px 2px rgba(0,0,0,0.5))'; }, 150);
-    }, 400);
+  // Lunge forward
+  b.animQueue.push({duration:0.15, side, action:'lunge', onEnd:()=>{}});
+  // Flash
+  b.animQueue.push({duration:0.12, onEnd:() => { b.flashT = 0.12; b.flashColor = typeClr; }});
+  // Return + shake defender
+  b.animQueue.push({duration:0.3, side:side==='player'?'enemy':'player', action:'shake', onEnd:() => {
+    b.shakeT = 0.3; b.shakeIntensity = 4;
+    defender.hp = Math.max(0, defender.hp - result.dmg);
+  }});
+  // HP drain visual
+  b.animQueue.push({duration:0.8, onEnd:()=>{}});
+  // Effectiveness message
+  if (result.eff > 1) b.animQueue.push({duration:0.6, onEnd:()=>{ b.messages.push('C\'est super efficace !'); }});
+  else if (result.eff > 0 && result.eff < 1) b.animQueue.push({duration:0.6, onEnd:()=>{ b.messages.push('Ce n\'est pas tres efficace...'); }});
+  else if (result.eff === 0) b.animQueue.push({duration:0.6, onEnd:()=>{ b.messages.push('Ca n\'affecte pas ' + defender.name + '...'); }});
+  if (result.crit) b.animQueue.push({duration:0.5, onEnd:()=>{ b.messages.push('Coup critique !'); }});
+}
+
+function handleEnemyKO() {
+  const b = battle;
+  b.messages.push(`${b.enemy.name} est K.O. !`);
+  b.animQueue = [{duration:0.8, side:'enemy', action:'faint', onEnd:()=>{}}];
+  b.animQueue.push({duration:0.5, onEnd:() => {
+    // XP gain
+    const xpGain = Math.floor(b.enemy.level * 30);
+    b.player.xp += xpGain;
+    b.messages.push(`+${xpGain} points d'experience !`);
+    // Level up check
+    if (b.player.xp >= b.player.xpNext) {
+      b.player.level++;
+      b.player.xpNext = Math.floor(Math.pow(b.player.level+1,3)*0.8);
+      b.messages.push(`${b.player.name} monte au niveau ${b.player.level} !`);
+      // Recalc stats
+      const data = jsons.pokemon[b.player.id];
+      const bs = data.base_stats;
+      const oldMaxHp = b.player.maxHp;
+      b.player.stats.hp = Math.floor((2*bs.hp+15)*b.player.level/100) + b.player.level + 10;
+      for (const s of ['atk','def','sp_atk','sp_def','speed'])
+        b.player.stats[s] = Math.floor((2*bs[s]+15)*b.player.level/100) + 5;
+      b.player.maxHp = b.player.stats.hp;
+      b.player.hp += b.player.maxHp - oldMaxHp;
+    }
+  }});
+  b.animQueue.push({duration:0.5, onEnd:() => {
+    // Trainer: next pokemon?
+    if (b.trainer) {
+      b.trainerTeamIdx++;
+      if (b.trainerTeamIdx < b.trainer.team.length) {
+        const next = b.trainer.team[b.trainerTeamIdx];
+        const nextPkmn = createBattlePokemon(next.id, next.lv);
+        b.enemy = {...nextPkmn, dispHp: nextPkmn.hp};
+        b.messages.push(`${b.trainer.name} envoie ${nextPkmn.name} !`);
+        b.state = 'ANIMATE';
+        b.animQueue = [{duration:1.2, side:'enemy', action:'slidein', onEnd:()=>{ b.state='MENU'; b.menuSel=0; }}];
+        return;
+      }
+      // All enemy pokemon defeated
+      b.messages.push(`Vous avez battu ${b.trainer.name} !`);
+      b.messages.push(`+${b.trainer.reward} Pokedollars !`);
+      defeatedTrainers[`${b.trainer.mapIdx}_${b.trainer.trainerIdx}`] = true;
+    }
+    b.state = 'VICTORY'; b.victoryT = 0;
+  }});
+  b.state = 'ANIMATE'; b.animT = 0;
+}
+
+function handlePlayerKO() {
+  const b = battle;
+  b.messages.push(`${b.player.name} est K.O. !`);
+  b.animQueue = [{duration:0.8, side:'player', action:'faint', onEnd:()=>{}}];
+  b.animQueue.push({duration:0.5, onEnd:() => {
+    b.state = 'DEFEAT'; b.victoryT = 0;
+    b.messages.push('Vous n\'avez plus de Pokemon...');
+  }});
+  b.state = 'ANIMATE'; b.animT = 0;
+}
+
+function tryRun() {
+  const b = battle;
+  const chance = (b.player.stats.speed * 128 / Math.max(1, b.enemy.stats.speed) + 30) / 256;
+  if (Math.random() < chance) {
+    b.messages.push('Vous prenez la fuite !');
+    twStart('Vous prenez la fuite !', () => endBattle(true));
+    b.state = 'MESSAGE';
+  } else {
+    b.messages.push('Impossible de fuir !');
+    const enemyMove = pickEnemyMove();
+    b.state = 'ANIMATE'; b.animQueue = []; b.animT = 0;
+    addAttackAnims({attacker:b.enemy, defender:b.player, move:enemyMove, side:'enemy'});
+    b.animQueue.push({duration:0.3, onEnd:() => {
+      if (b.player.hp <= 0) handlePlayerKO();
+      else { b.state = 'MENU'; b.menuSel = 0; }
+    }});
+  }
+}
+
+function endBattle(won) {
+  // Sync player pokemon HP back
+  const pp = playerTeam.find(p => p.id === battle.player.id);
+  if (pp) {
+    pp.hp = Math.max(1, battle.player.hp); // Heal 1 if KO for demo
+    pp.level = battle.player.level;
+    pp.stats = battle.player.stats;
+    pp.maxHp = battle.player.maxHp;
+    pp.xp = battle.player.xp;
+    pp.xpNext = battle.player.xpNext;
+    pp.moves = battle.player.moves;
+    if (!won) { pp.hp = pp.maxHp; } // Full heal on defeat for demo
+  }
+  // Remove defeated trainer NPC
+  if (battle.trainer) {
+    const npcIdx = npcs.findIndex(n => n.isTrainer && n.trainerIdx === battle.trainer.trainerIdx);
+    // Don't remove, just mark as non-trainer
+    if (npcIdx >= 0) { npcs[npcIdx].isTrainer = false; npcs[npcIdx].dialogue = 'Tu m\'as bien eu !'; }
+  }
+  battle = null;
+  fadeOut(3, () => { STATE = 'OVERWORLD'; fadeIn(3); });
+}
+
+function drawBattle() {
+  if (!battle) return;
+  const b = battle;
+  drawRect(0, 0, W, H, C.dark);
+
+  // Background
+  const bgImg = imgs['bg_'+b.bg] || imgs.bg_grass;
+  if (bgImg) ctx.drawImage(bgImg, 0, 0, 320, 140, 0, 0, W, 280);
+
+  // Shake offset
+  const shakeX = b.shakeT > 0 ? (Math.random()-0.5)*b.shakeIntensity*2 : 0;
+  const shakeY = b.shakeT > 0 ? (Math.random()-0.5)*b.shakeIntensity*2 : 0;
+
+  // Intro slide
+  let enemyX = 400, playerX = 80;
+  let enemyAlpha = 1, playerAlpha = 1;
+  if (b.state === 'INTRO') {
+    const t = Math.min(1, b.introT / 1.0);
+    enemyX = 400 + (1-t)*300;
+    playerX = 80 - (1-t)*300;
   }
 
-  if (playerHP <= 0) {
-    log.textContent = `TORTANK utilise ${em.name} ! (-${eDmg} PV) — DRACAUFEU est K.O. ! Defaite...`;
-    battleOver = true;
-    return;
+  // Animation offsets
+  let eLungeX=0, pLungeX=0, eFaintY=0, pFaintY=0;
+  let eShakeX=0, pShakeX=0;
+  if (b.animQueue.length > 0) {
+    const step = b.animQueue[0];
+    const progress = Math.min(1, b.animT / Math.max(0.01, step.duration));
+    if (step.action === 'lunge') {
+      const lungeAmt = Math.sin(progress*Math.PI)*12;
+      if (step.side==='player') pLungeX = lungeAmt;
+      else eLungeX = -lungeAmt;
+    }
+    if (step.action === 'shake') {
+      const shake = Math.sin(progress*Math.PI*6)*5*(1-progress);
+      if (step.side==='enemy') eShakeX = shake;
+      else pShakeX = shake;
+    }
+    if (step.action === 'faint') {
+      if (step.side==='enemy') { eFaintY = progress*40; enemyAlpha = 1-progress; }
+      else { pFaintY = progress*40; playerAlpha = 1-progress; }
+    }
+    if (step.action === 'slidein') {
+      enemyX = 400 + (1-progress)*300;
+    }
   }
 
-  log.textContent = `DRACAUFEU utilise ${name} ! (-${actualDmg})  |  TORTANK utilise ${em.name} !` + (eDmg > 0 ? ` (-${eDmg})` : ' (rate !)');
+  // Idle bobbing
+  const eBob = Math.sin(gameTime*2)*3;
+  const pBob = Math.sin(gameTime*2+1)*3;
+
+  // Enemy Pokemon
+  const ef = imgs['pf_'+b.enemy.id];
+  if (ef) {
+    ctx.globalAlpha = enemyAlpha;
+    ctx.drawImage(ef, 0, 0, 96, 96,
+      enemyX+shakeX+eLungeX+eShakeX, 30+eBob+eFaintY+shakeY, 160, 160);
+    ctx.globalAlpha = 1;
+  }
+  // Player Pokemon
+  const pb = imgs['pb_'+b.player.id];
+  if (pb) {
+    ctx.globalAlpha = playerAlpha;
+    ctx.drawImage(pb, 0, 0, 96, 96,
+      playerX+shakeX+pLungeX+pShakeX, 100+pBob+pFaintY+shakeY, 160, 160);
+    ctx.globalAlpha = 1;
+  }
+
+  // Type flash
+  if (b.flashT > 0) {
+    ctx.globalAlpha = 0.4 * (b.flashT / 0.12);
+    drawRect(0, 0, W, 280, b.flashColor);
+    ctx.globalAlpha = 1;
+  }
+
+  // Enemy HP Box
+  drawRoundRect(16, 16, 230, 56, 6, 'rgba(30,36,56,0.9)', C.border);
+  drawText(b.enemy.name, 28, 38, C.text, 14);
+  drawText(`Lv.${b.enemy.level}`, 200, 38, C.text2, 12);
+  // HP bar
+  const eHpPct = Math.max(0, b.enemy.dispHp / b.enemy.maxHp);
+  drawRoundRect(28, 46, 180, 8, 3, '#1a1a2e');
+  const eHpClr = eHpPct>0.5?C.hpGreen:eHpPct>0.2?C.hpYellow:C.hpRed;
+  if (eHpPct > 0) drawRoundRect(28, 46, Math.max(4, 180*eHpPct), 8, 3, eHpClr);
+  drawText(`${Math.ceil(b.enemy.dispHp)}/${b.enemy.maxHp}`, 28, 65, C.text2, 10);
+
+  // Player HP Box
+  drawRoundRect(394, 210, 230, 66, 6, 'rgba(30,36,56,0.9)', C.border);
+  drawText(b.player.name, 406, 232, C.text, 14);
+  drawText(`Lv.${b.player.level}`, 578, 232, C.text2, 12);
+  const pHpPct = Math.max(0, b.player.dispHp / b.player.maxHp);
+  drawRoundRect(406, 240, 180, 8, 3, '#1a1a2e');
+  const pHpClr = pHpPct>0.5?C.hpGreen:pHpPct>0.2?C.hpYellow:C.hpRed;
+  if (pHpPct > 0) drawRoundRect(406, 240, Math.max(4, 180*pHpPct), 8, 3, pHpClr);
+  drawText(`${Math.ceil(b.player.dispHp)}/${b.player.maxHp} PV`, 406, 260, C.text2, 11);
+  // XP bar
+  const xpPct = b.player.xpNext > 0 ? b.player.xp / b.player.xpNext : 0;
+  drawRoundRect(406, 264, 180, 4, 2, '#1a1a2e');
+  if (xpPct > 0) drawRoundRect(406, 264, Math.max(2, 180*Math.min(1,xpPct)), 4, 2, C.blue);
+
+  // Message area
+  drawRoundRect(8, 284, W-16, 60, 6, 'rgba(13,13,28,0.95)', C.border);
+  // Show last message
+  if (b.messages.length > 0) {
+    const lastMsg = b.messages[b.messages.length-1];
+    if (b.state === 'MESSAGE') {
+      twDraw(24, 318, W-48);
+    } else {
+      drawText(lastMsg, 24, 318, C.text, 14);
+    }
+  }
+  if (b.state === 'MENU' && b.messages.length === 0) {
+    drawText(`Que doit faire ${b.player.name} ?`, 24, 318, C.text, 14);
+  }
+
+  // Action menu
+  if (b.state === 'MENU') {
+    const menuLabels = ['ATTAQUE','SAC','POKEMON',b.trainer?'------':'FUITE'];
+    drawRoundRect(8, 352, W-16, 120, 6, 'rgba(20,20,36,0.95)', C.border);
+    menuLabels.forEach((l,i) => {
+      const col = i%2, row = Math.floor(i/2);
+      const bx = 20+col*306, by = 362+row*52;
+      const sel = i===b.menuSel;
+      drawRoundRect(bx, by, 290, 42, 4, sel?'#252a48':C.bg, sel?C.gold:C.border);
+      drawText(l, bx+145, by+27, sel?C.gold:C.text, 16, 'center');
+    });
+  }
+
+  // Move select
+  if (b.state === 'MOVE_SELECT') {
+    drawRoundRect(8, 352, W-16, 120, 6, 'rgba(20,20,36,0.95)', C.border);
+    b.player.moves.forEach((m,i) => {
+      const col = i%2, row = Math.floor(i/2);
+      const bx = 20+col*306, by = 362+row*52;
+      const sel = i===b.moveSel;
+      const tc = TYPE_CLR[m.type]||'#666';
+      drawRoundRect(bx, by, 290, 42, 4, sel?tc+'44':C.bg, sel?tc:C.border);
+      drawText(m.name, bx+10, by+20, C.text, 14);
+      drawText(`PP ${m.pp}/${m.maxPp}`, bx+200, by+20, C.text2, 10);
+      // Type badge
+      drawRoundRect(bx+10, by+26, 44, 12, 2, tc);
+      drawText(m.type, bx+32, by+35, '#fff', 8, 'center');
+      if (m.power > 0) drawText(`Pwr:${m.power}`, bx+200, by+35, C.text2, 9);
+    });
+    drawText('Echap: retour', W-120, H-10, C.text2, 10);
+  }
+
+  // Victory/Defeat
+  if (b.state === 'VICTORY') {
+    ctx.globalAlpha = Math.min(1, b.victoryT/0.5);
+    drawRoundRect(W/2-150, H/2-30, 300, 60, 8, 'rgba(13,13,28,0.95)', C.gold);
+    drawText('VICTOIRE !', W/2, H/2+6, C.gold, 24, 'center');
+    ctx.globalAlpha = 1;
+  }
+  if (b.state === 'DEFEAT') {
+    ctx.globalAlpha = Math.min(1, b.victoryT/0.5);
+    drawRoundRect(W/2-150, H/2-30, 300, 60, 8, 'rgba(13,13,28,0.95)', C.hpRed);
+    drawText('DEFAITE...', W/2, H/2+6, C.hpRed, 24, 'center');
+    ctx.globalAlpha = 1;
+  }
 }
 
-// Battle background selector
-const bgSelect = ['grass','cave','water','indoor','snow','sand','volcano','forest'];
-let bgIdx = 0;
-document.getElementById('battle-bg-img').addEventListener('click', () => {
-  bgIdx = (bgIdx + 1) % bgSelect.length;
-  document.getElementById('battle-bg-img').src = `../assets/sprites/battle/backgrounds/${bgSelect[bgIdx]}.png`;
-});
-
-// ============================================================
-//  STARTER SELECT
-// ============================================================
-function selectStarter(el, name, type) {
-  document.querySelectorAll('.starter-card').forEach(c => { c.style.borderColor = '#383f6e'; c.style.transform = ''; });
-  el.style.borderColor = '#f5cc38';
-  el.style.transform = 'scale(1.05)';
-  document.getElementById('starter-msg').textContent = `Tu as choisi ${name} (${type}) ! Bonne chance, Dresseur !`;
+// ================================================================
+//  LOADING SCREEN
+// ================================================================
+function drawLoading() {
+  drawRect(0, 0, W, H, '#080810');
+  const pct = loadTotal > 0 ? loadDone/loadTotal : 0;
+  drawText('POKEMON AMSO', W/2, H/2-40, C.gold, 28, 'center');
+  drawText('Chargement...', W/2, H/2, C.text2, 14, 'center');
+  drawRoundRect(W/2-150, H/2+20, 300, 16, 4, '#1a1a2e', C.border);
+  if (pct > 0) drawRoundRect(W/2-148, H/2+22, Math.max(4, 296*pct), 12, 3, C.blue);
+  drawText(`${Math.floor(pct*100)}%`, W/2, H/2+55, C.text2, 12, 'center');
 }
 
-// ============================================================
-//  POPULATE GALLERIES
-// ============================================================
-// Tilesets
-const biomes = ['grass','forest','city','cave','snow','beach'];
-const tileGallery = document.getElementById('tileset-gallery');
-biomes.forEach(b => {
-  const div = document.createElement('div');
-  div.className = 'gallery-item';
-  div.innerHTML = `<img src="../assets/tilesets/${b}.png" style="width:192px;"><div class="label">${b}.png (256x256)</div>`;
-  tileGallery.appendChild(div);
-});
+// ================================================================
+//  MAIN LOOP
+// ================================================================
+function gameLoop(timestamp) {
+  dt = Math.min(0.05, (timestamp - prevTime) / 1000);
+  prevTime = timestamp;
+  gameTime += dt;
 
-// Overworld sprites
-const owSprites = ['player','rival','nurse','shopkeeper','youngster','lass','bug_catcher','gym_leader_pierre','gym_leader_flora','prof_oak'];
-const owGallery = document.getElementById('ow-sprite-gallery');
-owSprites.forEach(s => {
-  const div = document.createElement('div');
-  div.className = 'gallery-item';
-  div.innerHTML = `<img src="../assets/sprites/overworld/${s}.png" style="width:96px;height:256px;"><div class="label">${s}</div>`;
-  owGallery.appendChild(div);
-});
+  // Update
+  updateTransition();
 
-// Legacy sprites
-const legacySprites = ['player','rival','nurse','shopkeeper','prof','youngster','lass','bugcatcher','hiker','beauty','psychic','swimmer','leader_rock','leader_water','leader_electric','leader_grass'];
-const legacyGallery = document.getElementById('legacy-sprite-gallery');
-legacySprites.forEach(s => {
-  const div = document.createElement('div');
-  div.className = 'gallery-item';
-  div.innerHTML = `<img src="../assets/sprites/characters/${s}.png" style="width:96px;"><div class="label">${s}</div>`;
-  legacyGallery.appendChild(div);
-});
+  switch (STATE) {
+    case 'LOADING':
+      if (loadDone >= loadTotal && loadTotal > 0) STATE = 'TITLE';
+      break;
+    case 'TITLE': updateTitle(); break;
+    case 'STARTER_SELECT': updateStarterSelect(); break;
+    case 'OVERWORLD': updateOverworld(); break;
+    case 'BATTLE': updateBattle(); break;
+  }
 
-// Battle backgrounds
-const bgNames = ['grass','cave','water','indoor','snow','sand','volcano','forest'];
-const bgGallery = document.getElementById('bg-gallery');
-bgNames.forEach(b => {
-  const div = document.createElement('div');
-  div.className = 'gallery-item';
-  div.style.cssText = 'width:100%;margin-bottom:8px;';
-  div.innerHTML = `<img src="../assets/sprites/battle/backgrounds/${b}.png" style="width:640px;height:280px;"><div class="label">${b}.png (320x140)</div>`;
-  bgGallery.appendChild(div);
-});
+  // Render
+  ctx.clearRect(0, 0, W, H);
+  switch (STATE) {
+    case 'LOADING': drawLoading(); break;
+    case 'TITLE': drawTitle(); break;
+    case 'STARTER_SELECT': drawStarterSelect(); break;
+    case 'OVERWORLD': drawOverworld(); break;
+    case 'BATTLE': drawBattle(); break;
+  }
 
-// Transitions
-const transNames = ['wild_encounter_01','trainer_encounter_01','gym_encounter_01'];
-const transGallery = document.getElementById('trans-gallery');
-transNames.forEach(t => {
-  const div = document.createElement('div');
-  div.className = 'gallery-item';
-  div.innerHTML = `<img src="../assets/cinematics/transitions/${t}.png" style="width:192px;"><div class="label">${t}</div>`;
-  transGallery.appendChild(div);
-});
-
-// Gym intros
-const gymLeaders = ['pierre','flora','ondine','major_bob','erika','koga','auguste','giovanni'];
-const gymGallery = document.getElementById('gym-gallery');
-gymLeaders.forEach(l => {
-  const div = document.createElement('div');
-  div.className = 'gallery-item';
-  div.innerHTML = `<img src="../assets/cinematics/gym_intros/${l}_intro.png" style="width:160px;"><div class="label">${l}</div>`;
-  gymGallery.appendChild(div);
-});
-
-// Story
-const storyGallery = document.getElementById('story-gallery');
-for (let i = 1; i <= 5; i++) {
-  const div = document.createElement('div');
-  div.className = 'gallery-item';
-  div.innerHTML = `<img src="../assets/cinematics/story/intro_${String(i).padStart(2,'0')}.png" style="width:192px;"><div class="label">intro_${String(i).padStart(2,'0')}</div>`;
-  storyGallery.appendChild(div);
+  drawTransition();
+  clearInput();
+  requestAnimationFrame(gameLoop);
 }
 
-// Mega evolution
-const megaGallery = document.getElementById('mega-gallery');
-for (let i = 1; i <= 8; i++) {
-  const div = document.createElement('div');
-  div.className = 'gallery-item';
-  div.innerHTML = `<img src="../assets/cinematics/mega_evolutions/006_mega_x_${String(i).padStart(2,'0')}.png" style="width:128px;"><div class="label">Frame ${i}/8</div>`;
-  megaGallery.appendChild(div);
-}
+// Start
+loadAll().then(() => {
+  STATE = 'TITLE';
+});
+requestAnimationFrame(gameLoop);
 </script>
 </body>
 </html>
