@@ -1,170 +1,111 @@
-class_name Player
-extends CharacterBody2D
-## Joueur overworld -- deplacement grille (tile par tile), style Pokemon.
-## Sprite anime 4 directions x 3 frames.
+extends Node2D
+## Joueur overworld — déplacement grille strict comme Pokémon GBA.
+## Pas de physics body : les collisions sont vérifiées via le TileMapLayer.
 
-const TILE_SIZE: int = 16
-const WALK_SPEED: float = 128.0
-const SPRITE_PATH := "res://assets/sprites/characters/player.png"
+const TILE: int = 16
+const MOVE_DURATION: float = 0.12  # durée du tween en secondes
 
-var _moving: bool = false
-var _move_from: Vector2 = Vector2.ZERO
-var _move_to: Vector2 = Vector2.ZERO
-var _move_progress: float = 0.0
+enum Dir { DOWN, UP, LEFT, RIGHT }
 
-enum Dir { DOWN = 0, UP = 1, LEFT = 2, RIGHT = 3 }
+## Référence au TileMapLayer de la map (assignée par la map)
+var tile_map: TileMapLayer = null
+
+## Position en coordonnées tile (pas pixels)
+var tile_pos: Vector2i = Vector2i.ZERO
+
+## Direction actuelle du joueur
 var facing: Dir = Dir.DOWN
 
-var _sprite: Sprite2D
-var _anim_timer: float = 0.0
-var _walk_frame: int = 0
+## Vrai pendant le mouvement (bloque les inputs)
+var _moving: bool = false
 
-const DIR_VECTORS: Dictionary = {
-	Dir.DOWN:  Vector2.DOWN,
-	Dir.UP:    Vector2.UP,
-	Dir.LEFT:  Vector2.LEFT,
-	Dir.RIGHT: Vector2.RIGHT,
+## Visuel placeholder
+var _visual: ColorRect
+
+## Vecteurs de direction
+const DIR_VEC: Dictionary = {
+	Dir.DOWN:  Vector2i(0, 1),
+	Dir.UP:    Vector2i(0, -1),
+	Dir.LEFT:  Vector2i(-1, 0),
+	Dir.RIGHT: Vector2i(1, 0),
 }
 
 func _ready() -> void:
-	position = position.snapped(Vector2(TILE_SIZE, TILE_SIZE))
-	_move_from = position
-	_move_to = position
-	_setup_sprite()
+	# Carré coloré 14x14 centré dans le tile (1px de marge)
+	_visual = ColorRect.new()
+	_visual.color = Color(0.2, 0.4, 0.9)
+	_visual.size = Vector2(14, 14)
+	_visual.position = Vector2(1, 1)
+	add_child(_visual)
+	# Synchroniser la position pixel avec la position tile
+	_snap_to_grid()
 
-func _setup_sprite() -> void:
-	# Remove old Polygon2D body if present
-	var old_body: Node = get_node_or_null("Body")
-	if old_body:
-		old_body.queue_free()
+## Place le joueur à la position tile donnée
+func set_tile_pos(tp: Vector2i) -> void:
+	tile_pos = tp
+	_snap_to_grid()
 
-	_sprite = Sprite2D.new()
-	_sprite.name = "CharSprite"
-	var tex: Texture2D = load(SPRITE_PATH)
-	if tex:
-		_sprite.texture = tex
-		_sprite.hframes = 3
-		_sprite.vframes = 4
-		_sprite.frame = 0  # down idle
-		_sprite.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
-		_sprite.offset = Vector2(0, -4)
-	add_child(_sprite)
-	_update_sprite_frame()
+func _snap_to_grid() -> void:
+	position = Vector2(tile_pos.x * TILE, tile_pos.y * TILE)
 
-func _update_sprite_frame() -> void:
-	if not _sprite or not _sprite.texture:
-		return
-	# Row = direction (down=0, up=1, left=2, right=3)
-	# Col = frame (0=idle, 1=walk1, 2=walk2)
-	var col := 0 if not _moving else (1 if _walk_frame == 0 else 2)
-	_sprite.frame = int(facing) * 3 + col
-
-func _physics_process(delta: float) -> void:
-	if _moving:
-		_tick_movement(delta)
-		# Walk animation
-		_anim_timer += delta
-		if _anim_timer >= 0.12:
-			_anim_timer = 0.0
-			_walk_frame = (_walk_frame + 1) % 2
-			_update_sprite_frame()
-	else:
-		_poll_input()
-
-func _is_any_menu_active() -> bool:
-	var result := (PauseMenu.is_active() or DialogueManager.is_active()
-		or ShopMenu.is_active() or PCBoxScreen.is_active()
-		or TitleScreen.is_active() or StarterSelect.is_active()
-		or PokemonSummary.is_active() or GameOverScreen.is_active())
-	return result
-
-func _unhandled_input(event: InputEvent) -> void:
-	if event.is_action_pressed("ui_cancel"):
-		if not _is_any_menu_active():
-			PauseMenu.show_menu() if not PauseMenu.is_active() else PauseMenu.hide_menu()
-			get_viewport().set_input_as_handled()
-		return
+func _process(_delta: float) -> void:
 	if _moving:
 		return
-	if _is_any_menu_active():
-		return
-	if event.is_action_pressed("ui_accept"):
-		_try_interact()
+	_poll_input()
 
 func _poll_input() -> void:
-	if _is_any_menu_active():
-		return
-	var dir_vec := _read_direction()
-	if dir_vec == Vector2.ZERO:
+	var dir: Dir = Dir.DOWN
+	var pressed: bool = false
+
+	if Input.is_action_pressed("move_up"):
+		dir = Dir.UP; pressed = true
+	elif Input.is_action_pressed("move_down"):
+		dir = Dir.DOWN; pressed = true
+	elif Input.is_action_pressed("move_left"):
+		dir = Dir.LEFT; pressed = true
+	elif Input.is_action_pressed("move_right"):
+		dir = Dir.RIGHT; pressed = true
+
+	if not pressed:
 		return
 
-	_update_facing(dir_vec)
-	_update_sprite_frame()
+	# Toujours tourner le joueur dans la direction
+	facing = dir
 
-	var collision := move_and_collide(dir_vec * TILE_SIZE, true)
-	if collision != null:
+	# Vérifier si la destination est libre
+	var target: Vector2i = tile_pos + DIR_VEC[dir]
+	if _is_blocked(target):
 		return
 
-	_move_from = position
-	_move_to = position + dir_vec * TILE_SIZE
-	_move_progress = 0.0
+	# Lancer le mouvement
+	_move_to(target)
+
+## Vérifie si une tile est bloquée (mur, obstacle, hors map)
+func _is_blocked(target: Vector2i) -> bool:
+	if tile_map == null:
+		return true
+	# Hors des limites de la map
+	var used: Rect2i = tile_map.get_used_rect()
+	if not used.has_point(target):
+		return true
+	# Vérifier si la tile a une physique layer (collision)
+	var cell_data: TileData = tile_map.get_cell_tile_data(target)
+	if cell_data == null:
+		return true  # Pas de tile = bloqué
+	# Si la tile a un physics layer 0, c'est un mur
+	if cell_data.get_collision_polygons_count(0) > 0:
+		return true
+	return false
+
+## Déplace le joueur vers la tile cible avec un tween
+func _move_to(target: Vector2i) -> void:
 	_moving = true
-	_walk_frame = 0
-	_anim_timer = 0.0
+	tile_pos = target
+	var dest: Vector2 = Vector2(target.x * TILE, target.y * TILE)
+	var tween: Tween = create_tween()
+	tween.tween_property(self, "position", dest, MOVE_DURATION)
+	tween.finished.connect(_on_move_done)
 
-func _read_direction() -> Vector2:
-	if Input.is_action_pressed("move_up"):    return Vector2.UP
-	if Input.is_action_pressed("move_down"):  return Vector2.DOWN
-	if Input.is_action_pressed("move_left"):  return Vector2.LEFT
-	if Input.is_action_pressed("move_right"): return Vector2.RIGHT
-	return Vector2.ZERO
-
-func _update_facing(dir_vec: Vector2) -> void:
-	if   dir_vec == Vector2.DOWN:  facing = Dir.DOWN
-	elif dir_vec == Vector2.UP:    facing = Dir.UP
-	elif dir_vec == Vector2.LEFT:  facing = Dir.LEFT
-	elif dir_vec == Vector2.RIGHT: facing = Dir.RIGHT
-
-func _try_interact() -> void:
-	var check_pos: Vector2 = position + DIR_VECTORS[facing] * TILE_SIZE
-	var interactables := get_tree().get_nodes_in_group("interactable")
-	for node in interactables:
-		var dist: float = node.position.distance_to(check_pos)
-		if dist < float(TILE_SIZE) * 1.5:
-			node.interact()
-			return
-
-func _tick_movement(delta: float) -> void:
-	_move_progress += delta * WALK_SPEED / TILE_SIZE
-
-	if _move_progress >= 1.0:
-		position = _move_to
-		_moving = false
-		_move_progress = 0.0
-		_update_sprite_frame()
-		EventBus.player_stepped.emit(position)
-		# Manual overlap check — direct position changes bypass Area2D signals
-		_check_area_overlaps()
-	else:
-		position = _move_from.lerp(_move_to, _move_progress)
-
-func _check_area_overlaps() -> void:
-	# Direct position changes bypass Area2D signals — check manually by distance
-	for node in get_tree().get_nodes_in_group("map_transition"):
-		if node is MapTransition:
-			var col: CollisionShape2D = node.get_child(0) as CollisionShape2D
-			if col and col.shape is RectangleShape2D:
-				var rect: RectangleShape2D = col.shape as RectangleShape2D
-				var half := rect.size / 2.0
-				var local_pos: Vector2 = position - node.position
-				if abs(local_pos.x) < half.x and abs(local_pos.y) < half.y:
-					node._on_body_entered(self)
-					return
-	for node in get_tree().get_nodes_in_group("wild_encounter"):
-		if node is WildEncounterZone:
-			var col_node: CollisionShape2D = node.get_child(0) as CollisionShape2D
-			if col_node and col_node.shape is RectangleShape2D:
-				var rect2: RectangleShape2D = col_node.shape as RectangleShape2D
-				var half := rect2.size / 2.0
-				var local_pos: Vector2 = position - node.position
-				node._player_inside = abs(local_pos.x) < half.x and abs(local_pos.y) < half.y
+func _on_move_done() -> void:
+	_moving = false
+	_snap_to_grid()  # Alignement parfait

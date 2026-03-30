@@ -11,28 +11,11 @@ config_version=5
 [application]
 
 config/name="Pokemon AMSO"
-run/main_scene="res://scenes/overworld/maps/PalletTown.tscn"
+run/main_scene="res://scenes/test/TestMap.tscn"
 config/features=PackedStringArray("4.6", "GL Compatibility")
 
 [autoload]
 
-EventBus="*res://scripts/autoloads/EventBus.gd"
-GameData="*res://scripts/autoloads/GameData.gd"
-GameState="*res://scripts/autoloads/GameState.gd"
-SaveManager="*res://scripts/systems/SaveManager.gd"
-DialogueManager="*res://scripts/autoloads/DialogueManager.gd"
-ShopMenu="*res://scripts/ui/ShopMenu.gd"
-StarterSelect="*res://scripts/ui/StarterSelect.gd"
-OverworldHUD="*res://scripts/ui/OverworldHUD.gd"
-PauseMenu="*res://scripts/ui/PauseMenu.gd"
-PCBoxScreen="*res://scripts/ui/PCBoxScreen.gd"
-TitleScreen="*res://scripts/ui/TitleScreen.gd"
-GameOverScreen="*res://scripts/ui/GameOverScreen.gd"
-PokemonSummary="*res://scripts/ui/PokemonSummary.gd"
-SpriteLoader="*res://scripts/autoloads/SpriteLoader.gd"
-OverworldTileManager="*res://scripts/overworld/tilemap/OverworldTileManager.gd"
-BattleVFX="*res://scripts/battle/vfx/BattleVFX.gd"
-CinematicPlayer="*res://scripts/cinematic/CinematicPlayer.gd"
 
 [display]
 
