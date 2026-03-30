@@ -22,6 +22,7 @@ func _ready() -> void:
 	EventBus.battle_started.connect(_on_battle_started)
 	EventBus.battle_ended.connect(_on_battle_ended)
 	EventBus.badge_earned.connect(_on_badge_earned)
+	ShopMenu.shop_closed.connect(func() -> void: mark_dirty())
 
 func _build_panel() -> void:
 	# Border

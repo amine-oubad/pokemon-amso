@@ -94,6 +94,23 @@ func _ready() -> void:
 	_setup_tilemaps()
 	build_map()
 	_spawn_player()
+	# Listen for battle signals to load BattleScene
+	if not EventBus.battle_started.is_connected(_on_battle_started):
+		EventBus.battle_started.connect(_on_battle_started)
+	if not EventBus.trainer_battle_started.is_connected(_on_trainer_battle_started):
+		EventBus.trainer_battle_started.connect(_on_trainer_battle_started)
+
+func _on_battle_started(enemy_data: Dictionary, is_trainer: bool) -> void:
+	if is_trainer:
+		return  # Trainer battles handled via _on_trainer_battle_started
+	GameState.pending_battle = {"enemy_data": enemy_data, "is_trainer": false}
+	GameState.return_to_scene = scene_file_path
+	get_tree().change_scene_to_file("res://scenes/battle/BattleScene.tscn")
+
+func _on_trainer_battle_started(_trainer_id: String) -> void:
+	# pending_battle already set by Trainer.gd
+	GameState.return_to_scene = scene_file_path
+	get_tree().change_scene_to_file("res://scenes/battle/BattleScene.tscn")
 
 # ── TileSet setup ────────────────────────────────────────────────
 
