@@ -24,7 +24,7 @@ func award_xp() -> void:
 	player.gain_evs_from(enemy)
 
 	# Apply XP
-	var result := player.gain_exp(xp)
+	var result = player.gain_exp(xp)
 	if result.levels_gained > 0:
 		scene.ui.refresh()
 		scene.ui.msg("%s monte au Lv.%d !" % [player.get_name(), player.level])
@@ -144,7 +144,7 @@ func trainer_send_next() -> void:
 	scene.ui.msg("%s envoie %s !" % [scene._trainer_name, scene.enemy_pkmn.get_name()])
 
 	# Apply entry hazards to new enemy
-	var hazard_msgs := scene.field.apply_entry_hazards("enemy", scene.enemy_pkmn)
+	var hazard_msgs = scene.field.apply_entry_hazards("enemy", scene.enemy_pkmn)
 	scene._animating = true
 	await scene.get_tree().create_timer(2.0).timeout
 
@@ -164,7 +164,7 @@ func trainer_send_next() -> void:
 	scene.set_state(scene.State.PLAYER_CHOOSE)
 
 func finish() -> void:
-	var result := "flee" if scene._fled else ("win" if not scene.player_pkmn.is_fainted() else "lose")
+	var result: String = "flee" if scene._fled else ("win" if not scene.player_pkmn.is_fainted() else "lose")
 	scene.player_pkmn.reset_stat_stages()
 	scene.player_pkmn.clear_battle_meta()
 	for pkmn in GameState.team:
@@ -190,7 +190,7 @@ func finish() -> void:
 
 		if scene._badge_id != "":
 			GameState.add_badge(scene._badge_id)
-			var badge_name := scene._badge_id
+			var badge_name: String = scene._badge_id
 			for gym_id in GameData.gyms_data:
 				var g: Dictionary = GameData.gyms_data[gym_id]
 				if g.get("badge_id", "") == scene._badge_id:

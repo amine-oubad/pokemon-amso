@@ -918,21 +918,21 @@ static func apply_move_effect(
 				msgs.append("%s recupere des PV !" % attacker.get_name())
 
 		"power_trick":
-			var tmp: int = attacker.stats["atk"]
+			var tmp: int = int(attacker.stats["atk"])
 			attacker.stats["atk"] = attacker.stats["def"]
 			attacker.stats["def"] = tmp
 			msgs.append("%s echange Attaque et Defense !" % attacker.get_name())
 
 		"power_split":
-			var avg_atk := int((attacker.stats["atk"] + defender.stats["atk"]) / 2.0)
-			var avg_spatk := int((attacker.stats["sp_atk"] + defender.stats["sp_atk"]) / 2.0)
+			var avg_atk: int = int((int(attacker.stats["atk"]) + int(defender.stats["atk"])) / 2.0)
+			var avg_spatk: int = int((int(attacker.stats["sp_atk"]) + int(defender.stats["sp_atk"])) / 2.0)
 			attacker.stats["atk"] = avg_atk; defender.stats["atk"] = avg_atk
 			attacker.stats["sp_atk"] = avg_spatk; defender.stats["sp_atk"] = avg_spatk
 			msgs.append("Les stats offensives sont partagees !")
 
 		"guard_split":
-			var avg_def := int((attacker.stats["def"] + defender.stats["def"]) / 2.0)
-			var avg_spdef := int((attacker.stats["sp_def"] + defender.stats["sp_def"]) / 2.0)
+			var avg_def: int = int((int(attacker.stats["def"]) + int(defender.stats["def"])) / 2.0)
+			var avg_spdef: int = int((int(attacker.stats["sp_def"]) + int(defender.stats["sp_def"])) / 2.0)
 			attacker.stats["def"] = avg_def; defender.stats["def"] = avg_def
 			attacker.stats["sp_def"] = avg_spdef; defender.stats["sp_def"] = avg_spdef
 			msgs.append("Les stats defensives sont partagees !")

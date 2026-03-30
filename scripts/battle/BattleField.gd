@@ -158,7 +158,8 @@ func apply_entry_hazards(side: String, pkmn) -> Array[String]:
 	# Spikes — 1/8, 1/6, 1/4 selon le nombre de couches
 	if hazards[side]["spikes"] > 0 and "Flying" not in types:
 		var fractions := [0.0, 1.0/8.0, 1.0/6.0, 1.0/4.0]
-		var dmg := maxi(1, int(pkmn.max_hp * fractions[hazards[side]["spikes"]]))
+		var spike_lvl: int = int(hazards[side]["spikes"])
+		var dmg: int = maxi(1, int(pkmn.max_hp * fractions[spike_lvl]))
 		pkmn.take_damage(dmg)
 		msgs.append("%s est blesse par les picots !" % pkmn.get_name())
 
